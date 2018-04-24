@@ -36,6 +36,7 @@ module.exports = {
       props: true,
       ignorePropertyModificationsFor: [
         's', // state alias
+        '$', // for jquery plugins
         'state', // for vuex state
         'acc', // for reduce accumulators
         'e' // for e.returnvalue

@@ -1,7 +1,9 @@
 import Vue from 'vue';
 
-export default Vue.component('full-page', {
-  template: '<div id="app"><router-view></router-view></div>',
+const template = require('./template.html');
+
+export default Vue.component('app-view', {
+  template,
   name: 'full-page',
   data() {
     return {};
