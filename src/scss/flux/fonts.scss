@@ -1,0 +1,12 @@
+@charset 'UTF-8';
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700');
+
+@mixin flux-font-smooth() {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+@mixin flux-body-font() {
+  @include flux-font-smooth();
+  font-family: 'Source Sans Pro', sans-serif;
+}
