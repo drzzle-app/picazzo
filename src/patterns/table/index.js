@@ -4,7 +4,7 @@ const template = require('./template.html');
 
 export default Vue.component('flux-table', {
   template,
-  name: 'flux-pattern',
+  name: 'flux-table',
   mounted() {
     $.fn.flux.responsiveTable({
       el: $(this.$refs.table),

@@ -1,0 +1,15 @@
+<div>
+  <input
+    class="flux-search-input"
+    type="text"
+    v-model="searchFlux"
+    placeholder="search flux..."/>
+
+  <div class="flux-search-contentContainer">
+    <transition name="standardFade">
+      <div class="flux-search-contentBox" v-if="showResults">
+        Search Results
+      </div>
+    </transition>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+/* Standard Fade */
+.standardFade-enter-active {
+  animation: standardFade-in 0.2s;
+}
+
+.standardFade-leave-active {
+  animation: standardFade-out 0.2s;
+}
+
+@keyframes standardFade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes standardFade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
