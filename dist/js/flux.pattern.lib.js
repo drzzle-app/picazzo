@@ -13,8 +13,11 @@ $.fn.flux = {
 
 /* global jQuery */
 (function ($) {
-  $.fn.flux.responsiveTable = function responsiveTable() {
-    console.log(this);
+  $.fn.flux.responsiveTable = function responsiveTable(opts) {
+    var defaults = { el: null };
+    var options = $.extend({}, defaults, opts);
+    // finish plugin here
+    console.log(options);
     return $;
   };
 })(jQuery);

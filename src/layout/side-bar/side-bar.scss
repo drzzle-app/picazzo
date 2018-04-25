@@ -1,12 +1,13 @@
 .flux-sideBar-layout {
   display: grid;
   grid-column-gap: 0;
-  grid-template-columns: 300px auto;
+  grid-template-columns: 235px auto;
   height: 100%;
 }
 
 .flux-sideBar {
-  background-color: rgba($black, .75);
+  background-color: rgba($black, 0.75);
+  font-size: 14px;
 }
 
 .flux-sideBar-list {
@@ -17,16 +18,16 @@
 }
 
 .flux-sideBar-link {
-  border-bottom: 1px solid rgba($white, .05);
+  border-bottom: 1px solid rgba($white, 0.05);
   color: $white;
   display: inline-block;
   padding: 20px;
   text-decoration: none;
-  transition-duration: .2s;
+  transition-duration: 0.2s;
   width: 100%;
-  
+
   &:hover {
-    background-color: rgba($white, .05);
+    background-color: rgba($white, 0.05);
   }
 }
 

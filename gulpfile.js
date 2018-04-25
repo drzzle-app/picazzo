@@ -5,6 +5,7 @@ const fse = require('fs-extra');
 const babel = require('gulp-babel');
 const minify = require('gulp-minify');
 const concat = require('gulp-concat');
+const watch = require('gulp-watch');
 
 // utils
 // callback to get folders in a directory
@@ -73,3 +74,10 @@ const buildJsPlugins = () => {
 
 gulp.task('new-page', newPage);
 gulp.task('build-js-plugins', buildJsPlugins);
+
+// kick off default
+gulp.task('default', [
+  'build-js-plugins',
+], () => {
+  watch(['./src/js-lib/flux.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
+});

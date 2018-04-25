@@ -82,7 +82,6 @@ module.exports = {
       }
     ]
   },
-  // @TODO only allow for dev env
   plugins: [
     new webpack.ProvidePlugin({
       $: "jquery",
