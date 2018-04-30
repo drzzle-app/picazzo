@@ -11,22 +11,16 @@ export default Vue.component('side-bar', {
     SearchModal,
   },
   computed: {
-    ...mapGetters(['pages']),
+    ...mapGetters(['sidebarLinks']),
+  },
+  created() {
+    this.$store.dispatch('getSideBarLinks').then((links) => {
+      this.links = links;
+    });
   },
   data() {
     return {
-      // @TODO we should probly pull this in more dynamically.
-      // in conjuction with the pages.json file
-      links: [
-        {
-          text: 'Welcome',
-          route: '/welcome',
-        },
-        {
-          text: 'Contributing',
-          route: '/contributing',
-        },
-      ],
+      links: [],
     };
   },
   methods: {

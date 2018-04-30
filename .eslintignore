@@ -2,4 +2,5 @@
 /config/
 /dist/
 /*.js
+!/gulpfile.js
 /scaffholds/

@@ -1,0 +1,12 @@
+{
+  "links": [
+    {
+      "text": "Welcome",
+      "route": "/welcome"
+    },
+    {
+      "text": "Contributing",
+      "route": "/contributing"
+    }
+  ]
+}

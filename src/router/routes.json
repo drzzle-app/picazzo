@@ -1,6 +1,5 @@
 {
-  "description": "This data is used for the global doc search",
-  "pages": [
+  "routes": [
     {
       "name": "test 1",
       "desc": "search for me fam"

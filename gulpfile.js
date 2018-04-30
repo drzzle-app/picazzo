@@ -1,3 +1,4 @@
+/* eslint no-console: 0 */
 const gulp = require('gulp');
 const path = require('path');
 const prompt = require('gulp-prompt');
@@ -14,19 +15,80 @@ function getFolders(srcpath) {
     .filter(file => fse.statSync(path.join(srcpath, file)).isDirectory());
 }
 
+// title case words
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+}
+
 const newPage = () => {
+  // return gulp.src('./src/pages.json')
+  //   .pipe(prompt.prompt([{
+  //     type: 'input',
+  //     name: 'pageName',
+  //     message: 'Page Name?',
+  //   },
+  //   {
+  //     type: 'input',
+  //     name: 'sidebar',
+  //     message: 'Will this page needa link in the sidebar? [y/n]',
+  //   }], (res) => {
+  //     console.log(res);
+  //   }));
   const pageFile = './src/pages.json';
-  fse.readJson(pageFile, function(err, data) {
-    const list = JSON.parse(JSON.stringify(data, null, 4));
+  fse.readJson(pageFile, (err, data) => {
+    let list = JSON.parse(JSON.stringify(data));
     list.pages.push({
       name: 'newPage',
-      desc: 'someDesc'
+      desc: 'someDesc',
     });
-    fse.writeJson(pageFile, list, err => {
-    if (err) return console.error(err)
-      console.log('success update pages json!')
-    })
-  })
+    list = JSON.stringify(list, null, 2);
+    fse.writeFile(pageFile, list, (error) => {
+      let msg = 'Successfully updated pages json!';
+      if (error) {
+        msg = error;
+      }
+      return console.log(msg);
+    });
+  });
+};
+
+const buildSearch = () => {
+  //
+  const output = {
+    pages: [],
+  };
+  // go find all tempplate files
+  function recursiveFileSearch(startPath) {
+    const files = fse.readdirSync(startPath);
+    files.forEach((file) => {
+      const filename = path.join(startPath, file);
+      const stat = fse.lstatSync(filename);
+      if (stat.isDirectory()) {
+        recursiveFileSearch(filename);
+      } else if (filename.match(/template\.html/gi)) {
+        const route = path.dirname(filename).split('/').pop();
+        const title = route.replace(/-/g, ' ');
+        // get info for page obj from dir
+        fse.readFile(filename, 'utf8', (err, data) => {
+          console.log('read');
+          const text = data.replace(/<\/?[^>]+(>|$)/g, '').trim();
+          const page = {
+            title: toTitleCase(title),
+            route: `/${route.toLowerCase()}`,
+            text,
+          };
+          output.pages.push(page);
+        });
+      }
+    });
+    // @TODO fix this hacky timeout
+    setTimeout(() => {
+      console.log(JSON.stringify(output, null, 4));
+    }, 1000);
+  }
+  recursiveFileSearch('./src/pages');
+  // after this make the json pages json file
+  // console.log(output.pages);
 };
 
 const buildJsPlugins = () => {
@@ -34,8 +96,8 @@ const buildJsPlugins = () => {
   const patternJS = ['./src/js-lib/flux.global.js'];
   const patterns = getFolders('./src/patterns/');
   const chain = [];
-  for (let i = 0; i < patterns.length; i++) {
-    const pattern = patterns[i];
+  // start build
+  patterns.forEach((pattern) => {
     const jsPath = `./src/patterns/${pattern}/plugin.js`;
     chain.push(
       new Promise((resolve, reject) => {
@@ -43,36 +105,37 @@ const buildJsPlugins = () => {
           // if there is a js file, add it to the concat list!
           fse.statSync(jsPath);
           patternJS.push(jsPath);
-          console.log(patternJS);
+          console.log('pattern js files: ', patternJS);
           resolve(jsPath);
         } catch (e) {
           reject(undefined);
         }
-      })
-    )
-  }
+      }));
+  });
+
   Promise.all(chain).catch(() => {
     console.log('one or more pattern does not have js, but that is OK!');
   });
   // finally, run the concating
   return gulp.src(patternJS)
-  .pipe(concat('flux.pattern.lib.js'))
-  .pipe(babel({
-    presets: ['env'],
-  }))
-  .pipe(minify({
-    ext: {
-      min: '.min.js',
-    },
-  }))
-  .pipe(gulp.dest('./dist/js/'))
-  .on('end', () => {
-    console.log('\x1b[32m Successfully built flux pattern javascript library!');
-  });
-}
+    .pipe(concat('flux.pattern.lib.js'))
+    .pipe(babel({
+      presets: ['env'],
+    }))
+    .pipe(minify({
+      ext: {
+        min: '.min.js',
+      },
+    }))
+    .pipe(gulp.dest('./dist/js/'))
+    .on('end', () => {
+      console.log('\x1b[32m Successfully built flux pattern javascript library!');
+    });
+};
 
 
 gulp.task('new-page', newPage);
+gulp.task('build-search', buildSearch);
 gulp.task('build-js-plugins', buildJsPlugins);
 
 // kick off default
