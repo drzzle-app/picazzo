@@ -11,7 +11,8 @@ const watch = require('gulp-watch');
 // utils
 // callback to get folders in a directory
 function getFolders(srcpath) {
-  return fse.readdirSync(srcpath)
+  return fse
+    .readdirSync(srcpath)
     .filter(file => fse.statSync(path.join(srcpath, file)).isDirectory());
 }
 
@@ -57,38 +58,47 @@ const buildSearch = () => {
   const output = {
     pages: [],
   };
+  const chain = [];
   // go find all tempplate files
   function recursiveFileSearch(startPath) {
     const files = fse.readdirSync(startPath);
     files.forEach((file) => {
-      const filename = path.join(startPath, file);
-      const stat = fse.lstatSync(filename);
-      if (stat.isDirectory()) {
-        recursiveFileSearch(filename);
-      } else if (filename.match(/template\.html/gi)) {
-        const route = path.dirname(filename).split('/').pop();
-        const title = route.replace(/-/g, ' ');
-        // get info for page obj from dir
-        fse.readFile(filename, 'utf8', (err, data) => {
-          console.log('read');
-          const text = data.replace(/<\/?[^>]+(>|$)/g, '').trim();
-          const page = {
-            title: toTitleCase(title),
-            route: `/${route.toLowerCase()}`,
-            text,
-          };
-          output.pages.push(page);
-        });
-      }
+      chain.push(
+        new Promise((resolve) => {
+          const filename = path.join(startPath, file);
+          const stat = fse.lstatSync(filename);
+          if (stat.isDirectory()) {
+            recursiveFileSearch(filename);
+            resolve(undefined);
+          } else if (filename.match(/template\.html/gi)) {
+            const route = path
+              .dirname(filename)
+              .split('/')
+              .pop();
+            const title = route.replace(/-/g, ' ');
+            // get info for page obj from dir
+            fse.readFile(filename, 'utf8', (err, data) => {
+              const text = data.replace(/<\/?[^>]+(>|$)/g, '').trim();
+              const page = {
+                title: toTitleCase(title),
+                route: `/${route.toLowerCase()}`,
+                text,
+              };
+              output.pages.push(page);
+              resolve(page);
+            });
+          } else {
+            resolve(undefined);
+          }
+        }),
+      );
     });
-    // @TODO fix this hacky timeout
-    setTimeout(() => {
-      console.log(JSON.stringify(output, null, 4));
-    }, 1000);
   }
   recursiveFileSearch('./src/pages');
   // after this make the json pages json file
-  // console.log(output.pages);
+  Promise.all(chain).then(() => {
+    console.log(JSON.stringify(output, null, 4));
+  });
 };
 
 const buildJsPlugins = () => {
@@ -110,37 +120,40 @@ const buildJsPlugins = () => {
         } catch (e) {
           reject(undefined);
         }
-      }));
+      }),
+    );
   });
 
   Promise.all(chain).catch(() => {
     console.log('one or more pattern does not have js, but that is OK!');
   });
   // finally, run the concating
-  return gulp.src(patternJS)
+  return gulp
+    .src(patternJS)
     .pipe(concat('flux.pattern.lib.js'))
-    .pipe(babel({
-      presets: ['env'],
-    }))
-    .pipe(minify({
-      ext: {
-        min: '.min.js',
-      },
-    }))
+    .pipe(
+      babel({
+        presets: ['env'],
+      }),
+    )
+    .pipe(
+      minify({
+        ext: {
+          min: '.min.js',
+        },
+      }),
+    )
     .pipe(gulp.dest('./dist/js/'))
     .on('end', () => {
       console.log('\x1b[32m Successfully built flux pattern javascript library!');
     });
 };
 
-
 gulp.task('new-page', newPage);
 gulp.task('build-search', buildSearch);
 gulp.task('build-js-plugins', buildJsPlugins);
 
 // kick off default
-gulp.task('default', [
-  'build-js-plugins',
-], () => {
+gulp.task('default', ['build-js-plugins'], () => {
   watch(['./src/js-lib/flux.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
 });
