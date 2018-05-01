@@ -2,11 +2,13 @@
   "links": [
     {
       "text": "Welcome",
-      "route": "/welcome"
+      "route": "/welcome",
+      "children": []
     },
     {
       "text": "Contributing",
-      "route": "/contributing"
+      "route": "/contributing",
+      "children": []
     }
   ]
 }

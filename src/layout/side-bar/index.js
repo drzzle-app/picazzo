@@ -17,6 +17,7 @@ export default Vue.component('side-bar', {
     this.$store.dispatch('getSideBarLinks').then((links) => {
       this.links = links;
     });
+    this.$log.info('fetch sidebar links');
   },
   data() {
     return {

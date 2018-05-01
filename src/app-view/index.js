@@ -10,7 +10,7 @@ export default Vue.component('app-view', {
   },
   created() {
     this.$store.dispatch('getPages');
-    this.$log.info('pull in all json site data');
+    this.$log.info('fetch all pages for searching');
   },
   methods: {},
 });
