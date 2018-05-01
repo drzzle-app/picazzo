@@ -1,13 +1,14 @@
 {
-  "description": "This data is used for the global doc search",
-  "pages": [
-    {
-      "name": "test 1",
-      "desc": "search for me fam"
-    },
-    {
-      "name": "test 2",
-      "desc": "search for me fam 2"
-    }
-  ]
+    "pages": [
+        {
+            "title": "Contributing",
+            "route": "/contributing",
+            "text": "Contributing page\n  This is more text\n  This is another line\n  This is a lot more so we can see how the search results look.\n  Again."
+        },
+        {
+            "title": "Welcome",
+            "route": "/welcome",
+            "text": "Welcom to Flux!"
+        }
+    ]
 }

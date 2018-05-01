@@ -42,7 +42,7 @@ const newPage = () => {
       name: 'newPage',
       desc: 'someDesc',
     });
-    list = JSON.stringify(list, null, 2);
+    list = JSON.stringify(list, null, 4);
     fse.writeFile(pageFile, list, (error) => {
       let msg = 'Successfully updated pages json!';
       if (error) {
@@ -54,12 +54,11 @@ const newPage = () => {
 };
 
 const buildSearch = () => {
-  //
   const output = {
     pages: [],
   };
   const chain = [];
-  // go find all tempplate files
+  // go find all tempplate files in the pages folder
   function recursiveFileSearch(startPath) {
     const files = fse.readdirSync(startPath);
     files.forEach((file) => {
@@ -90,14 +89,22 @@ const buildSearch = () => {
           } else {
             resolve(undefined);
           }
-        }),
-      );
+        }));
     });
   }
+  // kick off the recursion
   recursiveFileSearch('./src/pages');
-  // after this make the json pages json file
+  // after this make the json pages.json file again
   Promise.all(chain).then(() => {
-    console.log(JSON.stringify(output, null, 4));
+    fse.writeFile('./src/pages.json', JSON.stringify(output, null, 4), (error) => {
+      let msg = 'Successfully updated pages json!';
+      if (error) {
+        msg = error;
+      }
+      return console.log(msg);
+    });
+  }).catch((error) => {
+    console.log('There was an issue creating pages.json: ', error);
   });
 };
 
@@ -120,8 +127,7 @@ const buildJsPlugins = () => {
         } catch (e) {
           reject(undefined);
         }
-      }),
-    );
+      }));
   });
 
   Promise.all(chain).catch(() => {
@@ -134,15 +140,13 @@ const buildJsPlugins = () => {
     .pipe(
       babel({
         presets: ['env'],
-      }),
-    )
+      }))
     .pipe(
       minify({
         ext: {
           min: '.min.js',
         },
-      }),
-    )
+      }))
     .pipe(gulp.dest('./dist/js/'))
     .on('end', () => {
       console.log('\x1b[32m Successfully built flux pattern javascript library!');
@@ -154,6 +158,7 @@ gulp.task('build-search', buildSearch);
 gulp.task('build-js-plugins', buildJsPlugins);
 
 // kick off default
-gulp.task('default', ['build-js-plugins'], () => {
+gulp.task('default', ['build-js-plugins', 'build-search'], () => {
   watch(['./src/js-lib/flux.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
+  watch(['./src/pages/**/template.html'], () => buildSearch());
 });

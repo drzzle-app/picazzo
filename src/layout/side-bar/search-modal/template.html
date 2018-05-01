@@ -2,13 +2,26 @@
   <input
     class="flux-search-input"
     type="text"
-    v-model="searchFlux"
+    v-model="searchInput"
     placeholder="search flux..."/>
 
   <div class="flux-search-contentContainer">
     <transition name="standardFade">
       <div class="flux-search-contentBox" v-if="showResults">
-        Search Results
+        <div class="flux-search-header">
+          Search Results
+        </div>
+        <div v-if="filterPages.length < 1">0 results</div>
+        <ul class="flux-search-ul">
+          <li
+            v-for="page in filterPages"
+            :key="page.text"
+            @click="goToPage(page.route)"
+            class="flux-search-item">
+             <span class="flux-search-title">{{ page.title }}</span>
+             <span class="flux-search-text">{{ page.text }}</span>
+          </li>
+        </ul>
       </div>
     </transition>
   </div>

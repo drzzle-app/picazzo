@@ -23,9 +23,50 @@
 .flux-search-contentBox {
   background-color: $white;
   box-shadow: 3px 3px 9px 0px rgba($black, 0.12);
-  padding: 20px;
+  padding: 10px 20px;
   position: absolute;
-  right: -500px;
+  right: -600px;
   top: -47px;
-  width: 500px;
+  width: 600px;
+}
+
+.flux-search-header {
+  border-bottom: 1px solid rgba($black, 0.1);
+  color: rgba($black, 0.7);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+}
+
+.flux-search-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.flux-search-item {
+  overflow: hidden;
+  padding: 12px 0;
+  text-overflow: ellipsis;
+  transition-duration: .2s;
+  white-space: nowrap;
+  
+  &:hover {
+    background-color: rgba($black, .05);
+    cursor: pointer;
+  }
+}
+
+.flux-search-title {
+  color: darken($fluxBase, 18%);
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 5px;
+  
+  &:after {
+    content: ' - ';
+  }
+}
+
+.flux-search-text {
+  color: rgba($black, .75);
 }
