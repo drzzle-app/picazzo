@@ -20,6 +20,33 @@ npm run build
 npm run build --report
 ```
 
-#### Automation commands coming soon
+## Automation
 
+#### Creating New Pages
+```bash
+gulp new-page
+```
+This will ask you a few questions like "name?", "full page layout or side bar?" and "path in the pages dir.", after which this 
+will generate the needed files to get you started as well as create routing and searchable content. If you want this page to be a link in the sidebar, that needs to be done manually (for now).
+
+#### Building distributable Flux JS pattern library
+This task runs automatically for you but you can also run it manually:
+```bash
+gulp build-js-plugins
+```
+This will put together all of the js under patterns named "plugin.js" and compile/minify it into 1 distributable js file. Building them individually distributable is a WIP and definitely wanted. 
+
+#### Creating routes
+This always runs for you automatically when you create new pages, but if you prefer to make routes manually, you can add them in the ```src/router/routes.json``` file. Once you edit that file, gulp should go and update the routes that vue reads from. If you want to manually regenerate the routes file you can run:
+```bash
+gulp build-routes
+```
+
+#### Build search
+This will also run automatically for you whenever you edit or add any template in the ```pages/``` folder (this includes running the ```gulp new-page``` command). What it does is recursively search through the ```pages/``` folder for page information, makes that into JSON so that it can be easily searched. To manually run this step:
+```bash
+gulp build-search
+```
+
+## Further Vue documentation regarding this app
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
