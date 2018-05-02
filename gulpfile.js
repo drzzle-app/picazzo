@@ -244,7 +244,40 @@ const buildJsPlugins = () => {
     });
 };
 
+const newPattern = () =>
+  gulp.src('./src/patterns/*')
+    .pipe(prompt.prompt([{
+      type: 'input',
+      name: 'patternName',
+      message: 'Pattern Name?',
+      validate(input) {
+        const inp = input.toLowerCase().trim();
+        if (inp === '') {
+          console.log('\x1b[31m Invalid answer, you must specify a name.');
+          return false;
+        }
+        return true;
+      },
+    },
+    {
+      type: 'input',
+      name: 'needsJS',
+      message: 'Does this pattern need a js plugin?. \x1b[33m Default n. Type [y/n]',
+      validate(input) {
+        const inp = input.toLowerCase();
+        if (inp !== 'y' && inp !== 'n' && inp !== '') {
+          console.log('\x1b[31m invalid answer');
+          return false;
+        }
+        return true;
+      },
+    },
+    ], (res) => {
+      console.log('user input: ', res);
+    }));
+
 gulp.task('new-page', newPage);
+gulp.task('new-pattern', newPattern);
 gulp.task('build-search', buildSearch);
 gulp.task('build-routes', buildRoutes);
 gulp.task('build-js-plugins', buildJsPlugins);
