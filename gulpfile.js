@@ -7,6 +7,7 @@ const babel = require('gulp-babel');
 const minify = require('gulp-minify');
 const concat = require('gulp-concat');
 const watch = require('gulp-watch');
+const _ = require('lodash');
 
 // utils
 // callback to get folders in a directory
@@ -21,10 +22,46 @@ function toTitleCase(str) {
   return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 }
 
+// prep json for outputting to js file
+function filePrepJSON(list) {
+  let newObj = '';
+  function deepDig(arr) {
+    _.forEach(arr, (v) => {
+      newObj += '{ ';
+      _.forOwn(v, (val, key) => {
+        newObj += `${key}: `;
+        if (_.isArray(val)) {
+          newObj += '[';
+          deepDig(val);
+          newObj += '],';
+        } else {
+          newObj += val.match(/^require/gi) ? `${val}, ` : `'${val}', `;
+        }
+      });
+      newObj += '},';
+    });
+  }
+  deepDig(list);
+  return `[ ${newObj} ]`;
+}
+
+const buildRoutes = () => {
+  fse.readJson('./src/router/routes.json', (err, data) => {
+    const contents = filePrepJSON(data.routes);
+    // update routes js file first
+    fse.outputFile('./src/router/routes.js', `/* eslint-disable */\n// This is a generated file, do not edit it directly\nmodule.exports = {\n routes: ${contents}\n};`)
+      .then(() => {
+        fse.readFile('./src/router/routes.js', 'utf8');
+        console.log('\x1b[32m Generated routes');
+      })
+      .catch(er => console.error(er));
+  });
+};
+
 const newPage = () => {
-  const routeFile = './src/router/routes.js';
-  const sideBarJSON = './src/side-bar.json';
-  return gulp.src(routeFile)
+  const routeJSON = './src/router/routes.json';
+  // const sideBarJSON = './src/side-bar.json';
+  return gulp.src(routeJSON)
     .pipe(prompt.prompt([{
       type: 'input',
       name: 'pageName',
@@ -48,24 +85,26 @@ const newPage = () => {
         return true;
       },
     },
-    {
-      type: 'input',
-      name: 'sideBar',
-      message: 'Will this page need a link in the sidebar?\x1b[33m Default is n. Type [y/n]',
-      validate(input) {
-        const inp = input.toLowerCase();
-        if (inp !== 'y' && inp !== 'n' && inp !== '') {
-          console.log('\x1b[31m invalid answer');
-          return false;
-        }
-        return true;
-      },
-    }], (res) => {
+    // {
+    //   type: 'input',
+    //   name: 'sideBar',
+    //   message: 'Will this page need a link in the sidebar?\x1b[33m Default is n. Type [y/n]',
+    //   validate(input) {
+    //     const inp = input.toLowerCase();
+    //     if (inp !== 'y' && inp !== 'n' && inp !== '') {
+    //       console.log('\x1b[31m invalid answer');
+    //       return false;
+    //     }
+    //     return true;
+    //   },
+    // },
+    ], (res) => {
       // build new page contents in the pages dir
-      const pagePath = res.pagePath.trim() === '' ? '/' : res.pagePath.trim();
+      const pagePath = res.pagePath.trim() === '' ? '' : res.pagePath.trim();
       const route = `${res.pageName.replace(/ /g, '-')}`.trim().toLowerCase();
       const title = toTitleCase(res.pageName);
       const fullPagePath = `./src/pages${pagePath}/${route}`;
+
       // make component and template
       fse.outputFile(`${fullPagePath}/template.html`, `<div>\n ${title} Page!\n</div>`)
         .then(() => fse.readFile(`${fullPagePath}/template.html`, 'utf8'))
@@ -75,27 +114,33 @@ const newPage = () => {
         .catch(err => console.error(err));
 
       // build routes for new page
-      // @TODO, nest here if fullpage/sidebar page
-      // fse.readJson(routeFile, (err, data) => {
-        // let list = JSON.parse(JSON.stringify(data));
-        // list.pages.push({
-        //   name: 'newPage',
-        //   desc: 'someDesc',
-        // });
-        // list = JSON.stringify(list, null, 4);
-        // console.log(list);
-        // fse.writeFile(pageFile, list, (error) => {
-        //   let msg = 'Successfully updated pages json!';
-        //   if (error) {
-        //     msg = error;
-        //   }
-        //   return console.log(msg);
-        // });
-      // });
+      fse.readJson(routeJSON, (err, data) => {
+        let list = JSON.parse(JSON.stringify(data));
+        const name = res.pageSize === '' ? 'sidebar' : res.pageSize;
+        const type = _.find(list.routes, { name });
+        // if there are no pages with that name taken, then proceed
+        if (!_.find(type.children, { name: route })) {
+          const page = {
+            path: `/${route}`,
+            name: route,
+            component: `require('@/pages${pagePath}/${route}/').default`,
+          };
+          type.children.push(page);
+          // update json file so it can fire off the new routes.js file
+          list = JSON.stringify(list, null, 4);
+          // regenerate json file
+          fse.outputFile(routeJSON, list).then(() => {
+            console.log('\x1b[32m Successfully built new page!: ', page);
+          }).catch(er => console.log(er));
+        } else {
+          console.log(`\x1b[31m There is already a ${name} page with the name: ${route}. Please try again.`);
+        }
+      });
 
-      // build side-bar-links
+      // @TODO build side-bar-links ?
       // need to find what children to inject to
       // also need a solution if links serve as dropdowns AND a link
+      // this may be better off being a manual step
     }));
 };
 
@@ -143,7 +188,7 @@ const buildSearch = () => {
   // after this make the json pages.json file again
   Promise.all(chain).then(() => {
     fse.writeFile('./src/pages.json', JSON.stringify(output, null, 4), (error) => {
-      let msg = 'Successfully updated pages json!';
+      let msg = '\x1b[32m Successfully built search data!';
       if (error) {
         msg = error;
       }
@@ -201,10 +246,12 @@ const buildJsPlugins = () => {
 
 gulp.task('new-page', newPage);
 gulp.task('build-search', buildSearch);
+gulp.task('build-routes', buildRoutes);
 gulp.task('build-js-plugins', buildJsPlugins);
 
 // kick off default
-gulp.task('default', ['build-js-plugins', 'build-search'], () => {
+gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes'], () => {
   watch(['./src/js-lib/flux.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
   watch(['./src/pages/**/template.html'], () => buildSearch());
+  watch(['./src/router/routes.json'], () => buildRoutes());
 });
