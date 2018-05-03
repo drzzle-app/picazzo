@@ -1,3 +1,25 @@
+.flux-sideBar-container {
+  height: 100%;
+}
+
+.flux-topBar {
+  background-color: $fluxBase;
+  height: 40px;
+  position: fixed;
+  width: 100%;
+  z-index: 5;
+}
+
+.flux-topBar-logo {
+  background-color: darken($fluxBase, 5%);
+  color: $white;
+  float: left;
+  font-weight: bold;
+  height: 100%;
+  padding: 8px 20px;
+  width: 235px;
+}
+
 .flux-sideBar-layout {
   display: grid;
   grid-column-gap: 0;
@@ -6,20 +28,25 @@
 }
 
 .flux-sideBar {
-  background-color: rgba($black, 0.75);
+  background-color: #f2f2f2;
+  border-right: 1px solid rgba($black, 0.1);
   font-size: 14px;
+  height: 100%;
+  position: fixed;
+  top: 40px;
+  width: 235px;
 }
 
 .flux-sideBar-list {
   display: block;
   list-style: none;
-  padding: 20px 0 0;
+  padding: 0;
   margin: 0;
 }
 
 .flux-sideBar-link {
-  border-bottom: 1px solid rgba($white, 0.05);
-  color: $white;
+  border-bottom: 1px solid rgba($black, 0.05);
+  color: rgba($black, 0.55);
   display: inline-block;
   padding: 20px;
   text-decoration: none;
@@ -27,10 +54,13 @@
   width: 100%;
 
   &:hover {
-    background-color: rgba($white, 0.05);
+    background-color: rgba($black, 0.08);
   }
 }
 
 .flux-sideBar-right {
-  padding: 20px 30px;
+  left: 235px;
+  padding: 20px;
+  position: relative;
+  top: 40px;
 }

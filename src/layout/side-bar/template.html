@@ -1,19 +1,26 @@
-<div class="flux-sideBar-layout">
-  <div class="flux-sideBar">
+<div class="flux-sideBar-container">
+  <div class="flux-topBar">
+    <div class="flux-topBar-logo">
+      FLUX
+    </div>
     <search-modal></search-modal>
-    <ul class="flux-sideBar-list">
-      <li v-for="link in links">
-        <!-- @TODO setup recursion -->
-        <a
-          href="#"
-          class="flux-sideBar-link"
-          @click.prevent="goTo(link.route)">
-          {{ link.text }}
-        </a>
-      </li>
-    </ul>
   </div>
-  <div class="flux-sideBar-right">
-    <router-view></router-view>
+  <div class="flux-sideBar-layout">
+    <div class="flux-sideBar">
+      <ul class="flux-sideBar-list">
+        <li v-for="link in links">
+          <!-- @TODO setup recursion -->
+          <a
+            href="#"
+            class="flux-sideBar-link"
+            @click.prevent="goTo(link.route)">
+            {{ link.text }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="flux-sideBar-right">
+      <router-view></router-view>
+    </div>
   </div>
 </div>

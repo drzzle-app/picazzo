@@ -1,17 +1,21 @@
+.flux-search-container {
+  float: left;
+  width: 400px;
+}
+
 .flux-search-input {
-  @include placeholder(rgba($white, 0.45));
-  background-color: rgba($white, 0.1);
+  @include placeholder(rgba($black, 0.25));
+  background-color: rgba($white, 0.2);
   border: 0;
-  border-bottom: 1px solid rgba($white, 0.2);
-  color: rgba($white, 0.75);
+  color: rgba($black, 0.55);
   display: block;
   font-size: 13px;
-  padding: 15px 20px;
+  padding: 12px 20px;
   width: 100%;
   transition-duration: 0.3s;
 
   &:focus {
-    background-color: transparent;
+    background-color: rgba($white, 0.35);
     outline: 0;
   }
 }
@@ -25,8 +29,6 @@
   box-shadow: 3px 3px 9px 0px rgba($black, 0.12);
   padding: 10px 20px;
   position: absolute;
-  right: -600px;
-  top: -47px;
   width: 600px;
 }
 
@@ -47,11 +49,11 @@
   overflow: hidden;
   padding: 12px 0;
   text-overflow: ellipsis;
-  transition-duration: .2s;
+  transition-duration: 0.2s;
   white-space: nowrap;
-  
+
   &:hover {
-    background-color: rgba($black, .05);
+    background-color: rgba($black, 0.05);
     cursor: pointer;
   }
 }
@@ -61,12 +63,12 @@
   display: inline-block;
   font-weight: bold;
   margin-right: 5px;
-  
+
   &:after {
     content: ' - ';
   }
 }
 
 .flux-search-text {
-  color: rgba($black, .75);
+  color: rgba($black, 0.75);
 }
