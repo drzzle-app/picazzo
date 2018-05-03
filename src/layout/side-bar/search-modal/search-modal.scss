@@ -42,6 +42,8 @@
 .flux-search-ul {
   list-style: none;
   margin: 0;
+  max-height: 650px;
+  overflow: scroll;
   padding: 0;
 }
 

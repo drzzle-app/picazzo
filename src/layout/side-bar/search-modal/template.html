@@ -3,14 +3,14 @@
     class="flux-search-input"
     type="text"
     v-model="searchInput"
-    placeholder="search flux..."/>
+    placeholder="🔎 search flux..."/>
   <div class="flux-search-contentContainer">
     <transition name="standardFade">
       <div class="flux-search-contentBox" v-if="showResults">
         <div class="flux-search-header">
-          Search Results
+          Search Results <span v-if="filterPages.length > 0">({{ filterPages.length }} pages)</span>
         </div>
-        <div v-if="filterPages.length < 1">0 results</div>
+        <div v-if="filterPages.length < 1">0 results for "{{ searchInput }}"</div>
         <ul class="flux-search-ul">
           <li
             v-for="page in filterPages"
