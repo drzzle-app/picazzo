@@ -8,15 +8,11 @@
   <div class="flux-sideBar-layout">
     <div class="flux-sideBar">
       <ul class="flux-sideBar-list">
-        <li v-for="link in links">
-          <!-- @TODO setup recursion -->
-          <a
-            href="#"
-            class="flux-sideBar-link"
-            @click.prevent="goTo(link.route)">
-            {{ link.text }}
-          </a>
-        </li>
+        <sidebar-links
+          v-for="link in links"
+         :link="link"
+         :depth="20">
+       </sidebar-links>
       </ul>
     </div>
     <div class="flux-sideBar-right">

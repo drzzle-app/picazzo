@@ -3,7 +3,13 @@
     {
       "text": "Welcome",
       "route": "/welcome",
-      "children": []
+      "children": [
+        {
+          "text": "Sublink",
+          "route": "/welcome",
+          "children": []
+        }
+      ]
     },
     {
       "text": "Contributing",

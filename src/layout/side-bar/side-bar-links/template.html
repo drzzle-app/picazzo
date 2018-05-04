@@ -1,0 +1,24 @@
+<li>
+  <a
+    href="#"
+    :style="indent"
+    class="flux-sideBar-link"
+    :class="[
+      isDropDown(link) ? 'flux-sideBar-dd' : '',
+      isDropDown(link) && showChildren ? 'flux-sideBar-ddOpen' : ''
+    ]"
+    @click.prevent="goTo(link.route)">
+    {{ link.text }}
+  </a>
+  <!-- TODO add transition animation here -->
+  <ul
+    class="flux-sideBar-list"
+    v-show="showChildren"
+    v-if="isDropDown(link)">
+    <sidebar-links
+      v-for="link in link.children"
+      :depth="depth + 10"
+      :link="link">
+    </sidebar-links>
+  </ul>  
+</li>

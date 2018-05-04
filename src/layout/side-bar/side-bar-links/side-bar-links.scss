@@ -1,0 +1,21 @@
+.flux-sideBar-link {
+  border-bottom: 1px solid rgba($black, 0.05);
+  color: rgba($black, 0.55);
+  display: inline-block;
+  padding: 20px;
+  text-decoration: none;
+  transition-duration: 0.2s;
+  width: 100%;
+
+  &:hover {
+    background-color: rgba($black, 0.08);
+  }
+}
+
+.flux-sideBar-dd {
+
+  &:after {
+    content: '>';
+    margin-left: 10px;
+  }
+}
