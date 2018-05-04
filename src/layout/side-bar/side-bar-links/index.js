@@ -30,8 +30,5 @@ export default Vue.component('sidebar-links', {
     isDropDown(link) {
       return link.children && link.children.length > 0;
     },
-    toggleChildren() {
-      this.showChildren = !this.showChildren;
-    },
   },
 });
