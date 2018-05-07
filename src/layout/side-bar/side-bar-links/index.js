@@ -28,6 +28,9 @@ export default Vue.component('sidebar-links', {
         this.$router.push({ path });
       }
     },
+    checkActive(link) {
+      return link && link === this.$router.currentRoute.path;
+    },
     isDropDown(link) {
       return link.children && link.children.length > 0;
     },

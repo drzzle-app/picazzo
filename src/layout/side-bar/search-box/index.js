@@ -3,9 +3,9 @@ import { mapGetters } from 'vuex';
 
 const template = require('./template.html');
 
-export default Vue.component('search-modal', {
+export default Vue.component('search-box', {
   template,
-  name: 'search-modal',
+  name: 'search-box',
   computed: {
     ...mapGetters(['pages']),
     filterPages() {

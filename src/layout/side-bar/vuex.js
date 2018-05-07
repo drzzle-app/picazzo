@@ -1,5 +1,5 @@
 import * as types from '@/store/mutation-types';
-import SideBar from '@/layout/side-bar/side-bar.json';
+import SideBar from '@/layout/side-bar/links.json';
 
 const state = {
   sidebarLinks: [],

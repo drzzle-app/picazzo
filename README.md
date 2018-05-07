@@ -49,7 +49,7 @@ gulp build-search
 ```
 
 ## Adding Sidebar Links
-Our nested side bar links are templated using json from our ```src/layout/side-bar/side-bar.json``` file. They can be nested as deep as desired. FYI if a link has children (aka it's a dropdown) then it's ```route``` property won't be needed. See below of example:
+Our nested side bar links are templated using json from our ```src/layout/side-bar/links.json``` file. They can be nested as deep as desired. FYI if a link has children (aka it's a dropdown) then it's ```route``` property won't be needed. See below of example:
 ```json
 {
   "links": [

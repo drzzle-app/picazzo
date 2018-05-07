@@ -1,0 +1,33 @@
+//
+// Variables
+// --------------------------------------------------
+
+
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+$white:                  #fff    !default;
+$black:                  #000    !default;
+$gray-base:              #666    !default;
+// gray types
+$gray:                   #666    !default;
+$gray-darker:            #4c4c4c !default;
+$gray-dark:              #333    !default;
+$gray-darkest:           #2a2a2a !default;
+$gray-light:             #b8b8b8 !default;
+$gray-lighter:           #dedede !default;
+$gray-lightest:          #efefef !default;
+
+// added for ordering issues
+$rackspace-red:     #c40022;
+$signup-green:      #5aaa28;
+$mustard:           #f6b100;
+$teal-dark:         #00b4c3;
+$orange:            #f63;
+
+$brand-primary:         $rackspace-red  !default;
+$brand-secondary:       $mustard        !default;
+$brand-success:         $signup-green   !default;
+$brand-info:            $teal-dark      !default;
+$brand-warning:         $orange         !default;
+$brand-danger:          $rackspace-red  !default;

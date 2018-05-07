@@ -16,6 +16,11 @@
                     "path": "/contributing",
                     "name": "contributing",
                     "component": "require('@/pages/contributing/').default"
+                },
+                {
+                    "path": "/tables",
+                    "name": "tables",
+                    "component": "require('@/pages/patterns/tables/').default"
                 }
             ]
         },

@@ -11,6 +11,16 @@
       "children": []
     },
     {
+      "text": "Patterns",
+      "children": [
+        {
+          "text": "Tables",
+          "route": "/tables",
+          "children": []
+        }
+      ]
+    },
+    {
       "text": "Dropdown Example",
       "children": [
         {

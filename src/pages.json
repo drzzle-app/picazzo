@@ -6,6 +6,11 @@
             "text": "Contributing page\n  This is more text\n  This is another line\n  This is a lot more so we can see how the search results look.\n  Again."
         },
         {
+            "title": "Tables",
+            "route": "/tables",
+            "text": "Sample table\n  \n    \n      \n        \n        Installation\n        Configuration\n        Troubleshooting\n        Monitoring\n        Patching\n      \n    \n    \n      \n        Apache\n        \n        \n        \n        \n        \n      \n      \n        lighttpd\n        \n        \n        \n        \n        \n      \n      \n        Nginx"
+        },
+        {
             "title": "Welcome",
             "route": "/welcome",
             "text": "Welcom to Flux!"

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
-import SearchModal from './search-modal';
+import SearchBox from './search-box';
 import SideBarLinks from './side-bar-links';
 
 const template = require('./template.html');
@@ -9,7 +9,7 @@ export default Vue.component('side-bar', {
   template,
   name: 'side-bar',
   components: {
-    SearchModal,
+    SearchBox,
     SideBarLinks,
   },
   computed: {
