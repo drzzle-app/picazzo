@@ -3,10 +3,18 @@
     {
       "text": "Welcome",
       "route": "/welcome",
+      "children": []
+    },
+    {
+      "text": "Contributing",
+      "route": "/contributing",
+      "children": []
+    },
+    {
+      "text": "Dropdown Example",
       "children": [
         {
           "text": "Sublink",
-          "route": "/welcome",
           "children": [
             {
               "text": "Sublink",
@@ -15,11 +23,6 @@
           ]
         }
       ]
-    },
-    {
-      "text": "Contributing",
-      "route": "/contributing",
-      "children": []
     }
   ]
 }

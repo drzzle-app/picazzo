@@ -13,10 +13,13 @@
   }
 }
 
-.flux-sideBar-dd-thing {
+.flux-sideBar-dd {
   &::after {
-    content: '>';
+    content: '\e801';
+    font-family: 'rswebfonts';
     margin-left: 10px;
+    opacity: .7;
+    transition-duration: .2s;
   }
 }
 

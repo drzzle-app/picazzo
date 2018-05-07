@@ -48,5 +48,38 @@ This will also run automatically for you whenever you edit or add any template i
 gulp build-search
 ```
 
+## Adding Sidebar Links
+Our nested side bar links are templated using json from our ```src/layout/side-bar/side-bar.json``` file. They can be nested as deep as desired. FYI if a link has children (aka it's a dropdown) then it's ```route``` property won't be needed. See below of example:
+```json
+{
+  "links": [
+    {
+      "text": "Some Drop Down Link",
+      "children": [
+        {
+          "text": "Deeper Drop Down Link",
+          "children": [
+            {
+              "text": "Some Deeper Sublink",
+              "route": "/some-deeper-sublink",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "I am a link with no children",
+      "route": "/some-route",
+      "children": []
+    }
+  ]
+}
+```
+In case you forget what page route your page is, see the ```src/pages.json``` file.
+
+## Adding new Icons
+... coming soon
+
 ## Further Vue documentation regarding this app
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
