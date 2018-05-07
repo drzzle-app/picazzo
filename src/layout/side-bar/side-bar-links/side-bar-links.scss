@@ -6,6 +6,7 @@
   text-decoration: none;
   transition-duration: 0.2s;
   width: 100%;
+  z-index: 2;
 
   &:hover {
     background-color: rgba($black, 0.08);
@@ -13,9 +14,15 @@
 }
 
 .flux-sideBar-dd {
-
   &:after {
     content: '>';
     margin-left: 10px;
+  }
+}
+
+.flux-sideBar-ddOpen {
+  &:after {
+    display: inline-block;
+    transform: rotate(90deg);
   }
 }

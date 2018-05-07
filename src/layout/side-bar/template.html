@@ -9,9 +9,10 @@
     <div class="flux-sideBar">
       <ul class="flux-sideBar-list">
         <sidebar-links
-          v-for="link in links"
-         :link="link"
-         :depth="20">
+          v-for="(link, index) in links"
+          :key="index"
+          :link="link"
+          :depth="20">
        </sidebar-links>
       </ul>
     </div>

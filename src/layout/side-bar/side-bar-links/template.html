@@ -11,14 +11,17 @@
     {{ link.text }}
   </a>
   <!-- TODO add transition animation here -->
-  <ul
-    class="flux-sideBar-list"
-    v-show="showChildren"
-    v-if="isDropDown(link)">
-    <sidebar-links
-      v-for="link in link.children"
-      :depth="depth + 10"
-      :link="link">
-    </sidebar-links>
-  </ul>  
+  <transition name="slideDown">
+    <ul
+      class="flux-sideBar-list"
+      v-show="showChildren"
+      v-if="isDropDown(link)">
+      <sidebar-links
+        v-for="(link, index) in link.children"
+        :key="index"
+        :depth="depth + 10"
+        :link="link">
+      </sidebar-links>
+    </ul>
+  </transition>
 </li>

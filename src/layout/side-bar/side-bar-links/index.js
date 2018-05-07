@@ -13,9 +13,10 @@ export default Vue.component('sidebar-links', {
   },
   computed: {
     indent() {
+      const bg = this.depth === 20 ? 0 : this.depth - 5;
       return {
         paddingLeft: `${this.depth}px`,
-        backgroundColor: `rgba(0, 0, 0, .${this.depth - 20})`,
+        backgroundColor: `rgba(0, 0, 0, .0${bg})`,
       };
     },
   },

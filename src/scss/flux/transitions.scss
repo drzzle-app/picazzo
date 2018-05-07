@@ -26,3 +26,36 @@
     opacity: 0;
   }
 }
+
+/* Slide down */
+.slideDown-enter-active {
+  animation: slideDown-in 0.2s;
+}
+
+.slideDown-leave-active {
+  animation: slideDown-out 0.2s;
+}
+
+@keyframes slideDown-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
