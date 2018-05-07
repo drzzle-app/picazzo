@@ -5,6 +5,7 @@ import VueLogger from 'vuejs-logger';
 import _ from 'lodash';
 import '../dist/js/flux.pattern.lib';
 import './scss/flux/main.scss';
+import './theme-reload';
 import App from './app-view';
 import router from './router';
 import store from './store';

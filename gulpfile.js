@@ -297,19 +297,36 @@ const buildThemes = () => {
   // get all themes in themes/ directory and build them
   const themePath = './src/scss/themes/';
   const themes = getFolders(themePath);
+  const themeChain = [];
   themes.forEach((theme) => {
-    fse.stat(`${themePath}${theme}/main.scss`, (err) => {
-      if (err == null) {
-        // main.scss file exists
-        buildTheme(theme).on('end', () => {
-          console.log(`\x1b[32m Successfully Built theme: \x1b[34m ${theme}`);
+    themeChain.push(
+      new Promise((resolve, reject) => {
+        fse.stat(`${themePath}${theme}/main.scss`, (err) => {
+          if (err == null) {
+            // main.scss file exists
+            buildTheme(theme).on('end', () => {
+              console.log(`\x1b[32m Successfully Built theme: \x1b[34m ${theme}`);
+              resolve(theme);
+            });
+          } else if (err.code === 'ENOENT') {
+            // main.scss file does not exist
+            console.log('\x1b[31m', `Error: No 'main.scss' file for theme: \x1b[34m ${theme}`);
+            reject(err);
+          }
         });
-      } else if (err.code === 'ENOENT') {
-        // main.scss file does not exist
-        console.log('\x1b[31m', `Error: No 'main.scss' file for theme: \x1b[34m ${theme}`);
-      }
-    });
+      }));
   });
+  Promise.all(themeChain).then((t) => {
+    // we use this so webpack can hot reload when we edit any theme
+    let themeList = '[';
+    t.forEach((th) => {
+      themeList += `'${th}',`;
+    });
+    themeList += ']';
+    fse.outputFile('./src/theme-reload.js',
+      `/* eslint-disable */\n// this file is auto generated, do not edit it manually\n// last edited on ${Date.now()}\nmodule.exports = {\n themes: ${themeList}\n}`,
+    );
+  }).catch(er => console.log(er));
 };
 
 gulp.task('new-page', newPage);
