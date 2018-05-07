@@ -1,27 +1,27 @@
 .flux-sideBar-link {
-  border-bottom: 1px solid rgba($black, 0.05);
-  color: rgba($black, 0.55);
+  border-bottom: 1px solid rgba($black, .05);
+  color: rgba($black, .55);
   display: inline-block;
   padding: 20px;
   text-decoration: none;
-  transition-duration: 0.2s;
+  transition-duration: .2s;
   width: 100%;
   z-index: 2;
 
   &:hover {
-    background-color: rgba($black, 0.08);
+    background-color: rgba($black, .08);
   }
 }
 
-.flux-sideBar-dd {
-  &:after {
+.flux-sideBar-dd-thing {
+  &::after {
     content: '>';
     margin-left: 10px;
   }
 }
 
 .flux-sideBar-ddOpen {
-  &:after {
+  &::after {
     display: inline-block;
     transform: rotate(90deg);
   }

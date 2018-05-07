@@ -3,7 +3,7 @@
 }
 
 .flux-topBar {
-  background-color: $fluxBase;
+  background-color: $flux-base;
   height: 40px;
   position: fixed;
   width: 100%;
@@ -11,8 +11,8 @@
 }
 
 .flux-topBar-logo {
-  background-color: darken($fluxBase, 5%);
-  border-right: 1px solid rgba($black, 0.1);
+  background-color: darken($flux-base, 5%);
+  border-right: 1px solid rgba($black, .1);
   color: $white;
   float: left;
   font-weight: bold;
@@ -27,7 +27,7 @@
 
 .flux-sideBar {
   background-color: #f2f2f2;
-  border-right: 1px solid rgba($black, 0.1);
+  border-right: 1px solid rgba($black, .1);
   font-size: 14px;
   height: 100%;
   position: fixed;
@@ -39,8 +39,8 @@
 .flux-sideBar-list {
   display: block;
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 .flux-sideBar-right {

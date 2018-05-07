@@ -4,18 +4,18 @@
 }
 
 .flux-search-input {
-  @include placeholder(rgba($black, 0.25));
-  background-color: rgba($white, 0.2);
+  @include placeholder(rgba($black, .25));
+  background-color: rgba($white, .2);
   border: 0;
-  color: rgba($black, 0.55);
+  color: rgba($black, .55);
   display: block;
   font-size: 13px;
   padding: 12px 20px;
+  transition-duration: .3s;
   width: 100%;
-  transition-duration: 0.3s;
 
   &:focus {
-    background-color: rgba($white, 0.35);
+    background-color: rgba($white, .35);
     outline: 0;
   }
 }
@@ -26,15 +26,15 @@
 
 .flux-search-contentBox {
   background-color: $white;
-  box-shadow: 3px 3px 9px 0px rgba($black, 0.12);
+  box-shadow: 3px 3px 9px 0 rgba($black, .12);
   padding: 10px 20px;
   position: absolute;
   width: 600px;
 }
 
 .flux-search-header {
-  border-bottom: 1px solid rgba($black, 0.1);
-  color: rgba($black, 0.7);
+  border-bottom: 1px solid rgba($black, .1);
+  color: rgba($black, .7);
   margin-bottom: 8px;
   padding-bottom: 8px;
 }
@@ -49,26 +49,26 @@
   overflow: hidden;
   padding: 12px 0;
   text-overflow: ellipsis;
-  transition-duration: 0.2s;
+  transition-duration: .2s;
   white-space: nowrap;
 
   &:hover {
-    background-color: rgba($black, 0.05);
+    background-color: rgba($black, .05);
     cursor: pointer;
   }
 }
 
 .flux-search-title {
-  color: darken($fluxBase, 18%);
+  color: darken($flux-base, 18%);
   display: inline-block;
   font-weight: bold;
   margin-right: 5px;
 
-  &:after {
+  &::after {
     content: ' - ';
   }
 }
 
 .flux-search-text {
-  color: rgba($black, 0.75);
+  color: rgba($black, .75);
 }

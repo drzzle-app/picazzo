@@ -5,6 +5,6 @@
     const options = $.extend({}, defaults, opts);
     // finish plugin here
     console.log(options);
-    return $;
+    return options.el;
   };
 })(jQuery);

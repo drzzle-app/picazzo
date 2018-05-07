@@ -1,10 +1,10 @@
-/* Standard Fade */
+// Standard Fade
 .standardFade-enter-active {
-  animation: standardFade-in 0.2s;
+  animation: standardFade-in .2s;
 }
 
 .standardFade-leave-active {
-  animation: standardFade-out 0.2s;
+  animation: standardFade-out .2s;
 }
 
 @keyframes standardFade-in {
@@ -27,13 +27,13 @@
   }
 }
 
-/* Slide down */
+// Slide down
 .slideDown-enter-active {
-  animation: slideDown-in 0.2s;
+  animation: slideDown-in .2s;
 }
 
 .slideDown-leave-active {
-  animation: slideDown-out 0.2s;
+  animation: slideDown-out .2s;
 }
 
 @keyframes slideDown-in {
