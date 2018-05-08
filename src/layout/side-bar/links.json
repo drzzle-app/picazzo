@@ -21,6 +21,11 @@
       ]
     },
     {
+      "text": "Icons",
+      "route": "/icons",
+      "children": []
+    },
+    {
       "text": "Dropdown Example",
       "children": [
         {

@@ -167,7 +167,8 @@ const buildSearch = () => {
             const title = route.replace(/-/g, ' ');
             // get info for page obj from dir
             fse.readFile(filename, 'utf8', (err, data) => {
-              const text = data.replace(/<\/?[^>]+(>|$)/g, '').trim();
+              let text = data.replace(/<\/?[^>]+(>|$)/g, '').trim();
+              text = text.replace(/{{([^{}]+)}}/g, '$1');
               const page = {
                 title: toTitleCase(title),
                 route: `/${route.toLowerCase()}`,
@@ -339,7 +340,7 @@ gulp.task('build-themes', buildThemes);
 // kick off default
 gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes', 'build-themes'], () => {
   watch(['./src/js-lib/flux.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
-  watch(['./src/pages/**/template.html'], () => buildSearch());
+  watch(['./src/pages/**/template.html', './src/patterns/**/template.html'], () => buildSearch());
   watch(['./src/router/routes.json'], () => buildRoutes());
   watch(
     ['./src/patterns/**/*.scss', './src/scss/themes/**/*.scss', './src/scss/theme-globals/*.scss'],

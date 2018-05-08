@@ -1,0 +1,9 @@
+<div>
+  <h4 class="flux-page-header">Icon Library ({{ icons.length }})</h4>
+  <div
+    class="flux-icon-col"
+    v-for="icon in icons"
+    v-if="icon.selected !== false">
+    <i :class="'icon-' + icon.css"></i> {{ icon.css }}
+  </div>
+</div>

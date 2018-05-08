@@ -1,14 +1,19 @@
 {
     "pages": [
         {
-            "title": "Tables",
-            "route": "/tables",
-            "text": "Sample table\n  \n    \n      \n        \n        Installation\n        Configuration\n        Troubleshooting\n        Monitoring\n        Patching\n      \n    \n    \n      \n        Apache\n        \n        \n        \n        \n        \n      \n      \n        lighttpd\n        \n        \n        \n        \n        \n      \n      \n        Nginx"
+            "title": "Icons",
+            "route": "/icons",
+            "text": "Icon Library ( icons.length )\n  \n      icon.css "
         },
         {
             "title": "Contributing",
             "route": "/contributing",
-            "text": "Contributing page\n  This is more text\n  This is another line\n  This is a lot more so we can see how the search results look.\n  Again."
+            "text": "Contributing page\n  Mention versioning as well \"major | minor | patch\"\n  This is another line\n  This is a lot more so we can see how the search results look.\n  Again."
+        },
+        {
+            "title": "Tables",
+            "route": "/tables",
+            "text": "Tables"
         },
         {
             "title": "Welcome",
