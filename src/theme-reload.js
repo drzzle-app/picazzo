@@ -1,6 +1,6 @@
 /* eslint-disable */
 // this file is auto generated, do not edit it manually
-// last edited on 1525734678941
+// last edited on 1525745095445
 module.exports = {
- themes: ['ecomm','marketo',]
+ themes: ['ecomm',]
 }
