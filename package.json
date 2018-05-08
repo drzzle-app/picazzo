@@ -1,15 +1,19 @@
 {
-  "name": "flux",
+  "name": "rackerlabs-flux",
   "version": "1.0.0",
-  "description": "Zoolander replacement",
+  "description": "Rackspace design and development styleguide and pattern library",
   "author": "Roger Avalos",
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "gulp & npm run dev",
     "lint:js": "eslint --ext .js, src",
     "lint:sass": "sass-lint -v",
     "build": "node build/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rackerlabs/flux.git"
   },
   "dependencies": {
     "jquery": "^3.3.1",
@@ -89,9 +93,6 @@
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  "files": ["dist/**/*"],
+  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"]
 }
