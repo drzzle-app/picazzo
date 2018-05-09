@@ -8,5 +8,8 @@
   display: inline-block;
   float: left;
   margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 20%;
 }

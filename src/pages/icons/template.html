@@ -4,6 +4,7 @@
     class="flux-icon-col"
     v-for="icon in icons"
     v-if="icon.selected !== false">
-    <i :class="'icon-' + icon.css"></i> {{ icon.css }}
+    <i :class="'icon-' + icon.css"></i>
+    <span :title="icon.css">{{ icon.css }}</span>
   </div>
 </div>
