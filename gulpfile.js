@@ -329,18 +329,71 @@ const buildThemes = () => {
   }).catch(er => console.log(er));
 };
 
+const buildIcons = () => {
+  const themeDistPath = './dist/css/themes/';
+  const themes = getFolders(themeDistPath);
+  const iconDir = './src/icons/css/';
+  const iconChain = [];
+  fse.readdir(iconDir, (err, cssFiles) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    const copyFontFiles = (fontDir, res) => {
+      fse.copy('./src/icons/font', fontDir, { overwrite: true })
+        .then(() => res(fontDir))
+        .catch(er => console.error(er));
+    };
+    cssFiles.forEach((file) => {
+      const fullPath = `${iconDir}${file}`;
+      const name = path.basename(file, '.css');
+      const pipeline = gulp.src(fullPath)
+        .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+        .pipe(rename(`${name}.min.css`))
+        .pipe(
+          autoprefixer({
+            browsers: ['last 5 versions'],
+            cascade: false,
+          }));
+      // place all icon css files in all themes
+      themes.forEach((theme) => {
+        iconChain.push(
+          new Promise((resolve) => {
+            pipeline.pipe(gulp.dest(`${themeDistPath}${theme}/icons/css`));
+            // pipeline.pipe(gulp.dest(`./static/css/themes/${theme}/icons/css`));
+            // copy the font files into each themes dist
+            const fontDir = `${themeDistPath}${theme}/icons/font`;
+            if (fse.existsSync(fontDir)) {
+              // empty the dir if it's there
+              fse.emptyDir(fontDir)
+                .then(() => copyFontFiles(fontDir, resolve));
+            } else {
+              copyFontFiles(fontDir, resolve);
+            }
+          }));
+      });
+    });
+  });
+  Promise.all(iconChain).then(() => {
+    console.log('\x1b[32m Successfully built icons');
+    // @TODO copy from dist to static
+  });
+};
+
 gulp.task('new-page', newPage);
 gulp.task('new-pattern', newPattern);
 gulp.task('build-search', buildSearch);
 gulp.task('build-routes', buildRoutes);
 gulp.task('build-js-plugins', buildJsPlugins);
+gulp.task('build-icons', buildIcons);
 gulp.task('build-themes', buildThemes);
 
 // kick off default
-gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes', 'build-themes'], () => {
+gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes', 'build-themes', 'build-icons'], () => {
   watch(['./src/js-lib/flux.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
   watch(['./src/pages/**/template.html', './src/patterns/**/template.html'], () => buildSearch());
   watch(['./src/router/routes.json'], () => buildRoutes());
+  watch(['./src/icons/*'], () => buildIcons());
   watch(
     ['./src/patterns/**/*.scss', './src/scss/themes/**/*.scss', './src/scss/theme-globals/*.scss'],
     () => buildThemes());
