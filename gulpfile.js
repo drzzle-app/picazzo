@@ -325,8 +325,7 @@ const buildThemes = () => {
     });
     themeList += ']';
     fse.outputFile('./src/theme-reload.js',
-      `/* eslint-disable */\n// this file is auto generated, do not edit it manually\n// last edited on ${Date.now()}\nmodule.exports = {\n themes: ${themeList}\n}`,
-    );
+      `/* eslint-disable */\n// this file is auto generated, do not edit it manually\n// last edited on ${Date.now()}\nmodule.exports = {\n themes: ${themeList}\n}`);
   }).catch(er => console.log(er));
 };
 

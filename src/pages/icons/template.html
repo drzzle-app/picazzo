@@ -1,10 +1,40 @@
 <div>
   <h4 class="flux-page-header">Icon Library ({{ icons.length }})</h4>
+  <div class="flux-subNav">
+    <div class="flux-subNav-field">
+      <input 
+        type="text"
+        class="flux-subNav-search"
+        v-model="searchInput"
+        placeholder="find icons...">
+    </div>
+    <div class="flux-subNav-field">
+      <label 
+        class="flux-subNav-checkboxLabel"
+        for="show-hex">
+        Show Hex Codes
+      </label>
+      <input 
+        id="show-hex"
+        class="flux-subNav-checkbox"
+        type="checkbox"
+        v-model="showHex" />
+    </div>
+  </div>
   <div
     class="flux-icon-col"
     v-for="icon in icons"
+    :key="icon.uid"
     v-if="icon.selected !== false">
     <i :class="'icon-' + icon.css"></i>
-    <span :title="icon.css">{{ icon.css }}</span>
+    <span  :title="icon.css">
+      {{ icon.css }}
+    </span>
+    <span 
+      v-show="showHex"
+      class="flux-icon-hex"
+      :title="convertToHex(icon.code)">
+      ({{ convertToHex(icon.code) }})
+    </span>
   </div>
 </div>

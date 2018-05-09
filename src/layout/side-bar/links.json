@@ -24,20 +24,6 @@
       "text": "Icons",
       "route": "/icons",
       "children": []
-    },
-    {
-      "text": "Dropdown Example",
-      "children": [
-        {
-          "text": "Sublink",
-          "children": [
-            {
-              "text": "Sublink",
-              "route": "/welcome"
-            }
-          ]
-        }
-      ]
     }
   ]
 }
