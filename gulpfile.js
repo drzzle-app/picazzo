@@ -7,12 +7,20 @@ const babel = require('gulp-babel');
 const sass = require('gulp-sass');
 const rename = require('gulp-rename');
 const autoprefixer = require('gulp-autoprefixer');
+const aliases = require('gulp-style-aliases');
 const minify = require('gulp-minify');
 const concat = require('gulp-concat');
 const watch = require('gulp-watch');
 const _ = require('lodash');
 
 // utils
+
+// gulp file aliases
+const gulpAliases = {
+  '@modules': './node_modules',
+  '@theme-globals': './src/scss/theme-globals',
+};
+
 // callback to get folders in a directory
 function getFolders(srcpath) {
   return fse
@@ -285,6 +293,7 @@ const buildThemes = () => {
   function buildTheme(theme) {
     return gulp
       .src(`./src/scss/themes/${theme}/main.scss`)
+      .pipe(aliases(gulpAliases))
       .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
       .pipe(rename('main.min.css'))
       .pipe(

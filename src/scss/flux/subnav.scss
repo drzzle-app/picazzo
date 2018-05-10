@@ -30,7 +30,12 @@
   display: inline-block;
   float: left;
   margin-right: 10px;
-  padding: 8px;
+  position: relative;
+  top: 4px;
+
+  &[type='checkbox'] {
+    padding: 8px;
+  }
 
   &:focus {
     outline: 0;

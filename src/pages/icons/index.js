@@ -15,8 +15,15 @@ export default Vue.component('icons', {
             return this.$_.reduce(
               t,
               (acc, row) => {
+                // only grab the name properties to search through
+                const e = [];
+                this.$_.filter(row, () => {
+                  this.$_.forEach(['css', 'src'], (c) => {
+                    e.push(row[c]);
+                  });
+                });
                 if (
-                  this.$_.filter(row, v =>
+                  this.$_.filter(e, v =>
                     this.$_(v)
                       .toLower()
                       .includes(this.searchInput.toLowerCase()),

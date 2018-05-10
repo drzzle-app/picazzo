@@ -1,19 +1,33 @@
 .flux-page-header {
   font-size: 24px;
   font-weight: 600;
-  margin-top: 0;
+  margin: 0 0 15px;
 }
 
 .flux-icon-col {
   display: inline-block;
   float: left;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 20%;
+  width: 25%;
+
+  & [class^='icon-'] {
+    font-size: 35px;
+    margin-right: 8px;
+  }
+}
+
+.flux-icon-label {
+  display: inline-block;
+  position: relative;
+  top: -8px;
 }
 
 .flux-icon-hex {
   color: $flux-base-text;
+  display: inline-block;
+  position: relative;
+  top: -8px;
 }

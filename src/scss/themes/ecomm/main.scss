@@ -1,6 +1,11 @@
-// Import all of the scss for the ecomm theme
-@import '../../theme-globals/grid';
-@import '../../theme-globals/fonts';
-@import '../../theme-globals/swatches';
-@import '../../theme-globals/mixins';
+// We have seperate aliases for our gulp compiled theme files.
+// to see them, see the gulpfile.js file
+
+// this theme uses bootstrap
+@import '@modules/bootstrap/scss/bootstrap';
+// import all theme globals (that every theme will have)
+@import '@theme-globals/fonts';
+@import '@theme-globals/swatches';
+@import '@theme-globals/mixins';
+// import all theme specific scss
 @import 'patterns';
