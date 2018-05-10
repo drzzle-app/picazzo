@@ -8,7 +8,8 @@ export default Vue.component('icons', {
   name: 'icons',
   computed: {
     icons() {
-      const icons = this.$_.filter(Icons.glyphs, i => i.selected !== false);
+      let icons = this.$_.filter(Icons.glyphs, i => i.selected !== false);
+      icons = icons.reverse(); // so we can see the newest first
       return this.$_.chain(icons)
         .thru((t) => {
           if (this.searchInput) {

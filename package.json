@@ -56,6 +56,7 @@
     "gulp-minify": "^2.1.0",
     "gulp-prompt": "^1.0.1",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
     "gulp-sass": "^4.0.1",
     "gulp-style-aliases": "^1.1.11",
     "gulp-watch": "^5.0.0",

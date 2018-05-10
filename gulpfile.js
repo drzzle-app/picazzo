@@ -6,6 +6,7 @@ const fse = require('fs-extra');
 const babel = require('gulp-babel');
 const sass = require('gulp-sass');
 const rename = require('gulp-rename');
+const replace = require('gulp-replace');
 const autoprefixer = require('gulp-autoprefixer');
 const aliases = require('gulp-style-aliases');
 const minify = require('gulp-minify');
@@ -18,6 +19,7 @@ const _ = require('lodash');
 // gulp file aliases
 const gulpAliases = {
   '@modules': './node_modules',
+  '@patterns': './src/patterns',
   '@theme-globals': './src/scss/theme-globals',
 };
 
@@ -54,6 +56,25 @@ function filePrepJSON(list) {
   }
   deepDig(list);
   return `[ ${newObj} ]`;
+}
+
+// preparing a complex camelCase name for JS files
+function prepJsName(n) {
+  let jsNameSplit = n;
+  if (n.match(/-/gi)) {
+    jsNameSplit = jsNameSplit.split('-');
+    let jsNewName = jsNameSplit[0].toString();
+    jsNameSplit.forEach((word, i) => {
+      if (i !== 0) {
+        const camelCase = word
+          .charAt(0)
+          .toUpperCase() + word.slice(1);
+        jsNewName += camelCase;
+      }
+    });
+    jsNameSplit = jsNewName;
+  }
+  return jsNameSplit;
 }
 
 const buildRoutes = () => {
@@ -286,7 +307,65 @@ const newPattern = () =>
         },
       ],
       (res) => {
-        console.log('user input: ', res);
+        const name = `${res.patternName.replace(/ /g, '-')}`.trim().toLowerCase();
+        const patternDir = `./src/patterns/${name}`;
+        let ref = '';
+        let jsName = '';
+        let scaffIndexJs = './scaffholds/newPatternIndex.js';
+        // create the new pattern dir
+        fse.ensureDir(patternDir)
+          .then(() => {
+            // if pattern needs js, add the needed things
+            if (res.needsJS === 'y') {
+              jsName = prepJsName(name);
+              ref = ` ref="${jsName}"`;
+              scaffIndexJs = './scaffholds/newPatternIndex-plugin.js';
+              // copy scaffhold js file but replace "newPattern" with new name
+              gulp.src('./scaffholds/newPlugin.js')
+                .pipe(replace('patternName', jsName))
+                .pipe(rename({
+                  basename: 'plugin',
+                }))
+                .pipe(gulp.dest(`${patternDir}/`));
+            }
+
+            // proceed with creating the template file
+            fse.outputFile(`${patternDir}/template.html`, `<div${ref}>\n ${name}\n</div>`)
+              .then(() => fse.readFile(`${patternDir}/template.html`, 'utf8'))
+              .catch(err => console.error(err));
+
+            // create index.js for vue
+            gulp.src(scaffIndexJs)
+              .pipe(replace('pattern-name', name))
+              .pipe(replace('patternName', jsName))
+              .pipe(rename({
+                basename: 'index',
+              }))
+              .pipe(gulp.dest(`${patternDir}/`));
+
+            // add all themes to this plugin. users can remove them if not wanted
+            const themePath = './src/scss/themes/';
+            const themes = getFolders(themePath);
+            themes.forEach((theme) => {
+              fse.ensureDir(`${patternDir}/themes/${theme}`).then(() => {
+                // write file here
+                fse.outputFile(`${patternDir}/themes/${theme}/styles.scss`, `// ${name} styles here\n`)
+                  .then(() => {
+                    fse.readFile(`${patternDir}/themes/${theme}/styles.scss`, 'utf8');
+                    // finally add pattern scss to each themes's main.scss file and voila! done!
+                    fse.appendFile(`./src/scss/themes/${theme}/patterns.scss`,
+                      `@import '../../../patterns/${name}/themes/${theme}/styles';\n`,
+                      (err) => {
+                        if (err) {
+                          console.log(`There was an issue appending ${name} to patterns.scss`);
+                        }
+                      });
+                  })
+                  .catch(err => console.error(err));
+              }).catch(err => console.log(err));
+            });
+          })
+          .catch(err => console.error(err));
       }));
 
 const buildThemes = () => {
