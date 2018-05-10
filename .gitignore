@@ -8,6 +8,7 @@ dist/index.html
 src/pages.json
 src/theme-reload.js
 src/router/routes.js
+static/css/
 
 # Editor directories and files
 .idea
