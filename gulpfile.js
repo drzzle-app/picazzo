@@ -346,8 +346,8 @@ const buildIcons = () => {
             res(fontDir);
           }
         })
-        // fix these catch errors so promise can resolve
-        .catch(er => console.error(er));
+        // we need to resolve even if there is a no file error
+        .catch(er => res(er));
 
     const iconChain = [];
     cssFiles.forEach((file) => {
@@ -366,25 +366,19 @@ const buildIcons = () => {
           // place all icon css files in all themes
           themes.forEach((theme, i) => {
             pipeline.pipe(gulp.dest(`${themeDistPath}${theme}/icons/css`));
-            // pipeline.pipe(gulp.dest(`./static/css/themes/${theme}/icons/css`));
             // copy the font files into each themes dist
             const fontDir = `${themeDistPath}${theme}/icons/font`;
             const last = i === themes.length - 1 ? resolve : false;
-            if (fse.existsSync(fontDir)) {
-              console.log('there is a font dir');
-              // empty the dir if it's there
-              fse.emptyDir(fontDir)
-                .then(() => copyFontFiles(fontDir, last));
-            } else {
-              console.log('there is NOT a font dir');
-              copyFontFiles(fontDir, last);
-            }
+            fse.emptyDir(fontDir)
+              .then(() => copyFontFiles(fontDir, last));
           });
         }));
     });
-    Promise.all(iconChain).then((v) => {
-      console.log('all icons moved to dist: ', v);
+    Promise.all(iconChain).then(() => {
       // now copy dist to static
+      fse.copy('./dist/css/themes', './static/css/themes', { overwrite: true })
+        .then(() => console.log('\x1b[32m Successfully built icons'))
+        .catch(er => console.log('error: ', er));
     });
   });
 };
