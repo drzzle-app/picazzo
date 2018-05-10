@@ -333,50 +333,59 @@ const buildIcons = () => {
   const themeDistPath = './dist/css/themes/';
   const themes = getFolders(themeDistPath);
   const iconDir = './src/icons/css/';
-  const iconChain = [];
   fse.readdir(iconDir, (err, cssFiles) => {
     if (err) {
       console.log(err);
       return;
     }
-    const copyFontFiles = (fontDir, res) => {
+
+    const copyFontFiles = (fontDir, res) =>
       fse.copy('./src/icons/font', fontDir, { overwrite: true })
-        .then(() => res(fontDir))
+        .then(() => {
+          if (res) {
+            res(fontDir);
+          }
+        })
+        // fix these catch errors so promise can resolve
         .catch(er => console.error(er));
-    };
+
+    const iconChain = [];
     cssFiles.forEach((file) => {
-      const fullPath = `${iconDir}${file}`;
-      const name = path.basename(file, '.css');
-      const pipeline = gulp.src(fullPath)
-        .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-        .pipe(rename(`${name}.min.css`))
-        .pipe(
-          autoprefixer({
-            browsers: ['last 5 versions'],
-            cascade: false,
-          }));
-      // place all icon css files in all themes
-      themes.forEach((theme) => {
-        iconChain.push(
-          new Promise((resolve) => {
+      iconChain.push(
+        new Promise((resolve) => {
+          const fullPath = `${iconDir}${file}`;
+          const name = path.basename(file, '.css');
+          const pipeline = gulp.src(fullPath)
+            .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+            .pipe(rename(`${name}.min.css`))
+            .pipe(
+              autoprefixer({
+                browsers: ['last 5 versions'],
+                cascade: false,
+              }));
+          // place all icon css files in all themes
+          themes.forEach((theme, i) => {
             pipeline.pipe(gulp.dest(`${themeDistPath}${theme}/icons/css`));
             // pipeline.pipe(gulp.dest(`./static/css/themes/${theme}/icons/css`));
             // copy the font files into each themes dist
             const fontDir = `${themeDistPath}${theme}/icons/font`;
+            const last = i === themes.length - 1 ? resolve : false;
             if (fse.existsSync(fontDir)) {
+              console.log('there is a font dir');
               // empty the dir if it's there
               fse.emptyDir(fontDir)
-                .then(() => copyFontFiles(fontDir, resolve));
+                .then(() => copyFontFiles(fontDir, last));
             } else {
-              copyFontFiles(fontDir, resolve);
+              console.log('there is NOT a font dir');
+              copyFontFiles(fontDir, last);
             }
-          }));
-      });
+          });
+        }));
     });
-  });
-  Promise.all(iconChain).then(() => {
-    console.log('\x1b[32m Successfully built icons');
-    // @TODO copy from dist to static
+    Promise.all(iconChain).then((v) => {
+      console.log('all icons moved to dist: ', v);
+      // now copy dist to static
+    });
   });
 };
 
