@@ -378,7 +378,7 @@ const buildIcons = () => {
       // now copy dist to static
       fse.copy('./dist/css/themes', './static/css/themes', { overwrite: true })
         .then(() => console.log('\x1b[32m Successfully built icons'))
-        .catch(er => console.log('error: ', er));
+        .catch(er => console.log('recreating path: ', er.path));
     });
   });
 };
@@ -396,7 +396,7 @@ gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes', 'build
   watch(['./src/js-lib/flux.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
   watch(['./src/pages/**/template.html', './src/patterns/**/template.html'], () => buildSearch());
   watch(['./src/router/routes.json'], () => buildRoutes());
-  watch(['./src/icons/*'], () => buildIcons());
+  watch(['./src/icons/**/*'], () => buildIcons());
   watch(
     ['./src/patterns/**/*.scss', './src/scss/themes/**/*.scss', './src/scss/theme-globals/*.scss'],
     () => buildThemes());
