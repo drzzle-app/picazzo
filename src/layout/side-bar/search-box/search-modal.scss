@@ -29,6 +29,7 @@
   box-shadow: 3px 3px 9px 0 rgba($black, .12);
   padding: 10px 20px;
   position: absolute;
+  top: -3px;
   width: 600px;
 }
 
@@ -46,8 +47,9 @@
 }
 
 .flux-search-item {
+  font-size: 13px;
   overflow: hidden;
-  padding: 12px 0;
+  padding: 12px 5px;
   text-overflow: ellipsis;
   transition-duration: .2s;
   white-space: nowrap;
