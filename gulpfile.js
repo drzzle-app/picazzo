@@ -471,6 +471,48 @@ const buildIcons = () => {
   });
 };
 
+const newTheme = () => {
+  const defaultTheme = 'ecomm';
+  return gulp.src(`./src/scss/themes/${defaultTheme}/**/*`).pipe(
+    prompt.prompt(
+      [
+        {
+          type: 'input',
+          name: 'themeName',
+          message: 'Theme Name?',
+          validate(input) {
+            const inp = input.toLowerCase().trim();
+            if (inp === '') {
+              console.log('\x1b[31m Invalid answer, you must specify a name.');
+              return false;
+            }
+            return true;
+          },
+        },
+      ],
+      (res) => {
+        const name = `${res.themeName.replace(/ /g, '-')}`.trim().toLowerCase();
+        gulp.src(`./src/scss/themes/${defaultTheme}/**/*`)
+          // copy default theme
+          .pipe(gulp.dest(`./src/scss/themes/${name}`))
+          .on('end', () => {
+            const patterns = getFolders('./src/patterns/');
+            patterns.forEach((pattern) => {
+              gulp.src(`./src/patterns/${pattern}/themes/${defaultTheme}/**/*`)
+                .pipe(gulp.dest(`./src/patterns/${pattern}/themes/${name}`))
+                .on('end', () => {
+                  console.log(`\x1b[32m Successfully created "${name}" pattern: \x1b[34m ${pattern}`);
+                });
+            });
+            const newThemePath = `./src/scss/themes/${name}/patterns.scss`;
+            gulp.src([newThemePath], { base: newThemePath })
+              .pipe(replace(defaultTheme, name))
+              .pipe(gulp.dest(newThemePath));
+          });
+      }));
+};
+
+gulp.task('new-theme', newTheme);
 gulp.task('new-page', newPage);
 gulp.task('new-pattern', newPattern);
 gulp.task('build-search', buildSearch);
