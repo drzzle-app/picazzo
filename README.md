@@ -26,15 +26,27 @@ npm run build --report
 ```bash
 gulp new-page
 ```
-This will ask you a few questions like "name?", "full page layout or side bar?" and "path in the pages dir.", after which this 
+This will ask you a few questions like "name?", "full page layout or side bar?" and "path in the pages dir.", after which this
 will generate the needed files to get you started as well as create routing and searchable content. If you want this page to be a link in the sidebar, that needs to be done manually (for now).
+
+#### Creating New Patterns
+```bash
+gulp new-pattern
+```
+Here you can specify the name and if it needs a js plugin or not and gulp will go and add the new pattern to each theme as well as add the new vue files for the pattern in the correct locations.
+
+#### Creating New Themes
+```bash
+gulp new-theme
+```
+Here you just need to specify a name and gulp will copy the default theme (ecomm) and create the new theme files for you. You just need to go and change the new scss rules to how you wish manually of course.
 
 #### Building distributable Flux JS pattern library
 This task runs automatically for you but you can also run it manually:
 ```bash
 gulp build-js-plugins
 ```
-This will put together all of the js under patterns named "plugin.js" and compile/minify it into 1 distributable js file. Building them individually distributable is a WIP and definitely wanted. 
+This will put together all of the js under patterns named "plugin.js" and compile/minify it into 1 distributable js file. Building them individually distributable is a WIP and definitely wanted.
 
 #### Creating routes
 This always runs for you automatically when you create new pages, but if you prefer to make routes manually, you can add them in the ```src/router/routes.json``` file. Once you edit that file, gulp should go and update the routes that vue reads from. If you want to manually regenerate the routes file you can run:
@@ -79,7 +91,13 @@ Our nested side bar links are templated using json from our ```src/layout/side-b
 In case you forget what page route your page is, see the ```src/pages.json``` file.
 
 ## Adding new Icons
-... coming soon
+When adding new icons in fontello, you just need to copy the new files and dump them into ```./src/icons/```.
+
+There is a gulp watcher in place on this icons directory that should auto run this command for you
+```bash
+gulp build-icons
+```
+This task will take the fontello icons/files from ```./src/icons/``` and add them to the relative location for each theme in ```dist/```. The icons page also auto generates it's content from the fontello config file.
 
 ## Further Vue documentation regarding this app
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
