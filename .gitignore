@@ -3,8 +3,6 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-dist/static
-dist/index.html
 src/pages.json
 src/theme-reload.js
 src/router/routes.js
