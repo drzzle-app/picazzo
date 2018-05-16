@@ -9,7 +9,15 @@
     "start": "gulp & npm run dev",
     "lint:js": "eslint --ext .js, src",
     "lint:sass": "sass-lint -v",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "build:newpage": "gulp new-page",
+    "build:newpattern": "gulp new-pattern",
+    "build:newtheme": "gulp new-theme",
+    "build:jsplugins": "gulp build-js-plugins",
+    "build:jsplugins:separate": "gulp build-js-separate",
+    "build:routes": "gulp build-routes",
+    "build:search": "gulp build-search",
+    "build:icons": "gulp build-icons"
   },
   "repository": {
     "type": "git",

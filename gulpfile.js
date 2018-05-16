@@ -230,6 +230,36 @@ const buildSearch = () => {
     });
 };
 
+const buildJsPluginsSeperate = () => {
+  const patternsPath = './src/patterns/';
+  const files = getFolders(patternsPath);
+
+  function compress(p, f) {
+    const jsFile = !f.match(/flux\.global\.js/gi) ? '/plugin.js' : '';
+    return gulp
+      .src(`${p}${f}${jsFile}`)
+      .pipe(
+        babel({
+          presets: ['env'],
+        }))
+      .pipe(
+        minify({
+          noSource: true,
+          ext: {
+            min: [/flux\.global\.js|plugin\.js$/, `${f}.min.js`],
+          },
+        }))
+      .pipe(gulp.dest('./dist/js/patterns/'))
+      .on('end', () => {
+        console.log(`\x1b[32m Successfully built "${f}" js plugin!`);
+      });
+  }
+
+  files.forEach(file => compress(patternsPath, file));
+  // run the globals also
+  compress('./src/js-lib/', 'flux.global.js');
+};
+
 const buildJsPlugins = () => {
   // grab all patterns with JS
   const patternJS = ['./src/js-lib/flux.global.js'];
@@ -518,6 +548,7 @@ gulp.task('new-pattern', newPattern);
 gulp.task('build-search', buildSearch);
 gulp.task('build-routes', buildRoutes);
 gulp.task('build-js-plugins', buildJsPlugins);
+gulp.task('build-js-separate', buildJsPluginsSeperate);
 gulp.task('build-icons', buildIcons);
 gulp.task('build-themes', buildThemes);
 
