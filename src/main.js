@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import VueLogger from 'vuejs-logger';
 import _ from 'lodash';
+import VueHighlightJS from 'vue-highlightjs';
 import '../dist/js/flux.pattern.lib';
 import './scss/flux/main.scss';
 import './theme-reload';
@@ -17,6 +18,8 @@ Vue.use(VueLogger, {
   showMethodName: true,
   showConsoleColors: true,
 });
+
+Vue.use(VueHighlightJS);
 
 // lend me a hand lodash! to all components
 Vue.prototype.$_ = _; // eslint-disable-line

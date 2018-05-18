@@ -1,0 +1,8 @@
+.flux-row {
+  @include clear-fix;
+  margin-bottom: 30px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
