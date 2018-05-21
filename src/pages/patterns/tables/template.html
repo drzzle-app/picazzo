@@ -1,7 +1,7 @@
 <div>
   <h4 class="flux-page-header">Tables</h4>
   <div class="flux-row">
-    <pattern-controls></pattern-controls>
+    <pattern-controls :pattern="controls"></pattern-controls>
   </div>
   <div class="flux-row">
     <flux-table></flux-table>
@@ -14,5 +14,10 @@
     <h4 class="flux-page-subHeader">Jquery Plugin</h4>
     <p>To initializing the table plugin for mobile use.</p>
     <pre v-highlightjs><code class="javascript">{{ jsCode }}</code></pre>
+    <a 
+      class="flux-source-code"
+      href="https://github.com/rackerlabs/flux/blob/master/src/patterns/table/plugin.js">
+      See plugin source.
+    </a>
   </div>
 </div>

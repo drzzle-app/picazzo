@@ -14,6 +14,9 @@ export default Vue.component('tables', {
   },
   data() {
     return {
+      controls: {
+        name: 'Table',
+      },
       code: this.clean(TableTpl),
       jsCode: this.pluginJs(),
     };
