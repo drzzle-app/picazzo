@@ -3,6 +3,7 @@
 
 // this theme uses bootstrap
 @import '@modules/bootstrap/scss/bootstrap';
+@import '@theme-globals/bootstrap_variables';
 // import all theme globals (that every theme will have)
 @import '@theme-globals/fonts';
 @import '@theme-globals/swatches';
