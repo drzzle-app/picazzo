@@ -105,5 +105,8 @@ This task will take the fontello icons/files from ```./src/icons/``` and add the
 ## SCSS Breakdown
 The styling for flux _the app_ is separated from everything else, those core scss files are located in ```./src/scss/flux/``` and are compiled by webpack. The themes on the other hand are different. These are compiled into ```dist/``` by gulp but their core files are located in  ```./src/scss/themes/```. You'll notice each pattern has a ```themes/``` directory. This is in case the same pattern will need to look different in each theme, if they are not needed, they can be removed.
 
+# Maintainable CSS
+We go by the maintainable CSS rules when writing css/scss. Please make sure you are aware of these before contributing. You can read the documentation here: [Read Docs](https://maintainablecss.com/chapters/introduction/)
+
 ## Further Vue documentation regarding this app
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
