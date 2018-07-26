@@ -26,6 +26,11 @@
                     "path": "/icons",
                     "name": "icons",
                     "component": "require('@/pages/icons/').default"
+                },
+                {
+                    "path": "/atoms",
+                    "name": "atoms",
+                    "component": "require('@/pages/atoms/').default"
                 }
             ]
         },
