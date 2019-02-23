@@ -1,7 +1,5 @@
 # Picazzo
 
-> Zoolander replacement
-
 ## Build Setup
 
 ```bash
@@ -39,7 +37,7 @@ Here you can specify the name and if it needs a js plugin or not and this task  
 ```bash
 npm run build:newtheme
 ```
-Here you just need to specify a name and this task will copy the default theme (ecomm) and create the new theme files for you. You just need to go and change the new scss rules to how you wish manually of course.
+Here you just need to specify a name and this task will copy the default theme and create the new theme files for you. You just need to go and change the new LESS rules to how you wish manually of course.
 
 #### Building distributable Picazzo JS droplet library
 This task runs automatically for you but you can also run it manually:
@@ -102,13 +100,13 @@ npm run build:icons
 ```
 This task will take the fontello icons/files from ```./src/icons/``` and add them to the relative location for each theme in ```dist/```. The icons page also auto generates it's content from the fontello config file.
 
-## SCSS Breakdown
-The styling for Picazzo _the app_ is separated from everything else, those core scss files are located in ```./src/scss/Picazzo/``` and are compiled by webpack. The themes on the other hand are different. Those are compiled into ```dist/``` by gulp and their core files are located in  ```./src/scss/themes/```. You'll notice each droplet has a ```themes/``` directory. This is in case the same droplet will need to look different in each theme, if they are not needed, they can be removed.
+## LESS Breakdown
+The styling for Picazzo _the app_ is separated from everything else, those core LESS files are located in ```./src/less/picazzo/``` and are compiled by webpack. The themes on the other hand are different. Those are compiled into ```dist/``` by gulp and their core files are located in  ```./src/less/themes/```. You'll notice each droplet has a ```themes/``` directory. This is in case the same droplet will need to look different in each theme, if they are not needed, they can be removed.
 
 Themes exist to give droplets default styling. These styles can be overridden in the editor by users.
 
 ## Maintainable CSS
-We go by the maintainable CSS rules when writing css/scss. Please make sure you are aware of these before contributing. You can read the documentation here: [Read Docs](https://maintainablecss.com/chapters/introduction/)
+We go by the maintainable CSS rules when writing css/less. Please make sure you are aware of these before contributing. You can read the documentation here: [Read Docs](https://maintainablecss.com/chapters/introduction/)
 
 ## Further Vue documentation regarding this app
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

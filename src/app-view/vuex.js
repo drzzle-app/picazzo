@@ -2,7 +2,7 @@ import * as types from '@/store/mutation-types';
 import Data from '@/pages.json';
 
 const state = {
-  currentTheme: 'ecomm',
+  currentTheme: 'default',
   pages: [],
 };
 

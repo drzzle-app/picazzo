@@ -1,0 +1,59 @@
+.picazzo-subNav {
+  background-color: @subnav-bg;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+}
+
+.picazzo-subNav-field {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.picazzo-subNav-search {
+  .placeholder(rgba(@black, .5));
+  border: 0;
+  font-size: 12px;
+  padding: 10px;
+  width: 250px;
+
+  &:focus {
+    background-color: rgba(@white, .5);
+    outline: 0;
+    transition-duration: .2s;
+  }
+}
+
+.picazzo-subNav-checkbox {
+  appearance: none;
+  background-color: @white;
+  border: 0;
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+  position: relative;
+  top: 4px;
+
+  &[type='checkbox'] {
+    padding: 8px;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:checked {
+    background-color: @picazzo-base-text;
+  }
+}
+
+.picazzo-subNav-checkboxLabel {
+  user-select: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

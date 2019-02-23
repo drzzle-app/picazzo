@@ -4,12 +4,14 @@ const path = require('path');
 const prompt = require('gulp-prompt');
 const fse = require('fs-extra');
 const babel = require('gulp-babel');
-const sass = require('gulp-sass');
+const less = require('gulp-less');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const autoprefixer = require('gulp-autoprefixer');
 const aliases = require('gulp-style-aliases');
 const minify = require('gulp-minify');
+const cssmin = require('gulp-cssmin');
+const inject = require('gulp-inject-string');
 const concat = require('gulp-concat');
 const watch = require('gulp-watch');
 const _ = require('lodash');
@@ -20,7 +22,8 @@ const _ = require('lodash');
 const gulpAliases = {
   '@modules': './node_modules',
   '@droplets': './src/droplets',
-  '@theme-globals': './src/scss/theme-globals',
+  '@theme-globals': './src/less/theme-globals',
+  '@icons': './src/icons',
 };
 
 // callback to get folders in a directory
@@ -374,20 +377,20 @@ const newDroplet = () =>
               .pipe(gulp.dest(`${dropletDir}/`));
 
             // add all themes to this plugin. users can remove them if not wanted
-            const themePath = './src/scss/themes/';
+            const themePath = './src/less/themes/';
             const themes = getFolders(themePath);
             themes.forEach((theme) => {
               fse.ensureDir(`${dropletDir}/themes/${theme}`).then(() => {
                 // write file here
-                fse.outputFile(`${dropletDir}/themes/${theme}/styles.scss`, `// ${name} styles here\n`)
+                fse.outputFile(`${dropletDir}/themes/${theme}/styles.less`, `// ${name} styles here\n`)
                   .then(() => {
-                    fse.readFile(`${dropletDir}/themes/${theme}/styles.scss`, 'utf8');
-                    // finally add droplet scss to each themes's main.scss file and voila! done!
-                    fse.appendFile(`./src/scss/themes/${theme}/droplets.scss`,
+                    fse.readFile(`${dropletDir}/themes/${theme}/styles.less`, 'utf8');
+                    // finally add droplet less to each themes's main.less file and voila! done!
+                    fse.appendFile(`./src/less/themes/${theme}/droplets.less`,
                       `@import '../../../droplets/${name}/themes/${theme}/styles';\n`,
                       (err) => {
                         if (err) {
-                          console.log(`There was an issue appending ${name} to droplets.scss`);
+                          console.log(`There was an issue appending ${name} to droplets.less`);
                         }
                       });
                   })
@@ -399,43 +402,53 @@ const newDroplet = () =>
       }));
 
 const buildThemes = () => {
+  const fontelloImports = [
+    '@import "icons/css/animation.min.css";',
+    '@import "icons/css/drzzle-embedded.min.css";',
+    '@import "icons/css/drzzle-ie7-codes.min.css";',
+    '@import "icons/css/drzzle-ie7.min.css";',
+    '@import "icons/css/drzzle.min.css";',
+  ];
   function buildTheme(theme) {
     return gulp
-      .src(`./src/scss/themes/${theme}/main.scss`)
+      .src(`./src/less/themes/${theme}/main.less`)
       .pipe(aliases(gulpAliases))
-      .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-      .pipe(rename('main.min.css'))
+      .pipe(less())
       .pipe(
         autoprefixer({
           browsers: ['last 5 versions'],
           cascade: false,
         }))
+      .pipe(rename('main.min.css'))
+      .pipe(cssmin())
+      .pipe(inject.prepend(fontelloImports.join('').trim()))
       .pipe(gulp.dest(`./dist/css/themes/${theme}`))
       .pipe(gulp.dest(`./static/css/themes/${theme}`));
   }
   // get all themes in themes/ directory and build them
-  const themePath = './src/scss/themes/';
+  const themePath = './src/less/themes/';
   const themes = getFolders(themePath);
   const themeChain = [];
   themes.forEach((theme) => {
     themeChain.push(
       new Promise((resolve, reject) => {
-        fse.stat(`${themePath}${theme}/main.scss`, (err) => {
+        fse.stat(`${themePath}${theme}/main.less`, (err) => {
           if (err == null) {
-            // main.scss file exists
+            // main.less file exists
             buildTheme(theme).on('end', () => {
               console.log(`\x1b[32m Successfully Built theme: \x1b[34m ${theme}`);
               resolve(theme);
             });
           } else if (err.code === 'ENOENT') {
-            // main.scss file does not exist
-            console.log('\x1b[31m', `Error: No 'main.scss' file for theme: \x1b[34m ${theme}`);
+            // main.less file does not exist
+            console.log('\x1b[31m', `Error: No 'main.less' file for theme: \x1b[34m ${theme}`);
             reject(err);
           }
         });
       }));
   });
   Promise.all(themeChain).then((t) => {
+    const now = new Date();
     // we use this so webpack can hot reload when we edit any theme
     let themeList = '[';
     t.forEach((th) => {
@@ -443,7 +456,7 @@ const buildThemes = () => {
     });
     themeList += ']';
     fse.outputFile('./src/theme-reload.js',
-      `/* eslint-disable */\n// this file is auto generated, do not edit it manually\n// last edited on ${Date.now()}\nmodule.exports = {\n themes: ${themeList}\n}`);
+      `/* eslint-disable */\n// this file is auto generated, do not edit it manually\n// last edited on ${now.toISOString()}\nmodule.exports = {\n themes: ${themeList}\n}`);
   }).catch(er => console.log(er));
 };
 
@@ -474,13 +487,13 @@ const buildIcons = () => {
           const fullPath = `${iconDir}${file}`;
           const name = path.basename(file, '.css');
           const pipeline = gulp.src(fullPath)
-            .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
             .pipe(rename(`${name}.min.css`))
             .pipe(
               autoprefixer({
-                browsers: ['last 5 versions'],
+                browsers: ['last 10 versions'],
                 cascade: false,
-              }));
+              }))
+            .pipe(cssmin());
           // place all icon css files in all themes
           themes.forEach((theme, i) => {
             pipeline.pipe(gulp.dest(`${themeDistPath}${theme}/icons/css`));
@@ -502,8 +515,8 @@ const buildIcons = () => {
 };
 
 const newTheme = () => {
-  const defaultTheme = 'ecomm';
-  return gulp.src(`./src/scss/themes/${defaultTheme}/**/*`).pipe(
+  const defaultTheme = 'default';
+  return gulp.src(`./src/less/themes/${defaultTheme}/**/*`).pipe(
     prompt.prompt(
       [
         {
@@ -522,9 +535,9 @@ const newTheme = () => {
       ],
       (res) => {
         const name = `${res.themeName.replace(/ /g, '-')}`.trim().toLowerCase();
-        gulp.src(`./src/scss/themes/${defaultTheme}/**/*`)
+        gulp.src(`./src/less/themes/${defaultTheme}/**/*`)
           // copy default theme
-          .pipe(gulp.dest(`./src/scss/themes/${name}`))
+          .pipe(gulp.dest(`./src/less/themes/${name}`))
           .on('end', () => {
             const droplets = getFolders('./src/droplets/');
             droplets.forEach((droplet) => {
@@ -534,7 +547,7 @@ const newTheme = () => {
                   console.log(`\x1b[32m Successfully created "${name}" droplet: \x1b[34m ${droplet}`);
                 });
             });
-            const newThemePath = `./src/scss/themes/${name}/droplets.scss`;
+            const newThemePath = `./src/less/themes/${name}/droplets.less`;
             gulp.src([newThemePath], { base: newThemePath })
               .pipe(replace(defaultTheme, name))
               .pipe(gulp.dest(newThemePath));
@@ -542,12 +555,12 @@ const newTheme = () => {
       }));
 };
 
-const buildAll = () => {
-  buildJsPlugins();
-  buildSearch();
-  buildRoutes();
-  buildIcons();
-  buildThemes();
+const buildAll = async () => {
+  await buildJsPlugins();
+  await buildSearch();
+  await buildRoutes();
+  await buildIcons();
+  await buildThemes();
 };
 
 gulp.task('new-theme', newTheme);
@@ -568,6 +581,6 @@ gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes', 'build
   watch(['./src/router/routes.json'], () => buildRoutes());
   watch(['./src/icons/**/*'], () => buildIcons());
   watch(
-    ['./src/droplets/**/*.scss', './src/scss/themes/**/*.scss', './src/scss/theme-globals/*.scss'],
+    ['./src/droplets/**/*.less', './src/less/themes/**/*.less', './src/less/theme-globals/*.less'],
     () => buildThemes());
 });

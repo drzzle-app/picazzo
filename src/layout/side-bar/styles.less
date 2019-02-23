@@ -1,0 +1,62 @@
+.picazzo-sideBar-container {
+  height: 100%;
+}
+
+.picazzo-topBar {
+  background-color: @picazzo-base;
+  height: 40px;
+  position: fixed;
+  width: 100%;
+  z-index: 5;
+}
+
+.picazzo-topBar-logo {
+  background-color: darken(@picazzo-base, 5%);
+  border-right: 1px solid rgba(@black, .1);
+  color: @white;
+  float: left;
+  font-weight: bold;
+  height: 100%;
+  padding: 5px 20px;
+  width: 235px;
+}
+
+.picazzo-topBar-logoImg {
+  height: 25px;
+  transition-duration: .2s;
+
+  &:hover {
+    cursor: pointer;
+    opacity: .8;
+  }
+}
+
+.picazzo-sideBar-layout {
+  height: 100%;
+}
+
+.picazzo-sideBar {
+  background-color: #f2f2f2;
+  border-right: 1px solid rgba(@black, .1);
+  font-size: 14px;
+  height: 100%;
+  position: fixed;
+  top: 40px;
+  width: 235px;
+  z-index: 5;
+}
+
+.picazzo-sideBar-list {
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.picazzo-sideBar-right {
+  .picazzo-body-font();
+  height: 100%;
+  padding: 20px 20px 20px 255px;
+  position: relative;
+  top: 40px;
+}
