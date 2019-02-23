@@ -1,7 +1,7 @@
 {
   "name": "picazzo",
   "version": "1.0.0",
-  "description": "Rackspace design and development styleguide and pattern library",
+  "description": "Drzzle design system for droplets and components.",
   "author": "Roger Avalos",
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,7 @@
     "lint:sass": "sass-lint -v",
     "build": "gulp build && node build/build.js",
     "build:newpage": "gulp new-page",
-    "build:newpattern": "gulp new-pattern",
+    "build:newdroplet": "gulp new-droplet",
     "build:newtheme": "gulp new-theme",
     "build:jsplugins": "gulp build-js-plugins",
     "build:jsplugins:separate": "gulp build-js-separate",

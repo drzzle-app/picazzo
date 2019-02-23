@@ -11,14 +11,8 @@
       "children": []
     },
     {
-      "text": "Patterns",
-      "children": [
-        {
-          "text": "Tables",
-          "route": "/tables",
-          "children": []
-        }
-      ]
+      "text": "Droplets",
+      "children": []
     },
     {
       "text": "Icons",

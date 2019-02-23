@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('pattern-name', {
+export default Vue.component('droplet-name', {
   template,
-  name: 'pattern-name',
+  name: 'droplet-name',
 });

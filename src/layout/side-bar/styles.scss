@@ -17,8 +17,18 @@
   float: left;
   font-weight: bold;
   height: 100%;
-  padding: 8px 20px;
+  padding: 5px 20px;
   width: 235px;
+}
+
+.picazzo-topBar-logoImg {
+  height: 25px;
+  transition-duration: .2s;
+
+  &:hover {
+    cursor: pointer;
+    opacity: .8;
+  }
 }
 
 .picazzo-sideBar-layout {

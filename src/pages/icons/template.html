@@ -2,36 +2,36 @@
   <h4 class="picazzo-page-header">Icon Library ({{ icons.length }})</h4>
   <div class="picazzo-subNav">
     <div class="picazzo-subNav-field">
-      <input 
+      <input
         type="text"
         class="picazzo-subNav-search"
         v-model="searchInput"
         placeholder="find icons...">
     </div>
     <div class="picazzo-subNav-field">
-      <label 
+      <label
         class="picazzo-subNav-checkboxLabel"
         for="show-hex">
         Show Hex Codes
       </label>
-      <input 
+      <input
         id="show-hex"
         class="picazzo-subNav-checkbox"
         type="checkbox"
         v-model="showHex" />
     </div>
   </div>
-  <p>All icon classes need to be prefixed with "<strong>icon-</strong>"</p>
+  <p>All icon classes need to be prefixed with "<strong>drzicon-</strong>"</p>
   <div
     class="picazzo-icon-col"
     v-for="icon in icons"
     :key="icon.uid"
     v-if="icon.selected !== false">
-    <i :class="'icon-' + icon.css"></i>
+    <i :class="'drzicon-' + icon.css"></i>
     <span class="picazzo-icon-label" :title="icon.css">
       {{ icon.css }}
     </span>
-    <span 
+    <span
       v-show="showHex"
       class="picazzo-icon-hex"
       :title="convertToHex(icon.code)">

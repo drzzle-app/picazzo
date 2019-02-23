@@ -18,19 +18,9 @@
                     "component": "require('@/pages/contributing/').default"
                 },
                 {
-                    "path": "/tables",
-                    "name": "tables",
-                    "component": "require('@/pages/patterns/tables/').default"
-                },
-                {
                     "path": "/icons",
                     "name": "icons",
                     "component": "require('@/pages/icons/').default"
-                },
-                {
-                    "path": "/atoms",
-                    "name": "atoms",
-                    "component": "require('@/pages/atoms/').default"
                 }
             ]
         },

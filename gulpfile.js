@@ -19,7 +19,7 @@ const _ = require('lodash');
 // gulp file aliases
 const gulpAliases = {
   '@modules': './node_modules',
-  '@patterns': './src/patterns',
+  '@droplets': './src/droplets',
   '@theme-globals': './src/scss/theme-globals',
 };
 
@@ -231,8 +231,8 @@ const buildSearch = () => {
 };
 
 const buildJsPluginsSeperate = () => {
-  const patternsPath = './src/patterns/';
-  const files = getFolders(patternsPath);
+  const dropletsPath = './src/droplets/';
+  const files = getFolders(dropletsPath);
 
   function compress(p, f) {
     const jsFile = !f.match(/picazzo\.global\.js/gi) ? '/plugin.js' : '';
@@ -249,32 +249,32 @@ const buildJsPluginsSeperate = () => {
             min: [/picazzo\.global\.js|plugin\.js$/, `${f}.min.js`],
           },
         }))
-      .pipe(gulp.dest('./dist/js/patterns/'))
+      .pipe(gulp.dest('./dist/js/droplets/'))
       .on('end', () => {
         console.log(`\x1b[32m Successfully built "${f}" js plugin!`);
       });
   }
 
-  files.forEach(file => compress(patternsPath, file));
+  files.forEach(file => compress(dropletsPath, file));
   // run the globals also
   compress('./src/js-lib/', 'picazzo.global.js');
 };
 
 const buildJsPlugins = () => {
-  // grab all patterns with JS
-  const patternJS = ['./src/js-lib/picazzo.global.js'];
-  const patterns = getFolders('./src/patterns/');
+  // grab all droplets with JS
+  const dropletJS = ['./src/js-lib/picazzo.global.js'];
+  const droplets = getFolders('./src/droplets/');
   const chain = [];
   // start build
-  patterns.forEach((pattern) => {
-    const jsPath = `./src/patterns/${pattern}/plugin.js`;
+  droplets.forEach((droplet) => {
+    const jsPath = `./src/droplets/${droplet}/plugin.js`;
     chain.push(
       new Promise((resolve, reject) => {
         try {
           // if there is a js file, add it to the concat list!
           fse.statSync(jsPath);
-          patternJS.push(jsPath);
-          console.log('pattern js files: ', patternJS);
+          dropletJS.push(jsPath);
+          console.log('droplet js files: ', dropletJS);
           resolve(jsPath);
         } catch (e) {
           reject(undefined);
@@ -283,12 +283,12 @@ const buildJsPlugins = () => {
   });
 
   Promise.all(chain).catch(() => {
-    console.log('one or more pattern does not have js, but that is OK!');
+    console.log('one or more droplets does not have js, but that is OK!');
   });
   // finally, run the concating
   return gulp
-    .src(patternJS)
-    .pipe(concat('picazzo.pattern.lib.js'))
+    .src(dropletJS)
+    .pipe(concat('picazzo.droplet.lib.js'))
     .pipe(
       babel({
         presets: ['env'],
@@ -301,18 +301,18 @@ const buildJsPlugins = () => {
       }))
     .pipe(gulp.dest('./dist/js/'))
     .on('end', () => {
-      console.log('\x1b[32m Successfully built picazzo pattern javascript library!');
+      console.log('\x1b[32m Successfully built picazzo droplet javascript library!');
     });
 };
 
-const newPattern = () =>
-  gulp.src('./src/patterns/*').pipe(
+const newDroplet = () =>
+  gulp.src('./src/droplets/*').pipe(
     prompt.prompt(
       [
         {
           type: 'input',
-          name: 'patternName',
-          message: 'Pattern Name?',
+          name: 'dropletName',
+          message: 'Droplet Name?',
           validate(input) {
             const inp = input.toLowerCase().trim();
             if (inp === '') {
@@ -325,7 +325,7 @@ const newPattern = () =>
         {
           type: 'input',
           name: 'needsJS',
-          message: 'Does this pattern need a js plugin?. \x1b[33m Default n. Type [y/n]',
+          message: 'Does this droplet need a js plugin?. \x1b[33m Default n. Type [y/n]',
           validate(input) {
             const inp = input.toLowerCase();
             if (inp !== 'y' && inp !== 'n' && inp !== '') {
@@ -337,57 +337,57 @@ const newPattern = () =>
         },
       ],
       (res) => {
-        const name = `${res.patternName.replace(/ /g, '-')}`.trim().toLowerCase();
-        const patternDir = `./src/patterns/${name}`;
+        const name = `${res.dropletName.replace(/ /g, '-')}`.trim().toLowerCase();
+        const dropletDir = `./src/droplets/${name}`;
         let ref = '';
         let jsName = '';
-        let scaffIndexJs = './scaffholds/newPatternIndex.js';
-        // create the new pattern dir
-        fse.ensureDir(patternDir)
+        let scaffIndexJs = './scaffholds/newDropletIndex.js';
+        // create the new droplet dir
+        fse.ensureDir(dropletDir)
           .then(() => {
-            // if pattern needs js, add the needed things
+            // if droplet needs js, add the needed things
             if (res.needsJS === 'y') {
               jsName = prepJsName(name);
               ref = ` ref="${jsName}"`;
-              scaffIndexJs = './scaffholds/newPatternIndex-plugin.js';
-              // copy scaffhold js file but replace "newPattern" with new name
+              scaffIndexJs = './scaffholds/newDropletIndex-plugin.js';
+              // copy scaffhold js file but replace "newDroplet" with new name
               gulp.src('./scaffholds/newPlugin.js')
-                .pipe(replace('patternName', jsName))
+                .pipe(replace('dropletName', jsName))
                 .pipe(rename({
                   basename: 'plugin',
                 }))
-                .pipe(gulp.dest(`${patternDir}/`));
+                .pipe(gulp.dest(`${dropletDir}/`));
             }
 
             // proceed with creating the template file
-            fse.outputFile(`${patternDir}/template.html`, `<div${ref}>\n ${name}\n</div>`)
-              .then(() => fse.readFile(`${patternDir}/template.html`, 'utf8'))
+            fse.outputFile(`${dropletDir}/template.html`, `<div${ref}>\n ${name}\n</div>`)
+              .then(() => fse.readFile(`${dropletDir}/template.html`, 'utf8'))
               .catch(err => console.error(err));
 
             // create index.js for vue
             gulp.src(scaffIndexJs)
-              .pipe(replace('pattern-name', name))
-              .pipe(replace('patternName', jsName))
+              .pipe(replace('droplet-name', name))
+              .pipe(replace('dropletName', jsName))
               .pipe(rename({
                 basename: 'index',
               }))
-              .pipe(gulp.dest(`${patternDir}/`));
+              .pipe(gulp.dest(`${dropletDir}/`));
 
             // add all themes to this plugin. users can remove them if not wanted
             const themePath = './src/scss/themes/';
             const themes = getFolders(themePath);
             themes.forEach((theme) => {
-              fse.ensureDir(`${patternDir}/themes/${theme}`).then(() => {
+              fse.ensureDir(`${dropletDir}/themes/${theme}`).then(() => {
                 // write file here
-                fse.outputFile(`${patternDir}/themes/${theme}/styles.scss`, `// ${name} styles here\n`)
+                fse.outputFile(`${dropletDir}/themes/${theme}/styles.scss`, `// ${name} styles here\n`)
                   .then(() => {
-                    fse.readFile(`${patternDir}/themes/${theme}/styles.scss`, 'utf8');
-                    // finally add pattern scss to each themes's main.scss file and voila! done!
-                    fse.appendFile(`./src/scss/themes/${theme}/patterns.scss`,
-                      `@import '../../../patterns/${name}/themes/${theme}/styles';\n`,
+                    fse.readFile(`${dropletDir}/themes/${theme}/styles.scss`, 'utf8');
+                    // finally add droplet scss to each themes's main.scss file and voila! done!
+                    fse.appendFile(`./src/scss/themes/${theme}/droplets.scss`,
+                      `@import '../../../droplets/${name}/themes/${theme}/styles';\n`,
                       (err) => {
                         if (err) {
-                          console.log(`There was an issue appending ${name} to patterns.scss`);
+                          console.log(`There was an issue appending ${name} to droplets.scss`);
                         }
                       });
                   })
@@ -526,15 +526,15 @@ const newTheme = () => {
           // copy default theme
           .pipe(gulp.dest(`./src/scss/themes/${name}`))
           .on('end', () => {
-            const patterns = getFolders('./src/patterns/');
-            patterns.forEach((pattern) => {
-              gulp.src(`./src/patterns/${pattern}/themes/${defaultTheme}/**/*`)
-                .pipe(gulp.dest(`./src/patterns/${pattern}/themes/${name}`))
+            const droplets = getFolders('./src/droplets/');
+            droplets.forEach((droplet) => {
+              gulp.src(`./src/droplets/${droplet}/themes/${defaultTheme}/**/*`)
+                .pipe(gulp.dest(`./src/droplets/${droplet}/themes/${name}`))
                 .on('end', () => {
-                  console.log(`\x1b[32m Successfully created "${name}" pattern: \x1b[34m ${pattern}`);
+                  console.log(`\x1b[32m Successfully created "${name}" droplet: \x1b[34m ${droplet}`);
                 });
             });
-            const newThemePath = `./src/scss/themes/${name}/patterns.scss`;
+            const newThemePath = `./src/scss/themes/${name}/droplets.scss`;
             gulp.src([newThemePath], { base: newThemePath })
               .pipe(replace(defaultTheme, name))
               .pipe(gulp.dest(newThemePath));
@@ -552,7 +552,7 @@ const buildAll = () => {
 
 gulp.task('new-theme', newTheme);
 gulp.task('new-page', newPage);
-gulp.task('new-pattern', newPattern);
+gulp.task('new-droplet', newDroplet);
 gulp.task('build-search', buildSearch);
 gulp.task('build-routes', buildRoutes);
 gulp.task('build-js-plugins', buildJsPlugins);
@@ -563,11 +563,11 @@ gulp.task('build', buildAll);
 
 // kick off default
 gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes', 'build-themes', 'build-icons'], () => {
-  watch(['./src/js-lib/picazzo.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
-  watch(['./src/pages/**/template.html', './src/patterns/**/template.html'], () => buildSearch());
+  watch(['./src/js-lib/picazzo.global.js', './src/droplets/**/plugin.js'], () => buildJsPlugins());
+  watch(['./src/pages/**/template.html', './src/droplets/**/template.html'], () => buildSearch());
   watch(['./src/router/routes.json'], () => buildRoutes());
   watch(['./src/icons/**/*'], () => buildIcons());
   watch(
-    ['./src/patterns/**/*.scss', './src/scss/themes/**/*.scss', './src/scss/theme-globals/*.scss'],
+    ['./src/droplets/**/*.scss', './src/scss/themes/**/*.scss', './src/scss/theme-globals/*.scss'],
     () => buildThemes());
 });

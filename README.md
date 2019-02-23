@@ -29,11 +29,11 @@ npm run build:newpage
 This will ask you a few questions like "name?", "full page layout or side bar?" and "path in the pages dir.", after which this
 will generate the needed files to get you started as well as create routing and searchable content. If you want this page to be a link in the sidebar, that needs to be done manually (for now).
 
-#### Creating New Patterns
+#### Creating New Droplets
 ```bash
-npm run build:newpattern
+npm run build:newdroplet
 ```
-Here you can specify the name and if it needs a js plugin or not and this task  will go and add the new pattern to each theme as well as add the new vue files for the pattern in the correct locations.
+Here you can specify the name and if it needs a js plugin or not and this task  will go and add the new droplet to each theme as well as add the new vue files for the droplet in the correct locations.
 
 #### Creating New Themes
 ```bash
@@ -41,12 +41,12 @@ npm run build:newtheme
 ```
 Here you just need to specify a name and this task will copy the default theme (ecomm) and create the new theme files for you. You just need to go and change the new scss rules to how you wish manually of course.
 
-#### Building distributable Picazzo JS pattern library
+#### Building distributable Picazzo JS droplet library
 This task runs automatically for you but you can also run it manually:
 ```bash
 npm run build:jsplugins
 ```
-This will put together all of the js under patterns named "plugin.js" and compile/minify it into 1 distributable js file.
+This will put together all of the js under droplets named "plugin.js" and compile/minify it into 1 distributable js file.
 
 For building each js plugin separately into dist you will need to run the following command manually:
 ```bash
@@ -103,9 +103,9 @@ npm run build:icons
 This task will take the fontello icons/files from ```./src/icons/``` and add them to the relative location for each theme in ```dist/```. The icons page also auto generates it's content from the fontello config file.
 
 ## SCSS Breakdown
-The styling for Picazzo _the app_ is separated from everything else, those core scss files are located in ```./src/scss/Picazzo/``` and are compiled by webpack. The themes on the other hand are different. Those are compiled into ```dist/``` by gulp and their core files are located in  ```./src/scss/themes/```. You'll notice each pattern has a ```themes/``` directory. This is in case the same pattern will need to look different in each theme, if they are not needed, they can be removed.
+The styling for Picazzo _the app_ is separated from everything else, those core scss files are located in ```./src/scss/Picazzo/``` and are compiled by webpack. The themes on the other hand are different. Those are compiled into ```dist/``` by gulp and their core files are located in  ```./src/scss/themes/```. You'll notice each droplet has a ```themes/``` directory. This is in case the same droplet will need to look different in each theme, if they are not needed, they can be removed.
 
-Themes exist to give droplets/patterns default styling. These styles can be overridden in the editor by users.
+Themes exist to give droplets default styling. These styles can be overridden in the editor by users.
 
 ## Maintainable CSS
 We go by the maintainable CSS rules when writing css/scss. Please make sure you are aware of these before contributing. You can read the documentation here: [Read Docs](https://maintainablecss.com/chapters/introduction/)
