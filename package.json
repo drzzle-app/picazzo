@@ -1,5 +1,5 @@
 {
-  "name": "rackerlabs-flux",
+  "name": "picazzo",
   "version": "1.0.0",
   "description": "Rackspace design and development styleguide and pattern library",
   "author": "Roger Avalos",
@@ -9,7 +9,7 @@
     "start": "gulp & npm run dev",
     "lint:js": "eslint --ext .js, src",
     "lint:sass": "sass-lint -v",
-    "build": "node build/build.js",
+    "build": "gulp build && node build/build.js",
     "build:newpage": "gulp new-page",
     "build:newpattern": "gulp new-pattern",
     "build:newtheme": "gulp new-theme",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rackerlabs/flux.git"
+    "url": ""
   },
   "dependencies": {
     "jquery": "^3.3.1",

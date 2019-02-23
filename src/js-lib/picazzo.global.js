@@ -1,5 +1,5 @@
 /* global $ */
-$.fn.flux = {
+$.fn.picazzo = {
   viewports: {
     xs: '',
     sm: '',

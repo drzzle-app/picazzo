@@ -1,7 +1,7 @@
 'use strict';
 
 /* global $ */
-$.fn.flux = {
+$.fn.picazzo = {
   viewports: {
     xs: '',
     sm: '',
@@ -13,7 +13,7 @@ $.fn.flux = {
 
 /* global jQuery */
 (function ($) {
-  $.fn.flux.responsiveTable = function responsiveTable(opts) {
+  $.fn.picazzo.responsiveTable = function responsiveTable(opts) {
     var defaults = { el: null };
     var options = $.extend({}, defaults, opts);
     var $table = options.el;

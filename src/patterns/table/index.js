@@ -2,11 +2,11 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('flux-table', {
+export default Vue.component('picazzo-table', {
   template,
-  name: 'flux-table',
+  name: 'picazzo-table',
   mounted() {
-    $.fn.flux.responsiveTable({
+    $.fn.picazzo.responsiveTable({
       el: $(this.$refs.table),
     });
   },

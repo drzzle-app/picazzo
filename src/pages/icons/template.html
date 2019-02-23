@@ -1,39 +1,39 @@
 <div>
-  <h4 class="flux-page-header">Icon Library ({{ icons.length }})</h4>
-  <div class="flux-subNav">
-    <div class="flux-subNav-field">
+  <h4 class="picazzo-page-header">Icon Library ({{ icons.length }})</h4>
+  <div class="picazzo-subNav">
+    <div class="picazzo-subNav-field">
       <input 
         type="text"
-        class="flux-subNav-search"
+        class="picazzo-subNav-search"
         v-model="searchInput"
         placeholder="find icons...">
     </div>
-    <div class="flux-subNav-field">
+    <div class="picazzo-subNav-field">
       <label 
-        class="flux-subNav-checkboxLabel"
+        class="picazzo-subNav-checkboxLabel"
         for="show-hex">
         Show Hex Codes
       </label>
       <input 
         id="show-hex"
-        class="flux-subNav-checkbox"
+        class="picazzo-subNav-checkbox"
         type="checkbox"
         v-model="showHex" />
     </div>
   </div>
   <p>All icon classes need to be prefixed with "<strong>icon-</strong>"</p>
   <div
-    class="flux-icon-col"
+    class="picazzo-icon-col"
     v-for="icon in icons"
     :key="icon.uid"
     v-if="icon.selected !== false">
     <i :class="'icon-' + icon.css"></i>
-    <span class="flux-icon-label" :title="icon.css">
+    <span class="picazzo-icon-label" :title="icon.css">
       {{ icon.css }}
     </span>
     <span 
       v-show="showHex"
-      class="flux-icon-hex"
+      class="picazzo-icon-hex"
       :title="convertToHex(icon.code)">
       ({{ convertToHex(icon.code) }})
     </span>

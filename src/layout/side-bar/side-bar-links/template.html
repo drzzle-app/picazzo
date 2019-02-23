@@ -2,17 +2,17 @@
   <a
     href="#"
     :style="indent"
-    class="flux-sideBar-link"
+    class="picazzo-sideBar-link"
     :class="[
-      isDropDown(link) ? 'flux-sideBar-dd' : '',
-      isDropDown(link) && showChildren ? 'flux-sideBar-ddOpen' : ''
+      isDropDown(link) ? 'picazzo-sideBar-dd' : '',
+      isDropDown(link) && showChildren ? 'picazzo-sideBar-ddOpen' : ''
     ]"
     @click.prevent="goTo(link.route)">
     {{ link.text }}
   </a>
   <transition name="slideDown">
     <ul
-      class="flux-sideBar-list"
+      class="picazzo-sideBar-list"
       v-show="showChildren"
       v-if="isDropDown(link)">
       <sidebar-links

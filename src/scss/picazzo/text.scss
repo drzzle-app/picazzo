@@ -1,16 +1,16 @@
-.flux-page-header {
+.picazzo-page-header {
   font-size: 24px;
   font-weight: 600;
   margin: 0 0 15px;
 }
 
-.flux-page-subHeader {
+.picazzo-page-subHeader {
   font-size: 21px;
   font-weight: 600;
   margin: 0 0 15px;
 }
 
-.flux-icon-col {
+.picazzo-icon-col {
   display: inline-block;
   float: left;
   margin-bottom: 30px;
@@ -25,14 +25,14 @@
   }
 }
 
-.flux-icon-label {
+.picazzo-icon-label {
   display: inline-block;
   position: relative;
   top: -8px;
 }
 
-.flux-icon-hex {
-  color: $flux-base-text;
+.picazzo-icon-hex {
+  color: $picazzo-base-text;
   display: inline-block;
   position: relative;
   top: -8px;

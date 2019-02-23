@@ -1,15 +1,15 @@
-.flux-subNav {
+.picazzo-subNav {
   background-color: $subnav-bg;
   margin-bottom: 20px;
   padding: 10px 20px;
 }
 
-.flux-subNav-field {
+.picazzo-subNav-field {
   display: inline-block;
   margin-right: 20px;
 }
 
-.flux-subNav-search {
+.picazzo-subNav-search {
   @include placeholder(rgba($black, .5));
   border: 0;
   font-size: 12px;
@@ -23,7 +23,7 @@
   }
 }
 
-.flux-subNav-checkbox {
+.picazzo-subNav-checkbox {
   appearance: none;
   background-color: $white;
   border: 0;
@@ -46,11 +46,11 @@
   }
 
   &:checked {
-    background-color: $flux-base-text;
+    background-color: $picazzo-base-text;
   }
 }
 
-.flux-subNav-checkboxLabel {
+.picazzo-subNav-checkboxLabel {
   user-select: none;
 
   &:hover {

@@ -1,6 +1,6 @@
 /* global jQuery */
 (($) => {
-  $.fn.flux.patternName = function patternName(opts) {
+  $.fn.picazzo.patternName = function patternName(opts) {
     const defaults = { el: null };
     const options = $.extend({}, defaults, opts);
     const $patternName = options.el;

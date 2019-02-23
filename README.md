@@ -1,4 +1,4 @@
-# Flux
+# Picazzo
 
 > Zoolander replacement
 
@@ -13,7 +13,7 @@ npm start
 ```
 
 ```bash
-# build for production with minification
+# build dist for production with minification for both picazzo the docs and library
 npm run build
 
 # build for production and view the bundle analyzer report
@@ -41,7 +41,7 @@ npm run build:newtheme
 ```
 Here you just need to specify a name and this task will copy the default theme (ecomm) and create the new theme files for you. You just need to go and change the new scss rules to how you wish manually of course.
 
-#### Building distributable Flux JS pattern library
+#### Building distributable Picazzo JS pattern library
 This task runs automatically for you but you can also run it manually:
 ```bash
 npm run build:jsplugins
@@ -103,7 +103,9 @@ npm run build:icons
 This task will take the fontello icons/files from ```./src/icons/``` and add them to the relative location for each theme in ```dist/```. The icons page also auto generates it's content from the fontello config file.
 
 ## SCSS Breakdown
-The styling for flux _the app_ is separated from everything else, those core scss files are located in ```./src/scss/flux/``` and are compiled by webpack. The themes on the other hand are different. These are compiled into ```dist/``` by gulp but their core files are located in  ```./src/scss/themes/```. You'll notice each pattern has a ```themes/``` directory. This is in case the same pattern will need to look different in each theme, if they are not needed, they can be removed.
+The styling for Picazzo _the app_ is separated from everything else, those core scss files are located in ```./src/scss/Picazzo/``` and are compiled by webpack. The themes on the other hand are different. Those are compiled into ```dist/``` by gulp and their core files are located in  ```./src/scss/themes/```. You'll notice each pattern has a ```themes/``` directory. This is in case the same pattern will need to look different in each theme, if they are not needed, they can be removed.
+
+Themes exist to give droplets/patterns default styling. These styles can be overridden in the editor by users.
 
 ## Maintainable CSS
 We go by the maintainable CSS rules when writing css/scss. Please make sure you are aware of these before contributing. You can read the documentation here: [Read Docs](https://maintainablecss.com/chapters/introduction/)

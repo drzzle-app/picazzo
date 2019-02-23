@@ -235,7 +235,7 @@ const buildJsPluginsSeperate = () => {
   const files = getFolders(patternsPath);
 
   function compress(p, f) {
-    const jsFile = !f.match(/flux\.global\.js/gi) ? '/plugin.js' : '';
+    const jsFile = !f.match(/picazzo\.global\.js/gi) ? '/plugin.js' : '';
     return gulp
       .src(`${p}${f}${jsFile}`)
       .pipe(
@@ -246,7 +246,7 @@ const buildJsPluginsSeperate = () => {
         minify({
           noSource: true,
           ext: {
-            min: [/flux\.global\.js|plugin\.js$/, `${f}.min.js`],
+            min: [/picazzo\.global\.js|plugin\.js$/, `${f}.min.js`],
           },
         }))
       .pipe(gulp.dest('./dist/js/patterns/'))
@@ -257,12 +257,12 @@ const buildJsPluginsSeperate = () => {
 
   files.forEach(file => compress(patternsPath, file));
   // run the globals also
-  compress('./src/js-lib/', 'flux.global.js');
+  compress('./src/js-lib/', 'picazzo.global.js');
 };
 
 const buildJsPlugins = () => {
   // grab all patterns with JS
-  const patternJS = ['./src/js-lib/flux.global.js'];
+  const patternJS = ['./src/js-lib/picazzo.global.js'];
   const patterns = getFolders('./src/patterns/');
   const chain = [];
   // start build
@@ -288,7 +288,7 @@ const buildJsPlugins = () => {
   // finally, run the concating
   return gulp
     .src(patternJS)
-    .pipe(concat('flux.pattern.lib.js'))
+    .pipe(concat('picazzo.pattern.lib.js'))
     .pipe(
       babel({
         presets: ['env'],
@@ -301,7 +301,7 @@ const buildJsPlugins = () => {
       }))
     .pipe(gulp.dest('./dist/js/'))
     .on('end', () => {
-      console.log('\x1b[32m Successfully built flux pattern javascript library!');
+      console.log('\x1b[32m Successfully built picazzo pattern javascript library!');
     });
 };
 
@@ -542,6 +542,14 @@ const newTheme = () => {
       }));
 };
 
+const buildAll = () => {
+  buildJsPlugins();
+  buildSearch();
+  buildRoutes();
+  buildIcons();
+  buildThemes();
+};
+
 gulp.task('new-theme', newTheme);
 gulp.task('new-page', newPage);
 gulp.task('new-pattern', newPattern);
@@ -551,10 +559,11 @@ gulp.task('build-js-plugins', buildJsPlugins);
 gulp.task('build-js-separate', buildJsPluginsSeperate);
 gulp.task('build-icons', buildIcons);
 gulp.task('build-themes', buildThemes);
+gulp.task('build', buildAll);
 
 // kick off default
 gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes', 'build-themes', 'build-icons'], () => {
-  watch(['./src/js-lib/flux.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
+  watch(['./src/js-lib/picazzo.global.js', './src/patterns/**/plugin.js'], () => buildJsPlugins());
   watch(['./src/pages/**/template.html', './src/patterns/**/template.html'], () => buildSearch());
   watch(['./src/router/routes.json'], () => buildRoutes());
   watch(['./src/icons/**/*'], () => buildIcons());

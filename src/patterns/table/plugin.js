@@ -1,6 +1,6 @@
 /* global jQuery */
 (($) => {
-  $.fn.flux.responsiveTable = function responsiveTable(opts) {
+  $.fn.picazzo.responsiveTable = function responsiveTable(opts) {
     const defaults = { el: null };
     const options = $.extend({}, defaults, opts);
     const $table = options.el;

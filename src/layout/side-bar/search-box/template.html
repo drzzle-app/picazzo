@@ -1,24 +1,24 @@
-<div class="flux-search-container">
+<div class="picazzo-search-container">
   <input
-    class="flux-search-input"
+    class="picazzo-search-input"
     type="text"
     v-model="searchInput"
-    placeholder="🔎 search flux..."/>
-  <div class="flux-search-contentContainer">
+    placeholder="🔎 search picazzo..."/>
+  <div class="picazzo-search-contentContainer">
     <transition name="standardFade">
-      <div class="flux-search-contentBox" v-if="showResults">
-        <div class="flux-search-header">
+      <div class="picazzo-search-contentBox" v-if="showResults">
+        <div class="picazzo-search-header">
           Search Results <span v-if="filterPages.length > 0">({{ filterPages.length }} pages)</span>
         </div>
         <div v-if="filterPages.length < 1">0 results for "{{ searchInput }}"</div>
-        <ul class="flux-search-ul">
+        <ul class="picazzo-search-ul">
           <li
             v-for="page in filterPages"
             :key="page.text"
             @click="goToPage(page.route)"
-            class="flux-search-item">
-             <span class="flux-search-title">{{ page.title }}</span>
-             <span class="flux-search-text">{{ page.text }}</span>
+            class="picazzo-search-item">
+             <span class="picazzo-search-title">{{ page.title }}</span>
+             <span class="picazzo-search-text">{{ page.text }}</span>
           </li>
         </ul>
       </div>

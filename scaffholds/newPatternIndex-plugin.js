@@ -6,7 +6,7 @@ export default Vue.component('pattern-name', {
   template,
   name: 'pattern-name',
   mounted() {
-    $.fn.flux.patternName({
+    $.fn.picazzo.patternName({
       el: $(this.$refs.patternName),
     });
   },

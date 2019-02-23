@@ -4,13 +4,13 @@
 @import url('../../icons/css/rswebfonts.css');
 
 // sass-lint:disable-all
-@mixin flux-font-smooth {
+@mixin picazzo-font-smooth {
   -moz-osx-font-smoothing: grayscale; // No lint reported
   -webkit-font-smoothing: antialiased; // No lint reported
 }
 // sass-lint:enable-all
 
-@mixin flux-body-font {
-  @include flux-font-smooth;
+@mixin picazzo-body-font {
+  @include picazzo-font-smooth;
   font-family: 'Source Sans Pro', sans-serif;
 }

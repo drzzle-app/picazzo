@@ -31,7 +31,7 @@ export default Vue.component('tables', {
       // needs to be moved to the beginning of the file or
       // else there will be funky whitespaces
       return `
-$.fn.flux.responsiveTable({
+$.fn.picazzo.responsiveTable({
   el: $('.productTable')
 });`.trim();
     },

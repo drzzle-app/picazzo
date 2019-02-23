@@ -4,8 +4,8 @@ import Vue from 'vue';
 import VueLogger from 'vuejs-logger';
 import _ from 'lodash';
 import VueHighlightJS from 'vue-highlightjs';
-import '../dist/js/flux.pattern.lib';
-import './scss/flux/main.scss';
+import '../dist/js/picazzo.pattern.lib';
+import './scss/picazzo/main.scss';
 import './theme-reload';
 import App from './app-view';
 import router from './router';
@@ -27,7 +27,7 @@ Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  el: '#picazzo',
   router,
   store,
   components: { App },

@@ -1,13 +1,13 @@
-<div class="flux-sideBar-container">
-  <div class="flux-topBar">
-    <div class="flux-topBar-logo">
-      FLUX
+<div class="picazzo-sideBar-container">
+  <div class="picazzo-topBar">
+    <div class="picazzo-topBar-logo">
+      picazzo
     </div>
     <search-box></search-box>
   </div>
-  <div class="flux-sideBar-layout">
-    <div class="flux-sideBar">
-      <ul class="flux-sideBar-list">
+  <div class="picazzo-sideBar-layout">
+    <div class="picazzo-sideBar">
+      <ul class="picazzo-sideBar-list">
         <sidebar-links
           v-for="(link, index) in links"
           :key="index"
@@ -16,7 +16,7 @@
        </sidebar-links>
       </ul>
     </div>
-    <div class="flux-sideBar-right">
+    <div class="picazzo-sideBar-right">
       <router-view></router-view>
     </div>
   </div>

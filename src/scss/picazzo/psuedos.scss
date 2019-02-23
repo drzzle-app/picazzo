@@ -9,7 +9,7 @@ html {
 }
 
 body {
-  @include flux-body-font;
+  @include picazzo-body-font;
   background-color: $white;
   color: $font-color;
   height: 100%;
