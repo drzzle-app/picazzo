@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('general-card', {
+export default Vue.component('general-card-page', {
   template,
-  name: 'general-card',
+  name: 'general-card-page',
 });

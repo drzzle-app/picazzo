@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('google-map', {
+export default Vue.component('google-map-page', {
   template,
-  name: 'google-map',
+  name: 'google-map-page',
 });

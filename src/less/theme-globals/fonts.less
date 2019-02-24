@@ -1,0 +1,19 @@
+@charset 'UTF-8';
+// all icons and fonts are imported silently using gulp for distribution
+
+.drzFont-general {
+  .font-smooth;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+[class^='drzicon-'] {
+  &:before {
+    font-size: 14pt;
+  }
+}
+
+[class*=' drzicon-'] {
+  &:before {
+    font-size: 14pt;
+  }
+}

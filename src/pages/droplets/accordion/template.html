@@ -1,3 +1,38 @@
 <div>
- Accordion Page!
+  <header class="picazzo-page-header">Accordion</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <accordion-droplet></accordion-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p>
+    For accordions, the a 'drzAccordion-section-title' href attribute must match the 'section-'
+    class with the 'drzAccordion-section-content'. See below to initialize the plugin.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzAccordion').drzAccordion();</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Destroy Plugin</p>
+  <p>
+    To detatch event listeners from the bounded element, call the .killEvents() method. This will come in handy for dynamically editing this pattern in the CMS. Try the "Test Kill" button, it should kill the demo events.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter">
+    <a href="#" class="picazzo-link-small picazzo-extLink">See Plugin Source</a>
+  </div>
 </div>

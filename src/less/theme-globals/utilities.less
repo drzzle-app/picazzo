@@ -1,0 +1,172 @@
+/* Align utilites
+* ======================= */
+
+.center-txt {
+  text-align: center;
+}
+
+.right-txt {
+  text-align: right;
+}
+
+.left-txt {
+  text-align: left;
+}
+
+.drzFull-height {
+  height: 100%;
+}
+
+/* Text color utilites
+* ======================= */
+
+.base-color-txt {
+  color: @baseColor;
+}
+
+.white-txt {
+  color: @white;
+}
+
+.black-txt {
+  color: @black;
+}
+
+.white-fade-txt {
+  color: fade(@white, 85%);
+}
+
+.black-fade-txt {
+  color: fade(@black, 40%);
+}
+/* Background color utilites
+* ======================= */
+
+.black-bg {
+  background-color: @black;
+}
+
+.white-bg {
+  background-color: @white;
+}
+
+.footer-bg {
+  background-color: @footerBg;
+}
+
+.slide-menu-bg {
+  background-color: @slideMenuBg;
+}
+
+.base-color-bg {
+  background-color: @baseColor;
+}
+
+.danger-color-bg {
+  background-color: @dangerColor;
+}
+
+.warning-color-bg {
+  background-color: @warningColor;
+}
+
+.success-color-bg {
+  background-color: @successColor;
+}
+
+.off-white-bg {
+  background-color: darken(@white, 3%);
+}
+
+/* JS Helper Utilities
+* ======================= */
+
+.position-absolute {
+  position: absolute !important;
+}
+
+.block {
+  display: block !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+/* only show in desktop */
+.desktop-only {
+  display: block;
+
+  @media @mobile {
+    display: none;
+  }
+
+  @media @tablet {
+    display: none;
+  }
+}
+
+/* only show in tablet */
+.tablet-only {
+  display: none;
+
+  @media @mobile {
+    display: none;
+  }
+
+  @media @tablet {
+    display: block;
+  }
+}
+
+/* only show in mobile */
+.mobile-only {
+  display: none;
+
+  @media @mobile {
+    display: block;
+  }
+
+  @media @tablet {
+    display: none;
+  }
+}
+
+/* show in all except desktop */
+.no-desktop {
+  display: none;
+
+  @media @mobile {
+    display: block;
+  }
+
+  @media @tablet {
+    display: block;
+  }
+}
+
+/* show in all except tablet */
+.no-tablet {
+  display: block;
+
+  @media @mobile {
+    display: block;
+  }
+
+  @media @tablet {
+    display: none;
+  }
+}
+
+/* show in all except mobile */
+.no-mobile {
+  display: block;
+
+  @media @mobile {
+    display: none;
+  }
+
+  @media @tablet {
+    display: block;
+  }
+}

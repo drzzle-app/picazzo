@@ -311,7 +311,7 @@ const buildJsPlugins = () => {
 };
 
 const newDroplet = () =>
-  gulp.src('./src/droplets/*').pipe(
+  gulp.src('./src/droplets').pipe(
     prompt.prompt(
       [
         {
@@ -559,6 +559,7 @@ const newTheme = () => {
 
 const buildAll = async () => {
   await buildJsPlugins();
+  await buildJsPluginsSeperate();
   await buildSearch();
   await buildRoutes();
   await buildIcons();

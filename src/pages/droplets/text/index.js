@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('droplet-text', {
+export default Vue.component('text-page', {
   template,
-  name: 'droplet-text',
+  name: 'text-page',
 });

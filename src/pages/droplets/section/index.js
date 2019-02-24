@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('droplet-section', {
+export default Vue.component('section-page', {
   template,
-  name: 'droplet-section',
+  name: 'section-page',
 });

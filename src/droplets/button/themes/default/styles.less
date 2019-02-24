@@ -1,0 +1,63 @@
+/* Buttons */
+.drzBtn-link {
+  background-color: @baseColor;
+  border-color: @baseColor;
+  border-style: solid;
+  border-width: 0;
+  display: table;
+  position: relative;
+}
+
+.drzBtn {
+  background-color: transparent;
+  border: 0;
+  border-radius: 1px;
+  color: @white;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 12pt;
+  padding: 10px 15px;
+  width: 100%;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: 0;
+  }
+
+  @media @tablet {
+    margin-bottom: 3px;
+  }
+
+  @media @mobile {
+    font-size: 10pt;
+    margin-bottom: 3px;
+  }
+}
+
+.drzBtn-border {
+  background-color: transparent;
+  border: 2px solid;
+  border-color: @baseColor;
+
+  .drzBtn {
+    color: @baseColor;
+  }
+}
+
+.btn-large {
+  font-size: 16pt;
+  padding: 15px 20px;
+}
+
+.btn-med {
+  font-size: 14pt;
+  padding: 12px 17px;
+}
+
+.drzBtn::-moz-focus-inner {
+  border: 0;
+}

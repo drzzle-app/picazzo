@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('droplet-header', {
+export default Vue.component('header-page', {
   template,
-  name: 'droplet-header',
+  name: 'header-page',
 });

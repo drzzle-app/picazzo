@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('video-player', {
+export default Vue.component('video-player-page', {
   template,
-  name: 'video-player',
+  name: 'video-player-page',
 });

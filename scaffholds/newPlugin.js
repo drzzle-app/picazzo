@@ -1,12 +1,12 @@
 /* global jQuery */
 (($) => {
-  $.fn.picazzo.patternName = function patternName(opts) {
+  $.fn.picazzo.dropletName = function dropletName(opts) {
     const defaults = { el: null };
     const options = $.extend({}, defaults, opts);
-    const $patternName = options.el;
+    const $dropletName = options.el;
 
     // your code here
 
-    return $patternName;
+    return $dropletName;
   };
 })(jQuery);

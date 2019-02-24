@@ -25,7 +25,9 @@ module.exports = {
   },
   // global variables
   globals: {
-    '$': false
+    '$': false,
+    'jQuery': false,
+    'drzzle': false,
   },
   // add your custom rules here
   rules: {
@@ -55,7 +57,7 @@ module.exports = {
     }],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-shadow': [ 'error', { 
+    'no-shadow': [ 'error', {
       allow: ['state', 'commit', 'dispatch', 'rootState'] // vuex param options
     }]
   }

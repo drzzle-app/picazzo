@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('navigation', {
+export default Vue.component('navigation-page', {
   template,
-  name: 'navigation',
+  name: 'navigation-page',
 });

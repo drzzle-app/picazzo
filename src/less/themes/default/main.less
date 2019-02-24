@@ -1,7 +1,11 @@
-// We have seperate aliases for our gulp compiled theme files.
-// to see them, see the gulpfile.js file
+// We have seperate aliases for our gulp compiled theme files. To see them, see the gulpfile.js file
 // import all theme globals (that every theme will have)
+@import '@theme-globals/variables';
 @import '@theme-globals/colors';
 @import '@theme-globals/mixins';
-// import all theme specific less
+@import '@theme-globals/utilities';
+@import '@theme-globals/fonts';
+@import '@theme-globals/psuedos';
+@import '@theme-globals/grid-system';
+// import all theme specific less for droplets
 @import 'droplets';
