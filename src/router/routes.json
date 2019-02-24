@@ -21,6 +21,191 @@
                     "path": "/icons",
                     "name": "icons",
                     "component": "require('@/pages/icons/').default"
+                },
+                {
+                    "path": "/utilities",
+                    "name": "utilities",
+                    "component": "require('@/pages/utilities/').default"
+                },
+                {
+                    "path": "/accordion",
+                    "name": "accordion",
+                    "component": "require('@/pages/droplets/accordion/').default"
+                },
+                {
+                    "path": "/audio-player",
+                    "name": "audio-player",
+                    "component": "require('@/pages/droplets/audio-player/').default"
+                },
+                {
+                    "path": "/button",
+                    "name": "button",
+                    "component": "require('@/pages/droplets/button/').default"
+                },
+                {
+                    "path": "/event-card",
+                    "name": "event-card",
+                    "component": "require('@/pages/droplets/event-card/').default"
+                },
+                {
+                    "path": "/general-card",
+                    "name": "general-card",
+                    "component": "require('@/pages/droplets/general-card/').default"
+                },
+                {
+                    "path": "/tall-card",
+                    "name": "tall-card",
+                    "component": "require('@/pages/droplets/tall-card/').default"
+                },
+                {
+                    "path": "/wide-card",
+                    "name": "wide-card",
+                    "component": "require('@/pages/droplets/wide-card/').default"
+                },
+                {
+                    "path": "/step-card",
+                    "name": "step-card",
+                    "component": "require('@/pages/droplets/step-card/').default"
+                },
+                {
+                    "path": "/carousel",
+                    "name": "carousel",
+                    "component": "require('@/pages/droplets/carousel/').default"
+                },
+                {
+                    "path": "/content-slider",
+                    "name": "content-slider",
+                    "component": "require('@/pages/droplets/content-slider/').default"
+                },
+                {
+                    "path": "/countdown",
+                    "name": "countdown",
+                    "component": "require('@/pages/droplets/countdown/').default"
+                },
+                {
+                    "path": "/footer-nav",
+                    "name": "footer-nav",
+                    "component": "require('@/pages/droplets/footer-nav/').default"
+                },
+                {
+                    "path": "/form",
+                    "name": "form",
+                    "component": "require('@/pages/droplets/form/').default"
+                },
+                {
+                    "path": "/image-gallery",
+                    "name": "image-gallery",
+                    "component": "require('@/pages/droplets/image-gallery/').default"
+                },
+                {
+                    "path": "/general-image",
+                    "name": "general-image",
+                    "component": "require('@/pages/droplets/general-image/').default"
+                },
+                {
+                    "path": "/navigation",
+                    "name": "navigation",
+                    "component": "require('@/pages/droplets/navigation/').default"
+                },
+                {
+                    "path": "/google-map",
+                    "name": "google-map",
+                    "component": "require('@/pages/droplets/google-map/').default"
+                },
+                {
+                    "path": "/social-media",
+                    "name": "social-media",
+                    "component": "require('@/pages/droplets/social-media/').default"
+                },
+                {
+                    "path": "/table",
+                    "name": "table",
+                    "component": "require('@/pages/droplets/table/').default"
+                },
+                {
+                    "path": "/tab",
+                    "name": "tab",
+                    "component": "require('@/pages/droplets/tab/').default"
+                },
+                {
+                    "path": "/text",
+                    "name": "text",
+                    "component": "require('@/pages/droplets/text/').default"
+                },
+                {
+                    "path": "/header",
+                    "name": "header",
+                    "component": "require('@/pages/droplets/header/').default"
+                },
+                {
+                    "path": "/video-player",
+                    "name": "video-player",
+                    "component": "require('@/pages/droplets/video-player/').default"
+                },
+                {
+                    "path": "/youtube-player",
+                    "name": "youtube-player",
+                    "component": "require('@/pages/droplets/youtube-player/').default"
+                },
+                {
+                    "path": "/divider",
+                    "name": "divider",
+                    "component": "require('@/pages/droplets/divider/').default"
+                },
+                {
+                    "path": "/section",
+                    "name": "section",
+                    "component": "require('@/pages/droplets/section/').default"
+                },
+                {
+                    "path": "/columns",
+                    "name": "columns",
+                    "component": "require('@/pages/droplets/columns/').default"
+                },
+                {
+                    "path": "/grid-system",
+                    "name": "grid-system",
+                    "component": "require('@/pages/grid-system/').default"
+                },
+                {
+                    "path": "/modals",
+                    "name": "modals",
+                    "component": "require('@/pages/tools/modals/').default"
+                },
+                {
+                    "path": "/notifications",
+                    "name": "notifications",
+                    "component": "require('@/pages/tools/notifications/').default"
+                },
+                {
+                    "path": "/breadcrumbs",
+                    "name": "breadcrumbs",
+                    "component": "require('@/pages/tools/breadcrumbs/').default"
+                },
+                {
+                    "path": "/filtering",
+                    "name": "filtering",
+                    "component": "require('@/pages/tools/filtering/').default"
+                },
+                {
+                    "path": "/multi-step",
+                    "name": "multi-step",
+                    "component": "require('@/pages/tools/multi-step/').default"
+                },
+                {
+                    "path": "/pagination",
+                    "name": "pagination",
+                    "component": "require('@/pages/tools/pagination/').default"
+                },
+                {
+                    "path": "/scrolling",
+                    "name": "scrolling",
+                    "component": "require('@/pages/tools/scrolling/').default"
+                },
+                {
+                    "path": "/tool-tips",
+                    "name": "tool-tips",
+                    "component": "require('@/pages/tools/tool-tips/').default"
                 }
             ]
         },

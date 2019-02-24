@@ -1,5 +1,32 @@
 <div>
-  Contributing page
+  <header class="picazzo-page-header">Contributing</header>
+
   <p>Mention versioning as well "major | minor | patch"</p>
   <p>Mention CSS maintainable and standards for creating new things</p>
+
+
+  <!-- <pre v-highlightjs><code class="javascript">var thing = '';</code></pre> -->
+  <header class="picazzo-sectionHeader">New Theme Development</header>
+  <p>
+    Follow these steps to make a new theme:
+
+    Create new branch for new theme.
+    Open new terminal, in project root folder & run: gulp new-theme --name "new-theme-name" Please keep name lowercase and only use "-" if you need a special character/spaces
+    During development, work out of the patterns page. At the bottom left of the page you can switch to your theme there (the option is stored locally, so you don't have to keep selecting it).
+    You should see your new theme folder in themes/. In the patterns/ folder, you should see that each pattern has your new theme folder. Restyle each pattern to your new designs.
+    Create a Pull Request once theme is finished.
+    Do not create new HTML when building a new theme. This is to keep 'theme swapping' as seemless as possible.
+  </p>
+
+  <header class="picazzo-sectionHeader">New Droplet Development</header>
+  <p>
+    Follow these steps to make a new pattern:
+
+    Create new branch for new pattern.
+    Open new terminal, in project root folder & run: gulp new-pattern. You'll be prompted for a name and if this needs js. Please keep name lowercase and only use "-" if you need a special character/spaces
+    You'll see your new pattern folder in patterns/. Please keep in mind you'll need to style this pattern differently in each theme.
+    After making a new pattern, please create a new documentation page and add it to the patterns area with any instructions and code samples like the rest. This is done under the docs-app/ folder.
+  </p>
+
+  JQUERY stuff here too
 </div>

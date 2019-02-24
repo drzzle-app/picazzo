@@ -110,7 +110,7 @@ const newPage = () => {
           type: 'input',
           name: 'pagePath',
           message:
-            'Enter path in page folder you want this page in.\x1b[33m Default is /. Type [/some-page/some-other-page]',
+            'Enter path in pages folder you want this page in.\x1b[33m Default is /. Type [/some-page/some-other-page]',
         },
         {
           type: 'input',
@@ -127,14 +127,16 @@ const newPage = () => {
           },
         },
       ],
-      (res) => {
+      async (res) => {
         // build new page contents in the pages dir
-        const pagePath = res.pagePath.trim() === '' ? '' : res.pagePath.trim();
+        const p = res.pagePath.trim();
+        const pagePath = p === '' || p === '/' ? '' : p;
         const route = `${res.pageName.replace(/ /g, '-')}`.trim().toLowerCase();
         const title = toTitleCase(res.pageName);
         const fullPagePath = `./src/pages${pagePath}/${route}`;
 
         // make component and template
+        await fse.ensureDir(fullPagePath);
         fse
           .outputFile(`${fullPagePath}/template.html`, `<div>\n ${title} Page!\n</div>`)
           .then(() => fse.readFile(`${fullPagePath}/template.html`, 'utf8'))

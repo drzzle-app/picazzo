@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Icons from '@/icons/config.json';
+import _ from 'lodash';
 
 const template = require('./template.html');
 
@@ -8,24 +9,24 @@ export default Vue.component('icons', {
   name: 'icons',
   computed: {
     icons() {
-      let icons = this.$_.filter(Icons.glyphs, i => i.selected !== false);
+      let icons = _.filter(Icons.glyphs, i => i.selected !== false);
       icons = icons.reverse(); // so we can see the newest first
-      return this.$_.chain(icons)
+      return _.chain(icons)
         .thru((t) => {
           if (this.searchInput) {
-            return this.$_.reduce(
+            return _.reduce(
               t,
               (acc, row) => {
                 // only grab the name properties to search through
                 const e = [];
-                this.$_.filter(row, () => {
-                  this.$_.forEach(['css', 'src'], (c) => {
+                _.filter(row, () => {
+                  _.forEach(['css', 'src'], (c) => {
                     e.push(row[c]);
                   });
                 });
                 if (
-                  this.$_.filter(e, v =>
-                    this.$_(v)
+                  _.filter(e, v =>
+                    _(v)
                       .toLower()
                       .includes(this.searchInput.toLowerCase()),
                   ).length

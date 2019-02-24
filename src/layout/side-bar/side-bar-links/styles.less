@@ -17,17 +17,19 @@
 
 .picazzo-sideBar-dd {
   &::after {
-    content: '\e801';
+    content: '\e803';
+    display: inline-block;
     font-family: 'drzzle';
+    font-size: 6pt;
     margin-left: 10px;
     opacity: .7;
+    transform: rotate(-90deg);
     transition-duration: .2s;
   }
 }
 
 .picazzo-sideBar-ddOpen {
   &::after {
-    display: inline-block;
-    transform: rotate(90deg);
+    transform: rotate(0deg);
   }
 }

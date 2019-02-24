@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
 
 const template = require('./template.html');
 
@@ -9,15 +10,15 @@ export default Vue.component('search-box', {
   computed: {
     ...mapGetters(['pages']),
     filterPages() {
-      return this.$_.chain(this.pages)
+      return _.chain(this.pages)
         .thru((t) => {
           if (this.searchInput) {
-            return this.$_.reduce(
+            return _.reduce(
               t,
               (acc, row) => {
                 if (
-                  this.$_.filter(row, v =>
-                    this.$_(v)
+                  _.filter(row, v =>
+                    _(v)
                       .toLower()
                       .includes(this.searchInput.toLowerCase()),
                   ).length

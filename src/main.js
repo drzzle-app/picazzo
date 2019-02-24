@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import VueLogger from 'vuejs-logger';
-import _ from 'lodash';
 import VueHighlightJS from 'vue-highlightjs';
 import '../dist/js/picazzo.droplet.lib';
 import './less/picazzo/main.less';
@@ -21,8 +20,6 @@ Vue.use(VueLogger, {
 
 Vue.use(VueHighlightJS);
 
-// lend me a hand lodash! to all components
-Vue.prototype.$_ = _; // eslint-disable-line
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
