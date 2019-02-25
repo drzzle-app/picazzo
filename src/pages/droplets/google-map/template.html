@@ -1,3 +1,68 @@
 <div>
- Google Map Page!
+  <header class="picazzo-page-header">Map</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <google-map-droplet></google-map-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzMap').drzMap();</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Options</p>
+  <p>
+    Options are set using HTML attributes. You will need to pass in an array of
+    map markers in JSON format. See above demo HTML.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// custom color scheme to draw from
+"baseColor": "#ff0000",</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// if you want the color scheme to be drawn from bottom border color
+"useBg": false,</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// map markers
+"markers": [
+  {
+    "lat": 1111111,
+    "long": 11111111,
+    "address": '123 fake st, san antonio, tx',
+    "title": "My Title",
+    "markerImg": "/path/to/image.png"
+  }
+]</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Destroy Plugin</p>
+  <p>
+    To destroy the plugin, use the .destroy() method. This will remove all event listeners and added classes/attributes.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter">
+    <a
+      href="https://github.com/drzzle-app/picazzo-v2/blob/master/src/droplets/accordion/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </div>
 </div>

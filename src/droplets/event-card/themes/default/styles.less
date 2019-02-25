@@ -1,0 +1,76 @@
+/* Event Cards */
+.drzCard-event {
+  .column;
+  .col-6;
+  color: fade(@black, 50%);
+  margin-bottom: 15px;
+  padding: 0 8px;
+  position: relative;
+  text-decoration: none;
+
+  &:hover {
+    transform: scale(1.01);
+    transition-duration: 0.2s;
+  }
+}
+
+.drzCard-event-inner {
+  .box-shadow;
+}
+
+.drzCard-eventImage {
+  .bg-image-cover;
+  background-attachment: inherit;
+  background-image: url('@{mockImageUrl}backgrounds/image-bg.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  clear: both;
+  display: block;
+  height: 250px;
+  width: 100%;
+}
+
+.drzCard-event-dateSection {
+  background-color: @baseColor;
+  color: @white;
+  float: left;
+  font-weight: 300;
+  height: 60px;
+  padding-top: 4px;
+  text-align: center;
+  width: 60px;
+}
+
+.drzCard-event-dateMon {
+  display: block;
+  font-size: 9pt;
+  font-weight: 400;
+}
+
+.drzCard-event-dateNum {
+  display: block;
+  font-size: 18pt;
+  font-weight: 400;
+  line-height: 0.85;
+}
+
+.drzCard-event-dateYr {
+  display: block;
+  font-size: 9pt;
+  font-weight: 400;
+}
+
+.drzCard-event-titleSection {
+  background-color: @white;
+  height: 60px;
+  margin-left: 60px;
+  overflow: hidden;
+  padding: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.drzCard-event-title {
+  font-size: 13pt;
+  font-weight: 300;
+}

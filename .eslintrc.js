@@ -28,6 +28,7 @@ module.exports = {
     '$': false,
     'jQuery': false,
     'drzzle': false,
+    'google': false,
   },
   // add your custom rules here
   rules: {

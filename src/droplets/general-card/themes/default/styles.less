@@ -1,0 +1,45 @@
+/* General Card */
+.drzCard-general {
+  .column;
+  .col-6;
+  color: fade(@black, 50%);
+  margin-bottom: 15px;
+  padding: 0 8px;
+  position: relative;
+  text-decoration: none;
+
+  &:hover {
+    transform: scale(1.01);
+    transition-duration: 0.2s;
+  }
+}
+
+.drzCard-general-inner {
+  .box-shadow;
+}
+
+.drzCard-generalImage {
+  .bg-image-cover;
+  background-attachment: inherit;
+  background-image: url('@{mockImageUrl}backgrounds/image-bg.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  clear: both;
+  display: block;
+  height: 250px;
+  width: 100%;
+}
+
+.drzCard-general-titleSection {
+  background-color: @white;
+  height: 60px;
+  overflow: hidden;
+  padding: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.drzCard-general-title {
+  font-size: 13pt;
+  font-weight: 300;
+}

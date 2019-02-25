@@ -1,0 +1,84 @@
+/* Google Maps */
+.drzMap {
+  position: relative;
+
+  // override googles roboto
+  .gm-style .gm-style-iw {
+    .drzFont-general;
+  }
+}
+
+.drzMap-container {
+  height: 400px;
+  position: relative;
+  width: 100%;
+
+  @media @tablet {
+    height: 300px;
+  }
+
+  @media @mobile {
+    height: 200px;
+  }
+}
+
+.drzMap-address {
+  background-color: @baseColor;
+  bottom: 0;
+  color: @white;
+  font-size: 9pt;
+  font-style: normal;
+  left: 0;
+  padding: 12px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+.drzMap-zoomContainer {
+  top: 40px !important;
+}
+
+.drzMap-zoomBtn {
+  .flex-center-all;
+  background-color: @baseColor;
+  color: @white;
+  cursor: pointer;
+  font-family: 'drzzle';
+  height: 32px;
+  margin-left: 50px;
+  width: 32px;
+
+  @media @mobile {
+    margin-left: 10px;
+  }
+}
+
+.drzMap-zoomIn {
+  .drzMap-zoomBtn;
+  margin-bottom: 5px;
+  margin-top: 50px;
+
+  &:before {
+    content: '\e842';
+  }
+
+  @media @mobile {
+    margin-top: 10px;
+  }
+}
+
+.drzMap-zoomOut {
+  .drzMap-zoomBtn;
+
+  &:before {
+    content: '\e818';
+  }
+}
+
+.drzMap-markerTitle {
+  display: block;
+  font-size: 13pt;
+  font-weight: bold;
+  margin-bottom: 3px;
+}

@@ -1,3 +1,80 @@
 <div>
- Form Page!
+  <header class="picazzo-page-header">Form</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <form-droplet></form-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzForm-validate').drzFormValidate(function() {
+  event.preventDefault();
+  // code to run after passed validation
+});</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Options</p>
+  <p>
+    Options are set using the input HTML attributes. See above demo HTML.
+  </p>
+
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// set input required
+data-validator="required"</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// set a custom error message
+data-validator-msg="my custom error message"</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// min and max range for number inputs
+data-validator-min="1"
+data-validator-max="10"</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// required strictly a number value
+data-validator-value="number"</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// input must match your custom regex value
+data-validator-regex="[a-z]"</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Destroy Plugin</p>
+  <p>
+    To destroy the plugin, use the .destroy() method. This will remove all event listeners and added classes/attributes.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
+  </div>
+
+  <p>
+    <a
+      href="https://github.com/drzzle-app/picazzo-v2/blob/master/src/droplets/accordion/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </p>
+
+  <header class="picazzo-sectionHeader">Input Types</header>
+  ...
+
+  <div class="picazzo-docFooter"></div>
 </div>

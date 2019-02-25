@@ -17,10 +17,4 @@ export default Vue.component('countdown-page', {
       dropletHtml: this.cleanDropletTpl(CountdownTpl),
     };
   },
-  methods: {
-    destroyMarkup() {
-      return `const $contentSlider = $('.drzContentSlider');
-$contentSlider.drzContentSlider.destroy($contentSlider);`;
-    },
-  },
 });

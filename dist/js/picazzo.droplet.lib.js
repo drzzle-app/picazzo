@@ -1191,3 +1191,708 @@ window.drzzle = {
     return this;
   };
 })(jQuery);
+
+/*
+============================
+ Drzzle Footer Nav Plugin
+============================
+*/
+(function ($) {
+  $.fn.drzFooterNav = function drzFooterNav() {
+    var $topLink = $(this).find('.drzFooterNav-list-topLink');
+
+    $topLink.click(function (e) {
+      var $this = $(e.currentTarget);
+      if (window.matchMedia(window.drzzle.viewports.mobile).matches) {
+        e.preventDefault();
+        // if there us even a dropdown menu
+        if ($this.next('ul').length) {
+          $this.next('ul').slideToggle(200);
+          $this.parent().siblings().find('.drzFooterNav-list-subList').slideUp(200);
+        }
+      }
+    });
+
+    // show links callback
+    function linkDisplays() {
+      if (window.matchMedia(window.drzzle.viewports.desktop).matches || window.matchMedia(window.drzzle.viewports.tablet).matches) {
+        $topLink.next('ul').show();
+      } else if (window.matchMedia(window.drzzle.viewports.mobile).matches) {
+        $topLink.next('ul').hide();
+      }
+    }
+
+    var resizeTimer = void 0;
+    window.drzzle.window.resize(function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(linkDisplays, 250);
+    });
+
+    $.fn.drzFooterNav.destroy = function ($el) {
+      // grab attached selectors and remove attached listeners
+      $el.find('.drzFooterNav-list-topLink').off('click');
+    };
+
+    return this;
+  };
+})(jQuery);
+
+/*
+=================================
+ Drzzle Form Validation Plugin
+=================================
+*/
+(function ($) {
+  $.fn.drzFormValidate = function formValidate(fn) {
+    var $form = $(this);
+    $form.each(function initValidation() {
+      var $this = $(this);
+      $this.attr('novalidate', true);
+      var types = '\n        input[type=text],\n        input[type=email],\n        input[type=number],\n        input[type=date],\n        input[type=tel],\n        input[type=url],\n        input[type=password],\n        textarea,\n        select\n      ';
+
+      $.expr.pseudos.required = function check(field) {
+        return $(field).attr('data-validator') === 'required';
+      };
+
+      var errors = false;
+
+      var validate = {
+        type: function type(e, field) {
+          var typeMsg = field.typeMsg;
+          if (!field.input.val().match(field.format)) {
+            e.preventDefault();
+            errors = true;
+            field.input.next('.drzValidator-msg').find('.drzValidator-msg-type').html(typeMsg).fadeIn();
+          }
+          field.input.keyup(function () {
+            if (field.input.val().match(field.format)) {
+              errors = false;
+              field.input.removeClass('drzValidator-req-border');
+              field.input.next('.drzValidator-msg').find('.drzValidator-msg-type').fadeOut();
+            } else {
+              errors = true;
+              field.input.addClass('drzValidator-req-border');
+              field.input.next('.drzValidator-msg').find('.drzValidator-msg-type').html(typeMsg).fadeIn();
+            }
+          });
+        }
+      };
+
+      $this.submit(function (e) {
+        e.preventDefault();
+        $this.find(types).not('.checkbox-group input').not('.radio-group input').each(function onSubmit() {
+          var $el = $(this);
+          var inputType = $el.attr('type');
+          var msg = void 0;
+          var $newMsgElement = $('\n              <div class="drzValidator-msg">\n                <div class="drzValidator-msg-required"></div>\n                <div class="drzValidator-msg-type"></div>\n                <div class="drzValidator-msg-min"></div>\n                <div class="drzValidator-msg-max"></div>\n                <div class="drzValidator-msg-value"></div>\n                <div class="drzValidator-msg-regex"></div>\n              </div>\'\n            ');
+
+          if (!$el.next('.drzValidator-msg').length) {
+            $newMsgElement.insertAfter($el);
+          }
+
+          if ($el.is(':required')) {
+            $el.keyup(function () {
+              if ($el.val() !== '') {
+                errors = false;
+                $el.removeClass('drzValidator-req-border');
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-required').fadeOut();
+              } else {
+                errors = true;
+                $el.addClass('drzValidator-req-border');
+                var _$msgAttr = $el.attr('data-validator-msg');
+                if ((typeof _$msgAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(_$msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && _$msgAttr !== false) {
+                  msg = $el.attr('data-validator-msg');
+                } else {
+                  msg = 'This value is required.';
+                }
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-required').html(msg).fadeIn();
+              }
+            });
+
+            // key up functions for blank value validation
+            $el.keyup(function () {
+              if ($el.val() !== '') {
+                errors = false;
+                $el.removeClass('drzValidator-req-border');
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-required').fadeOut();
+              } else {
+                errors = true;
+                $el.addClass('drzValidator-req-border');
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-required').html(msg).fadeIn();
+              }
+            });
+          }
+
+          if ($el.is(':required') && $el.val() === '') {
+            e.preventDefault();
+            errors = true;
+            $el.addClass('drzValidator-req-border');
+
+            // set the error message
+            var _$msgAttr2 = $el.attr('data-validator-msg');
+
+            // check for custom msg, if none, assign the default
+            if ((typeof _$msgAttr2 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_$msgAttr2)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && _$msgAttr2 !== false) {
+              msg = $el.attr('data-validator-msg');
+            } else {
+              msg = 'This value is required.';
+            }
+
+            $el.next('.drzValidator-msg').find('.drzValidator-msg-required').html(msg).fadeIn();
+          }
+
+          // min, max validation
+          var $minAttr = $el.attr('data-validator-min');
+          var $maxAttr = $el.attr('data-validator-max');
+          var $inputValue = void 0;
+          var minMsg = void 0;
+          var maxMsg = void 0;
+
+          if ((typeof $minAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($minAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $minAttr !== false || (typeof $maxAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($maxAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $maxAttr !== false) {
+            // if min attribute exists
+            if ((typeof $minAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($minAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $minAttr !== false) {
+              $minAttr = $el.attr('data-validator-min');
+              if (inputType === 'number') {
+                minMsg = 'Value must be at least ' + $minAttr + '.';
+                $inputValue = ~~$el.val();
+              } else {
+                minMsg = 'There is a minimun limit of ' + $minAttr + ' charachters for this value.';
+                $inputValue = $el.val().length;
+              }
+            }
+
+            // if max attribute exists
+            if ((typeof $maxAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($maxAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $maxAttr !== false) {
+              $maxAttr = $el.attr('data-validator-max');
+              if (inputType === 'number') {
+                $inputValue = ~~$el.val();
+                maxMsg = 'Value must not be greater than ' + $maxAttr + '.';
+              } else {
+                maxMsg = 'There is a maximum limit of ' + $maxAttr + ' charachters for this value.';
+                $inputValue = $el.val().length;
+              }
+            }
+
+            // if user input is less than the min value
+            if ($el.val() !== '' || $el.is(':required')) {
+              if ($inputValue < $minAttr) {
+                e.preventDefault();
+                errors = true;
+                $el.addClass('drzValidator-req-border');
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-min').html(minMsg).fadeIn();
+              }
+              // keyup for min/max number inputs
+              $el.keyup(function () {
+                if (inputType === 'number') {
+                  $inputValue = ~~$el.val();
+                } else {
+                  $inputValue = $el.val().length;
+                }
+                if ($el.val() !== '') {
+                  if ($inputValue < $minAttr) {
+                    errors = true;
+                    $el.addClass('drzValidator-req-border');
+                    $el.next('.drzValidator-msg').find('.drzValidator-msg-min').html(minMsg).fadeIn();
+                  } else {
+                    if ((typeof $maxAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($maxAttr)) === (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $maxAttr === false) {
+                      errors = false;
+                      $el.removeClass('drzValidator-req-border');
+                    }
+                    if ((typeof $maxAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($maxAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $maxAttr !== false && $inputValue <= $maxAttr) {
+                      errors = false;
+                      $el.removeClass('drzValidator-req-border');
+                    }
+                    $el.next('.drzValidator-msg').find('.drzValidator-msg-min').fadeOut();
+                  }
+                }
+              });
+
+              // if user input is more than the max value
+              if ($inputValue > $maxAttr) {
+                e.preventDefault();
+                errors = true;
+                $el.addClass('drzValidator-req-border');
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-max').html(maxMsg).fadeIn();
+              }
+              $el.keyup(function () {
+                if (inputType === 'number') {
+                  $inputValue = ~~$el.val();
+                } else {
+                  $inputValue = $el.val().length;
+                }
+                if ($el.val() !== '') {
+                  if ($inputValue > $maxAttr) {
+                    errors = true;
+                    $el.addClass('drzValidator-req-border');
+                    $el.next('.drzValidator-msg').find('.drzValidator-msg-max').html(maxMsg).fadeIn();
+                  } else {
+                    if ((typeof $minAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($minAttr)) === (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $minAttr === false) {
+                      errors = false;
+                      $el.removeClass('drzValidator-req-border');
+                    }
+                    if ((typeof $minAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($minAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $minAttr !== false && $inputValue >= $minAttr) {
+                      errors = false;
+                      $el.removeClass('drzValidator-req-border');
+                    }
+                    $el.next('.drzValidator-msg').find('.drzValidator-msg-max').fadeOut();
+                  }
+                }
+              });
+            }
+          } // end min, max validation
+
+          // number value only check
+          var $valAttr = $el.attr('data-validator-value');
+          var valMsg = void 0;
+
+          if ((typeof $valAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($valAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $valAttr !== false && $valAttr.match(/number/i)) {
+            $valAttr = $el.attr('data-validator-value');
+            valMsg = 'Value must be an integer.';
+
+            if ($el.val() !== '' || $el.is(':required')) {
+              if (!$.isNumeric($el.val())) {
+                e.preventDefault();
+                errors = true;
+                $el.addClass('drzValidator-req-border');
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-value').html(valMsg).fadeIn();
+              }
+              $el.keyup(function () {
+                if ($el.val() !== '') {
+                  if (!$.isNumeric($el.val())) {
+                    errors = true;
+                    $el.addClass('drzValidator-req-border');
+                    $el.next('.drzValidator-msg').find('.drzValidator-msg-value').html(valMsg).fadeIn();
+                  } else {
+                    errors = false;
+                    $el.removeClass('drzValidator-req-border');
+                    $el.next('.drzValidator-msg').find('.drzValidator-msg-value').fadeOut();
+                  }
+                }
+              });
+            }
+          }
+
+          // regex value only check
+          var $regexAttr = $el.attr('data-validator-regex');
+          var regexMsg = void 0;
+
+          if ((typeof $regexAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($regexAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $regexAttr !== false) {
+            $regexAttr = $el.attr('data-validator-regex');
+            $regexAttr = new RegExp($regexAttr, 'gi');
+            regexMsg = 'Value not entered in a correct format.';
+
+            if ($el.val() !== '' || $el.is(':required')) {
+              if (!$el.val().match($regexAttr)) {
+                e.preventDefault();
+                errors = true;
+                $el.addClass('drzValidator-req-border');
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-regex').html(regexMsg).fadeIn();
+              }
+              $el.keyup(function () {
+                if ($el.val() !== '') {
+                  if (!$el.val().match($regexAttr)) {
+                    errors = true;
+                    $el.addClass('drzValidator-req-border');
+                    $el.next('.drzValidator-msg').find('.drzValidator-msg-regex').html(regexMsg).fadeIn();
+                  } else {
+                    errors = false;
+                    $el.removeClass('drzValidator-req-border');
+                    $el.next('.drzValidator-msg').find('.drzValidator-msg-regex').fadeOut();
+                  }
+                }
+              });
+            }
+          }
+
+          // email validation
+          if (inputType === 'email' && $el.is(':required')) {
+            if ((typeof $msgAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $msgAttr !== false) {
+              msg = $el.attr('data-validator-msg');
+            } else {
+              msg = 'This value is required.';
+            }
+            validate.type(e, {
+              input: $el,
+              check: 'email',
+              typeMsg: 'Valid email required',
+              format: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+            });
+          }
+
+          // phone validation
+          if (inputType === 'tel' && $el.is(':required')) {
+            if ((typeof $msgAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $msgAttr !== false) {
+              msg = $el.attr('data-validator-msg');
+            } else {
+              msg = 'This value is required.';
+            }
+            validate.type(e, {
+              input: $el,
+              check: 'tel',
+              typeMsg: 'Valid phone number required',
+              format: /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+            });
+          }
+
+          // website validation
+          if (inputType === 'url' && $el.is(':required')) {
+            if ((typeof $msgAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $msgAttr !== false) {
+              msg = $el.attr('data-validator-msg');
+            } else {
+              msg = 'This value is required.';
+            }
+            validate.type(e, {
+              input: $el,
+              check: 'url',
+              typeMsg: 'Valid URL required',
+              format: /[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/
+            });
+          }
+
+          // select (dropdown) validation
+          if ($el.is('select')) {
+            $el.change(function () {
+              if ($el.val() !== '') {
+                errors = false;
+                $el.removeClass('drzValidator-req-border');
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-required').fadeOut();
+              } else {
+                errors = true;
+                $el.addClass('drzValidator-req-border');
+                $el.next('.drzValidator-msg').find('.drzValidator-msg-required').html(msg).fadeIn();
+              }
+            });
+          } // end select validation
+        });
+
+        // checkbox and radio validation
+        $this.find('.checkbox-group, .radio-group').each(function initOptions() {
+          var $el = $(this);
+          var $newMsgElement = $('<div class="drzValidator-msg"><div class="drzValidator-msg-required"></div></div>');
+          var type = void 0;
+          var findType = void 0;
+
+          if ($el.hasClass('radio-group')) {
+            findType = $el.find('input[type=radio]');
+            type = 'input[type=radio]';
+          }
+
+          if ($el.hasClass('checkbox-group')) {
+            findType = $el.find('input[type=checkbox]');
+            type = 'input[type=checkbox]';
+          }
+
+          if ($el.is(':required') && $el.find(type + ':checked').length <= 0) {
+            e.preventDefault();
+            errors = true;
+            findType.addClass('drzValidator-req-border');
+
+            if (!$el.find('.drzValidator-msg').length) {
+              $el.append($newMsgElement);
+            }
+
+            // set the error message
+            var _$msgAttr3 = $el.attr('data-validator-msg');
+            var msg = void 0;
+
+            // check for custom msg, if none assign the default
+            if ((typeof _$msgAttr3 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_$msgAttr3)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && _$msgAttr3 !== false) {
+              msg = $el.attr('data-validator-msg');
+            } else {
+              msg = 'You must check at least one.';
+            }
+            $el.find('.drzValidator-msg').find('.drzValidator-msg-required').html(msg).fadeIn();
+
+            // on checked
+            findType.change(function () {
+              if ($el.find(type + ':checked').length > 0) {
+                errors = false;
+                findType.removeClass('drzValidator-req-border');
+                $el.find('.drzValidator-msg').find('.drzValidator-msg-required').fadeOut();
+              } else {
+                errors = true;
+                findType.addClass('drzValidator-req-border');
+                $el.find('.drzValidator-msg').find('.drzValidator-msg-required').html(msg).fadeIn();
+              }
+            });
+          }
+        });
+        // run form logic after validation passes
+        if (fn && !errors) {
+          fn();
+        }
+      });
+
+      // Destroy method
+      $.fn.drzFormValidate.destroy = function ($el) {
+        $el.find(types).each(function removeEvents() {
+          var $field = $(this);
+          var $type = $field.attr('type');
+          if ($field.is('select') || $type === 'radio' || $type === 'checkbox') {
+            $field.off('change');
+          } else {
+            $field.off('keyup');
+          }
+        });
+        $el.find('.drzValidator-msg').remove();
+        $el.find('.drzValidator-req-border').removeClass('drzValidator-req-border');
+      };
+    });
+    return this;
+  };
+})(jQuery);
+
+/*
+============================
+ Drzzle Maps Plugin
+============================
+*/
+(function ($) {
+  $.fn.drzMap = function styleMap() {
+    var $googleMap = $(this);
+    $googleMap.each(function initPlugin() {
+      var $this = $(this);
+      var $mapNode = $this.find('.drzMap-container');
+      var $zoomInBtn = $this.find('.drzMap-zoomIn').get(0);
+      var $zoomOutBtn = $this.find('.drzMap-zoomOut').get(0);
+      var $googleContainer = $this.find('.drzMap-container').get(0);
+      var $addressSection = $this.find('.drzMap-address');
+      var $win = $(window);
+      // google map custom marker icon - .png fallback for IE11
+      var isIE11 = navigator.userAgent.toLowerCase().indexOf('trident') > -1;
+
+      var actions = {
+        getHex: function getHex(c) {
+          var color = c;
+          if (/^#[0-9A-F]{6}$/i.test(color)) {
+            return color;
+          }
+          color = c.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/) || c.match(/^rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+)\)$/);
+          function hex(x) {
+            return ('0' + parseInt(x, 10).toString(16)).slice(-2);
+          }
+          return '#' + hex(color[1]) + hex(color[2]) + hex(color[3]);
+        },
+        CustomZoomControl: function CustomZoomControl(controlDiv, map, baseColor) {
+          // grab the zoom elements from the DOM and insert them in the map
+          if ($zoomInBtn !== undefined && $zoomOutBtn !== undefined) {
+            $zoomInBtn.style.backgroundColor = baseColor;
+            $zoomOutBtn.style.backgroundColor = baseColor;
+            var controlUIzoomIn = $zoomInBtn;
+            var controlUIzoomOut = $zoomOutBtn;
+            controlDiv.appendChild(controlUIzoomIn);
+            controlDiv.appendChild(controlUIzoomOut);
+            controlDiv.classList.add('drzMap-zoomContainer');
+
+            // Setup the click event listeners and zoom in or out according
+            // to the clicked element
+            google.maps.event.addDomListener(controlUIzoomIn, 'click', function () {
+              map.setZoom(map.getZoom() + 1);
+            });
+            google.maps.event.addDomListener(controlUIzoomOut, 'click', function () {
+              map.setZoom(map.getZoom() - 1);
+            });
+          }
+        },
+        renderMap: function renderMap(opts) {
+          // let $opts = $this.attr('data-google-map');
+          var $opts = opts;
+          var defaults = {
+            baseColor: $addressSection.css('background-color'),
+            markers: []
+          };
+
+          // configure custom options
+          if ((typeof $opts === 'undefined' ? 'undefined' : (0, _typeof3.default)($opts)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $opts !== false) {
+            if (typeof $opts === 'string') {
+              $opts = JSON.parse($opts);
+            }
+            $opts = $.extend(true, {}, defaults, $opts);
+          } else {
+            $opts = defaults;
+          }
+
+          if ($opts.useBg) {
+            $opts.baseColor = actions.getHex($addressSection.css('background-color'));
+          }
+
+          // style/look settings
+          var saturationValue = -20;
+          var brightnessValue = 5;
+          var baseColor = actions.getHex($opts.baseColor);
+
+          var styles = [{
+            // set saturation for the labels on the map
+            elementType: 'labels',
+            stylers: [{ saturation: saturationValue }]
+          }, {
+            // point of interest - don't show these lables on the map
+            featureType: 'poi',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }]
+          }, {
+            // don't show highways lables on the map
+            featureType: 'road.highway',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }]
+          }, {
+            // don't show local road lables on the map
+            featureType: 'road.local',
+            elementType: 'labels.icon',
+            stylers: [{ visibility: 'off' }]
+          }, {
+            // don't show arterial road lables on the map
+            featureType: 'road.arterial',
+            elementType: 'labels.icon',
+            stylers: [{ visibility: 'off' }]
+          }, {
+            // don't show road lables on the map
+            featureType: 'road',
+            elementType: 'geometry.stroke',
+            stylers: [{ visibility: 'off' }]
+          },
+          // style different elements on the map
+          {
+            featureType: 'transit',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'poi',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'poi.government',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'poi.sports_complex',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'poi.attraction',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'poi.business',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'transit',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'transit.station',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'landscape',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'road',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'road.highway',
+            elementType: 'geometry.fill',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }, {
+            featureType: 'water',
+            elementType: 'geometry',
+            stylers: [{ hue: baseColor }, { visibility: 'on' }, { lightness: brightnessValue }, { saturation: saturationValue }]
+          }];
+          var markers = [];
+          // set google map options
+          var mapOptions = {
+            zoom: 15,
+            panControl: false,
+            zoomControl: false,
+            mapTypeControl: false,
+            streetViewControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            scrollwheel: false,
+            styles: styles
+          };
+          if ($opts.markers.length <= 1) {
+            mapOptions.center = new google.maps.LatLng($opts.markers[0].lat, $opts.markers[0].lng);
+          }
+
+          var map = new google.maps.Map($googleContainer, mapOptions);
+          drzzle.googleMaps.push(map);
+          // prep for auto centering
+          var bounds = new google.maps.LatLngBounds();
+          // build markers
+
+          var _loop = function _loop(i) {
+            var m = $opts.markers[i];
+            var toolTip = '<div class="drzMap-markerTip">\n              <span class="drzMap-markerTitle">' + (m.title || '') + '</span>\n              <span class="drzMap-markerAddr">' + (m.address || '') + '</span>\n              </div>';
+            var infowindow = new google.maps.InfoWindow({
+              content: toolTip,
+              maxWidth: 200
+            });
+            var position = new google.maps.LatLng(m.lat, m.lng);
+            var markerUrl = isIE11 ? 'https://s3-us-west-1.amazonaws.com/drz-assets/mock-images/icons/maps-default-pin.png' : m.markerImg;
+            bounds.extend(position);
+            var marker = new google.maps.Marker({
+              position: position,
+              map: map,
+              visible: true,
+              icon: markerUrl
+            });
+            marker.addListener('click', function () {
+              infowindow.open(map, marker);
+            });
+            markers.push(marker);
+          };
+
+          for (var i = 0; i < $opts.markers.length; i++) {
+            _loop(i);
+          }
+          // auto center and zoom if multiple markers
+          if (markers.length > 1) {
+            map.fitBounds(bounds); // auto zoom
+            map.panToBounds(bounds); // auto center
+          }
+          // after map loads, then append zoom controls
+          google.maps.event.addListenerOnce(map, 'idle', function () {
+            // init custom zoom controls
+            var zoomControlDiv = document.createElement('div');
+            var zoomControl = new actions.CustomZoomControl(zoomControlDiv, map, $opts.baseColor); // eslint-disable-line
+            // insert the zoom div on the top left of the map
+            map.controls[google.maps.ControlPosition.LEFT_TOP].push(zoomControlDiv);
+          });
+        }
+      };
+
+      // if map exists on page, init it
+      var reDraw = void 0;
+      if ($mapNode.length) {
+        var $opts = $this.attr('data-google-map');
+        var resizeTimer = void 0;
+        var start = true;
+        var startBg = void 0;
+        reDraw = function reDraw() {
+          if (start && JSON.parse($opts).useBg) {
+            start = false;
+            startBg = $addressSection.css('background-color');
+          }
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(function () {
+            // only redraw map if new color is present
+            if (startBg !== $addressSection.css('background-color')) {
+              actions.renderMap($opts);
+            }
+            start = true;
+          }, 250);
+        };
+        $win.resize(reDraw);
+        // initialize map on page load
+        actions.renderMap($opts);
+      }
+      // destroy listeners
+      $.fn.drzMap.destroy = function () {
+        $win.off('resize', reDraw);
+      };
+    });
+    return this;
+  };
+})(jQuery);

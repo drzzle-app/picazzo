@@ -1,0 +1,369 @@
+.drzForm {
+  .drzClearFix;
+  border-radius: 1px;
+  min-height: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.drzForm-fieldContainer {
+  .drzClearFix;
+  background-color: transparent;
+  border-radius: 1px;
+  clear: both;
+  display: block;
+  float: left;
+  margin-bottom: 20px;
+  min-height: 5px;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}
+
+.drzForm-fieldLabel {
+  clear: both;
+  color: darken(@white, 50%);
+  display: block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+/* Labels for checkboxes and radio inputs only */
+.drzForm-checkLabel {
+  clear: none;
+  display: inline-block;
+  font-size: 11pt;
+  margin: 15px 0;
+  position: relative;
+  top: -2px;
+  user-select: none;
+  width: 90%;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@placeholder: fade(@black, 30%);
+
+.drzForm-placeholder {
+
+  &::-webkit-input-placeholder {
+  color: @placeholder;
+  }
+
+  &::-moz-placeholder {
+    color: @placeholder;
+  }
+
+  &:-ms-input-placeholder {
+    color: @placeholder;
+  }
+}
+
+/* Mixin that most field inputs inherit */
+.drzForm-standardField {
+  .drzForm-placeholder;
+  background-color: fade(@black, 5%);
+  border: 1px solid fade(@white, 10%);
+  color: darken(@white, 40%);
+  padding: 12px;
+
+  &:focus {
+    background-color: transparent;
+    border: 1px solid fade(@black, 15%);
+    box-shadow: 0;
+    outline: 0;
+    transition-duration: @defaultDuration;
+  }
+}
+
+.drzForm-inputText {
+  .drzForm-standardField;
+  border-radius: 1px;
+  clear: both;
+  display: block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.drzForm-inputEmail {
+  .drzForm-standardField;
+  border-radius: 1px;
+  clear: both;
+  display: block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.drzForm-inputNumber {
+  .drzForm-standardField;
+  border-radius: 1px;
+  clear: both;
+  display: block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.drzForm-inputDate {
+  .drzForm-standardField;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 1px;
+  clear: both;
+  display: inline-block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  visibility: visible;
+  width: 100%;
+}
+
+// Removes the clear button from date inputs
+.drzForm-inputDate::-webkit-clear-button {
+  display: none;
+}
+
+// Removes the spin button
+.drzForm-inputDate::-webkit-inner-spin-button {
+  display: none;
+}
+
+// Always display the drop down caret
+.drzForm-inputDate::-webkit-calendar-picker-indicator {
+  color: darken(@white, 40%);
+}
+
+.drzForm-inputTel {
+  .drzForm-standardField;
+  border-radius: 1px;
+  clear: both;
+  display: block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.drzForm-inputUrl {
+  .drzForm-standardField;
+  border-radius: 1px;
+  clear: both;
+  display: block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.drzForm-textarea {
+  .drzForm-standardField;
+  .drzFont-general;
+  border-radius: 1px;
+  clear: both;
+  display: block;
+  font-size: 11pt;
+  height: 100px;
+  margin-bottom: 5px;
+  padding: 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.drzForm-selectContainer {
+  clear: both;
+  min-height: 1px;
+  overflow: hidden;
+  position: relative;
+
+  &:after {
+    color: fade(@black, 25%);
+    content: '\e803';
+    font-family: 'drzzle';
+    position: absolute;
+    right: 10px;
+    top: 13px;
+  }
+}
+
+.drzForm-select {
+  .drzForm-standardField;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 1px;
+  clear: both;
+  display: block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  width: 100%;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:-moz-focus-inner {
+    border: 0;
+  }
+
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 darken(@white, 35%);
+  }
+}
+
+/* Mixin for standard checkbox and radio inputs */
+.drzForm-standardBox {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: fade(@black, 5%);
+  border: 1px solid fade(@white, 20%);
+  clear: none;
+  display: inline-block;
+  float: left;
+  height: 15px;
+  margin: 15px 0;
+  margin-right: 10px;
+  width: 15px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:checked {
+    background-color: fade(@black, 35%);
+  }
+
+  &:focus {
+    box-shadow: 0;
+    outline: 0;
+  }
+}
+
+.drzForm-checkbox {
+  .drzForm-standardBox;
+}
+
+.drzForm-radio {
+  .drzForm-standardBox;
+  border-radius: 50%;
+}
+
+.drzForm-tipHint {
+
+  &:after {
+    content: '\e84f';
+    font-family: 'drzzle';
+    font-size: 9pt;
+    margin-left: 5px;
+  }
+}
+
+.drzForm-tipHint-outside {
+  position: absolute;
+  right: -15px;
+  top: 16px;
+}
+
+.drzForm-required {
+
+  &:after {
+    color: @dangerColor;
+    content: '\e84c';
+    font-family: 'drzzle';
+    font-size: 7pt;
+    margin-left: 5px;
+  }
+}
+
+.drzForm-required-outside {
+  position: absolute;
+  right: 5px;
+  top: 15px;
+}
+
+/* Stand alone search for filterBar */
+.search {
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 1px;
+  color: fade(@black, 40%);
+  font-size: 14pt;
+  padding: 8px;
+
+  &:focus {
+    background-color: transparent;
+    border-bottom: 1px solid fade(@black, 15%);
+    box-shadow: 0;
+    outline: 0;
+    transition-duration: @defaultDuration;
+  }
+}
+
+/* Validator styling */
+.drzValidator-msg {
+  color: @dangerColor;
+  font-size: 10pt;
+  padding: 5px 0;
+  width: 100%;
+}
+
+.drzValidator-req-border {
+  border-color: @dangerColor !important;
+}
+
+.drzValidator-msg-required {
+  display: none;
+}
+
+.drzValidator-msg-type {
+  display: none;
+}
+
+.drzValidator-msg-min {
+  display: none;
+}
+
+.drzValidator-msg-max {
+  display: none;
+}
+
+.drzValidator-msg-value {
+  display: none;
+}
+
+.drzValidator-msg-regex {
+  display: none;
+}
+
+.drzForm-btn {
+  background-color: @baseColor;
+  border: 0;
+  border-radius: 1px;
+  border-style: solid;
+  color: @white;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 12pt;
+  padding: 10px 15px;
+  transition-duration: 0.2s;
+
+  &:hover {
+    background-color: darken(@baseColor, 5%);
+    cursor: pointer;
+  }
+
+  &:focus {
+    background-color: darken(@baseColor, 12%);
+    outline: 0;
+  }
+}
