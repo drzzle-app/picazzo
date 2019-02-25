@@ -1,3 +1,60 @@
 <div>
- Content Slider Page!
+  <header class="picazzo-page-header">Content Slider</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <content-slider-droplet></content-slider-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzContentSlider').drzContentSlider();</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Options</p>
+  <p>
+    Options for this plugins are set using HTML attributes.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// position of bullets
+data-slider-bullets="bottom" // default
+data-slider-bullets="right"
+data-slider-bullets="left"
+// controls
+data-slider-controls="show" // default
+data-slider-controls="hide"
+// transition effects
+data-slider-effect="slide" // default
+data-slider-effect="fade"
+// delay in seconds
+data-slider-delay="4" // default
+data-slider-delay="none" // to disable auto sliding</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Destroy Plugin</p>
+  <p>
+    To destroy the plugin, use the .destroy() method. This will remove all event listeners and added classes/attributes.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter">
+    <a
+      href="https://github.com/drzzle-app/picazzo-v2/blob/master/src/droplets/accordion/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </div>
 </div>

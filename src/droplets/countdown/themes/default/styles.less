@@ -1,0 +1,73 @@
+/* Coundown */
+.drzCountdown-clock {
+  color: @white;
+  display: table;
+  font-size: 22.5pt;
+  font-weight: 100;
+  position: relative;
+  text-align: center;
+
+  @media @mobile {
+    font-size: 16.5pt;
+  }
+}
+
+.drzCountdown-endedMsg {
+  display: none;
+}
+
+.drzCountdown-timerContainer {
+  .drzClearFix;
+}
+
+.drzCountdown-section {
+  background: @baseColor;
+  border-radius: 1px;
+  display: inline-block;
+  padding: 10px;
+
+  @media @mobile {
+    margin-bottom: 3px;
+    padding: 5px;
+  }
+}
+
+.drzCountdown-period {
+  background-color: fade(@black, 10%);
+  border-radius: 1px;
+  display: inline-block;
+  padding: 15px;
+
+  @media @mobile {
+    padding: 9px;
+  }
+}
+
+.drzCountdown-days {
+  .drzCountdown-period;
+}
+
+.drzCountdown-hours {
+  .drzCountdown-period;
+}
+
+.drzCountdown-minutes {
+  .drzCountdown-period;
+}
+
+.drzCountdown-seconds {
+  .drzCountdown-period;
+}
+
+.drzCountdown-count-label {
+  font-size: 12pt;
+  padding-top: 5px;
+
+  @media @mobile {
+    font-size: 10.5pt;
+  }
+}
+
+.drzCountdown-endMessage {
+  color: fade(@black, 60%);
+}

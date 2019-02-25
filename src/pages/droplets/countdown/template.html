@@ -1,3 +1,57 @@
 <div>
- Countdown Page!
+  <header class="picazzo-page-header">Countdown</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <countdown-droplet></countdown-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzCountdown-clock').drzCountDown();</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Options</p>
+  <p>
+    This plugin can take in multiple end times. Options are set using HTML attributes. You will need to pass in an array of
+    end times in the following JSON format. See above demo HTML.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// countdown end time
+"end": "Mon May 29 2017 09:30:00 GMT-0500 (CDT)"</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// delay next countdown (if multiple) for this amount of time.
+"buffer": "1 hour"</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// countdown end message.
+"endMessage": "Ended 1st Countdown!"</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// recurring is currently only available for weekly only. The default value is false.
+"recurring": "every week"</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter">
+    <a
+      href="https://github.com/drzzle-app/picazzo-v2/blob/master/src/droplets/accordion/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </div>
 </div>

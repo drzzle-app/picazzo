@@ -15,9 +15,11 @@
 
   <header class="picazzo-sectionHeader">Javascript</header>
 
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
   <p>
     For accordions, the a 'drzAccordion-section-title' href attribute must match the 'section-'
-    class with the 'drzAccordion-section-content'. See below to initialize the plugin.
+    class with the 'drzAccordion-section-content'.
   </p>
 
   <div class="row">
@@ -26,13 +28,18 @@
 
   <p class="picazzo-section-subHeader">Destroy Plugin</p>
   <p>
-    To detatch event listeners from the bounded element, call the .killEvents() method. This will come in handy for dynamically editing this pattern in the CMS. Try the "Test Kill" button, it should kill the demo events.
+    To destroy the plugin, use the .killEvents() method. This remove all event listeners and added classes/attributes.
   </p>
   <div class="row">
     <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
   </div>
 
   <div class="picazzo-docFooter">
-    <a href="#" class="picazzo-link-small picazzo-extLink">See Plugin Source</a>
+    <a
+      href="https://github.com/drzzle-app/picazzo-v2/blob/master/src/droplets/accordion/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
   </div>
 </div>

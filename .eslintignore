@@ -1,6 +1,7 @@
 /build/
 /config/
 /dist/
+/src/modules/
 /*.js
 !/gulpfile.js
 /scaffholds/

@@ -1,0 +1,127 @@
+/* content-slider styles here */
+.drzContentSlider {
+  height: 350px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.drzContentSlider-item {
+  display: none;
+  height: 100%;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
+
+.drzContentSlider-item-img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.drzContentSlider-bullets {
+  position: absolute;
+}
+
+.drzContentSlider-bullet {
+  background-color: fade(@black, 45%);
+  border-radius: 50%;
+  display: block;
+  height: 8px;
+  margin: auto auto;
+  transition-duration: @defaultDuration;
+  width: 8px;
+
+  &.active {
+    background-color: fade(@white, 70%);
+    border-radius: 20px;
+    width: 15px;
+  }
+}
+
+.drzContentSlider-bullets-right {
+  right: 8px;
+  top: 50%;
+  width: 15px;
+
+  .drzContentSlider-bullet {
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.drzContentSlider-bullets-left {
+  left: 8px;
+  top: 50%;
+  width: 15px;
+
+  .drzContentSlider-bullet {
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.drzContentSlider-bullets-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  .drzContentSlider-bullet {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.drzContentSlider-btn {
+  .flex-center-all;
+  color: fade(@black, 35%);
+  font-size: 20pt;
+  height: 100%;
+  padding: 10px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+
+  &:hover {
+    background-color: fade(@black, 10%);
+    color: fade(@black, 35%);
+    cursor: pointer;
+    transition-duration: @defaultDuration;
+  }
+}
+
+.drzContentSlider-next-btn {
+  .drzContentSlider-btn;
+  margin-right: -5px;
+  right: 0;
+
+  &:before {
+    content: '\e809';
+    font-family: 'drzzle';
+  }
+}
+
+.drzContentSlider-back-btn {
+  .drzContentSlider-btn;
+  left: 0;
+  margin-left: -5px;
+
+  &:before {
+    content: '\e808';
+    font-family: 'drzzle';
+  }
+}

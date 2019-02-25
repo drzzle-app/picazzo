@@ -6,8 +6,7 @@ export default Vue.component('droplet-name', {
   template,
   name: 'droplet-name',
   mounted() {
-    $.fn.picazzo.dropletName({
-      el: $(this.$refs.dropletName),
-    });
+    const $dropletName = $(this.$refs.dropletName);
+    $dropletName.initPlugin();
   },
 });

@@ -25,8 +25,11 @@
   width: 25%;
 
   & [class^='drzicon-'] {
-    font-size: 35px !important;
     margin-right: 8px;
+
+    &:before {
+      font-size: 30px;
+    }
   }
 }
 
@@ -43,15 +46,19 @@
   top: -8px;
 }
 
-.picazzo-link-small {
+.picazzo-link {
   color: @picazzo-base;
-  font-size: 11pt;
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
     transition-duration: .2s;
   }
+}
+
+.picazzo-link-small {
+  .picazzo-link;
+  font-size: 11pt;
 }
 
 .picazzo-extLink {

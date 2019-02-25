@@ -1,0 +1,344 @@
+@audioCtrlBg: #ffffff;
+@audioTrackColor: darken(@white, 20%);
+@audioCtrlText: lighten(@black, 50%);
+
+/*Audio Player Styling*/
+.drzAudio {
+  .row;
+  height: 54px;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.drzAudio-src {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.drzAudio-controlBar {
+  border-bottom: 1px solid darken(@white, 5%);
+  bottom: 0;
+  min-height: 1px;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+
+  @media @mobile {
+    position: relative;
+  }
+}
+
+.drzAudio-controls {
+  background-color: @white;
+  clear: both;
+  color: @audioCtrlText;
+  height: 43px;
+  overflow: hidden;
+}
+
+.drzAudio-controlBtn {
+  background-color: inherit;
+  border: 0;
+  border-left: 1px solid darken(@white, 5%);
+  color: inherit;
+  display: inline-block;
+  float: left;
+  height: 100%;
+  padding: 15px 20px;
+  text-align: center;
+  transition-duration: @defaultDuration;
+
+  @media @mobile {
+    padding: 15px 3px;
+  }
+
+  &:hover {
+    background-color: fade(@black, 5%);
+    cursor: hand;
+    cursor: pointer;
+  }
+
+  &:focus {
+    background-color: fade(@black, 5%);
+    outline: 0;
+  }
+
+  &:active {
+    background-color: fade(@black, 5%);
+    outline: 0;
+  }
+
+  &:after {
+    font-family: 'drzzle';
+  }
+}
+
+.drzAudio-playBtn {
+  .drzAudio-controlBtn;
+  .col-1;
+
+  @media @mobile {
+    width: 25%;
+  }
+
+  &:after {
+    content: '\e861';
+  }
+}
+
+.drzAudio-pauseBtn {
+  .drzAudio-controlBtn;
+  .col-1;
+
+  @media @mobile {
+    width: 25%;
+  }
+
+  &:after {
+    content: '\e868';
+  }
+}
+
+.drzAudio-muteBtn {
+  .drzAudio-controlBtn;
+  .col-1;
+  border-right: 1px solid darken(@white, 5%);
+  float: right;
+
+  @media @mobile {
+    display: none;
+  }
+
+  &:after {
+    content: '\e86a';
+  }
+}
+
+.drzAudio-muteOff {
+
+  &:after {
+    content: '\e86b';
+  }
+}
+
+.drzAudio-progressBar {
+   background-color: fade(@black, 15%);
+   color: @white;
+   height: 10px;
+   width: 100%;
+
+   &:hover {
+     cursor: pointer;
+   }
+}
+
+.drzAudio-progress {
+   background-color: @baseColor;
+   display: block;
+   height: 10px;
+   transition: all 0.2s ease;
+   width: 0;
+}
+
+.drzAudio-timeContainer {
+  .col-6;
+  border: 0;
+  border-left: 1px solid darken(@white, 5%);
+  color: inherit;
+  display: inline-block;
+  float: right;
+  font-size: 10pt;
+  font-weight: 600;
+  height: 100%;
+  padding: 13px 20px;
+  text-align: center;
+
+  @media @mobile {
+    border-right: 1px solid darken(@white, 5%);
+    padding: 13px 8px;
+    width: 25%;
+  }
+}
+
+.drzAudio-volSliderContainer {
+  .col-3;
+  border-right: 1px solid darken(@white, 5%);
+  display: inline-block;
+  float: right;
+  height: 100%;
+  padding: 17.5px 0;
+
+  @media @mobile {
+    border-right: 1px solid darken(@white, 5%);
+    width: 25%;
+  }
+
+  @-moz-document url-prefix() {
+    padding: 15px 0;
+  }
+}
+
+.drzAudio-volTrack {
+  cursor: pointer;
+  height: 4px;
+}
+
+.drzAudio-volThumb {
+  background-color: @audioCtrlText;
+  border: 0;
+  border-radius: 1px;
+  cursor: pointer;
+  height: 14px;
+  margin-top: -5px;
+  width: 10px;
+}
+
+.drzAudio-volSlider {
+  -webkit-appearance: none;
+  display: block;
+  margin: 3px auto;
+  width: 75%;
+
+  @-moz-document url-prefix() {
+    margin: 0 auto;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::-webkit-slider-runnable-track {
+    .drzAudio-volTrack;
+    background-color: @audioTrackColor;
+  }
+
+  &::-webkit-slider-thumb {
+    .drzAudio-volThumb;
+    -webkit-appearance: none;
+    margin-top: -5px;
+  }
+
+  &:focus::-webkit-slider-runnable-track {
+    background-color: @audioTrackColor;
+  }
+
+  &::-moz-range-track {
+    .drzAudio-volTrack;
+    background-color: @audioTrackColor;
+  }
+
+  &::-moz-range-thumb {
+    .drzAudio-volThumb;
+  }
+
+  &::-ms-track {
+    .drzAudio-volTrack;
+    background-color: transparent;
+    border-color: transparent;
+    border-width: 10px 0;
+    color: transparent;
+  }
+
+  &::-ms-fill-lower {
+    background-color: @audioTrackColor;
+  }
+
+  &::-ms-fill-upper {
+    background-color: @audioTrackColor;
+  }
+
+  &::-ms-thumb {
+    .drzAudio-volThumb;
+  }
+
+  &:focus::-ms-fill-lower {
+    background-color: @audioTrackColor;
+  }
+
+  &:focus::-ms-fill-upper {
+    background-color: @audioTrackColor;
+  }
+}
+
+/*Audio Feature Informtion Section*/
+.drzAudio-feature {
+  .row;
+}
+
+.drzAudio-featureInfo {
+  .row;
+  background-color: darken(@white, 2%);
+  margin-bottom: 0;
+}
+
+.drzAudio-featureGraphic {
+  .column;
+  .col-4;
+  background-color: @baseColor;
+  height: 220px;
+  padding: 0;
+}
+
+.drzAudio-featureImg {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.drzAudio-featureSummary {
+  .column;
+  .col-4;
+  padding: 10px;
+}
+
+.drzAudio-featureList {
+  .column;
+  .col-4;
+  border-left: 1px solid fade(@black, 10%);
+  padding: 10px;
+
+  @media @mobile {
+   border: 0;
+   border-top: 1px solid fade(@black, 10%);
+  }
+}
+
+.drzAudio-featureOrderedList {
+  .no-list-style;
+}
+
+.drzAudio-featureList-item {
+  counter-increment: step-counter;
+}
+
+.drzAudio-featureList-link {
+  background-color: @white;
+  color: fade(@black, 45%);
+  display: block;
+  margin-bottom: 5px;
+  padding: 10px 0;
+  text-decoration: none;
+
+  &:hover {
+    background-color: fade(@black, 1.5%);
+    cursor: pointer;
+    transition-duration: @defaultDuration;
+  }
+
+  &:before {
+    background-color: @baseColor;
+    color: @white;
+    content: counter(step-counter);
+    font-weight: bold;
+    margin-right: 8px;
+    padding: 10px 13px;
+  }
+
+  &:after {
+    content: '\f144';
+    float: right;
+    font-family: 'drzzle';
+    margin-right: 10px;
+  }
+}

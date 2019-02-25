@@ -1,3 +1,47 @@
 <div>
- Columns Page!
+  <header class="picazzo-page-header">Columns</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <columns-droplet></columns-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <p>For more documentation on classes and rows, see our <router-link class="picazzo-link" tag="a" to="/grid-system">grid system page</router-link>.</p>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.row').equalheights();</code></pre>
+  </div>
+
+  <p>
+    This is only for desktop / tablet size screens. All children must have the column class in order to recieve the equal height.
+  </p>
+
+
+  <p class="picazzo-section-subHeader">Destroy Plugin</p>
+  <p>
+    To destroy the plugin, use the .destroy() method. This will remove all event listeners and added classes/attributes.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter">
+    <a
+      href="https://github.com/drzzle-app/picazzo-v2/blob/master/src/droplets/accordion/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </div>
 </div>

@@ -279,7 +279,6 @@ const buildJsPlugins = () => {
           // if there is a js file, add it to the concat list!
           fse.statSync(jsPath);
           dropletJS.push(jsPath);
-          console.log('droplet js files: ', dropletJS);
           resolve(jsPath);
         } catch (e) {
           reject(undefined);
