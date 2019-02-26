@@ -1,0 +1,39 @@
+.section {
+  .drzClearFix;
+  margin: 0 auto;
+  min-height: 10px;
+  position: relative;
+  width: 100%;
+}
+
+.container {
+  .drzClearFix;
+  margin: 10px auto;
+  max-width: 1280px;
+  min-height: 10px;
+  padding: 8px;
+  width: 80%;
+
+  @media @mobile {
+    width: 90%;
+  }
+}
+
+.topScroll-button {
+  background-color: @baseColor;
+  bottom: 15px;
+  display: none;
+  height: 30px;
+  padding: 5px;
+  position: fixed;
+  right: 15px;
+  text-align: center;
+  text-decoration: none;
+  width: 30px;
+
+  &:after {
+    color: @white;
+    content: '\e860';
+    font-family: 'drzzle';
+  }
+}

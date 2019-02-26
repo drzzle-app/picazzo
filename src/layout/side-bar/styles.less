@@ -61,3 +61,21 @@
   position: relative;
   top: 40px;
 }
+
+.picazzo-gitLink {
+  color: fade(@black, 30%);
+  display: inline-block;
+  float: right;
+  font-size: 22pt;
+  margin-right: 20px;
+  transition-duration: .2s;
+
+  &:before {
+    content: '\f300';
+    font-family: 'drzzle';
+  }
+
+  &:hover {
+    color: fade(@black, 65%);
+  }
+}

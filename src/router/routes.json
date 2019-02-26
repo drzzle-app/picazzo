@@ -213,7 +213,13 @@
             "path": "/full-page/:id",
             "name": "full",
             "component": "require('@/layout/full-page/').default",
-            "children": []
+            "children": [
+                {
+                    "path": "/all-droplets",
+                    "name": "all-droplets",
+                    "component": "require('@/pages/all-droplets/').default"
+                }
+            ]
         }
     ]
 }

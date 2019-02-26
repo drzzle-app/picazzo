@@ -1,0 +1,15 @@
+.picazzo-imgLink {
+  border: 1px solid fade(@black, 10%);
+  transition-duration: .2s;
+  width: 50%;
+
+  &:hover {
+    box-shadow: 0px 2px 12px -1px rgba(0, 0, 0, 0.22);
+    cursor: pointer;
+    transform: scale(1.01);
+  }
+
+  @media @mobile {
+    width: 100%;
+  }
+}

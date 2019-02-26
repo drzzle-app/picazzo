@@ -1,3 +1,62 @@
 <div>
- Utilities Page! Include mixins here
+
+  <header class="picazzo-page-header">Utility Classes</header>
+
+  <p>
+    Utilities are used to override default styles. This way of manipulating elements usually is <b>not</b> recommended,
+    as it goes agains the <a href="http://maintainablecss.com/" class="picazzo-link">Maintanable CSS</a> ecosystem.
+    However, in some circumstances, it may need to be done. For instance, classes that need to be dynamically added
+    via js/jquery (hiding/showing elements etc.) or for <i>one off</i> quick manipulations.
+  </p>
+
+  <header class="picazzo-sectionHeader">Viewport Helper Classes</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="css">/* hide something (uses display none) */
+.hide
+
+/* only show in desktop */
+.desktop-only
+
+/* only show in tablet */
+.tablet-only
+
+/* only show in mobile */
+.mobile-only
+
+/* show in mobile and tablet, hide in desktop */
+.no-desktop
+
+/* show in mobile and desktop, hide in tablet */
+.no-tablet
+
+/* show in desktop and tablet, hide in mobile */
+.no-mobile</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Text Helper Classes</header>
+  <div class="row">
+    <pre v-highlightjs><code class="css">/* align text center */
+.center-txt
+
+/* align text right */
+.right-txt
+
+/* align text left */
+.left-txt
+
+/* solid white text color */
+.white-txt
+
+/* solid black text color */
+.black-txt
+
+/* slightly transparent white text color */
+.white-fade-txt
+
+/* slightly transparent black text color */
+.black-fade-txt</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter"></div>
 </div>

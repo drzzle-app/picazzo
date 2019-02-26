@@ -377,7 +377,13 @@ const newDroplet = () =>
               }))
               .pipe(gulp.dest(`${dropletDir}/`));
 
-            // add all themes to this plugin. users can remove them if not wanted
+            // add droplet to all droplets file
+            const dropletsPageDir = './src/pages/all-droplets/';
+            gulp.src(`${dropletsPageDir}all-droplets.js`)
+              .pipe(replace('};', `  '${name}': require('@/droplets/${name}'),\n};`))
+              .pipe(gulp.dest(dropletsPageDir));
+
+            // add all themes to this droplet. users can remove them if not wanted
             const themePath = './src/less/themes/';
             const themes = getFolders(themePath);
             themes.forEach((theme) => {

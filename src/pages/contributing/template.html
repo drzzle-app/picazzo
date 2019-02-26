@@ -1,32 +1,209 @@
 <div>
   <header class="picazzo-page-header">Contributing</header>
 
-  <p>Mention versioning as well "major | minor | patch"</p>
-  <p>Mention CSS maintainable and standards for creating new things</p>
-
-
-  <!-- <pre v-highlightjs><code class="javascript">var thing = '';</code></pre> -->
-  <header class="picazzo-sectionHeader">New Theme Development</header>
+  <header class="picazzo-sectionHeader">New Droplets</header>
   <p>
-    Follow these steps to make a new theme:
-
-    Create new branch for new theme.
-    Open new terminal, in project root folder & run: gulp new-theme --name "new-theme-name" Please keep name lowercase and only use "-" if you need a special character/spaces
-    During development, work out of the patterns page. At the bottom left of the page you can switch to your theme there (the option is stored locally, so you don't have to keep selecting it).
-    You should see your new theme folder in themes/. In the patterns/ folder, you should see that each pattern has your new theme folder. Restyle each pattern to your new designs.
-    Create a Pull Request once theme is finished.
-    Do not create new HTML when building a new theme. This is to keep 'theme swapping' as seemless as possible.
+    Follow these steps to make a new droplet
+    <ol>
+      <li>
+        Open a new terminal in the project root folder & run "<b>npm run build:newdroplet</b>". Answer the questions given.
+      </li>
+      <li>
+        You'll see your new droplet folder in droplets/. In this folder you can add your styling and build your plugins with the created files as needed.
+      </li>
+      <li>
+        After making a new droplet, please create a new documentation page using the "<b>npm run build:newpage</b>" command.
+      </li>
+      <li>
+        Open a Pull Request against master.
+      </li>
+    </ol>
   </p>
 
-  <header class="picazzo-sectionHeader">New Droplet Development</header>
+  <header class="picazzo-sectionHeader">New Themes</header>
   <p>
-    Follow these steps to make a new pattern:
-
-    Create new branch for new pattern.
-    Open new terminal, in project root folder & run: gulp new-pattern. You'll be prompted for a name and if this needs js. Please keep name lowercase and only use "-" if you need a special character/spaces
-    You'll see your new pattern folder in patterns/. Please keep in mind you'll need to style this pattern differently in each theme.
-    After making a new pattern, please create a new documentation page and add it to the patterns area with any instructions and code samples like the rest. This is done under the docs-app/ folder.
+    Follow these steps to make a new theme
+    <ol>
+      <li>
+        Open a new terminal in the project root folder & run "<b>npm run build:newtheme</b>". Answer the questions given.
+      </li>
+      <li>
+        You should see your new theme folder in less/themes/. In the droplets/ folder, you should see that each droplet
+        has your new theme folder. Restyle each pattern as you like.
+      </li>
+      <li>
+        Open a Pull Request against master.
+      </li>
+    </ol>
+    <!-- TODO need to build a theme swapper -->
+    Do not create new HTML on existing droplets when building a new theme. This is to keep 'theme swapping' as seemless as possible.
   </p>
 
-  JQUERY stuff here too
+  <header class="picazzo-sectionHeader">LESS styling</header>
+  <p>
+    Our library is built using LESS and is modeled after the <a href="http://maintainablecss.com/" class="picazzo-link">Maintanable CSS system</a>.
+  </p>
+  <p>
+    Please prefix each pattern class with "drz" so that we can avoid potential clashing with other libs. In the theme's
+    variables.less file, there are many helpers available. Including the theme "@baseColor" variable. You can use this
+    for a default color scheme on any new droplets/themes.
+  </p>
+  <p>
+    Mobile and tablet variables are predefined. To add media queries, just add the following in your styling
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="css">.drzMyClass{
+  /*rules here*/
+  @media @tablet{
+    /*rules here*/
+  }
+  @media @mobile{
+    /*rules here*/
+  }
+}</code></pre>
+  </div>
+
+  <p>
+    Do not nest LESS rules more than 3 deep. As far as class & id naming conventions, don't use more than 3 hyphens
+    and names should be in the following format (use camelCase as necessary):
+  </p>
+
+  <p>
+    <b>.drzComponent-module-other</b>
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="css">.drzNewCard {
+ /* rules here */
+}
+
+.drzNewCard-row {
+ /* rules here */
+}
+
+.drzNewCard-row-active {
+  /* rules here */
+}</code></pre>
+  </div>
+
+<p>
+  If your new pattern contains a grid system, for example if you are creating a new card pattern and you would like
+  to use 3 columns, instead of using the 'col-4' class in the html, use it as a mixin so that we aren't always bound
+  to 3 columns. See below:
+</p>
+
+<div class="row">
+  <pre v-highlightjs><code class="html">{{ gridTemplate() }}</code></pre>
+  <pre v-highlightjs><code class="css">.drzNewCard {
+  .column;
+  .col-4;
+  /* other rules */
+}}</code></pre>
+</div>
+
+
+  <header class="picazzo-sectionHeader">Droplet Plugins (Javascript)</header>
+
+  <p>
+    If your new droplet needs JS functionality, follow the standard jQuery plugin creation method as seen in their
+    docs. To save time from reading, you basically create a prototype function so that we can chain it. Most of
+    this is automated when using the new droplet command mentioned above.
+  </p>
+  <p>Plugin Example</p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">(($) => {
+  $.fn.myPattern = function myPattern(){
+    //your code here
+    return this;
+  };
+})(jQuery);
+// now call it like so
+$('.myPattern').myPattern();</code></pre>
+  </div>
+
+  <p>
+    For passing options into your script, use data attributes on the bound element.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ pluginTpl() }}</code></pre>
+  </div>
+
+  <p>Now you can use the options like so</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">(($) => {
+  $.fn.myPattern = function myPattern(){
+    let myOption = $(this).attr('data-myOption');
+
+    //your code here
+    return this;
+  };
+})(jQuery);</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">JQuery Best Practices</header>
+
+  <p>Please make sure to follow these best practices when developing your plugin.</p>
+
+
+  <p>Prefix JQuery variables with a $</p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// good
+const $myDiv = $('.myDiv');
+
+// bad
+const myDiv = $('.myDiv');</code></pre>
+  </div>
+
+  <p>Cache/store JQuery lookups.</p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// good
+const $myDiv = $('.myDiv');
+$myDiv.css('color', 'red');
+$myDiv.hover(someFunction);
+
+// bad
+$('.myDiv').css('color', 'red');
+$('.myDiv').hover(someFunction);</code></pre>
+  </div>
+
+  <p>Create a 'destroy' method if attaching event listeners. This will help set/reset the plugin when editing in an editor.</p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">(($) => {
+  $.fn.myPattern = function myPattern(){
+    $(this).find('.someChild').click(someFunction);
+    // destroy example
+    $.fn.myPattern.destroy = ($el) => {
+      // grab attached selectors and remove attached listeners
+      $el.find('.someChild').off('click');
+    };
+    return this;
+  };
+})(jQuery);
+
+// You can then call like so
+const $myDiv = $('.myDiv');
+$myDiv.myPattern.destroy($myDiv);</code></pre>
+  </div>
+
+  <p>
+    Please try not to create any leaks outside scope of the bound element. See <b>BAD</b> example below. As you'll notice it
+    attaches a click listener to it's parent.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ jqTpl() }}</code></pre>
+    <pre v-highlightjs><code class="javascript">// initialize plugin
+$('.child').myPattern();
+
+// plugin
+(($) => {
+  $.fn.myPattern = function myPattern(){
+    $(this).parent().click(someFunction);
+    return this;
+  };
+})(jQuery);</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter"></div>
 </div>

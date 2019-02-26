@@ -130,113 +130,6 @@ window.drzzle = {
   };
 })(jQuery);
 
-/* Section Bg Videos
-* ======================= */
-(function ($) {
-  $.fn.drzSectionVideo = function drzAccordion() {
-    var $video = $(this);
-    $video.each(function initVideo() {
-      var $v = $(this);
-      var $attrs = $v.attr('data-videos');
-      var resizeTimer = void 0;
-      var start = true;
-      var startingViewport = void 0;
-      var endingViewport = void 0;
-      var methods = {
-        init: function init($v, resize) {
-          $attrs = $v.attr('data-videos');
-          $attrs = $attrs.desktop ? $attrs : JSON.parse($attrs);
-          // we only want to redraw on resize if there is a change
-          if (resize && $attrs[resize.startingViewport].src !== $attrs[resize.endingViewport].src) {
-            $v.find('video.drzSection-video').remove();
-            methods.drawVideo($v);
-          }
-          if (!resize) {
-            $v.find('video.drzSection-video').remove();
-            methods.drawVideo($v);
-          }
-        },
-        drawVideo: function drawVideo($v) {
-          // draw new video
-          var data = methods.getSource($attrs);
-          var $newVideo = $('\n            <video class="drzSection-video" muted loop playsinline autoplay>\n              <source src="' + data.src + '" type="video/' + data.type + '" />\n              <p class="warning">Your browser does not support HTML5 video.</p>\n            </video>');
-          // prepend to container
-          $v.prepend($newVideo);
-          // auto play video if it hasn't started on it's own
-          var domV = $v.find('.drzSection-video').get(0);
-          domV.addEventListener('loadeddata', function () {
-            var count = 0;
-            var tryToPlay = function tryToPlay() {
-              if (domV.paused && count < 31) {
-                count += 1;
-                domV.play().catch(function () {
-                  tryToPlay();
-                });
-              }
-            };
-            tryToPlay();
-          });
-        },
-        getSource: function getSource(data) {
-          var src = '';
-          var type = '';
-          if (window.matchMedia(drzzle.viewports.mobile).matches) {
-            src = data.mobile.src;
-            type = data.mobile.type;
-          }
-          if (window.matchMedia(drzzle.viewports.tablet).matches) {
-            src = data.tablet.src;
-            type = data.tablet.type;
-          }
-          if (window.matchMedia(drzzle.viewports.desktop).matches) {
-            src = data.desktop.src;
-            type = data.desktop.type;
-          }
-          return { src: src, type: type };
-        },
-        get: function get() {
-          var viewport = '';
-          if (window.matchMedia(drzzle.viewports.mobile).matches) {
-            viewport = 'mobile';
-          }
-          if (window.matchMedia(drzzle.viewports.tablet).matches) {
-            viewport = 'tablet';
-          }
-          if (window.matchMedia(drzzle.viewports.desktop).matches) {
-            viewport = 'desktop';
-          }
-          return { viewport: viewport };
-        },
-        resize: function resize() {
-          if (start) {
-            startingViewport = methods.get().viewport;
-            start = false;
-          }
-          clearTimeout(resizeTimer);
-          resizeTimer = setTimeout(function () {
-            endingViewport = methods.get().viewport;
-            methods.init($v, { startingViewport: startingViewport, endingViewport: endingViewport });
-            start = true;
-          }, 250);
-        }
-      };
-
-      if ($attrs) {
-        // init the plugin on load
-        methods.init($v);
-        // redraw on screen resize
-        drzzle.window.resize(methods.resize);
-      }
-      // destroy plugin
-      $.fn.drzSectionVideo.destroy = function ($el) {
-        $el.find('video.drzSection-video').remove();
-        drzzle.window.off('resize', methods.resize);
-      };
-    });
-    return this;
-  };
-})(jQuery);
-
 /* Site Search (Client Side)
 * ======================= */
 (function ($) {
@@ -1891,6 +1784,113 @@ window.drzzle = {
       // destroy listeners
       $.fn.drzMap.destroy = function () {
         $win.off('resize', reDraw);
+      };
+    });
+    return this;
+  };
+})(jQuery);
+
+/* Section Bg Videos
+* ======================= */
+(function ($) {
+  $.fn.drzSectionVideo = function drzAccordion() {
+    var $video = $(this);
+    $video.each(function initVideo() {
+      var $v = $(this);
+      var $attrs = $v.attr('data-videos');
+      var resizeTimer = void 0;
+      var start = true;
+      var startingViewport = void 0;
+      var endingViewport = void 0;
+      var methods = {
+        init: function init($v, resize) {
+          $attrs = $v.attr('data-videos');
+          $attrs = $attrs.desktop ? $attrs : JSON.parse($attrs);
+          // we only want to redraw on resize if there is a change
+          if (resize && $attrs[resize.startingViewport].src !== $attrs[resize.endingViewport].src) {
+            $v.find('video.drzSection-video').remove();
+            methods.drawVideo($v);
+          }
+          if (!resize) {
+            $v.find('video.drzSection-video').remove();
+            methods.drawVideo($v);
+          }
+        },
+        drawVideo: function drawVideo($v) {
+          // draw new video
+          var data = methods.getSource($attrs);
+          var $newVideo = $('\n            <video class="drzSection-video" muted loop playsinline autoplay>\n              <source src="' + data.src + '" type="video/' + data.type + '" />\n              <p class="warning">Your browser does not support HTML5 video.</p>\n            </video>');
+          // prepend to container
+          $v.prepend($newVideo);
+          // auto play video if it hasn't started on it's own
+          var domV = $v.find('.drzSection-video').get(0);
+          domV.addEventListener('loadeddata', function () {
+            var count = 0;
+            var tryToPlay = function tryToPlay() {
+              if (domV.paused && count < 31) {
+                count += 1;
+                domV.play().catch(function () {
+                  tryToPlay();
+                });
+              }
+            };
+            tryToPlay();
+          });
+        },
+        getSource: function getSource(data) {
+          var src = '';
+          var type = '';
+          if (window.matchMedia(drzzle.viewports.mobile).matches) {
+            src = data.mobile.src;
+            type = data.mobile.type;
+          }
+          if (window.matchMedia(drzzle.viewports.tablet).matches) {
+            src = data.tablet.src;
+            type = data.tablet.type;
+          }
+          if (window.matchMedia(drzzle.viewports.desktop).matches) {
+            src = data.desktop.src;
+            type = data.desktop.type;
+          }
+          return { src: src, type: type };
+        },
+        get: function get() {
+          var viewport = '';
+          if (window.matchMedia(drzzle.viewports.mobile).matches) {
+            viewport = 'mobile';
+          }
+          if (window.matchMedia(drzzle.viewports.tablet).matches) {
+            viewport = 'tablet';
+          }
+          if (window.matchMedia(drzzle.viewports.desktop).matches) {
+            viewport = 'desktop';
+          }
+          return { viewport: viewport };
+        },
+        resize: function resize() {
+          if (start) {
+            startingViewport = methods.get().viewport;
+            start = false;
+          }
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(function () {
+            endingViewport = methods.get().viewport;
+            methods.init($v, { startingViewport: startingViewport, endingViewport: endingViewport });
+            start = true;
+          }, 250);
+        }
+      };
+
+      if ($attrs) {
+        // init the plugin on load
+        methods.init($v);
+        // redraw on screen resize
+        drzzle.window.resize(methods.resize);
+      }
+      // destroy plugin
+      $.fn.drzSectionVideo.destroy = function ($el) {
+        $el.find('video.drzSection-video').remove();
+        drzzle.window.off('resize', methods.resize);
       };
     });
     return this;
