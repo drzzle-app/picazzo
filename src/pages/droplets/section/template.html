@@ -1,3 +1,124 @@
 <div>
- Section Page!
+  <header class="picazzo-page-header">Sections</header>
+
+  <p>
+    Sections are the building blocks of a template. Sections are fluid. They span 100% across the
+    entire screen and are meant to have containers nested in them.
+  </p>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <section-droplet></section-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Video Backgrounds</header>
+
+  <p>
+    Sections can optionally have a video background. The video wrapper needs to be a sibling above
+    the container. If a section has a video background, the section needs to also have an overflow
+    hidden rule to it.
+  </p>
+  <p>
+    The video source needs to be added to the "data-videos" attribute. In the unlikely event that different
+    video's need to be loaded per viewport, the options are available.
+  </p>
+
+  <div class="section flex-center-all" style="overflow:hidden;height:250px;">
+  <!-- video bg -->
+  <div ref="drzVideo" class="sectionVideo-container" data-videos='{
+      "desktop": {
+        "src": "https://s3-us-west-1.amazonaws.com/drz-assets/multi-media/yard.mp4",
+        "type": "mp4",
+        "inherit": false
+      },
+      "tablet": {
+        "src": "https://s3-us-west-1.amazonaws.com/drz-assets/multi-media/yard.mp4",
+        "type": "mp4",
+        "inherit": true
+      },
+      "mobile": {
+        "src": "https://s3-us-west-1.amazonaws.com/drz-assets/multi-media/yard.mp4",
+        "type": "mp4",
+        "inherit": true
+      }
+    }'></div>
+    <!-- container -->
+    <div class="container ex center-txt" style="color:white;">
+      some content
+    </div>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ videoHTML() }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.section').drzSectionVideo();</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Options</p>
+  <p>
+    This plugin can take in multiple videos per viewport. Options are set using HTML attributes.
+    You will need to pass them in JSON format. See above demo HTML.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">"desktop": {
+  "src": "video url here", // url string
+  "type": "mp4", // video type
+  "inherit": false // should this video inherit from desktop (always false in desktop)
+}</code></pre>
+    <pre v-highlightjs><code class="javascript">"tablet": {
+  "src": "video url here", // url string
+  "type": "mp4", // video type
+  "inherit": true // should this video inherit from desktop
+}</code></pre>
+  <pre v-highlightjs><code class="javascript">"mobile": {
+  "src": "video url here", // url string
+  "type": "mp4", // video type
+  "inherit": true // should this video inherit from desktop
+}</code></pre>
+  </div>
+
+  <div class="row">
+    <a
+      href="https://github.com/drzzle-app/picazzo-v2/blob/master/src/droplets/accordion/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </div>
+
+  <header class="picazzo-sectionHeader">Overlay</header>
+
+  <p>
+    Sections can optionally have an overlay layer which sits above the background color and image/video
+    background layer. The overlay also needs to be a sibling above the container. If a section has an
+    overlay, the section needs to also have an overflow hidden rule to it.
+  </p>
+
+  <div class="row">
+    <div class="section flex-center-all" style="overflow:hidden;min-height:300px;">
+      <!-- overlay -->
+      <div class="drzSection-overlay" style="display:block;"></div>
+      <!-- container -->
+      <div class="container center-txt">
+        <b style="color:white;">some content</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ overlayHTML() }}</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter"></div>
 </div>

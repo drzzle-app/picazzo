@@ -1,0 +1,57 @@
+{
+  "fileExtensions": [".less", ".css"],
+
+  "excludedFiles": [
+    "src/icons",
+    "src/less/picazzo/fonts",
+    "src/less/picazzo/vendors"
+  ],
+
+  "spaceAfterPropertyColon": {
+      "enabled": true,
+      "style": "one_space"
+  },
+
+  "propertyUnits": {
+    "properties": {
+        "font-size": ["pt", "px"]
+    }
+  },
+
+  "selectorNaming": {
+      "enabled": true,
+      "disallowUppercase": false,
+      "disallowUnderscore": true,
+      "disallowDash": false,
+      "exclude": []
+  },
+
+  "zeroUnit": {
+    "enabled": true,
+    "style": "no_unit"
+  },
+
+  "decimalZero": {
+    "enabled": false
+  },
+
+  "duplicateProperty": {
+    "enabled": false
+  },
+
+  "depthLevel": {
+      "enabled": false,
+      "depth": 3
+  },
+
+  "maxCharPerLine" : {
+    "enabled": true,
+    "limit" : 120
+  },
+
+  "importantRule": true,
+
+  "disallowUnderscore": true,
+
+  "emptyRule": true
+}

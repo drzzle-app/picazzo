@@ -5,12 +5,7 @@
 *   Author: Roger Avalos
 *  ==================================
 */
-// Global variables
-// TODO remove these
-const drzMobile = 'screen and (min-width:50px) and (max-width:600px)';
-const drzTablet = 'screen and (min-width:601px) and (max-width:992px)';
-const drzDesktop = 'screen and (min-width : 993px)';
-const drzWindow = $(window);
+/* eslint no-underscore-dangle: 0 */
 
 window.drzzle = {
   viewports: {

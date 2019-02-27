@@ -195,5 +195,24 @@
     </div>
   </div>
 
+  <header class="picazzo-sectionHeader">Page Layouts</header>
+
+  <p>
+    Pages were created to be layed out as body -> sections -> containers -> rows -> columns/droplets.
+    One thing to note is that droplets were made to be wrapped in rows. In some instances, droplet
+    "content block" types can replace sections. See below example.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ pageTpl() }}</code></pre>
+  </div>
+
+  <div class="row">
+    <p>
+      Would render a page something like this
+    </p>
+    <img src="/static/images/sections.svg" alt="page sections">
+  </div>
+
   <div class="picazzo-docFooter"></div>
 </div>

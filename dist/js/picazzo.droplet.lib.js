@@ -13,12 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 *   Author: Roger Avalos
 *  ==================================
 */
-// Global variables
-// TODO remove these
-var drzMobile = 'screen and (min-width:50px) and (max-width:600px)';
-var drzTablet = 'screen and (min-width:601px) and (max-width:992px)';
-var drzDesktop = 'screen and (min-width : 993px)';
-var drzWindow = $(window);
+/* eslint no-underscore-dangle: 0 */
 
 window.drzzle = {
   viewports: {
@@ -1803,27 +1798,27 @@ window.drzzle = {
       var startingViewport = void 0;
       var endingViewport = void 0;
       var methods = {
-        init: function init($v, resize) {
-          $attrs = $v.attr('data-videos');
+        init: function init($vid, resize) {
+          $attrs = $vid.attr('data-videos');
           $attrs = $attrs.desktop ? $attrs : JSON.parse($attrs);
           // we only want to redraw on resize if there is a change
           if (resize && $attrs[resize.startingViewport].src !== $attrs[resize.endingViewport].src) {
-            $v.find('video.drzSection-video').remove();
-            methods.drawVideo($v);
+            $vid.find('video.drzSection-video').remove();
+            methods.drawVideo($vid);
           }
           if (!resize) {
-            $v.find('video.drzSection-video').remove();
-            methods.drawVideo($v);
+            $vid.find('video.drzSection-video').remove();
+            methods.drawVideo($vid);
           }
         },
-        drawVideo: function drawVideo($v) {
+        drawVideo: function drawVideo($vid) {
           // draw new video
           var data = methods.getSource($attrs);
           var $newVideo = $('\n            <video class="drzSection-video" muted loop playsinline autoplay>\n              <source src="' + data.src + '" type="video/' + data.type + '" />\n              <p class="warning">Your browser does not support HTML5 video.</p>\n            </video>');
           // prepend to container
-          $v.prepend($newVideo);
+          $vid.prepend($newVideo);
           // auto play video if it hasn't started on it's own
-          var domV = $v.find('.drzSection-video').get(0);
+          var domV = $vid.find('.drzSection-video').get(0);
           domV.addEventListener('loadeddata', function () {
             var count = 0;
             var tryToPlay = function tryToPlay() {

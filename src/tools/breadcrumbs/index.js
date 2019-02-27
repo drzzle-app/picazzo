@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('section-droplet', {
+export default Vue.component('breadcrumb-tool', {
   template,
-  name: 'section-droplet',
+  name: 'breadcrumb-tool',
 });

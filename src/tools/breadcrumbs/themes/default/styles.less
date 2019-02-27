@@ -1,0 +1,41 @@
+.drzBreadcrumbs {
+  background-color: darken(@white, 2%);
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 8px 10px;
+}
+
+.drzBreadcrumbs-item {
+  float: left;
+
+  &:after {
+    color: darken(@white, 20%);
+    content: '/';
+    font-weight: bold;
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  &:last-child:after {
+    content: '';
+  }
+}
+
+.drzBreadcrumbs-link {
+  color: @baseColor;
+  text-decoration: none;
+
+  &:hover {
+    color: lighten(@baseColor, 20%);
+    transition-duration: @defaultDuration;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}

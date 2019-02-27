@@ -29,6 +29,8 @@ module.exports = {
     'jQuery': false,
     'drzzle': false,
     'google': false,
+    'window': false,
+    'document': false,
   },
   // add your custom rules here
   rules: {
@@ -49,6 +51,16 @@ module.exports = {
         'e' // for e.returnvalue
       ]
     }],
+    'no-plusplus': [
+      "error", {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "no-bitwise": [
+      "error", {
+        "allow": ["~"]
+      }
+    ],
     'no-underscore-dangle': ['error', {
       allow: ['$_']
     }],

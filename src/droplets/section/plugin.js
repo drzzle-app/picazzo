@@ -11,20 +11,20 @@
       let startingViewport;
       let endingViewport;
       const methods = {
-        init($v, resize) {
-          $attrs = $v.attr('data-videos');
+        init($vid, resize) {
+          $attrs = $vid.attr('data-videos');
           $attrs = $attrs.desktop ? $attrs : JSON.parse($attrs);
           // we only want to redraw on resize if there is a change
           if (resize && $attrs[resize.startingViewport].src !== $attrs[resize.endingViewport].src) {
-            $v.find('video.drzSection-video').remove();
-            methods.drawVideo($v);
+            $vid.find('video.drzSection-video').remove();
+            methods.drawVideo($vid);
           }
           if (!resize) {
-            $v.find('video.drzSection-video').remove();
-            methods.drawVideo($v);
+            $vid.find('video.drzSection-video').remove();
+            methods.drawVideo($vid);
           }
         },
-        drawVideo($v) {
+        drawVideo($vid) {
           // draw new video
           const data = methods.getSource($attrs);
           const $newVideo = $(`
@@ -33,9 +33,9 @@
               <p class="warning">Your browser does not support HTML5 video.</p>
             </video>`);
           // prepend to container
-          $v.prepend($newVideo);
+          $vid.prepend($newVideo);
           // auto play video if it hasn't started on it's own
-          const domV = $v.find('.drzSection-video').get(0);
+          const domV = $vid.find('.drzSection-video').get(0);
           domV.addEventListener('loadeddata', () => {
             let count = 0;
             const tryToPlay = () => {

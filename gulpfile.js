@@ -237,9 +237,11 @@ const buildSearch = () => {
 
 const buildJsPluginsSeperate = () => {
   const dropletsPath = './src/droplets/';
-  const files = getFolders(dropletsPath);
+  const toolsPath = './src/tools/';
+  const droplets = getFolders(dropletsPath);
+  const tools = getFolders(toolsPath);
 
-  function compress(p, f) {
+  function compress(p, f, t) {
     const jsFile = !f.match(/picazzo\.global\.js/gi) ? '/plugin.js' : '';
     return gulp
       .src(`${p}${f}${jsFile}`)
@@ -254,25 +256,28 @@ const buildJsPluginsSeperate = () => {
             min: [/picazzo\.global\.js|plugin\.js$/, `${f}.min.js`],
           },
         }))
-      .pipe(gulp.dest('./dist/js/droplets/'))
+      .pipe(gulp.dest(`./dist/js/${t}s/`))
       .on('end', () => {
         console.log(`\x1b[32m Successfully built "${f}" js plugin!`);
       });
   }
 
-  files.forEach(file => compress(dropletsPath, file));
+  droplets.forEach(file => compress(dropletsPath, file, 'droplet'));
+  tools.forEach(file => compress(toolsPath, file, 'tool'));
   // run the globals also
-  compress('./src/js-lib/', 'picazzo.global.js');
+  compress('./src/js-lib/', 'picazzo.global.js', 'global');
 };
 
 const buildJsPlugins = () => {
   // grab all droplets with JS
   const dropletJS = ['./src/js-lib/picazzo.global.js'];
-  const droplets = getFolders('./src/droplets/');
+  const droplets = getFolders('./src/droplets/').map(item => ({ type: 'droplet', item }));
+  const tools = getFolders('./src/tools').map(item => ({ type: 'tool', item }));
+  const all = droplets.concat(tools);
   const chain = [];
   // start build
-  droplets.forEach((droplet) => {
-    const jsPath = `./src/droplets/${droplet}/plugin.js`;
+  all.forEach((droplet) => {
+    const jsPath = `./src/${droplet.type}s/${droplet.item}/plugin.js`;
     chain.push(
       new Promise((resolve, reject) => {
         try {
@@ -309,14 +314,14 @@ const buildJsPlugins = () => {
     });
 };
 
-const newDroplet = () =>
-  gulp.src('./src/droplets').pipe(
+const newDroplet = type =>
+  gulp.src(`./src/${type}s`).pipe(
     prompt.prompt(
       [
         {
           type: 'input',
-          name: 'dropletName',
-          message: 'Droplet Name?',
+          name: `${type}Name`,
+          message: `${_.startCase(type)} Name?`,
           validate(input) {
             const inp = input.toLowerCase().trim();
             if (inp === '') {
@@ -329,7 +334,7 @@ const newDroplet = () =>
         {
           type: 'input',
           name: 'needsJS',
-          message: 'Does this droplet need a js plugin?. \x1b[33m Default n. Type [y/n]',
+          message: `Does this ${type} need a js plugin?. \x1b[33m Default n. Type [y/n]`,
           validate(input) {
             const inp = input.toLowerCase();
             if (inp !== 'y' && inp !== 'n' && inp !== '') {
@@ -341,8 +346,8 @@ const newDroplet = () =>
         },
       ],
       (res) => {
-        const name = `${res.dropletName.replace(/ /g, '-')}`.trim().toLowerCase();
-        const dropletDir = `./src/droplets/${name}`;
+        const name = `${res[`${type}Name`].replace(/ /g, '-')}`.trim().toLowerCase();
+        const dropletDir = `./src/${type}s/${name}`;
         let ref = '';
         let jsName = '';
         let scaffIndexJs = './scaffholds/newDropletIndex.js';
@@ -378,10 +383,12 @@ const newDroplet = () =>
               .pipe(gulp.dest(`${dropletDir}/`));
 
             // add droplet to all droplets file
-            const dropletsPageDir = './src/pages/all-droplets/';
-            gulp.src(`${dropletsPageDir}all-droplets.js`)
-              .pipe(replace('};', `  '${name}': require('@/droplets/${name}'),\n};`))
-              .pipe(gulp.dest(dropletsPageDir));
+            if (type === 'droplet') {
+              const dropletsPageDir = './src/pages/all-droplets/';
+              gulp.src(`${dropletsPageDir}all-droplets.js`)
+                .pipe(replace('};', `  '${name}': require('@/droplets/${name}'),\n};`))
+                .pipe(gulp.dest(dropletsPageDir));
+            }
 
             // add all themes to this droplet. users can remove them if not wanted
             const themePath = './src/less/themes/';
@@ -393,8 +400,8 @@ const newDroplet = () =>
                   .then(() => {
                     fse.readFile(`${dropletDir}/themes/${theme}/styles.less`, 'utf8');
                     // finally add droplet less to each themes's main.less file and voila! done!
-                    fse.appendFile(`./src/less/themes/${theme}/droplets.less`,
-                      `@import '../../../droplets/${name}/themes/${theme}/styles';\n`,
+                    fse.appendFile(`./src/less/themes/${theme}/${type}s.less`,
+                      `@import '../../../${type}s/${name}/themes/${theme}/styles';\n`,
                       (err) => {
                         if (err) {
                           console.log(`There was an issue appending ${name} to droplets.less`);
@@ -573,7 +580,8 @@ const buildAll = async () => {
 
 gulp.task('new-theme', newTheme);
 gulp.task('new-page', newPage);
-gulp.task('new-droplet', newDroplet);
+gulp.task('new-droplet', () => newDroplet('droplet'));
+gulp.task('new-tool', () => newDroplet('tool'));
 gulp.task('build-search', buildSearch);
 gulp.task('build-routes', buildRoutes);
 gulp.task('build-js-plugins', buildJsPlugins);
