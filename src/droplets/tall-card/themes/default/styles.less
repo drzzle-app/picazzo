@@ -1,0 +1,61 @@
+/* Tall cards */
+.drzCard-tall {
+  .column;
+  .col-4;
+  color: fade(@black, 50%);
+  margin-bottom: 15px;
+  padding: 0 8px;
+  position: relative;
+  text-decoration: none;
+
+  @media @tablet {
+    width: 100%;
+  }
+
+  &:hover {
+    transform: scale(1.01);
+    transition-duration: 0.2s;
+  }
+}
+
+.drzCard-tall-inner {
+  .box-shadow;
+}
+
+.drzCard-tallImage {
+  .bg-image-cover;
+  background-attachment: inherit;
+  background-image: url('@{mockImageUrl}backgrounds/image-bg.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  clear: both;
+  display: block;
+  height: 170px;
+  width: 100%;
+}
+
+.drzCard-tall-titleSection {
+  background-color: @white;
+  height: 230px;
+  padding: 20px;
+  padding-top: 35px;
+}
+
+.drzCard-tall-title {
+  font-size: 13pt;
+  font-weight: 300;
+}
+
+.drzCard-tall-previewText {
+  color: fade(@black, 30%);
+  font-size: 10pt;
+  font-weight: 300;
+  max-height: 140px;
+  overflow: hidden;
+  position: relative;
+
+  @media @tablet {
+    max-height: 130px;
+    overflow: hidden;
+  }
+}

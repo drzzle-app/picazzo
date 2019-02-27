@@ -1,0 +1,48 @@
+/* Wide 50/50 Cards */
+.drzCard-wide {
+  .column;
+  .col-6;
+  color: fade(@black, 50%);
+  margin-bottom: 15px;
+  min-height: 100px;
+  padding: 0 8px;
+  position: relative;
+  text-decoration: none;
+
+  &:hover {
+    transform: scale(1.01);
+    transition-duration: 0.2s;
+  }
+}
+
+.drzCard-wide-inner {
+  .col-12;
+  .box-shadow;
+  display: inline-block;
+  float: left;
+}
+
+.drzCard-wide-image {
+  .col-6;
+  .bg-image-cover;
+  background-attachment: inherit;
+  background-image: url('@{mockImageUrl}backgrounds/image-bg.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  float: left;
+  height: 130px;
+}
+
+.drzCard-wide-text {
+  .col-6;
+  .flex-center-all;
+  background-color: @white;
+  display: flex;
+  float: left;
+  font-size: 11pt;
+  font-weight: 300;
+  height: 130px;
+  overflow: hidden;
+  padding: 10px;
+}

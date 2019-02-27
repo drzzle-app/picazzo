@@ -129,13 +129,13 @@
           "children": []
         },
         {
-          "text": "Text",
-          "route": "/text",
+          "text": "Tall Card",
+          "route": "/tall-card",
           "children": []
         },
         {
-          "text": "Tall Card",
-          "route": "/tall-card",
+          "text": "Text",
+          "route": "/text",
           "children": []
         },
         {

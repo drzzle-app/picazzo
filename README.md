@@ -33,6 +33,12 @@ npm run build:newdroplet
 ```
 Here you can specify the name and if it needs a js plugin or not and this task  will go and add the new droplet to each theme as well as add the new vue files for the droplet in the correct locations.
 
+#### Creating New Tools
+```bash
+npm run build:newtool
+```
+Tools are components that aren't necessarily droplets but could be used _with_ them. Things like modals, tool tips, breadcrumbs, pagination etc. would be considered a tool. This script does what build:newdroplet does except puts the files in the tool location.
+
 #### Creating New Themes
 ```bash
 npm run build:newtheme

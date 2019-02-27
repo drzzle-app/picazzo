@@ -1,0 +1,29 @@
+/* General Text */
+.drz-link {
+  color: @baseColor;
+  text-decoration: none;
+
+  &:hover {
+    color: lighten(@baseColor, 20%);
+    transition-duration: @defaultDuration;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}
+
+.drz-link-newTab {
+
+  &:after {
+    /* external link */
+    content: '\f08e';
+    font-family: 'drzzle';
+    font-size: 10pt;
+    margin-left: 5px;
+  }
+}

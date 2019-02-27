@@ -1,0 +1,151 @@
+/* Step Cards */
+.drzCard-stepsContainer {
+  .drzClearFix;
+  display: flex;
+  position: relative;
+  width: 100%;
+
+  @media @mobile {
+    display: block;
+  }
+
+  @media @tablet {
+    display: block;
+  }
+}
+
+.drzCard-step {
+  .drzClearFix;
+  color: fade(@black, 50%);
+  float: left;
+  min-height: 1px;
+  padding: 0 8px;
+  text-decoration: none;
+
+  @media @mobile {
+    clear: both;
+    display: block;
+    margin-bottom: 10px;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  &:last-child {
+
+    .drzCard-stepArrow {
+
+      &::after {
+        visibility: hidden;
+      }
+    }
+
+    @media @mobile {
+      margin-bottom: 0;
+    }
+  }
+
+  &:hover {
+    transform: scale(1.01);
+    transition-duration: 0.2s;
+  }
+}
+
+.drzCard-step-2 {
+  .drzCard-step {
+    .col-6;
+
+    @media @tablet {
+      width: 100%;
+    }
+  }
+}
+
+.drzCard-step-3 {
+  .drzCard-step {
+    .col-4;
+
+    @media @tablet {
+      width: 100%;
+    }
+  }
+}
+
+.drzCard-step-4 {
+  .drzCard-step {
+    .col-3;
+
+    @media @tablet {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  }
+}
+
+.drzCard-step-5 {
+  .drzCard-step {
+    .col-2-4;
+
+    @media @tablet {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  }
+}
+
+.drzCard-step-inner {
+  .box-shadow;
+  height: 100%;
+  min-height: 85px;
+}
+
+.drzCard-stepArrow {
+  background-color: darken(@white, 15%);
+  min-height: 1px;
+  overflow: hidden;
+  padding: 5px 10px;
+
+  &:after {
+    color: fade(@white, 55%);
+    content: '\f178';
+    float: right;
+    font-family: 'drzzle';
+    font-size: 18pt;
+
+    @media @tablet {
+      content: '\f175';
+      font-size: 13pt;
+    }
+
+    @media @mobile {
+      content: '\f175';
+      font-size: 13pt;
+    }
+  }
+}
+
+.drzCard-stepTextContainer {
+  .drzClearFix;
+}
+
+.drzCard-step-titleSection {
+  padding: 10px;
+  text-align: center;
+}
+
+.drzCard-step-title {
+  display: inline-block;
+  font-size: 13pt;
+  font-weight: 300;
+}
+
+.drzCard-step-bodyText {
+  display: inline-block;
+  font-weight: 300;
+  margin: 0;
+  padding: 15px;
+
+  @media @mobile {
+    min-height: 120px;
+  }
+}
