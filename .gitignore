@@ -9,6 +9,8 @@ src/router/routes.js
 static/css/
 dist/index.html
 dist/static
+deploy-docs.sh
+deploy-package.sh
 
 # Editor directories and files
 .idea

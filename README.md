@@ -1,5 +1,7 @@
 # Picazzo
 
+Picazzo is an open source front end framework that was created for websites built from the [drzzle.app](https://drzzle.app) site builder.
+
 ## Build Setup
 
 ```bash

@@ -40,6 +40,7 @@ export default Vue.component('app-view', {
         theme.href = this.theme;
         head.insertBefore(theme, head.childNodes[0] || null);
       }
+      return themeTags;
     },
   },
 });

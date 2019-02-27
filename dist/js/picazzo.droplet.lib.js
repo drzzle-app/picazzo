@@ -1891,3 +1891,171 @@ window.drzzle = {
     return this;
   };
 })(jQuery);
+
+/*
+============================
+ Drzzle Filtering Plugin
+============================
+*/
+(function ($) {
+  $.fn.sortFilter = function sortFilter() {
+    var $filter = $(this);
+    $filter.each(function initPlugin() {
+      var $this = $(this);
+      var filterContainer = void 0;
+      var isTable = false;
+      if ($this.next().is('table')) {
+        isTable = true;
+        filterContainer = $this.next('table').find('.drzFilter-container');
+      } else {
+        filterContainer = $this.next('.drzFilter-container');
+      }
+      var filterBtn = $this.find('button');
+      var filterSearch = $this.find('.search');
+      var filterSearchAttr = filterSearch.attr('data-filter-search');
+      var animationSpeed = 200;
+
+      if ((typeof filterSearchAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(filterSearchAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && filterSearchAttr !== false) {
+        if (filterSearchAttr.match(/true/gi)) {
+          var searchContentContainer = filterContainer;
+          searchContentContainer.children().each(function go() {
+            $(this).addClass('search-element-parent');
+          });
+          // store the initial pagination states for resetting
+          var initialState = void 0;
+          searchContentContainer.ready(function () {
+            if (searchContentContainer.hasClass('paginate')) {
+              if (isTable === true) {
+                initialState = $this.next('table').find('.drzFilter-container').html();
+              } else {
+                initialState = $this.next('.drzFilter-container').html();
+              }
+            }
+          });
+          filterSearch.keyup(function onKeyup() {
+            var searchedElement = searchContentContainer.find('.search-element-parent');
+            var input = $(this).val();
+            var thisText = input.toString();
+            var searchedText = new RegExp(thisText, 'gim');
+            // var searchedText = new RegExp('(?![^<]*>)' + thisText + '\b(?![^ <>])', 'gim');
+            searchedElement.each(function update() {
+              var el = $(this);
+              var elText = el.text();
+              // var elText = el.html();
+              // elText = elText.replace('<mark class="search-result">','').replace('</mark>','');
+              if (elText.match(searchedText)) {
+                if (!el.is(':visible')) {
+                  if (isTable === true) {
+                    el.removeClass('hide');
+                    el.addClass('show-tr');
+                  } else {
+                    if (filterContainer.hasClass('paginate')) {
+                      if (!el.parent().is(':visible')) {
+                        el.parent().show();
+                      }
+                    }
+                    el.fadeIn();
+                  }
+                }
+                if (input !== '') {
+                  // stashing for future use (highlighting text)
+                  // need to not get <tag text>
+                  // elText = elText.replace(
+                  // new RegExp('(?![^<>]*>) *' + thisText + '*([^<> \d])', "igm"),
+                  // '<mark class="search-result">' + thisText + '</mark>');
+                  // el.html(elText);
+                }
+              } else if (isTable === true) {
+                el.removeClass('show-tr');
+                el.addClass('hide');
+              } else {
+                el.fadeOut();
+              }
+              if (input === '') {
+                if (filterContainer.hasClass('paginate')) {
+                  searchContentContainer.html(initialState);
+                  if (isTable === true) {
+                    searchContentContainer.parent().next('.pagination').find('.pg-link-1').trigger('click');
+                  } else {
+                    searchContentContainer.next('.pagination').find('.pg-link-1').trigger('click');
+                  }
+                }
+              }
+            });
+          });
+        }
+      }
+      var filterContainerContent = void 0;
+      filterContainer.ready(function () {
+        filterContainerContent = filterContainer.html();
+      });
+
+      function sortContent(el, attr, sortBtn) {
+        return $(filterContainer.find(el).toArray().sort(function (a, b) {
+          var top = new Date($(a).attr(attr));
+          var bottom = new Date($(b).attr(attr));
+          var result = void 0;
+          if (sortBtn.match(/newest/gi)) {
+            result = bottom - top;
+          } else if (sortBtn.match(/oldest/gi)) {
+            result = top - bottom;
+          }
+          return result;
+        }));
+      }
+
+      filterBtn.each(function initBtn() {
+        var thisBtn = $(this);
+        var thisBtnAttr = thisBtn.attr('data-filter-category');
+        var thisResetAttr = thisBtn.attr('data-filter-reset');
+        var thisSortAttr = thisBtn.attr('data-filter-sort');
+        // if reset button is present
+        if ((typeof thisResetAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(thisResetAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && thisResetAttr !== false && thisResetAttr.match(/true/gi)) {
+          thisBtn.click(function () {
+            filterContainer.html(filterContainerContent);
+            if (filterContainer.hasClass('paginate')) {
+              filterContainer.next('.pagination').find('.pg-link-1').trigger('click');
+            }
+            filterContainer.find('[data-filter-category]').each(function categ() {
+              var el = $(this);
+              if (!el.is(':visible')) {
+                setTimeout(function () {
+                  el.fadeIn(animationSpeed);
+                }, animationSpeed);
+              }
+            });
+          });
+        }
+        // if a data-filter-category exists on a button
+        if ((typeof thisBtnAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(thisBtnAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && thisBtnAttr !== false) {
+          thisBtn.click(function () {
+            filterContainer.find('[data-filter-category]').each(function initCat() {
+              var el = $(this);
+              var filterContentAttr = el.attr('data-filter-category');
+              if (filterContentAttr !== thisBtnAttr) {
+                el.fadeOut(animationSpeed);
+              } else {
+                if (filterContainer.hasClass('paginate')) {
+                  if (!el.parent().is(':visible')) {
+                    el.parent().show();
+                  }
+                }
+                setTimeout(function () {
+                  el.fadeIn(animationSpeed);
+                }, animationSpeed);
+              }
+            });
+          });
+        }
+        // if a data-filter-sort exists on a button
+        if ((typeof thisSortAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(thisSortAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && thisSortAttr !== false) {
+          thisBtn.click(function () {
+            var newBuild = sortContent('[data-filter-sort]', 'data-filter-sort', thisSortAttr);
+            filterContainer.html(newBuild);
+          });
+        }
+      });
+    });
+    return this;
+  };
+})(jQuery);

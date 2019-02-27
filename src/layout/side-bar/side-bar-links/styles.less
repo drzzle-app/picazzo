@@ -9,8 +9,11 @@
   z-index: 2;
 
   &:hover {
-    background-color: rgba(@black, .08);
+    // lesshint-disable importantRule
+    background-color: rgba(@black, .08) !important;
+    // lesshint-enable importantRule
     color: rgba(@black, .55);
+    cursor: pointer;
     text-decoration: none;
   }
 }
