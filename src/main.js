@@ -3,7 +3,7 @@
 import Vue from 'vue';
 import VueLogger from 'vuejs-logger';
 import VueHighlightJS from 'vue-highlightjs';
-import '../src/modules/jquery.mobile.custom.min';
+import '../src/js-lib/modules/jquery.mobile.custom.min';
 import '../dist/js/picazzo.droplet.lib';
 import './less/picazzo/main.less';
 import './theme-reload';
