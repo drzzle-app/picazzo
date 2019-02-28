@@ -54,6 +54,18 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        options: {
+          presets: [
+            ['env', {
+              modules: false,
+              targets: {
+                browsers: [ '> 1%', 'last 2 versions', 'not ie <= 8']
+              }
+            }],
+            'stage-2'
+          ],
+          'plugins': ['transform-vue-jsx', 'transform-runtime']
+        },
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {

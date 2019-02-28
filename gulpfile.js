@@ -268,13 +268,17 @@ const buildJsPluginsSeperate = () => {
   compress('./src/js-lib/', 'picazzo.global.js', 'global');
 };
 
-const buildJsPlugins = () => {
+const buildJsPlugins = async () => {
   // grab all droplets with JS
   const dropletJS = ['./src/js-lib/picazzo.global.js'];
   const droplets = getFolders('./src/droplets/').map(item => ({ type: 'droplet', item }));
   const tools = getFolders('./src/tools').map(item => ({ type: 'tool', item }));
   const all = droplets.concat(tools);
   const chain = [];
+
+  // move modules to dist
+  await fse.copy('./src/js-lib/modules', './dist/js/modules', { overwrite: true });
+
   // start build
   all.forEach((droplet) => {
     const jsPath = `./src/${droplet.type}s/${droplet.item}/plugin.js`;

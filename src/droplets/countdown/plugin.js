@@ -6,6 +6,7 @@
 (($) => {
   $.fn.drzCountDown = function countDown() {
     const $countDown = $(this);
+    let tests;
     $countDown.each(function initPlugin() {
       const $this = $(this);
       const $endMsg = $this.find('.drzCountdown-endedMsg');
@@ -229,6 +230,11 @@
           }, 1000);
         },
       };
+
+      if (!tests) {
+        tests = actions;
+      }
+
       // init plugin
       function initSetChecks() {
         // set the current endtime
@@ -273,6 +279,7 @@
         initSetChecks();
       };
     });
+    $.fn.drzCountDown.test = tests || {};
     return this;
   };
 })(jQuery);

@@ -20,6 +20,12 @@ npm run build
 npm run build --report
 ```
 
+## Testing
+To unit test vue components and droplet plugins run the following
+```bash
+npm run test:unit
+```
+
 ## Automation
 
 #### Creating New Pages

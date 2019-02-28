@@ -1,10 +1,6 @@
 'use strict';
 
-var _typeof2 = require('babel-runtime/helpers/typeof');
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /*
 *  ===================================
@@ -112,7 +108,7 @@ window.drzzle = {
     var scrollTo = function scrollTo(e) {
       var name = $(this.hash).selector.split('#')[1];
       var $el = $('[data-anchor-scroll="' + name + '"]');
-      if ((0, _typeof3.default)($el.offset()) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $el.offset() !== false) {
+      if (_typeof($el.offset()) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $el.offset() !== false) {
         e.preventDefault();
         $('html, body').animate({ scrollTop: $el.offset().top }, 500);
       }
@@ -392,7 +388,7 @@ window.drzzle = {
       var fullSliderWidth = void 0;
       var currentMargin = void 0;
 
-      if ((typeof $delayOption === 'undefined' ? 'undefined' : (0, _typeof3.default)($delayOption)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $delayOption !== false) {
+      if ((typeof $delayOption === 'undefined' ? 'undefined' : _typeof($delayOption)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $delayOption !== false) {
         if ($delayOption === '') {
           $delayOption = 2 * 1000;
         } else {
@@ -403,7 +399,7 @@ window.drzzle = {
         $delayOption = 2 * 1000;
       }
 
-      if ((typeof $controlsOption === 'undefined' ? 'undefined' : (0, _typeof3.default)($controlsOption)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $controlsOption !== false) {
+      if ((typeof $controlsOption === 'undefined' ? 'undefined' : _typeof($controlsOption)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $controlsOption !== false) {
         if ($controlsOption === '') {
           $controlsOption = 'show';
         }
@@ -421,7 +417,7 @@ window.drzzle = {
       function setWidths() {
         if (window.matchMedia(window.drzzle.viewports.mobile).matches) {
           visibleNum = 1;
-        } else if ((typeof $visibleOption === 'undefined' ? 'undefined' : (0, _typeof3.default)($visibleOption)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $visibleOption !== false) {
+        } else if ((typeof $visibleOption === 'undefined' ? 'undefined' : _typeof($visibleOption)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $visibleOption !== false) {
           if ($visibleOption === '') {
             visibleNum = 4;
           } else {
@@ -551,7 +547,7 @@ window.drzzle = {
     $contentSlider.each(function initSlider() {
       // slider options
       var $slideDelay = $(this).attr('data-slider-delay');
-      if ((typeof $slideDelay === 'undefined' ? 'undefined' : (0, _typeof3.default)($slideDelay)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $slideDelay !== false) {
+      if ((typeof $slideDelay === 'undefined' ? 'undefined' : _typeof($slideDelay)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $slideDelay !== false) {
         if ($slideDelay === '') {
           $slideDelay = 4000;
         }
@@ -582,7 +578,7 @@ window.drzzle = {
 
       // show / hide controls according to options;
       var $controlOption = $this.attr('data-slider-controls');
-      if ((typeof $controlOption === 'undefined' ? 'undefined' : (0, _typeof3.default)($controlOption)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $controlOption !== false) {
+      if ((typeof $controlOption === 'undefined' ? 'undefined' : _typeof($controlOption)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $controlOption !== false) {
         if ($controlOption.match(/hide/gi)) {
           $this.find('.drzContentSlider-next-btn, .drzContentSlider-back-btn').hide();
         }
@@ -595,7 +591,7 @@ window.drzzle = {
       // style bullets according to options
       var $bullets = $this.find('.drzContentSlider-bullets');
       var $bulletOption = $this.attr('data-slider-bullets');
-      if ((typeof $bulletOption === 'undefined' ? 'undefined' : (0, _typeof3.default)($bulletOption)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $bulletOption !== false) {
+      if ((typeof $bulletOption === 'undefined' ? 'undefined' : _typeof($bulletOption)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $bulletOption !== false) {
         if ($bulletOption.match(/right/gi) || $bulletOption.match(/left/gi)) {
           if ($bulletOption.match(/right/gi)) {
             $bullets.addClass('drzContentSlider-bullets-right');
@@ -616,7 +612,7 @@ window.drzzle = {
 
       var effect = void 0;
       var $effectOption = $this.attr('data-slider-effect');
-      if ((typeof $effectOption === 'undefined' ? 'undefined' : (0, _typeof3.default)($effectOption)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $effectOption !== false) {
+      if ((typeof $effectOption === 'undefined' ? 'undefined' : _typeof($effectOption)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $effectOption !== false) {
         if ($effectOption === '') {
           $effectOption = 'slide';
         }
@@ -820,6 +816,7 @@ window.drzzle = {
 (function ($) {
   $.fn.drzCountDown = function countDown() {
     var $countDown = $(this);
+    var tests = void 0;
     $countDown.each(function initPlugin() {
       var $this = $(this);
       var $endMsg = $this.find('.drzCountdown-endedMsg');
@@ -993,7 +990,7 @@ window.drzzle = {
           var newIndex = i + 1;
           var nextSet = sets[newIndex];
           var buffer = actions.getBuffer(liveSet);
-          if ((typeof nextSet === 'undefined' ? 'undefined' : (0, _typeof3.default)(nextSet)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && nextSet !== false) {
+          if ((typeof nextSet === 'undefined' ? 'undefined' : _typeof(nextSet)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && nextSet !== false) {
             if (buffer) {
               checkStartInterval = setInterval(function () {
                 var t = actions.getRemainingTime(buffer);
@@ -1034,6 +1031,11 @@ window.drzzle = {
           }, 1000);
         }
       };
+
+      if (!tests) {
+        tests = actions;
+      }
+
       // init plugin
       function initSetChecks() {
         // set the current endtime
@@ -1046,7 +1048,7 @@ window.drzzle = {
           recurring: false
         }];
         // configure custom options
-        if ((typeof $opts === 'undefined' ? 'undefined' : (0, _typeof3.default)($opts)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $opts !== false) {
+        if ((typeof $opts === 'undefined' ? 'undefined' : _typeof($opts)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $opts !== false) {
           $opts = JSON.parse($opts);
           sets = $opts.sets.length;
           $opts.sets = $opts.sets.sort(actions.orderSets);
@@ -1076,6 +1078,7 @@ window.drzzle = {
         initSetChecks();
       };
     });
+    $.fn.drzCountDown.test = tests || {};
     return this;
   };
 })(jQuery);
@@ -1188,7 +1191,7 @@ window.drzzle = {
                 errors = true;
                 $el.addClass('drzValidator-req-border');
                 var _$msgAttr = $el.attr('data-validator-msg');
-                if ((typeof _$msgAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(_$msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && _$msgAttr !== false) {
+                if ((typeof _$msgAttr === 'undefined' ? 'undefined' : _typeof(_$msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && _$msgAttr !== false) {
                   msg = $el.attr('data-validator-msg');
                 } else {
                   msg = 'This value is required.';
@@ -1220,7 +1223,7 @@ window.drzzle = {
             var _$msgAttr2 = $el.attr('data-validator-msg');
 
             // check for custom msg, if none, assign the default
-            if ((typeof _$msgAttr2 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_$msgAttr2)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && _$msgAttr2 !== false) {
+            if ((typeof _$msgAttr2 === 'undefined' ? 'undefined' : _typeof(_$msgAttr2)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && _$msgAttr2 !== false) {
               msg = $el.attr('data-validator-msg');
             } else {
               msg = 'This value is required.';
@@ -1236,9 +1239,9 @@ window.drzzle = {
           var minMsg = void 0;
           var maxMsg = void 0;
 
-          if ((typeof $minAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($minAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $minAttr !== false || (typeof $maxAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($maxAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $maxAttr !== false) {
+          if ((typeof $minAttr === 'undefined' ? 'undefined' : _typeof($minAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $minAttr !== false || (typeof $maxAttr === 'undefined' ? 'undefined' : _typeof($maxAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $maxAttr !== false) {
             // if min attribute exists
-            if ((typeof $minAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($minAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $minAttr !== false) {
+            if ((typeof $minAttr === 'undefined' ? 'undefined' : _typeof($minAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $minAttr !== false) {
               $minAttr = $el.attr('data-validator-min');
               if (inputType === 'number') {
                 minMsg = 'Value must be at least ' + $minAttr + '.';
@@ -1250,7 +1253,7 @@ window.drzzle = {
             }
 
             // if max attribute exists
-            if ((typeof $maxAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($maxAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $maxAttr !== false) {
+            if ((typeof $maxAttr === 'undefined' ? 'undefined' : _typeof($maxAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $maxAttr !== false) {
               $maxAttr = $el.attr('data-validator-max');
               if (inputType === 'number') {
                 $inputValue = ~~$el.val();
@@ -1282,11 +1285,11 @@ window.drzzle = {
                     $el.addClass('drzValidator-req-border');
                     $el.next('.drzValidator-msg').find('.drzValidator-msg-min').html(minMsg).fadeIn();
                   } else {
-                    if ((typeof $maxAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($maxAttr)) === (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $maxAttr === false) {
+                    if ((typeof $maxAttr === 'undefined' ? 'undefined' : _typeof($maxAttr)) === (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $maxAttr === false) {
                       errors = false;
                       $el.removeClass('drzValidator-req-border');
                     }
-                    if ((typeof $maxAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($maxAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $maxAttr !== false && $inputValue <= $maxAttr) {
+                    if ((typeof $maxAttr === 'undefined' ? 'undefined' : _typeof($maxAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $maxAttr !== false && $inputValue <= $maxAttr) {
                       errors = false;
                       $el.removeClass('drzValidator-req-border');
                     }
@@ -1314,11 +1317,11 @@ window.drzzle = {
                     $el.addClass('drzValidator-req-border');
                     $el.next('.drzValidator-msg').find('.drzValidator-msg-max').html(maxMsg).fadeIn();
                   } else {
-                    if ((typeof $minAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($minAttr)) === (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $minAttr === false) {
+                    if ((typeof $minAttr === 'undefined' ? 'undefined' : _typeof($minAttr)) === (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $minAttr === false) {
                       errors = false;
                       $el.removeClass('drzValidator-req-border');
                     }
-                    if ((typeof $minAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($minAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $minAttr !== false && $inputValue >= $minAttr) {
+                    if ((typeof $minAttr === 'undefined' ? 'undefined' : _typeof($minAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $minAttr !== false && $inputValue >= $minAttr) {
                       errors = false;
                       $el.removeClass('drzValidator-req-border');
                     }
@@ -1333,7 +1336,7 @@ window.drzzle = {
           var $valAttr = $el.attr('data-validator-value');
           var valMsg = void 0;
 
-          if ((typeof $valAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($valAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $valAttr !== false && $valAttr.match(/number/i)) {
+          if ((typeof $valAttr === 'undefined' ? 'undefined' : _typeof($valAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $valAttr !== false && $valAttr.match(/number/i)) {
             $valAttr = $el.attr('data-validator-value');
             valMsg = 'Value must be an integer.';
 
@@ -1364,7 +1367,7 @@ window.drzzle = {
           var $regexAttr = $el.attr('data-validator-regex');
           var regexMsg = void 0;
 
-          if ((typeof $regexAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($regexAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $regexAttr !== false) {
+          if ((typeof $regexAttr === 'undefined' ? 'undefined' : _typeof($regexAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $regexAttr !== false) {
             $regexAttr = $el.attr('data-validator-regex');
             $regexAttr = new RegExp($regexAttr, 'gi');
             regexMsg = 'Value not entered in a correct format.';
@@ -1394,7 +1397,7 @@ window.drzzle = {
 
           // email validation
           if (inputType === 'email' && $el.is(':required')) {
-            if ((typeof $msgAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $msgAttr !== false) {
+            if ((typeof $msgAttr === 'undefined' ? 'undefined' : _typeof($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $msgAttr !== false) {
               msg = $el.attr('data-validator-msg');
             } else {
               msg = 'This value is required.';
@@ -1409,7 +1412,7 @@ window.drzzle = {
 
           // phone validation
           if (inputType === 'tel' && $el.is(':required')) {
-            if ((typeof $msgAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $msgAttr !== false) {
+            if ((typeof $msgAttr === 'undefined' ? 'undefined' : _typeof($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $msgAttr !== false) {
               msg = $el.attr('data-validator-msg');
             } else {
               msg = 'This value is required.';
@@ -1424,7 +1427,7 @@ window.drzzle = {
 
           // website validation
           if (inputType === 'url' && $el.is(':required')) {
-            if ((typeof $msgAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $msgAttr !== false) {
+            if ((typeof $msgAttr === 'undefined' ? 'undefined' : _typeof($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $msgAttr !== false) {
               msg = $el.attr('data-validator-msg');
             } else {
               msg = 'This value is required.';
@@ -1484,7 +1487,7 @@ window.drzzle = {
             var msg = void 0;
 
             // check for custom msg, if none assign the default
-            if ((typeof _$msgAttr3 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_$msgAttr3)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && _$msgAttr3 !== false) {
+            if ((typeof _$msgAttr3 === 'undefined' ? 'undefined' : _typeof(_$msgAttr3)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && _$msgAttr3 !== false) {
               msg = $el.attr('data-validator-msg');
             } else {
               msg = 'You must check at least one.';
@@ -1591,7 +1594,7 @@ window.drzzle = {
           };
 
           // configure custom options
-          if ((typeof $opts === 'undefined' ? 'undefined' : (0, _typeof3.default)($opts)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && $opts !== false) {
+          if ((typeof $opts === 'undefined' ? 'undefined' : _typeof($opts)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $opts !== false) {
             if (typeof $opts === 'string') {
               $opts = JSON.parse($opts);
             }
@@ -1915,7 +1918,7 @@ window.drzzle = {
       var filterSearchAttr = filterSearch.attr('data-filter-search');
       var animationSpeed = 200;
 
-      if ((typeof filterSearchAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(filterSearchAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && filterSearchAttr !== false) {
+      if ((typeof filterSearchAttr === 'undefined' ? 'undefined' : _typeof(filterSearchAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && filterSearchAttr !== false) {
         if (filterSearchAttr.match(/true/gi)) {
           var searchContentContainer = filterContainer;
           searchContentContainer.children().each(function go() {
@@ -2010,7 +2013,7 @@ window.drzzle = {
         var thisResetAttr = thisBtn.attr('data-filter-reset');
         var thisSortAttr = thisBtn.attr('data-filter-sort');
         // if reset button is present
-        if ((typeof thisResetAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(thisResetAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && thisResetAttr !== false && thisResetAttr.match(/true/gi)) {
+        if ((typeof thisResetAttr === 'undefined' ? 'undefined' : _typeof(thisResetAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && thisResetAttr !== false && thisResetAttr.match(/true/gi)) {
           thisBtn.click(function () {
             filterContainer.html(filterContainerContent);
             if (filterContainer.hasClass('paginate')) {
@@ -2027,7 +2030,7 @@ window.drzzle = {
           });
         }
         // if a data-filter-category exists on a button
-        if ((typeof thisBtnAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(thisBtnAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && thisBtnAttr !== false) {
+        if ((typeof thisBtnAttr === 'undefined' ? 'undefined' : _typeof(thisBtnAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && thisBtnAttr !== false) {
           thisBtn.click(function () {
             filterContainer.find('[data-filter-category]').each(function initCat() {
               var el = $(this);
@@ -2048,7 +2051,7 @@ window.drzzle = {
           });
         }
         // if a data-filter-sort exists on a button
-        if ((typeof thisSortAttr === 'undefined' ? 'undefined' : (0, _typeof3.default)(thisSortAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : (0, _typeof3.default)(undefined)) && thisSortAttr !== false) {
+        if ((typeof thisSortAttr === 'undefined' ? 'undefined' : _typeof(thisSortAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && thisSortAttr !== false) {
           thisBtn.click(function () {
             var newBuild = sortContent('[data-filter-sort]', 'data-filter-sort', thisSortAttr);
             filterContainer.html(newBuild);

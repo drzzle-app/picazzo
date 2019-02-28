@@ -11,21 +11,20 @@ let webpackConfig = merge(webpackConfigBase, webpackConfigDev, {
 module.exports = function(config) {
   config.set({
     frameworks: ['mocha'],
-
-    files: ['src/**/*.spec.js'],
-
+    files: [
+      'dist/js/modules/jquery-2.2.4.min.js',
+      'dist/js/modules/jquery.mobile.custom.min.js',
+      'dist/js/picazzo.droplet.lib.min.js',
+      'src/**/*.spec.js'],
     preprocessors: {
       '**/*.spec.js': ['webpack', 'sourcemap']
     },
-
     webpack: {
       devtool: 'inline-source-map',
       module: webpackConfig.module,
       resolve: webpackConfig.resolve,
     },
-
     reporters: ['spec'],
-
     browsers: ['Chrome']
   })
 }
