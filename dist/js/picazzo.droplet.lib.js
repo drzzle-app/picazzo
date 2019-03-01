@@ -1788,6 +1788,166 @@ window.drzzle = {
   };
 })(jQuery);
 
+/*
+================================
+ Drzzle Image Gallery Plugin
+================================
+*/
+(function ($) {
+  $.fn.drzImageGallery = function imageGallery() {
+    var index = void 0;
+    var totalImages = void 0;
+    var displayNum = void 0;
+    var isGalleryModal = void 0;
+    var escClose = void 0;
+    var $thisImg = void 0;
+    var $legend = void 0;
+    var $backBtn = void 0;
+    var $nextBtn = void 0;
+    var $closeBtn = void 0;
+    var $body = $('body');
+    var $doc = $(document);
+    var $imageGallery = $(this);
+
+    // callbacks
+    function moveBack(e) {
+      e.preventDefault();
+      if (index > 0) {
+        $thisImg.eq(index).removeClass('block');
+        index -= 1;
+        displayNum = index + 1;
+        $thisImg.eq(index).addClass('block');
+        $legend.html(displayNum + ' / ' + totalImages);
+        if (index === 0) {
+          $backBtn.css('visibility', 'hidden');
+        }
+        if (index < totalImages - 1) {
+          $nextBtn.css('visibility', 'visible');
+        }
+      }
+    }
+
+    function moveNext(e) {
+      e.preventDefault();
+      if (index <= totalImages - 2) {
+        $thisImg.eq(index).removeClass('block');
+        index += 1;
+        displayNum = index + 1;
+        $thisImg.eq(index).addClass('block');
+        $legend.html(displayNum + ' / ' + totalImages);
+        if (index === totalImages - 1) {
+          $nextBtn.css('visibility', 'hidden');
+        }
+        if (index > 0) {
+          $backBtn.css('visibility', 'visible');
+        }
+      }
+    }
+    // for keyboard controls
+    var galleryKeys = function galleryKeys(e) {
+      if (isGalleryModal) {
+        if (e.keyCode === 39) {
+          moveNext(e);
+        }
+        if (e.keyCode === 37) {
+          moveBack(e);
+        }
+      }
+    };
+    $doc.keydown(galleryKeys);
+
+    $imageGallery.each(function initGallery() {
+      var _this2 = this;
+
+      var $this = $(this);
+      var $newBuild = $this.html();
+      isGalleryModal = false;
+
+      $this.find('.drzImageGallery-img').click(function (e) {
+        e.preventDefault();
+        var $el = $(e.currentTarget);
+        totalImages = ~~$this.find('.drzImageGallery-img').length;
+        isGalleryModal = true;
+        if ($el.parent().attr('class').match(/pg-page-/gi)) {
+          index = ~~$el.closest('.drzImageGallery').find('.drzImageGallery-img').index(_this2);
+        } else {
+          index = ~~$el.index();
+        }
+        displayNum = index + 1;
+
+        var modal = '<div class="drzModal-overlay drzImageGallery-modal">\n          <div class="drzModal-closeRow">\n            <a class="drzModal-closeLink" href="#"></a>\n          </div>\n          <div class="drzModal-content drzImageGallery-content">\n            <div class="drzImageGallery-controls">\n              <span class="drzImageGallery-legend">' + displayNum + ' / ' + totalImages + '</span>\n              <button class="drzBtn drzImageGallery-btn drzImageGallery-btnBack"></button>\n              <button class="drzBtn drzImageGallery-btn drzImageGallery-btnNext"></button>\n            </div>\n            ' + $newBuild + '\n          </div>\n        </div>';
+
+        $(modal).insertAfter($body);
+        var $overlay = $body.next('.drzModal-overlay');
+        var $content = $overlay.find('.drzModal-content');
+        $overlay.fadeIn();
+
+        $thisImg = $body.next('.drzImageGallery-modal').find('.drzImageGallery-img');
+        $backBtn = $body.next('.drzImageGallery-modal').find('.drzImageGallery-btnBack');
+        $nextBtn = $body.next('.drzImageGallery-modal').find('.drzImageGallery-btnNext');
+        $legend = $body.next('.drzImageGallery-modal').find('.drzImageGallery-legend');
+        $closeBtn = $body.next('.drzImageGallery-modal').find('.drzModal-closeLink');
+
+        if (index === 0) {
+          $backBtn.css('visibility', 'hidden');
+        }
+        if (index === totalImages - 1) {
+          $nextBtn.css('visibility', 'hidden');
+        }
+        // if paginated, remove page wrappers in modal
+        if ($thisImg.parent().attr('class').match(/pg-page-/gi)) {
+          $thisImg.unwrap();
+          // reset variable
+          $thisImg = $body.next('.drzImageGallery-modal').find('.drzImageGallery-img');
+        }
+        // show clicked image
+        $thisImg.siblings().removeClass('block');
+        $thisImg.eq(index).addClass('block');
+
+        $nextBtn.click(moveNext);
+        $backBtn.click(moveBack);
+        $thisImg.on('swipeleft', moveNext);
+        $thisImg.on('swiperight', moveBack);
+
+        function closeGallery(evt) {
+          evt.preventDefault();
+          isGalleryModal = false;
+          $overlay.fadeOut(300);
+          setTimeout(function () {
+            $overlay.remove();
+          }, 300);
+        }
+
+        escClose = function escClose(evt) {
+          if (isGalleryModal && evt.key === 'Escape') {
+            closeGallery(evt);
+          }
+        };
+
+        $closeBtn.click(function (evt) {
+          return closeGallery(evt);
+        });
+        $overlay.click(function (evt) {
+          return closeGallery(evt);
+        });
+        $content.click(function (evt) {
+          return evt.stopPropagation();
+        });
+        $doc.keyup(function (evt) {
+          return escClose(evt);
+        });
+      });
+      // destroy function
+      $.fn.drzImageGallery.destroy = function ($el) {
+        $el.find('.drzImageGallery-img').off('click');
+        $doc.off('keydown', galleryKeys);
+        $doc.off('keydown', escClose);
+      };
+    });
+    return this;
+  };
+})(jQuery);
+
 /* Section Bg Videos
 * ======================= */
 (function ($) {
@@ -1889,6 +2049,479 @@ window.drzzle = {
       $.fn.drzSectionVideo.destroy = function ($el) {
         $el.find('video.drzSection-video').remove();
         drzzle.window.off('resize', methods.resize);
+      };
+    });
+    return this;
+  };
+})(jQuery);
+
+/*
+===================================
+ Drzzle Responsive Tables Plugin
+===================================
+*/
+(function ($) {
+  $.fn.responsiveTables = function responsiveTables() {
+    var $table = $(this);
+    $table.each(function initTable() {
+      var $this = $(this);
+      var mobileTitleClass = 'drzTable-mobileTitle';
+      var $headTitle = $this.find('thead tr td');
+      $this.find('tbody tr td').each(function addMobile() {
+        var $tableData = $(this);
+        var $index = $tableData.index();
+        $tableData.prepend('<b class="' + mobileTitleClass + '">' + $headTitle.eq($index).html() + ': </b>');
+      });
+      $.fn.responsiveTables.destroy = function ($el) {
+        $el.find('.' + mobileTitleClass).remove();
+      };
+    });
+    return this;
+  };
+})(jQuery);
+
+/*
+============================
+ Drzzle Tabs Plugin
+============================
+*/
+(function ($) {
+  $.fn.drzTabs = function drzTabs() {
+    var $tabs = $(this);
+    var tabsClass = 'drzTabs';
+    var tabsMenuClass = 'drzTabs-menu';
+    var desktopTabClass = 'drzTabs-tab';
+    var desktopLinkClass = 'drzTabs-tabLink';
+    var activeTabClass = 'drzTabs-activeTab';
+    var mobileTabClass = 'drzTabs-mobileTab';
+    var tabContentWrap = 'drzTabs-content';
+    var tabContentClass = 'drzTabs-tabContent';
+
+    var tabActions = {
+      tabsAreMobile: false,
+      setActive: function setActive(e) {
+        e.preventDefault();
+        var $el = $(e.currentTarget);
+        var $thisSet = $el.closest('.' + tabsClass);
+        var $tabSiblings = $thisSet.find('.' + desktopTabClass);
+        var $mTabSiblings = $thisSet.find('.' + mobileTabClass);
+        var $tabIndex = void 0;
+        var $variationTab = void 0;
+        var showSpeed = 200;
+
+        if ($el.hasClass(mobileTabClass)) {
+          tabActions.tabsAreMobile = true;
+        } else {
+          tabActions.tabsAreMobile = false;
+        }
+
+        if (tabActions.tabsAreMobile) {
+          $tabIndex = $el.parent().children('.' + mobileTabClass).index($el);
+          $variationTab = $tabSiblings.eq($tabIndex);
+        } else {
+          $tabIndex = $el.index();
+          $variationTab = $mTabSiblings.eq($tabIndex);
+        }
+
+        var $activeContent = $thisSet.find('.' + tabContentClass).eq($tabIndex);
+
+        $tabSiblings.removeClass(activeTabClass);
+        $mTabSiblings.removeClass(activeTabClass);
+        $el.addClass(activeTabClass);
+        $variationTab.addClass(activeTabClass);
+
+        if (tabActions.tabsAreMobile) {
+          // when closing mobile tab, remove active state
+          if ($activeContent.is(':visible')) {
+            $el.removeClass(activeTabClass);
+          }
+
+          $activeContent.siblings('.' + tabContentClass).slideUp(showSpeed);
+          $activeContent.slideToggle(showSpeed);
+        } else {
+          // If in desktop or tablet
+          $activeContent.siblings('.' + tabContentClass).hide();
+          $activeContent.show();
+        }
+      },
+      setFirstTab: function setFirstTab($tab, $tabMobile, $tabContent, $tabMenu) {
+        $tab.addClass(activeTabClass);
+        $tabMobile.addClass(activeTabClass);
+        $tabContent.show();
+        // make sure left content border extends beyond left menu
+        if ($tab.hasClass('drzTabs-tab-left')) {
+          tabActions.setLeftHeight($tabContent, $tabMenu);
+        }
+      },
+      resetTabs: function resetTabs($hiddenActive, $tabContent, $tabMenu) {
+        // if all mobile tabs are collapsed, re open correct content if moving to desktop
+        var $findContent = $tabContent.eq($hiddenActive);
+        if (!window.matchMedia(window.drzzle.viewports.mobile).matches && !$findContent.is(':visible')) {
+          $findContent.show();
+        }
+        // make sure left content border extends beyond left menu
+        if ($tabMenu.hasClass('drzTabs-menu-left')) {
+          tabActions.setLeftHeight($tabContent, $tabMenu);
+        }
+      },
+      setLeftHeight: function setLeftHeight($tabContent, $tabMenu) {
+        if (!window.matchMedia(window.drzzle.viewports.mobile).matches) {
+          $tabContent.parent().css('min-height', parseInt($tabMenu.outerHeight() + 25, 10));
+        } else {
+          $tabContent.parent().css('min-height', 1);
+        }
+      },
+      removeActives: function removeActives($el) {
+        $el.children().each(function remove() {
+          var $this = $(this);
+          if ($this.hasClass(activeTabClass)) {
+            $this.removeClass(activeTabClass);
+          }
+          if ($this.attr('style')) {
+            $this.css('display', '');
+          }
+        });
+      }
+    };
+
+    var $tabMenu = $tabs.find('.' + tabsMenuClass);
+    var $tabLink = $tabs.find('.' + desktopTabClass);
+    var $tabContent = $tabs.find('.' + tabContentClass);
+
+    $tabLink.click(tabActions.setActive);
+    // Insert tab text into the mobile tab buttons
+    function attachMobile($m) {
+      $tabs.find('.' + desktopTabClass).each(function insertMobileText() {
+        var $tab = $(this);
+        var $index = $tab.index();
+        $m.eq($index).text($tab.find('.' + desktopLinkClass).text());
+      });
+    }
+
+    // inject accordion buttons for mobile
+    $('<div class="' + mobileTabClass + '"></div>').insertBefore($tabContent);
+    var $mobileTab = $tabs.find('.' + mobileTabClass);
+    attachMobile($mobileTab);
+
+    // set first tab active
+    tabActions.setFirstTab($tabLink.first(), $mobileTab.first(), $tabContent.first(), $tabMenu);
+
+    $mobileTab.click(tabActions.setActive);
+
+    // reset tabs when resizing screen
+    var resizeTimer = void 0;
+    window.drzzle.window.resize(function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        var $hiddenActive = $tabs.find('.' + activeTabClass).index();
+        tabActions.resetTabs($hiddenActive, $tabContent, $tabMenu);
+      }, 250);
+    });
+
+    $.fn.drzTabs.destroy = function ($el) {
+      // grab attached selectors and remove/ attached data
+      $el.find('.' + desktopTabClass).off('click');
+      $el.find('.' + mobileTabClass).remove();
+      $el.find('.' + tabContentWrap).css('min-height', 1);
+      tabActions.removeActives($el.find('.' + tabsMenuClass));
+      tabActions.removeActives($el.find('.' + tabContentWrap));
+    };
+
+    return this;
+  };
+})(jQuery);
+
+/*
+============================
+ Drzzle Video Plugin
+============================
+*/
+(function ($) {
+  $.fn.drzVideoPlayer = function drzVideoPlayer() {
+    var $videoContainer = $(this);
+    $videoContainer.each(function initPlayer() {
+      var $this = $(this);
+      var $video = $this.find('.drzVideo-src').get(0);
+      var thisNode = $this.get(0);
+      var $controlsContainer = $this.find('.drzVideo-controls');
+      var $playBtn = $this.find('.drzVideo-playBtn');
+      var $pauseBtn = $this.find('.drzVideo-pauseBtn');
+      var $volume = $this.find('.drzVideo-volSlider');
+      var $mute = $this.find('.drzVideo-muteBtn');
+      var $progress = $this.find('.drzVideo-progress');
+      var $progressBar = $this.find('.drzVideo-progressBar');
+      var $fullScreenBtn = $this.find('.drzVideo-fullScreenBtn');
+      var $timeElapsed = $this.find('.drzVideo-currentTime');
+      var $totalTime = $this.find('.drzVideo-totalTime');
+      var $timeContainer = $this.find('.drzVideo-videoTime');
+      var $sliderContainer = $this.find('.drzVideo-volSliderContainer');
+      var $overlay = $this.find('.drzVideo-overlay');
+      var $initialOverlayBg = $overlay.css('background-color');
+      var $overlayPlayBtn = $overlay.find('.drzVideo-playBtn-lrg');
+
+      // set timeElapsed to 0 at first
+      $timeElapsed.html('0:00');
+
+      // prepare for any dynamically changed src
+      $this.find('.drzVideo-src').load();
+
+      // callback for triggering video play on overlay click
+      var oPlay = function oPlay() {
+        if ($video.paused || $video.ended) {
+          $video.play();
+          $overlay.css('background-color', 'transparent');
+          if ($overlayPlayBtn.is(':visible')) {
+            $overlayPlayBtn.fadeOut();
+          }
+        } else {
+          $video.pause();
+          $overlay.css('background-color', $initialOverlayBg);
+          if (!$overlayPlayBtn.is(':visible')) {
+            $overlayPlayBtn.fadeIn();
+          }
+        }
+      };
+
+      // wait for the video meta data to come in, then show total time
+      var getTotalTime = function getTotalTime() {
+        var totalMinutes = parseInt($video.duration / 60, 10);
+        var totalSeconds = parseInt($video.duration % 60, 10);
+        var totalHours = parseInt(totalMinutes / 60, 10);
+        if (totalSeconds < 10) {
+          totalSeconds = ':0' + totalSeconds;
+        } else {
+          totalSeconds = ':' + totalSeconds;
+        }
+        if (totalHours > 0) {
+          totalHours = totalHours + ':';
+        } else {
+          totalHours = '';
+        }
+        $totalTime.html(totalHours + totalMinutes + totalSeconds);
+        var $parent = $this.parent();
+        if ($parent.hasClass('drzVideo-feature')) {
+          $parent.find('.drzVideo-featureDuration').html('0:00');
+          $parent.find('.drzVideo-featureTotalTime').html(totalHours + totalMinutes + totalSeconds);
+        }
+      };
+
+      // update time of video for progress callback
+      var updateTime = function updateTime() {
+        var value = 0;
+        var minutes = parseInt($video.currentTime / 60, 10);
+        var seconds = parseInt($video.currentTime % 60, 10);
+        var hours = parseInt(minutes / 60, 10);
+        if ($video.currentTime > 0) {
+          value = Math.floor(100 / $video.duration * $video.currentTime);
+        }
+        if (seconds < 10) {
+          seconds = ':0' + seconds;
+        } else {
+          seconds = ':' + seconds;
+        }
+        if (hours > 0) {
+          hours = hours + ':';
+        } else {
+          hours = '';
+        }
+        $progress.css('width', value + '%');
+        $timeElapsed.html(hours + minutes + seconds);
+        var $parent = $this.parent();
+        if ($parent.hasClass('drzVideo-feature')) {
+          $parent.find('.drzVideo-featureDuration').html(hours + minutes + seconds);
+        }
+      };
+
+      // when video is over, show the overlay and play button again
+      var setOverlay = function setOverlay() {
+        $overlay.css('background-color', $initialOverlayBg);
+        if (!$overlayPlayBtn.is(':visible')) {
+          $overlayPlayBtn.fadeIn();
+        }
+      };
+
+      // enable the dragging events to update/change the video time
+      var progressDrag = false;
+      var doc = $(document);
+
+      // update progress for dragging on time bar
+      var updateProgress = function updateProgress(p) {
+        var dur = $video.duration;
+        var pos = p - $progressBar.offset().left;
+        var perc = 100 * (pos / $progressBar.width());
+        if (perc > 100) {
+          perc = 100;
+        }
+        if (perc < 0) {
+          perc = 0;
+        }
+        $video.currentTime = dur * (perc / 100);
+        $progress.css('width', perc + '%');
+      };
+
+      var setProgress = function setProgress(e) {
+        progressDrag = true;
+        updateProgress(e.pageX);
+      };
+
+      doc.on('vmouseup', function (e) {
+        if (progressDrag) {
+          progressDrag = false;
+          updateProgress(e.pageX);
+        }
+      });
+
+      doc.on('vmousemove', function (e) {
+        if (progressDrag) {
+          updateProgress(e.pageX);
+        }
+      });
+
+      var toggleControls = function toggleControls() {
+        var hideControls = void 0;
+        function slideControlsUp() {
+          if ($controlsContainer.hasClass('drzVide-slideDown')) {
+            $controlsContainer.removeClass('drzVide-slideDown');
+            $progress.removeClass('drzVideo-soloProgress');
+            $progressBar.removeClass('drzVideo-soloProgress');
+            clearTimeout(hideControls);
+            hideControls = setTimeout(function () {
+              if (!$controlsContainer.hasClass('drzVide-slideDown')) {
+                $controlsContainer.addClass('drzVide-slideDown');
+                $progress.addClass('drzVideo-soloProgress');
+                $progressBar.addClass('drzVideo-soloProgress');
+              }
+            }, 3000);
+          }
+        }
+
+        function clearTime() {
+          return clearTimeout(hideControls);
+        }
+
+        function slideControlsDown() {
+          clearTimeout(hideControls);
+          hideControls = setTimeout(function () {
+            if (!$controlsContainer.hasClass('drzVide-slideDown')) {
+              $controlsContainer.addClass('drzVide-slideDown');
+              $progress.addClass('drzVideo-soloProgress');
+              $progressBar.addClass('drzVideo-soloProgress');
+            }
+          }, 3000);
+        }
+
+        function offHover() {
+          clearTimeout(hideControls);
+          if (!$controlsContainer.hasClass('drzVide-slideDown')) {
+            $controlsContainer.addClass('drzVide-slideDown');
+            $progress.addClass('drzVideo-soloProgress');
+            $progressBar.addClass('drzVideo-soloProgress');
+          }
+        }
+
+        $this.on('vmousemove', slideControlsUp);
+        $this.find('.drzVideo-controlBar').on('vmouseover', clearTime);
+        $this.find('.drzVideo-controlBar').on('mouseleave', slideControlsDown);
+        $this.mouseleave(offHover);
+      };
+
+      function playVideo() {
+        if ($video.paused || $video.ended) {
+          $video.play();
+          $overlay.css('background-color', 'transparent');
+          if ($overlayPlayBtn.is(':visible')) {
+            $overlayPlayBtn.fadeOut();
+          }
+        }
+      }
+
+      function pauseVideo(e) {
+        e.stopPropagation();
+        $video.pause();
+        $overlay.css('background-color', $initialOverlayBg);
+        if (!$overlayPlayBtn.is(':visible')) {
+          $overlayPlayBtn.fadeIn();
+        }
+      }
+
+      function setVolume() {
+        $video.volume = $volume.val();
+      }
+
+      function toggleMute(e) {
+        e.stopPropagation();
+        $video.muted = !$video.muted;
+        $mute.toggleClass('drzVideo-muteOff');
+      }
+
+      var toggleFullScreen = function toggleFullScreen(e) {
+        e.stopPropagation();
+        if (document.fullScreenElement !== undefined && document.fullScreenElement === null || document.msFullscreenElement !== undefined && document.msFullscreenElement === null || document.mozFullScreen !== undefined && !document.mozFullScreen || document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen) {
+          if (thisNode.requestFullScreen) {
+            thisNode.requestFullScreen();
+          } else if (thisNode.mozRequestFullScreen) {
+            thisNode.mozRequestFullScreen();
+          } else if (thisNode.webkitRequestFullScreen) {
+            thisNode.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+          } else if (thisNode.msRequestFullscreen) {
+            thisNode.msRequestFullscreen();
+          }
+        } else if (document.cancelFullScreen) {
+          document.cancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      };
+
+      // bind the control toggling only once after clicking on video
+      $this.one('click', toggleControls);
+
+      // need to stop propagation on the following
+      $timeContainer.click(function (e) {
+        return e.stopPropagation();
+      });
+      $sliderContainer.click(function (e) {
+        return e.stopPropagation();
+      });
+
+      // attach callbacks on listeners
+      $overlay.click(oPlay);
+      $video.addEventListener('durationchange', getTotalTime, false);
+      $video.addEventListener('timeupdate', updateTime, false);
+      $video.addEventListener('ended', setOverlay, false);
+      $progressBar.on('vmousedown', setProgress);
+
+      $playBtn.click(playVideo);
+      $pauseBtn.click(pauseVideo);
+      $volume.change(setVolume);
+      $mute.click(toggleMute);
+      $fullScreenBtn.click(toggleFullScreen);
+
+      $.fn.drzVideoPlayer.destroy = function ($el) {
+        // grab attached selectors and remove attached listeners
+        $el.off('click');
+        $el.off('mouseleave');
+        $el.off('vmousemove');
+        $el.find('.drzVideo-videoTime').off('click');
+        $el.find('.drzVideo-volSliderContainer').off('click');
+        $el.find('.drzVideo-overlay').off('click');
+        $el.find('.drzVideo-progressBar').off('vmousedown');
+        $el.find('.drzVideo-playBtn').off('click');
+        $el.find('.drzVideo-pauseBtn').off('click');
+        $el.find('.drzVideo-volSlider').off('change');
+        $el.find('.drzVideo-muteBtn').off('click');
+        $el.find('.drzVideo-fullScreenBtn').off('click');
+        var vidNode = $el.find('.drzVideo-src').get(0);
+        vidNode.removeEventListener('durationchange', getTotalTime, false);
+        vidNode.removeEventListener('timeupdate', updateTime, false);
+        vidNode.removeEventListener('ended', setOverlay, false);
+        var $ctrlBar = $el.find('.drzVideo-controlBar');
+        $ctrlBar.off('vmouseover');
+        $ctrlBar.off('mouseleave');
       };
     });
     return this;
@@ -2058,6 +2691,102 @@ window.drzzle = {
           });
         }
       });
+    });
+    return this;
+  };
+})(jQuery);
+
+/*
+============================
+ Drzzle Modal Plugin
+============================
+*/
+(function ($) {
+  $.fn.drzModal = function drzModal() {
+    var $modal = $(this);
+    $modal.each(function initModal() {
+      var $modalTrigger = $(this);
+      var $modalOverlay = $modalTrigger.next('.drzModal-overlay');
+      var $modalContent = $modalOverlay.find('.drzModal-content');
+      var $body = $('body');
+      var swapModalClass = void 0;
+      var addLeaveClasses = void 0;
+      var resetModal = void 0;
+
+      $modalOverlay.addClass('drzModal-overlay-inStart');
+      $modalContent.addClass('drzModal-content-inStart');
+
+      function buildModal($thisModal) {
+        $thisModal.insertAfter($body);
+        $thisModal.show();
+
+        clearTimeout(swapModalClass);
+        swapModalClass = setTimeout(function () {
+          $thisModal.removeClass('drzModal-overlay-inStart').addClass('drzModal-overlay-inEnd');
+          $modalContent.removeClass('drzModal-content-inStart').addClass('drzModal-content-inEnd');
+        }, 50);
+
+        if ($thisModal.hasClass('drzModal-announcement')) {
+          $modalContent.addClass('drzModal-anMessage');
+          $body.addClass('blur');
+        }
+
+        // focus on input if a search modal
+        if ($modalContent.find('.drzModal-search-bar').length) {
+          $modalContent.find('.drzModal-search-bar').focus();
+        }
+
+        function closeModal(e) {
+          $thisModal.removeClass('drzModal-overlay-inEnd').addClass('drzModal-overlay-leaveStart');
+          $modalContent.removeClass('drzModal-content-inEnd').addClass('drzModal-content-leaveStart');
+
+          clearTimeout(addLeaveClasses);
+          addLeaveClasses = setTimeout(function () {
+            $thisModal.removeClass('drzModal-overlay-leaveStart').addClass('drzModal-overlay-leaveEnd');
+            $modalContent.removeClass('drzModal-content-leaveStart').addClass('drzModal-content-leaveEnd');
+          }, 50);
+
+          if ($body.hasClass('blur')) {
+            $body.removeClass('blur');
+          }
+
+          clearTimeout(resetModal);
+          resetModal = setTimeout(function () {
+            // move the modal node back inside it's container
+            $thisModal.insertAfter($modalTrigger);
+            $thisModal.hide();
+            $thisModal.removeClass('drzModal-overlay-leaveEnd').addClass('drzModal-overlay-inStart');
+            $modalContent.removeClass('drzModal-content-leaveEnd').addClass('drzModal-content-inStart');
+          }, 600);
+          e.preventDefault();
+        }
+
+        $thisModal.find('.drzModal-closeLink').click(closeModal);
+        $thisModal.click(closeModal);
+        $thisModal.find('.drzModal-content').click(function (e) {
+          e.stopPropagation();
+        });
+
+        // close modal on escape key
+        $(document).keyup(function (e) {
+          if (e.key === 'Escape') {
+            closeModal(e);
+          }
+        });
+      }
+
+      $modalTrigger.click(function (e) {
+        e.preventDefault();
+        if (!$modalOverlay.hasClass('drzModal-overlay-leaveEnd')) {
+          buildModal($modalOverlay);
+        }
+      });
+
+      // Auto show announcement modal
+      if ($modalOverlay.hasClass('drzModal-announcement')) {
+        /* disabled for demo */
+        // buildModal($modalOverlay);
+      }
     });
     return this;
   };

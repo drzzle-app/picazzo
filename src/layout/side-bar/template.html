@@ -1,6 +1,11 @@
 <div class="picazzo-sideBar-container">
   <div class="picazzo-topBar">
     <div class="picazzo-topBar-logo">
+      <a
+        href="#"
+        @click.prevent="mobileOpen = !mobileOpen"
+        :class="{ 'picazzo-openHamburger': mobileOpen }"
+        class="picazzo-hamburger"></a>
       <router-link
         class="picazzo-topBar-logoImg"
         tag="img"
@@ -10,14 +15,18 @@
       </router-link>
     </div>
     <search-box></search-box>
-    <a href="#" class="picazzo-gitLink"></a>
+    <a
+      target="_blank"
+      href="https://gitlab.com/runrog/picazzo"
+      class="picazzo-gitLink"></a>
   </div>
   <div class="picazzo-sideBar-layout">
-    <div class="picazzo-sideBar">
+    <div class="picazzo-sideBar" :class="{ 'picazzo-sideBar-mobileOpen': mobileOpen }">
       <ul class="picazzo-sideBar-list">
         <sidebar-links
           v-for="(link, index) in links"
           :key="index"
+          @link-clicked="linkClicked"
           :link="link"
           :depth="20">
        </sidebar-links>

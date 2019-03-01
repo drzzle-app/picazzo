@@ -1,0 +1,102 @@
+/* Image Gallery */
+.drzImageGallery {
+  display: block;
+  float: left;
+  min-height: 10px;
+  width: 100%;
+}
+
+.drzImageGallery-controls {
+  display: none;
+}
+
+.drzImageGallery-img {
+  .column;
+  .col-3;
+  height: 150px;
+  overflow: hidden;
+  padding: 0;
+
+  &:hover {
+    cursor: hand;
+    cursor: pointer;
+    opacity: 0.7;
+    transition-duration: @defaultDuration;
+  }
+
+  img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+}
+
+.drzImageGallery-content {
+  .no-box-shadow;
+  background-color: transparent;
+  padding: 0;
+  position: relative;
+  width: 700px;
+
+  @media @mobile {
+    width: 95%;
+  }
+
+  /* When the images are in the modal */
+  .drzImageGallery-img {
+    display: none;
+    height: auto;
+    padding-top: 40px;
+    width: 100%;
+
+    &:hover {
+      .no-duration;
+      cursor: default;
+      opacity: 1;
+    }
+
+    img {
+      .box-shadow-med;
+    }
+  }
+}
+
+.drzImageGallery-controls {
+  .row;
+  color: @white;
+  display: block;
+  margin-bottom: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+}
+
+.drzImageGallery-btn {
+  background-color: fade(@black, 15%);
+  width: auto;
+
+  &:hover {
+    .no-duration;
+    background-color: fade(@black, 45%);
+  }
+
+  &:before {
+    font-family: 'drzzle';
+  }
+}
+
+.drzImageGallery-btnNext {
+  float: right;
+
+  &:before {
+    content: '\e809';
+  }
+}
+
+.drzImageGallery-btnBack {
+  float: left;
+
+  &:before {
+    content: '\e808';
+  }
+}

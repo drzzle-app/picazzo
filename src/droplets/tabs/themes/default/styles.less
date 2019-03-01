@@ -1,0 +1,221 @@
+/* Tabs */
+@mobileBorder: #dddddd;
+
+.drzTabs {
+  .drzClearFix;
+  display: table;
+  position: relative;
+  width: 100%;
+
+  @media @mobile {
+    border-bottom: 1px solid @mobileBorder;
+  }
+}
+
+.drzTabs-menu {
+  .no-list-style;
+  overflow-x: hidden;
+  text-align: center;
+
+  @media @mobile {
+    display: none;
+  }
+}
+
+.drzTabs-tab {
+  border: 1px solid darken(@white, 15%);
+  border-bottom: 0;
+  cursor: default;
+  display: inline-block;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.drzTabs-mobileTab {
+  display: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.drzTabs-activeTab {
+    color: @baseColor;
+  }
+
+  @media @mobile {
+    background-color: transparent;
+    border: 1px solid @mobileBorder;
+    border-bottom: 0;
+    display: block;
+    padding: 10px 20px;
+    width: 100%;
+  }
+}
+
+.drzTabs-activeTab {
+  background-color: transparent;
+  border: 1px solid @baseColor;
+  color: @baseColor;
+
+  .drzTabs-tabLink {
+    color: @baseColor;
+  }
+
+  @media @mobile {
+    display: block;
+  }
+}
+
+.drzTabs-tab-top {
+
+  &.drzTabs-activeTab {
+    border-bottom: 0;
+    position: relative;
+
+    &:after {
+      border-bottom: 1px solid @baseColor;
+      bottom: 0;
+      content: '';
+      display: block;
+      height: 0;
+      left: 100%;
+      position: absolute;
+      width: 999em;
+    }
+
+    &:before {
+      border-bottom: 1px solid @baseColor;
+      bottom: 0;
+      content: '';
+      display: block;
+      height: 0;
+      position: absolute;
+      right: 100%;
+      width: 999em;
+    }
+  }
+}
+
+.drzTabs-tabLink {
+  color: darken(@white, 25%);
+  display: inline-block;
+  padding: 10px 25px;
+  text-decoration: none;
+}
+
+.drzTabs-activeTabLink {
+  color: @baseColor;
+}
+
+.drzTabs-content {
+  .drzClearFix;
+  border-bottom: 1px solid @baseColor;
+  margin-top: -1px;
+  min-height: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+
+  @media @mobile {
+    border: 0;
+    padding: 0;
+    padding-top: 1px;
+  }
+}
+
+.drzTabs-tabContent {
+  .drzClearFix;
+  display: none;
+
+  @media @mobile {
+    border-left: 1px solid @mobileBorder;
+    border-right: 1px solid @mobileBorder;
+    padding: 5px;
+  }
+}
+
+/* Left side tabs */
+.drzTabs-menu-left {
+  .col-2;
+  .drzClearFix;
+  display: table-cell;
+  overflow-y: hidden;
+  padding-top: 15px;
+  position: relative;
+
+  @media @mobile {
+    display: none;
+    margin-top: 0;
+  }
+
+  .drzTabs-activeTab {
+    border-color: @baseColor;
+
+    @media @mobile {
+      display: block;
+    }
+  }
+}
+
+.drzTabs-tab-left {
+  border-bottom: 1px solid darken(@white, 15%);
+  border-right: 0;
+  display: block;
+  margin-bottom: 5px;
+
+ .drzTabs-tabLink {
+   padding: 10px 3px;
+ }
+
+  &.drzTabs-activeTab {
+    border-left: 2px solid @baseColor;
+    border-right: 0;
+    left: -1px;
+    position: relative;
+
+    &:after {
+      border-right: 1px solid @baseColor;
+      content: '';
+      display: block;
+      height: 999em;
+      left: 100%;
+      position: absolute;
+      top: 100%;
+    }
+
+    &:before {
+      border-right: 1px solid @baseColor;
+      bottom: 100%;
+      content: '';
+      display: block;
+      height: 999em;
+      left: 100%;
+      position: absolute;
+    }
+  }
+}
+
+.drzTabs-content-left {
+  .col-10;
+  border-bottom: 0;
+  border-top: 0;
+  display: table-cell;
+  margin-left: -1px;
+  margin-top: 0;
+  padding-left: 15px;
+
+  @media @mobile {
+    border: 0;
+    float: left;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+.drzTabs-mobile-li {
+
+  @media @mobile {
+    display: block;
+  }
+}

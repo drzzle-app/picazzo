@@ -1,6 +1,14 @@
 .picazzo-search-container {
   float: left;
   width: 400px;
+
+  @media @tablet {
+    width: 250px;
+  }
+
+  @media @mobile {
+    width: auto;
+  }
 }
 
 .picazzo-search-input {
@@ -33,6 +41,10 @@
   position: absolute;
   top: 0;
   width: 700px;
+
+  @media @mobile {
+    left: -175px;
+  }
 }
 
 .picazzo-search-header {

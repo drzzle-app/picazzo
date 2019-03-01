@@ -19,6 +19,7 @@
         v-for="(link, index) in link.children"
         :key="index"
         :depth="depth + 10"
+        @link-clicked="linkClicked"
         :link="link">
       </sidebar-links>
     </ul>

@@ -1,3 +1,78 @@
 <div>
- Modals Page!
+  <header class="picazzo-page-header">Modals</header>
+
+  <p>
+    Modal triggers do not need to be a button. As long as the trigger contains the "drzModal-trigger" class the modal should work.
+  </p>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <modal-default-tool></modal-default-tool>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ defaultHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzModal-trigger').drzModal();</code></pre>
+  </div>
+
+  <p>
+    <a
+      href="https://github.com/drzzle-app/picazzo-v2/blob/master/src/droplets/accordion/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </p>
+
+  <header class="picazzo-sectionHeader">Announcement Modal</header>
+
+  <div class="row">
+    <modal-announcement-tool></modal-announcement-tool>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ announcementHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Confirm Modal</header>
+
+  <div class="row">
+    <modal-confirm-tool></modal-confirm-tool>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ confirmHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Search Modal</header>
+
+  <div class="row">
+    <modal-search-tool></modal-search-tool>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ searchHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Wide Modal</header>
+
+  <div class="row">
+    <modal-wide-tool></modal-wide-tool>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ wideHtml }}</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter"></div>
 </div>

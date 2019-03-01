@@ -1,0 +1,416 @@
+@videoCtrlBg: #252424;
+@videoCtrlBorder: #252424;
+@videoTrackColor: darken(@white, 20%);
+@videoCtrlText: fade(@white, 70%);
+
+.drzVideo {
+  .row;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.drzVideo-src {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.drzVideo-overlay {
+  .flex-center-all;
+  background-color: fade(@black, 50%);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+
+  &:hover {
+    cursor: hand;
+    cursor: pointer;
+  }
+}
+
+.drzVideo-playBtn-lrg {
+
+  &:before {
+    color: fade(@white, 50%);
+    content: '\e861';
+    font-family: 'drzzle';
+    font-size: 45pt;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    @media @mobile {
+      display: none;
+    }
+  }
+}
+
+.drzVideo-controlBar {
+  border-bottom: 1px solid @videoCtrlBorder;
+  bottom: 0;
+  min-height: 1px;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+
+  @media @mobile {
+    position: relative;
+  }
+}
+
+.drzVideo-controls {
+  background-color: @videoCtrlBg;
+  clear: both;
+  color: @videoCtrlText;
+  height: 43px;
+  overflow: hidden;
+}
+
+.drzVide-slideDown {
+  height: 0;
+  transition-duration: @defaultDuration;
+}
+
+/* mixin for control buttons */
+.drzVideo-controlBtn {
+  .flex-center-all;
+  background-color: inherit;
+  border: 0;
+  border-left: 1px solid @videoCtrlBorder;
+  border-radius: 0;
+  color: inherit;
+  display: inline-block;
+  float: left;
+  height: 100%;
+  text-align: center;
+  transition-duration: @defaultDuration;
+
+  @media @mobile {
+    padding: 15px 3px;
+  }
+
+  &:hover {
+    background-color: fade(@white, 10%);
+    cursor: hand;
+    cursor: pointer;
+
+    &:after {
+      color: fade(@white, 90%);
+    }
+  }
+
+  &:focus {
+    background-color: #171616;
+    outline: 0;
+  }
+
+  &:active {
+    background-color: #171616;
+    outline: 0;
+  }
+
+  &:after {
+    font-family: 'drzzle';
+  }
+}
+
+.drzVideo-playBtn {
+  .drzVideo-controlBtn;
+  .col-1;
+
+  @media @mobile {
+    width: 33.33333333%;
+  }
+
+  &:after {
+    // play btn
+    content: '\e861';
+  }
+}
+
+.drzVideo-pauseBtn {
+  .drzVideo-controlBtn;
+  .col-1;
+
+  @media @mobile {
+    display: none;
+  }
+
+  &:after {
+    // pause
+    content: '\e868';
+  }
+}
+
+.drzVideo-fullScreenBtn {
+  .drzVideo-controlBtn;
+  .col-1;
+  border-right: 1px solid @videoCtrlBorder;
+  float: right;
+
+  @media @mobile {
+    display: none;
+  }
+
+  &:after {
+    // full screen
+    content: '\e869';
+  }
+}
+
+.drzVideo-muteBtn {
+  .drzVideo-controlBtn;
+  .col-1;
+  border-right: 1px solid @videoCtrlBorder;
+  float: right;
+
+  @media @mobile {
+    display: none;
+  }
+
+  &:after {
+    // no sound mic
+    content: '\e86a';
+  }
+}
+
+.drzVideo-muteOff {
+
+  &:after {
+    // sounded mic
+    content: '\e86b';
+  }
+}
+
+.drzVideo-progressBar {
+   background-color: fade(@black, 15%);
+   color: @white;
+   height: 10px;
+   width: 100%;
+
+   &:hover {
+     cursor: pointer;
+   }
+}
+
+/* solo-progress is for when the controls collapse and the progress bar is solo */
+.drzVideo-soloProgress {
+  height: 4px;
+  overflow: hidden;
+  transition-duration: @defaultDuration;
+}
+
+.drzVideo-progress {
+   background-color: @baseColor;
+   display: block;
+   height: 10px;
+   transition: all 0.2s ease;
+   width: 0;
+}
+
+.drzVideo-videoTime {
+  .col-6;
+  background-color: inherit;
+  border: 0;
+  border-left: 1px solid @videoCtrlBorder;
+  color: inherit;
+  display: inline-block;
+  float: right;
+  font-size: 10pt;
+  font-weight: 600;
+  height: 100%;
+  padding: 13px 20px;
+  text-align: center;
+
+  @media @mobile {
+    border-right: 1px solid @videoCtrlBorder;
+    padding: 13px 8px;
+    width: 33.33333333%;
+  }
+}
+
+.drzVideo-volSliderContainer {
+  .col-2;
+  background-color: inherit;
+  display: inline-block;
+  float: right;
+  height: 100%;
+  padding: 17.5px 0;
+
+  @media @mobile {
+    border-right: 1px solid @videoCtrlBorder;
+    width: 33.33333333%;
+  }
+
+  @-moz-document url-prefix() {
+    padding: 15px 0;
+  }
+}
+
+/* mixins for video volume slider */
+.drzVideo-volTrack {
+  cursor: pointer;
+  height: 4px;
+}
+
+.drzVideo-volThumb {
+  background-color: lighten(@videoTrackColor, 20%);
+  border: 0;
+  border-radius: 1px;
+  cursor: pointer;
+  height: 14px;
+  margin-top: -5px;
+  width: 10px;
+}
+
+.drzVideo-volSlider {
+  -webkit-appearance: none;
+  display: block;
+  margin: 3px auto;
+  width: 75%;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::-webkit-slider-runnable-track {
+    .drzVideo-volTrack;
+    background: @videoTrackColor;
+  }
+
+  &::-webkit-slider-thumb {
+    .drzVideo-volThumb;
+    -webkit-appearance: none;
+    margin-top: -5px;
+  }
+
+  &:focus::-webkit-slider-runnable-track {
+    background-color: @videoTrackColor;
+  }
+
+  &::-moz-range-track {
+    .drzVideo-volTrack;
+    background-color: @videoTrackColor;
+  }
+
+  &::-moz-range-thumb {
+    .drzVideo-volThumb;
+  }
+
+  &::-ms-track {
+    .drzVideo-volTrack;
+    background-color: transparent;
+    border-color: transparent;
+    border-width: 10px 0;
+    color: transparent;
+  }
+
+  &::-ms-fill-lower {
+    background-color: @videoTrackColor;
+  }
+
+  &::-ms-fill-upper {
+    background-color: @videoTrackColor;
+  }
+
+  &::-ms-thumb {
+    .drzVideo-volThumb;
+  }
+
+  &:focus::-ms-fill-lower {
+    background-color: @videoTrackColor;
+  }
+
+  &:focus::-ms-fill-upper {
+    background-color: @videoTrackColor;
+  }
+
+  @-moz-document url-prefix() {
+    margin: 0 auto;
+  }
+}
+
+/* Video Feature Informtion Section */
+.drzVideo-feature {
+  .row;
+}
+
+.drzVideo-featureInfo {
+  .row;
+  background-color: darken(@white, 2%);
+  margin-bottom: 0;
+}
+
+.drzVideo-featureGraphic {
+  .column;
+  .col-4;
+  background-color: @baseColor;
+  height: 220px;
+  padding: 0;
+}
+
+.drzVideo-featureImg {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.drzVideo-featureSummary {
+  .column;
+  .col-4;
+  padding: 10px;
+}
+
+.drzVideo-featureList {
+  .column;
+  .col-4;
+  border-left: 1px solid fade(@black, 10%);
+  padding: 10px;
+
+  @media @mobile {
+   border: 0;
+   border-top: 1px solid fade(@black, 10%);
+  }
+}
+
+.drzVideo-featureOrderedList {
+  .no-list-style;
+}
+
+.drzVideo-featureList-item {
+  counter-increment: step-counter;
+}
+
+.drzVideo-featureList-link {
+  background-color: @white;
+  color: fade(@black, 45%);
+  display: block;
+  margin-bottom: 5px;
+  padding: 10px 0;
+  text-decoration: none;
+
+  &:hover {
+    background-color: fade(@black, 1.5%);
+    cursor: pointer;
+    transition-duration: @defaultDuration;
+  }
+
+  &:before {
+    background-color: @baseColor;
+    color: @white;
+    content: counter(step-counter);
+    font-weight: bold;
+    margin-right: 8px;
+    padding: 10px 13px;
+  }
+
+  &:after {
+    // round play btn
+    content: '\f144';
+    float: right;
+    font-family: 'drzzle';
+    margin-right: 10px;
+  }
+}

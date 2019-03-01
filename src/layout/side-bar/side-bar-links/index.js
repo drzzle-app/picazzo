@@ -25,8 +25,12 @@ export default Vue.component('sidebar-links', {
       if (this.isDropDown(this.link)) {
         this.showChildren = !this.showChildren;
       } else {
+        this.linkClicked();
         this.$router.push({ path });
       }
+    },
+    linkClicked() {
+      this.$emit('link-clicked');
     },
     checkActive(link) {
       return link && link === this.$router.currentRoute.path;

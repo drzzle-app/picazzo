@@ -1,0 +1,226 @@
+/*Default Modal*/
+.drzModal {
+  display: inline-block;
+}
+
+.drzModal-overlay {
+  background-color: fade(@black, 60%);
+  display: none;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999999;
+}
+
+.drzModal-closeRow {
+  .row;
+  margin-bottom: 0;
+  min-height: 1px;
+  padding-right: 20px;
+  padding-top: 20px;
+  text-align: right;
+}
+
+.drzModal-closeLink {
+  color: @white;
+  display: inline-block;
+  height: 35px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  width: 35px;
+
+  &:before {
+    content: '\e814';
+    font-family: 'drzzle';
+    font-size: 24pt;
+  }
+
+  &:hover {
+    color: fade(@white, 60%);
+    cursor: pointer;
+  }
+}
+
+.drzModal-content {
+  .box-shadow-med;
+  .drzFont-general;
+  background-color: @white;
+  border-radius: 1px;
+  color: lighten(@black, 20%);
+  margin: 0 auto 30px auto;
+  min-height: 250px;
+  overflow: scroll;
+  overflow: auto;
+  padding: 15px;
+  width: 485px;
+
+  @media @mobile {
+    margin: 20px auto;
+    width: 95%;
+  }
+
+  @media @tablet {
+    width: 90%;
+  }
+}
+
+.drzModal-header {
+  border-bottom: 1px solid fade(@white, 10%);
+  color: lighten(@black, 20%);
+  padding-bottom: 10px;
+}
+
+/*Wide Modal Helper */
+.drzModal-wide {
+  margin: 0 auto 50px auto;
+  width: 930px;
+
+  @media @mobile {
+    margin: 20px auto;
+    width: 95%;
+  }
+
+  @media @tablet {
+    width: 90%;
+  }
+}
+
+/* Announcement Modal */
+.drzModal-anMessage {
+  margin: 90px auto 30px auto;
+  text-align: center;
+
+  @media @mobile {
+    margin: 10px auto 20px auto;
+  }
+}
+
+/* Search Bar Modal */
+.drzModal-search {
+  .no-box-shadow;
+  background-color: transparent;
+  min-height: 1px;
+}
+
+.drzModal-search-icon {
+  background-color: lighten(@black, 18%);
+  float: left;
+  height: 65px;
+  padding-top: 20px;
+  text-align: center;
+  width: 15%;
+
+  &:before {
+    color: @white;
+    content: '\e859';
+    font-family: 'drzzle';
+    font-size: 18pt;
+  }
+}
+
+.drzModal-search-bar {
+  background-color: @white;
+  border: 0;
+  border-radius: 1px;
+  display: inline-block;
+  float: left;
+  font-size: 18pt;
+  height: 65px;
+  outline: 0;
+  padding: 5px 8px;
+  width: 85%;
+}
+
+/* Confirm Modal */
+.drzModal-confirm-message {
+  .row;
+  padding-top: 30px;
+  text-align: center;
+
+  &:before {
+    color: @warningColor;
+    content: '\e862';
+    display: inline-block;
+    font-family: 'drzzle';
+    font-size: 40pt;
+  }
+}
+
+.drzModal-confirmOption {
+  .col-6;
+  .column;
+  text-align: center;
+
+  &:last-child {
+    padding-left: 10px;
+    padding-right: 0;
+  }
+}
+
+.drz-confirmBtn {
+  background-color: lighten(@black, 45%);
+  border: 0;
+  border-radius: 1px;
+  color: @white;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 12pt;
+  padding: 10px 15px;
+  width: 100%;
+
+  &:hover {
+    background-color: lighten(@black, 35%);
+    cursor: pointer;
+    transition-duration: @defaultDuration;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+/* modal overlay enter and leave effects */
+.drzModal-overlay-inStart {
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.drzModal-overlay-inEnd {
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+.drzModal-overlay-leaveStart {
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+.drzModal-overlay-leaveEnd {
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+/* modal content enter and leave effects */
+.drzModal-content-inStart {
+  margin-top: -60px;
+  transition: all 0.2s ease;
+}
+
+.drzModal-content-inEnd {
+  margin-top: 0;
+  transition: all 0.2s ease;
+}
+
+.drzModal-content-leaveStart {
+  margin-top: 0;
+  transition: all 0.2s ease;
+}
+
+.drzModal-content-leaveEnd {
+  margin-top: -60px;
+  transition: all 0.2s ease;
+}

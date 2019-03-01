@@ -596,11 +596,11 @@ gulp.task('build', buildAll);
 
 // kick off default
 gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes', 'build-themes', 'build-icons'], () => {
-  watch(['./src/js-lib/picazzo.global.js', './src/droplets/**/plugin.js'], () => buildJsPlugins());
-  watch(['./src/pages/**/template.html', './src/droplets/**/template.html'], () => buildSearch());
+  watch(['./src/js-lib/picazzo.global.js', './src/droplets/**/plugin.js', './src/tools/**/plugin.js'], () => buildJsPlugins());
+  watch(['./src/pages/**/template.html', './src/droplets/**/template.html', './src/tools/**/template.html'], () => buildSearch());
   watch(['./src/router/routes.json'], () => buildRoutes());
   watch(['./src/icons/**/*'], () => buildIcons());
   watch(
-    ['./src/droplets/**/*.less', './src/less/themes/**/*.less', './src/less/theme-globals/*.less'],
+    ['./src/droplets/**/*.less', './src/tools/**/*.less', './src/less/themes/**/*.less', './src/less/theme-globals/*.less'],
     () => buildThemes());
 });

@@ -128,6 +128,7 @@
 .drzicon-comment { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87e;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
+.drzicon-github-circled { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf09b;&nbsp;'); }
 .drzicon-docs { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf0c5;&nbsp;'); }
 .drzicon-menu { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf0c9;&nbsp;'); }
 .drzicon-list-bullet { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf0ca;&nbsp;'); }
@@ -160,6 +161,7 @@
 .drzicon-slack { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf198;&nbsp;'); }
 .drzicon-reddit-squared { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf1a2;&nbsp;'); }
 .drzicon-recycle { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf1b8;&nbsp;'); }
+.drzicon-git { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf1d3;&nbsp;'); }
 .drzicon-paragraph { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf1dd;&nbsp;'); }
 .drzicon-trash { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf1f8;&nbsp;'); }
 .drzicon-brush { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf1fc;&nbsp;'); }

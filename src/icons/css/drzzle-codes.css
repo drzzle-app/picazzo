@@ -128,6 +128,7 @@
 .drzicon-comment:before { content: '\e87e'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
+.drzicon-github-circled:before { content: '\f09b'; } /* '' */
 .drzicon-docs:before { content: '\f0c5'; } /* '' */
 .drzicon-menu:before { content: '\f0c9'; } /* '' */
 .drzicon-list-bullet:before { content: '\f0ca'; } /* '' */
@@ -160,6 +161,7 @@
 .drzicon-slack:before { content: '\f198'; } /* '' */
 .drzicon-reddit-squared:before { content: '\f1a2'; } /* '' */
 .drzicon-recycle:before { content: '\f1b8'; } /* '' */
+.drzicon-git:before { content: '\f1d3'; } /* '' */
 .drzicon-paragraph:before { content: '\f1dd'; } /* '' */
 .drzicon-trash:before { content: '\f1f8'; } /* '' */
 .drzicon-brush:before { content: '\f1fc'; } /* '' */

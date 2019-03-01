@@ -19,6 +19,10 @@
   height: 100%;
   padding: 5px 20px;
   width: 235px;
+
+  @media @mobile {
+    width: 175px;
+  }
 }
 
 .picazzo-topBar-logoImg {
@@ -43,8 +47,20 @@
   overflow: scroll;
   position: fixed;
   top: 40px;
+  transition: left .2s;
   width: 235px;
   z-index: 5;
+
+  @media @mobile {
+    left: -235px;
+  }
+}
+
+.picazzo-sideBar-mobileOpen {
+
+  @media @mobile {
+    left: 0;
+  }
 }
 
 .picazzo-sideBar-list {
@@ -60,22 +76,55 @@
   padding: 20px 20px 20px 255px;
   position: relative;
   top: 40px;
+
+  @media @mobile {
+    padding: 20px;
+  }
 }
 
 .picazzo-gitLink {
-  color: fade(@black, 30%);
+  color: fade(@white, 65%);
   display: inline-block;
   float: right;
-  font-size: 22pt;
-  margin-right: 20px;
+  font-size: 18pt;
+  margin-right: 25px;
+  position: relative;
+  text-decoration: none;
+  top: 3px;
   transition-duration: .2s;
 
   &:before {
-    content: '\f300';
+    content: '\f1d3';
     font-family: 'drzzle';
   }
 
   &:hover {
-    color: fade(@black, 65%);
+    color: @white;
+  }
+}
+
+.picazzo-hamburger {
+  color: white;
+  display: none;
+  font-size: 14pt;
+  margin-right: 10px;
+  position: relative;
+  text-decoration: none;
+  top: -4px;
+
+  &:before {
+    content: '\f0c9';
+    font-family: 'drzzle';
+  }
+
+  @media @mobile {
+    display: inline-block;
+  }
+}
+
+.picazzo-openHamburger {
+
+  &:before {
+    content: '\e814';
   }
 }

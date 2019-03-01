@@ -17,7 +17,7 @@ export default Vue.component('all-droplets', {
   },
   methods: {
     getDroplets() {
-      this.droplets = Object.keys(dropletList);
+      this.droplets = Object.keys(dropletList).sort();
     },
     formatTitle(title) {
       return _.startCase(title);

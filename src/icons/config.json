@@ -1635,6 +1635,18 @@
       "css": "desktop",
       "code": 61704,
       "src": "fontawesome"
+    },
+    {
+      "uid": "e7cb72a17f3b21e3576f35c3f0a7639b",
+      "css": "git",
+      "code": 61907,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "0f6a2573a7b6df911ed199bb63717e27",
+      "css": "github-circled",
+      "code": 61595,
+      "src": "fontawesome"
     }
   ]
 }

@@ -24,6 +24,12 @@ export default Vue.component('side-bar', {
   data() {
     return {
       links: [],
+      mobileOpen: false,
     };
+  },
+  methods: {
+    linkClicked() {
+      this.mobileOpen = false;
+    },
   },
 });
