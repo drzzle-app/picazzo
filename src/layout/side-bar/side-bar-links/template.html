@@ -5,7 +5,8 @@
     class="picazzo-sideBar-link"
     :class="[
       isDropDown(link) ? 'picazzo-sideBar-dd' : '',
-      isDropDown(link) && showChildren ? 'picazzo-sideBar-ddOpen' : ''
+      isDropDown(link) && showChildren ? 'picazzo-sideBar-ddOpen' : '',
+      { 'picazzo-activeSideLink': link.route === currentRoute }
     ]"
     @click.prevent="goTo(link.route)">
     {{ link.text }}

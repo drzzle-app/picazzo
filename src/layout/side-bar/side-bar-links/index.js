@@ -6,11 +6,6 @@ export default Vue.component('sidebar-links', {
   template,
   name: 'sidebar-links',
   props: ['link', 'depth'],
-  data() {
-    return {
-      showChildren: false,
-    };
-  },
   computed: {
     indent() {
       const bg = this.depth === 20 ? 0 : this.depth - 5;
@@ -19,6 +14,20 @@ export default Vue.component('sidebar-links', {
         backgroundColor: `rgba(0, 0, 0, .0${bg})`,
       };
     },
+  },
+  data() {
+    return {
+      showChildren: false,
+      currentRoute: '',
+    };
+  },
+  watch: {
+    $route(r) {
+      this.currentRoute = r.path;
+    },
+  },
+  created() {
+    this.currentRoute = this.$router.currentRoute.path;
   },
   methods: {
     goTo(path) {

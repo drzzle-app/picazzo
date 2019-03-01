@@ -2,6 +2,8 @@
 
 Picazzo is an open source front end framework that was created for websites built from the [drzzle.app](https://drzzle.app) site builder.
 
+[See Docs](http://drz-picazzo.s3-website-us-west-2.amazonaws.com/)
+
 ## Build Setup
 
 ```bash
@@ -121,6 +123,12 @@ Themes exist to give droplets default styling. These styles can be overridden in
 
 ## Maintainable CSS
 We go by the maintainable CSS rules when writing css/less. Please make sure you are aware of these before contributing. You can read the documentation here: [Read Docs](https://maintainablecss.com/chapters/introduction/)
+
+## Versioning
+Use the following npm command to bump the current version
+```
+npm version major | minor | patch
+```
 
 ## Further Vue documentation regarding this app
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

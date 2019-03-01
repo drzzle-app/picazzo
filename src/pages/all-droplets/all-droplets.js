@@ -16,7 +16,7 @@ export default {
   'google-map': require('@/droplets/google-map'),
   'header': require('@/droplets/header'),
   'image-gallery': require('@/droplets/image-gallery'),
-  // 'navigation': require('@/droplets/navigation'),
+  'navigation': require('@/droplets/navigation'),
   'section': require('@/droplets/section'),
   'social-media': require('@/droplets/social-media'),
   'step-card': require('@/droplets/step-card'),

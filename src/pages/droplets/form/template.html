@@ -17,6 +17,8 @@
 
   <p class="picazzo-section-subHeader">Initializing Plugin</p>
 
+  This plugin is to cover front end validation.
+
   <div class="row">
     <pre v-highlightjs><code class="javascript">$('.drzForm-validate').drzFormValidate(function() {
   event.preventDefault();
@@ -33,28 +35,26 @@
   <div class="row">
     <pre v-highlightjs><code class="javascript">// set input required
 data-validator="required"</code></pre>
-  </div>
-
-  <div class="row">
-    <pre v-highlightjs><code class="javascript">// set a custom error message
+<pre v-highlightjs><code class="javascript">// set a custom error message
 data-validator-msg="my custom error message"</code></pre>
-  </div>
-
-  <div class="row">
-    <pre v-highlightjs><code class="javascript">// min and max range for number inputs
+<pre v-highlightjs><code class="javascript">// min and max range for number inputs
 data-validator-min="1"
 data-validator-max="10"</code></pre>
-  </div>
-
-  <div class="row">
-    <pre v-highlightjs><code class="javascript">// required strictly a number value
+<pre v-highlightjs><code class="javascript">// required strictly a number value
 data-validator-value="number"</code></pre>
-  </div>
-
-  <div class="row">
-    <pre v-highlightjs><code class="javascript">// input must match your custom regex value
+<pre v-highlightjs><code class="javascript">// input must match your custom regex value
 data-validator-regex="[a-z]"</code></pre>
   </div>
+
+  <p class="picazzo-section-subHeader">Validating Checkbox and Radio Groups</p>
+
+  <p>
+    In addition to initializing the validation plugin, you will also need to add a corresponding class to the field parent of
+    a group of checkboxes (checkbox-group) or radio buttons (radio-group).
+  </p>
+
+  <pre v-highlightjs><code class="html">{{ checkboxValidate() }}</code></pre>
+  <pre v-highlightjs><code class="html">{{ radioValidate() }}</code></pre>
 
   <p class="picazzo-section-subHeader">Destroy Plugin</p>
   <p>
@@ -74,7 +74,102 @@ data-validator-regex="[a-z]"</code></pre>
   </p>
 
   <header class="picazzo-sectionHeader">Input Types</header>
-  ...
+
+  <p class="picazzo-section-subHeader">Text</p>
+
+  <div class="row">
+    <form-input-text></form-input-text>
+
+    <pre v-highlightjs><code class="html">{{ textTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Email</p>
+
+  <div class="row">
+    <form-input-email></form-input-email>
+
+    <pre v-highlightjs><code class="html">{{ emailTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Website</p>
+
+  <div class="row">
+    <form-input-website></form-input-website>
+
+    <pre v-highlightjs><code class="html">{{ websiteTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Date</p>
+
+  <div class="row">
+    <form-input-date></form-input-date>
+
+    <pre v-highlightjs><code class="html">{{ dateTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Number</p>
+
+  <div class="row">
+    <form-input-number></form-input-number>
+
+    <pre v-highlightjs><code class="html">{{ numberTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Phone</p>
+
+  <div class="row">
+    <form-input-phone></form-input-phone>
+
+    <pre v-highlightjs><code class="html">{{ phoneTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Check Boxes</p>
+
+  <div class="row">
+    <form-input-checkbox></form-input-checkbox>
+
+    <pre v-highlightjs><code class="html">{{ checkboxTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Radios</p>
+
+  <div class="row">
+    <form-input-radio></form-input-radio>
+
+    <pre v-highlightjs><code class="html">{{ radioTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Select</p>
+
+  <div class="row">
+    <form-input-select></form-input-select>
+
+    <pre v-highlightjs><code class="html">{{ selectTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Textare</p>
+
+  <div class="row">
+    <form-input-textarea></form-input-textarea>
+
+    <pre v-highlightjs><code class="html">{{ textAreaTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Search</p>
+
+  <div class="row">
+    <form-input-search></form-input-search>
+
+    <pre v-highlightjs><code class="html">{{ searchTpl }}</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Section Break</p>
+
+  <div class="row">
+    <form-input-break></form-input-break>
+
+    <pre v-highlightjs><code class="html">{{ sectionBreakTpl }}</code></pre>
+  </div>
 
   <div class="picazzo-docFooter"></div>
 </div>

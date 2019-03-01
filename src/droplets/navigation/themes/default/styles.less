@@ -1,0 +1,561 @@
+// desktop nav rules
+.drzNav {
+  display: inline-block;
+  float: left;
+  min-height: 20px;
+  padding: 5px 25px;
+  transition: all 0.3s ease;
+  width: 100%;
+  z-index: 10;
+}
+
+/* navs in sections need to have the same margin bottoms as rows */
+.container .drzNav {
+  margin-bottom: @rowSpacing;
+}
+
+.drzNav-sticky-set {
+  left: 0;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  position: fixed;
+}
+
+.drzNav-fixed {
+  position: fixed;
+  top: 0;
+
+  &.drzNav-sticky-set {
+    // lesshint-disable importantRule
+    background-color: fade(@black, 50%) !important;
+    // lesshint-enable importantRule
+  }
+}
+
+.drzNav-hamburger {
+  background-color: transparent;
+  border: 0;
+  color: @white;
+  display: none;
+  padding: 13.5px 0;
+  width: 40px;
+
+  &:before {
+    // hamburger
+    content: '\f0c9';
+    font-family: 'drzzle';
+    font-size: 13pt;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:hover {
+    background-color: fade(@black, 12%);
+    cursor: pointer;
+    transition-duration: @defaultDuration;
+  }
+}
+
+.drzNav-hamburger-show {
+  display: inline-block;
+}
+
+.drzNav-logo {
+  display: inline-flex;
+  float: left;
+  min-height: 45px;
+  min-width: 45px;
+}
+
+.drzNav-logo-left {
+  float: left;
+  margin-right: 5px;
+}
+
+.drzNav-logo-right {
+  float: right;
+  margin-left: 5px;
+}
+
+.drzNav-list {
+  .no-list-style;
+  background-color: transparent;
+  display: table;
+  position: relative;
+}
+
+.drzNav-item {
+  position: relative;
+}
+
+.drzNav-link {
+  border: 1px solid transparent;
+  color: @white;
+  display: block;
+  padding: 11px 14px;
+  text-decoration: none;
+  width: 100%;
+
+  &:hover {
+    background-color: fade(@black, 12%);
+    color: @white;
+    cursor: pointer;
+    transition-duration: @defaultDuration;
+  }
+}
+
+.drzNav-subItem {
+  float: none;
+  position: relative;
+  width: 200px;
+}
+
+.drzNav-subLink {
+  background-color: lighten(@baseColor, 05%);
+  border-bottom: 1px solid fade(@white, 20%);
+  color: @white;
+  display: block;
+  padding: 10px 12px;
+  text-decoration: none;
+
+  &:hover {
+    background-color: darken(@baseColor, 10%);
+    color: @white;
+    transition-duration: @defaultDuration;
+  }
+}
+
+// All sub lists
+.drzNav-subList {
+  .no-list-style;
+  .box-shadow;
+  display: none;
+  position: absolute;
+  width: 200px;
+  z-index: 10;
+}
+
+.drzNav-subList-show {
+  animation: drzNav-desktop-effect 0.2s;
+  display: block;
+  margin-top: 0;
+  opacity: 1;
+}
+
+@keyframes drzNav-desktop-effect {
+  0% {
+    margin-top: -10px;
+    opacity: 0;
+  }
+
+  100% {
+    margin-top: 0;
+    opacity: 1;
+  }
+}
+
+.drzNav-link-dropDown {
+
+  &:after {
+    content: '\e863';
+    display: inline-block;
+    font-family: 'drzzle';
+    font-size: 12pt;
+    margin-left: 10px;
+  }
+}
+
+.drzNav-link-subDropDown {
+
+  &:after {
+    font-family: 'drzzle';
+  }
+
+  &:before {
+    font-family: 'drzzle';
+  }
+  // so that drop down links won't have new window icons
+  // if both classes are present
+
+  &.drz-link-newTab {
+
+    &:after {
+      display: none;
+    }
+  }
+}
+
+// right aligned menu setup
+.drzNav-links-right {
+
+  .drzNav-hamburger {
+    float: right;
+    margin-left: 5px;
+  }
+
+  .drzNav-list {
+    float: right;
+  }
+
+  .drzNav-item {
+    float: right;
+  }
+
+  .drzNav-subList {
+    right: 0;
+    top: 100%;
+
+    ul {
+      right: 100%;
+      top: 0;
+    }
+  }
+
+  .drzNav-link-subDropDown {
+
+    &:before {
+      // left caret
+      content: '\e864';
+      margin-right: 10px;
+    }
+  }
+}
+
+// left aligned menu setup
+.drzNav-links-left {
+
+  .drzNav-hamburger {
+    float: left;
+    margin-right: 5px;
+  }
+
+  .drzNav-list {
+    float: left;
+  }
+
+  .drzNav-item {
+    float: left;
+  }
+
+  .drzNav-subList {
+    left: 0;
+    right: 78px;
+
+    ul {
+      left: 100%;
+      top: 0;
+    }
+  }
+
+  .drzNav-link-subDropDown {
+
+    &:after {
+      // right caret
+      content: '\e865';
+      margin-left: 10px;
+    }
+  }
+}
+
+// center aligned menu setup
+.drzNav-links-center {
+
+  .drzNav-list {
+    display: table;
+    margin: 0 auto;
+  }
+
+  .drzNav-item {
+    float: left;
+  }
+
+  .drzNav-subList {
+    left: 0;
+    right: 78px;
+
+    ul {
+      left: 100%;
+      top: 0;
+    }
+  }
+
+  .drzNav-link-subDropDown {
+
+    &:after {
+      // right caret
+      content: '\e865';
+      margin-left: 10px;
+    }
+  }
+}
+
+// Rules for when nav is moved inside slider container. Nav Js detects if mobile or if
+// links are too long to be in container. Then it will move the nav into the slider.
+
+.drzNav-slideContainer {
+
+  .drzNav-list {
+    margin-bottom: 50px;
+    width: 100%;
+  }
+
+  .drzNav-item {
+    display: block;
+  }
+
+  .drzNav-link {
+    background-color: transparent;
+    border-bottom: 1px solid fade(@white, 10%);
+    color: fade(@white, 75%);
+    padding: 15px;
+
+    &:hover {
+      background-color: darken(@slideMenuBg, 5%);
+    }
+  }
+
+  .drzNav-subItem {
+    width: 100%;
+  }
+
+  .drzNav-subLink {
+    border-bottom: 1px solid fade(@white, 10%);
+    color: fade(@white, 75%);
+    padding: 15px;
+    padding-left: 25px;
+
+    &:hover {
+      background-color: darken(@slideMenuBg, 5%);
+    }
+  }
+
+  // sub links as they get deeper into inception (in mobile) we lighten
+  // the bg color to better distinguish the level of dropdown.
+  @ul-limit: 5;
+  .make-nested-lists(@ul-limit);
+
+  .make-nested-lists(@n, @i: 0) when (@i < @n) {
+
+    .drzNav-subItem {
+      .make-nested-lists(@n, (@i + 1));
+
+      .drzNav-subLink {
+        background-color: fade(@black, 10% + 10 * @i);
+        padding-left: (25px + 10 * @i);
+      }
+    }
+  }
+
+  // All sub lists
+  .drzNav-subList {
+    .no-box-shadow;
+    .no-duration;
+    display: none;
+    position: relative;
+    width: 100%;
+  }
+
+  .drzNav-subList-show {
+    animation: drzNav-mobile-effect 0.4s;
+    display: block;
+    margin-top: 0;
+  }
+
+  @keyframes drzNav-mobile-effect {
+    0% {
+      margin-top: -20px;
+    }
+
+    100% {
+      margin-top: 0;
+    }
+  }
+
+  .drzNav-link-dropDown {
+
+    &:after {
+      // right caret
+      content: '\e865';
+      display: inline-block;
+      transition-duration: 0.2s;
+    }
+  }
+
+  .drzNav-link-subDropDown {
+
+    &:before {
+      content: '';
+      margin-right: 0;
+    }
+
+    &:after {
+      // right caret
+      content: '\e865';
+      display: inline-block;
+      margin-left: 10px;
+      transition-duration: 0.2s;
+    }
+  }
+
+  // rotate arrow on mobile drop down links
+  .drzNav-rotateArrow {
+
+    &:after {
+      transform: rotate(90deg);
+    }
+  }
+} // End of slider rules for mobile nav
+
+.drzNav-overlay {
+  background-color: fade(@black, 50%);
+  display: none;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.drzNav-slideContainer {
+  background-color: @slideMenuBg;
+  overflow: auto;
+  position: fixed;
+  transition-duration: 0.2s;
+  visibility: hidden;
+  z-index: 99999;
+}
+
+.drzNav-sliderClose-row {
+  display: block;
+  overflow: hidden;
+  padding: 10px 5px;
+  width: 100%;
+}
+
+.drzNav-sliderClose-btn {
+  background-color: transparent;
+  border: 0;
+  color: fade(@white, 50%);
+  transition-duration: @defaultDuration;
+
+  &:after {
+    content: '\e814';
+    font-family: 'drzzle';
+    font-size: 18pt;
+  }
+
+  &:hover {
+    color: @white;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+// from left slide out slider rules
+.drzNav-slideContainer-left {
+  height: 100%;
+  left: -300px;
+  top: 0;
+  width: 300px;
+
+  @media @tablet {
+    width: 70%;
+  }
+
+  @media @mobile {
+    width: 90%;
+  }
+
+  .drzNav-sliderClose-btn {
+    float: right;
+  }
+}
+
+.drzNav-slideContainer-leftShow {
+  left: 0;
+  visibility: visible;
+}
+
+// from right slide out slider rules
+.drzNav-slideContainer-right {
+  height: 100%;
+  right: -300px;
+  top: 0;
+  width: 300px;
+
+  @media @tablet {
+    width: 70%;
+  }
+
+  @media @mobile {
+    width: 90%;
+  }
+
+  .drzNav-sliderClose-btn {
+    float: left;
+  }
+}
+
+.drzNav-slideContainer-rightShow {
+  right: 0;
+  visibility: visible;
+}
+
+// from center slide out slider rules
+.drzNav-slideContainer-center {
+  left: 0;
+  margin: 45px auto;
+  margin-top: -20px;
+  min-height: 100px;
+  position: absolute;
+  right: 0;
+  width: 65%;
+
+  @media @tablet {
+    width: 70%;
+  }
+
+  @media @mobile {
+    width: 90%;
+  }
+
+  .drzNav-sliderClose-btn {
+    float: right;
+  }
+}
+
+.drzNav-slideContainer-centerShow {
+  margin-top: 45px;
+  visibility: visible;
+}
+
+.drzNav-search {
+  display: inline-flex;
+  float: right;
+}
+
+.drzNav-search-btn {
+  color: inherit;
+  padding: 12.5px 0;
+  text-align: center;
+  text-decoration: none;
+  width: 40px;
+
+  &:before {
+    content: '\e859';
+    font-family: 'drzzle';
+    font-size: 12pt;
+  }
+
+  &:hover {
+    background-color: fade(@black, 12%);
+    transition-duration: @defaultDuration;
+  }
+}
