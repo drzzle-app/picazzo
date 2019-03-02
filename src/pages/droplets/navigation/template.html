@@ -13,12 +13,66 @@
     <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
   </div>
 
+  <header class="picazzo-sectionHeader">Class Options</header>
+
+  <p class="picazzo-section-subHeader">Positional / Scrolling</p>
+
+  <p>
+    You have an option to fix the nav to the top of the page or use a sticky nav with
+    either of the following classes. The sticky nav will (as it sounds) stick to the
+    top once you scroll past it on the page. The class will needed to be added to the
+    "drzNav" div.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">drzNav-sticky
+drzNav-fixed</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Aligning Links</p>
+
+  <p>
+    To align nav links right, left or center in desktop, choose between one of these classes.
+    It needs to be added to the "drzNav" div.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">drzNav-links-right
+drzNav-links-left
+drzNav-links-center</code></pre>
+  </div>
+
+
+  <p class="picazzo-section-subHeader">Aligning Logo</p>
+
+  <p>
+    To align the nav logo right or left, choose between one of these classes. It needs to
+    be added to the "drzNav" div.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">drzNav-logo-right
+drzNav-logo-left</code></pre>
+  </div>
+
+
   <header class="picazzo-sectionHeader">Javascript</header>
 
   <p class="picazzo-section-subHeader">Initializing Plugin</p>
 
   <div class="row">
     <pre v-highlightjs><code class="javascript">$('.drzNav').drzNav();</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Options</p>
+  <p>
+    Options for this plugin are set using HTML attributes. This option is for the direction that the mobile
+    slide out menu will appear from.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">data-nav-slide='left' // default
+data-nav-slide='right'
+data-nav-slide='center'</code></pre>
   </div>
 
   <p class="picazzo-section-subHeader">Destroy Plugin</p>
@@ -29,12 +83,92 @@
     <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
   </div>
 
-  <div class="picazzo-docFooter">
+  <p>
     <a
-      href="https://gitlab.com/runrog/picazzo/blob/master/src/droplets/image-gallery/plugin.js"
+      href="https://gitlab.com/runrog/picazzo/blob/master/src/droplets/navigation/plugin.js"
       target="_blank"
       class="picazzo-link-small picazzo-extLink">
       See Plugin Source
     </a>
+  </p>
+
+  <p class="picazzo-section-subHeader">Optional Search Plugin</p>
+
+  <p>
+    The demo above uses the site search plugin. This plugin needs a separate initialization.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">const $nav = $('.drzNav');
+$nav.find('.drzNav-search-btn').drzModal();
+$nav.find('.drzModal-search-bar').drzSiteSearch();</code></pre>
   </div>
+
+  <p class="picazzo-section-subHeader">Search Plugin Options</p>
+
+  <p>
+    The search plugin takes in an option using an HTML attribute. It is the location of a JSON
+    file with an array of pages to search from. This needs to be added to the search input element.
+    See demo.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">data-search='{
+"file": "js/app-search.json"
+}'</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Searchable JSON Format</p>
+
+  <p>
+    The JSON file being searched needs to be in the following format.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">[
+  {
+    "pagetitle":"My Page Title",
+    "href": "link-to-page.html",
+    "metadata":"Searchable key words for this page"
+  },
+  {
+    "pagetitle":"My Page 2 Title",
+    "href": "link-to-page-2.html",
+    "metadata":"Searchable key words for this page"
+  }
+]</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Slider Direction Demo's</header>
+
+  <p class="picazzo-section-subHeader">Center</p>
+
+  <div class="row picazz-navDemo">
+    <div class="drzNav drzNav-links-right" data-nav-slide="center" ref="centerNav">
+      <button class="drzNav-hamburger"></button>
+      <div class="drzNav-logo drzNav-logo-left"></div>
+      <ul class="drzNav-list"></ul>
+    </div>
+  </div>
+
+  <p class="picazzo-section-subHeader">Left</p>
+
+  <div class="row picazz-navDemo">
+    <div class="drzNav drzNav-links-right" data-nav-slide="left" ref="leftNav">
+      <button class="drzNav-hamburger"></button>
+      <div class="drzNav-logo drzNav-logo-left"></div>
+      <ul class="drzNav-list"></ul>
+    </div>
+  </div>
+
+  <p class="picazzo-section-subHeader">Right</p>
+
+  <div class="row picazz-navDemo">
+    <div class="drzNav drzNav-links-right" data-nav-slide="right" ref="rightNav">
+      <button class="drzNav-hamburger"></button>
+      <div class="drzNav-logo drzNav-logo-left"></div>
+      <ul class="drzNav-list"></ul>
+    </div>
+  </div>
+
+  <div class="picazzo-docFooter"></div>
 </div>

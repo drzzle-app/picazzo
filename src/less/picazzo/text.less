@@ -24,11 +24,21 @@
   white-space: nowrap;
   width: 25%;
 
+  @media @mobile {
+    margin-bottom: 15px;
+  }
+
   & [class^='drzicon-'] {
     margin-right: 8px;
 
     &:before {
       font-size: 30px;
+    }
+
+    @media @mobile {
+      &:before {
+        font-size: 20px;
+      }
     }
   }
 }
@@ -37,6 +47,11 @@
   display: inline-block;
   position: relative;
   top: -8px;
+
+  @media @mobile {
+    font-size: 10pt;
+    top: -5px;
+  }
 }
 
 .picazzo-icon-hex {

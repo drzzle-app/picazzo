@@ -17,6 +17,11 @@ export default Vue.component('navigation-page', {
       dropletHtml: this.cleanDropletTpl(NavigationTpl),
     };
   },
+  mounted() {
+    $(this.$refs.centerNav).drzNav();
+    $(this.$refs.leftNav).drzNav();
+    $(this.$refs.rightNav).drzNav();
+  },
   methods: {
     destroyMarkup() {
       return `const $nav = $('.drzNav');

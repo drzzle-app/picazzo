@@ -13,5 +13,23 @@
     <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
   </div>
 
+  <header class="picazzo-sectionHeader">Grouped</header>
+
+  <p>Cards can be wrapped in rows and be used in multiples.</p>
+
+  <div class="row">
+    <component
+      v-for="(card, index) in demoCards"
+      :key="index"
+      :is="card">
+    </component>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ groupHtml() }}</code></pre>
+  </div>
+
   <div class="picazzo-docFooter"></div>
 </div>

@@ -51,7 +51,7 @@ hue-6-2: #c18401
 }
 
 .javascript.hljs:before {
-  content: 'JAVASCRIPT';
+  content: 'JS';
 }
 
 .hljs-comment,

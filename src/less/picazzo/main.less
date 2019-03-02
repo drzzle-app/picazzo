@@ -1,4 +1,5 @@
 // import all the things for picazzo only (no themes)
+// import using webpack aliases: '~@/'
 @import 'variables';
 @import 'mixins';
 @import 'fonts/main';
@@ -9,9 +10,8 @@
 @import 'subnav';
 @import 'images';
 @import 'overrides';
-@import '~@/layout/side-bar/styles';
-@import '~@/layout/side-bar/side-bar-links/styles';
-@import '~@/layout/side-bar/search-box/styles';
-@import '~@/layout/components/droplet-controls/styles';
-// vendors
+@import 'side-bar';
+@import 'side-bar-links';
+@import 'search-box';
+@import 'droplet-controls';
 @import 'vendors/highlight-js.css';

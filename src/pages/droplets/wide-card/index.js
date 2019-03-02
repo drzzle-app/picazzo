@@ -14,7 +14,14 @@ export default Vue.component('wide-card-page', {
   },
   data() {
     return {
+      demoCards: [WideCard, WideCard],
       dropletHtml: this.cleanDropletTpl(WideCardTpl),
     };
+  },
+  methods: {
+    groupHtml() {
+      return `<div class="row">
+${this.dropletHtml}${this.dropletHtml}</div>`;
+    },
   },
 });

@@ -1,6 +1,8 @@
 /* Align utilites
 * ======================= */
 
+// lesshint-disable importantRule
+
 .center-txt {
   text-align: center;
 }
@@ -81,7 +83,6 @@
 /* JS Helper Utilities
 * ======================= */
 
-// lesshint-disable importantRule
 .position-absolute {
   position: absolute !important;
 }
@@ -93,11 +94,10 @@
 .hide {
   display: none !important;
 }
-// lesshint-enable importantRule
 
 /* only show in desktop */
 .desktop-only {
-  display: block;
+  display: block !important;
 
   @media @mobile {
     display: none;
@@ -117,7 +117,7 @@
   }
 
   @media @tablet {
-    display: block;
+    display: block !important;
   }
 }
 
@@ -126,7 +126,7 @@
   display: none;
 
   @media @mobile {
-    display: block;
+    display: block !important;
   }
 
   @media @tablet {
@@ -136,7 +136,7 @@
 
 /* show in all except desktop */
 .no-desktop {
-  display: none;
+  display: none !important;
 
   @media @mobile {
     display: block;
@@ -156,7 +156,7 @@
   }
 
   @media @tablet {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -165,7 +165,7 @@
   display: block;
 
   @media @mobile {
-    display: none;
+    display: none !important;
   }
 
   @media @tablet {

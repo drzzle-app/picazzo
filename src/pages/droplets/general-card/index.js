@@ -14,7 +14,14 @@ export default Vue.component('general-card-page', {
   },
   data() {
     return {
+      demoCards: [GeneralCard, GeneralCard],
       dropletHtml: this.cleanDropletTpl(GeneralCardTpl),
     };
+  },
+  methods: {
+    groupHtml() {
+      return `<div class="row">
+${this.dropletHtml}${this.dropletHtml}</div>`;
+    },
   },
 });

@@ -14,7 +14,14 @@ export default Vue.component('event-card-page', {
   },
   data() {
     return {
+      demoCards: [EventCard, EventCard],
       dropletHtml: this.cleanDropletTpl(EventCardTpl),
     };
+  },
+  methods: {
+    groupHtml() {
+      return `<div class="row">
+${this.dropletHtml}${this.dropletHtml}</div>`;
+    },
   },
 });
