@@ -379,7 +379,7 @@ const newDroplet = type =>
 
             // create index.js for vue
             gulp.src(scaffIndexJs)
-              .pipe(replace('droplet-name', name))
+              .pipe(replace('droplet-name', `${name}-${type}`))
               .pipe(replace('dropletName', jsName))
               .pipe(rename({
                 basename: 'index',

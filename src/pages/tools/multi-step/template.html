@@ -1,3 +1,78 @@
 <div>
- Multi Step Page!
+  <header class="picazzo-page-header">Multi Step</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <multi-step-tool></multi-step-tool>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzMultiStep').drzMultiStep();</code></pre>
+  </div>
+
+  <p>
+    <a
+      href="https://gitlab.com/runrog/picazzo/blob/master/src/droplets/video-player/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </p>
+
+  <header class="picazzo-sectionHeader">Form Demo</header>
+
+  <div class="row">
+    <form class="full-width drzForm">
+      <div class="drzMultiStep-progress"></div>
+      <div class="drzMultiStep" ref="formMS">
+        <div class="drzMultiStep-step" data-step-label="Step 1">
+          <div class="drzForm-fieldContainer">
+            <label class="drzForm-fieldLabel">Step 1 input</label>
+            <input class="drzForm-inputText" type="text">
+          </div>
+          <div class="drzMultiStep-btnRow"></div>
+        </div>
+        <div class="drzMultiStep-step" data-step-label="Step 2">
+          <div class="drzForm-fieldContainer">
+            <label class="drzForm-fieldLabel">Step 2 input</label>
+            <input class="drzForm-inputText" type="text">
+          </div>
+          <div class="drzMultiStep-btnRow"></div>
+        </div>
+        <div class="drzMultiStep-step" data-step-label="Step 3">
+          <div class="drzForm-fieldContainer">
+            <label class="drzForm-fieldLabel">Step 3 input</label>
+            <input class="drzForm-inputText" type="text">
+          </div>
+          <div class="drzMultiStep-btnRow"></div>
+        </div>
+        <div class="drzMultiStep-step" data-step-label="Step 4">
+          <div class="drzForm-fieldContainer">
+            <label class="drzForm-fieldLabel">Step 4 input</label>
+            <input class="drzForm-inputText" type="text">
+          </div>
+        <div class="drzMultiStep-btnRow"><button class="drzBtn">Submit</button></div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ formHtml() }}</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter"></div>
 </div>

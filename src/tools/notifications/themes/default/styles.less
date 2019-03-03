@@ -1,0 +1,46 @@
+/* Notifications */
+.drzNotification {
+  .box-shadow;
+  color: @white;
+  display: inline-block;
+  margin-left: -50px;
+  min-height: 1px;
+  opacity: 0;
+  padding: 12px;
+  padding-right: 30px;
+  position: relative;
+  width: 100%;
+}
+
+.drzNotification-close {
+  color: @white;
+  display: inline-block;
+  padding: 3px;
+  position: absolute;
+  right: 0;
+  text-decoration: none;
+  top: -5px;
+
+  &:hover {
+    color: fade(@white, 55%);
+  }
+
+  &:before {
+    // times
+    content: '\e843';
+    font-family: 'drzzle';
+    font-size: 10pt;
+  }
+}
+
+.drzNotification-success {
+  background-color: @successColor;
+}
+
+.drzNotification-warning {
+  background-color: @warningColor;
+}
+
+.drzNotification-danger {
+  background-color: @dangerColor;
+}

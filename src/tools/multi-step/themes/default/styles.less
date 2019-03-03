@@ -1,0 +1,68 @@
+/* Multi Step */
+.drzMultiStep-progress {
+  .row;
+  text-align: center;
+}
+
+.drzMultiStep-progressStep {
+  display: inline-block;
+  margin-right: 50px;
+  text-align: center;
+
+  @media @mobile {
+    margin-bottom: 10px;
+  }
+}
+
+.drzMultiStep-progressStep-num {
+  background-color: transparent;
+  border: 2px solid darken(@white, 10%);
+  border-radius: 50%;
+  display: inline-block;
+  height: 40px;
+  margin-right: 10px;
+  padding: 7px;
+  width: 40px;
+}
+
+.drzMultiStep-progressStep-numActive {
+  background-color: @baseColor;
+  border: 2px solid @baseColor;
+  color: @white;
+}
+
+.drzMultiStep {
+  display: block;
+  min-height: 1px;
+}
+
+.drzMultiStep-step {
+  .off-white-bg;
+  display: none;
+  padding: 10px;
+}
+
+.drzMultiStep-stepActive {
+  display: block;
+}
+
+.drzMultiStep-btnRow {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.drzMultiStep-nextBtn {
+  .drzBtn;
+  background-color: fade(@black, 35%);
+  margin-bottom: 0;
+  margin-right: 15px;
+  width: auto;
+}
+
+.drzMultiStep-backBtn {
+  .drzBtn;
+  background-color: fade(@black, 35%);
+  margin-bottom: 0;
+  margin-right: 15px;
+  width: auto;
+}
