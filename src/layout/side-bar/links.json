@@ -184,16 +184,6 @@
           "children": []
         },
         {
-          "text": "Pagination",
-          "route": "/pagination",
-          "children": []
-        },
-        {
-          "text": "Scrolling",
-          "route": "/scrolling",
-          "children": []
-        },
-        {
           "text": "Tool Tips",
           "route": "/tool-tips",
           "children": []
