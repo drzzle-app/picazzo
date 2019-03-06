@@ -4,11 +4,10 @@
   $.fn.drzTopScroll = function topScroll() {
     const $this = $(this);
     drzzle.window.scroll(() => {
-      if ($this.offset().top > 500) {
-        if (!$this.is(':visible')) {
-          $this.fadeIn();
-        }
-      } else if ($this.is(':visible')) {
+      const passedCheck = $this.offset().top > 500;
+      if (passedCheck && !$this.is(':visible')) {
+        $this.fadeIn();
+      } else if (!passedCheck && $this.is(':visible')) {
         $this.fadeOut();
       }
     });

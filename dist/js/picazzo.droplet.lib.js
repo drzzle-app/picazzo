@@ -3593,11 +3593,10 @@ window.drzzle = {
   $.fn.drzTopScroll = function topScroll() {
     var $this = $(this);
     drzzle.window.scroll(function () {
-      if ($this.offset().top > 500) {
-        if (!$this.is(':visible')) {
-          $this.fadeIn();
-        }
-      } else if ($this.is(':visible')) {
+      var passedCheck = $this.offset().top > 500;
+      if (passedCheck && !$this.is(':visible')) {
+        $this.fadeIn();
+      } else if (!passedCheck && $this.is(':visible')) {
         $this.fadeOut();
       }
     });
