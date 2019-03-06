@@ -49,7 +49,7 @@
       }
 
       function setWidths() {
-        if (window.matchMedia(window.drzzle.viewports.mobile).matches) {
+        if (window.matchMedia(drzzle.viewports.mobile).matches) {
           visibleNum = 1;
         } else if (typeof $visibleOption !== typeof undefined && $visibleOption !== false) {
           if ($visibleOption === '') {

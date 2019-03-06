@@ -1,0 +1,109 @@
+/* Pagination */
+.drzPaginate {
+
+  [class*='drzPg-page-'] {
+    display: none;
+  }
+
+  .drzPg-page-1 {
+    display: block;
+  }
+
+  tr.drzPg-page-1 {
+    display: table-row;
+  }
+
+  tr.show-tr {
+    display: table-row;
+  }
+}
+
+.drzPagination {
+  .no-list-style;
+  float: left;
+  position: relative;
+  top: 10px;
+  width: 100%;
+
+  li {
+
+    &.active {
+      background-color: @baseColor;
+
+      a {
+        color: @white;
+        cursor: default;
+        pointer-events: none;
+      }
+    }
+
+    &.drzPaginate-back[disabled='disabled'],
+    &.drzPaginate-back:disabled,
+    &.drzPaginate-next[disabled='disabled'],
+    &.drzPaginate-next:disabled {
+
+      a {
+        color: darken(@white, 10%);
+
+        &:hover {
+          cursor: default;
+        }
+      }
+    }
+  }
+}
+
+.drzPaginate-li {
+  border-radius: 1px;
+  float: left;
+  font-weight: bold;
+  margin-right: 10px;
+  padding: 8px;
+  text-align: left;
+}
+
+.drzPaginate-link {
+  color: @baseColor;
+  text-decoration: none;
+
+  &:hover {
+    color: lighten(@baseColor, 20%);
+    transition-duration: @defaultDuration;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}
+
+.drzPaginate-back-link {
+  .drzPaginate-li;
+  .drzPaginate-link;
+
+  &:after {
+    // left chevron
+    content: '\f104';
+    font-family: 'drzzle';
+    font-size: 20pt;
+    position: relative;
+    top: -3px;
+  }
+}
+
+.drzPaginate-next-link {
+  .drzPaginate-li;
+  .drzPaginate-link;
+
+  &:after {
+    // right chevron
+    content: '\f105';
+    font-family: 'drzzle';
+    font-size: 20pt;
+    position: relative;
+    top: -3px;
+  }
+}

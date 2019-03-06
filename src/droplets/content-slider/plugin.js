@@ -127,7 +127,7 @@
       function next($element) {
         // if slide option, recalculate container width on resize
         if ($effectOption.match(/slide/gi)) {
-          window.drzzle.window.resize(resizeContentSlider);
+          drzzle.window.resize(resizeContentSlider);
         }
         const $currentSlide = $element.find(`.drzContentSlider-item.item-${imgNum}`);
         $currentSlide.animate(effect, animateSpeed);
@@ -281,7 +281,7 @@
               return cls;
             });
         });
-        window.drzzle.window.off('resize', resizeContentSlider);
+        drzzle.window.off('resize', resizeContentSlider);
         clearInterval(interval);
         clearTimeout(hideTO);
         clearTimeout(showTO);

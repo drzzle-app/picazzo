@@ -16,6 +16,7 @@ window.drzzle = {
   googleMaps: [],
   window: $(window),
   document: $(document),
+  picazzo: window.picazzo,
 };
 
 /* Equal Heights
@@ -67,51 +68,6 @@ window.drzzle = {
       $el.children().each(function unSet() {
         $(this).css('min-height', '');
       });
-    };
-    return this;
-  };
-})(jQuery);
-
-/* Back To Top Scrolling
-* ======================= */
-(($) => {
-  $.fn.topScroll = function topScroll() {
-    const $this = $(this);
-    const $topScrollBtn = $('.topScroll-button');
-    $this.scroll(() => {
-      if ($this.scrollTop() > 500) {
-        if (!$topScrollBtn.is(':visible')) {
-          $topScrollBtn.fadeIn();
-        }
-      } else if ($topScrollBtn.is(':visible')) {
-        $topScrollBtn.fadeOut();
-      }
-    });
-    $topScrollBtn.click((e) => {
-      e.preventDefault();
-      $('html, body').animate({ scrollTop: 0 }, 'slow');
-      return false;
-    });
-    return this;
-  };
-})(jQuery);
-
-/* Anchor Scrolling
-* ======================= */
-(($) => {
-  $.fn.drzAnchorScroll = function anchorScroll() {
-    const $this = $(this);
-    const scrollTo = function scrollTo(e) {
-      const name = $(this.hash).selector.split('#')[1];
-      const $el = $(`[data-anchor-scroll="${name}"]`);
-      if (typeof $el.offset() !== typeof undefined && $el.offset() !== false) {
-        e.preventDefault();
-        $('html, body').animate({ scrollTop: $el.offset().top }, 500);
-      }
-    };
-    $this.find('a').click(scrollTo);
-    $.fn.drzAnchorScroll.destroy = ($el) => {
-      $el.find('a').off('click', scrollTo);
     };
     return this;
   };

@@ -4,7 +4,8 @@
   "excludedFiles": [
     "src/icons",
     "src/less/picazzo/fonts",
-    "src/less/picazzo/vendors"
+    "src/less/picazzo/vendors",
+    "src/tools/pagination/themes"
   ],
 
   "spaceAfterPropertyColon": {

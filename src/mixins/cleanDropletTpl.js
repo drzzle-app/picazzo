@@ -1,7 +1,8 @@
 const cleanDropletTpl = {
   methods: {
     cleanDropletTpl(str) {
-      const newString = str.replace(/ picazzo-exCol/gi, '');
+      let newString = str.replace(/ picazzo-exCol/gi, '');
+      newString = newString.replace(/picazzo-myP-item /gi, '');
       return newString.replace(/ ref="(.*)"/g, '');
     },
   },

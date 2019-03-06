@@ -9,7 +9,7 @@
 
     $topLink.click((e) => {
       const $this = $(e.currentTarget);
-      if (window.matchMedia(window.drzzle.viewports.mobile).matches) {
+      if (window.matchMedia(drzzle.viewports.mobile).matches) {
         e.preventDefault();
         // if there us even a dropdown menu
         if ($this.next('ul').length) {
@@ -21,16 +21,16 @@
 
     // show links callback
     function linkDisplays() {
-      if (window.matchMedia(window.drzzle.viewports.desktop).matches ||
-          window.matchMedia(window.drzzle.viewports.tablet).matches) {
+      if (window.matchMedia(drzzle.viewports.desktop).matches ||
+          window.matchMedia(drzzle.viewports.tablet).matches) {
         $topLink.next('ul').show();
-      } else if (window.matchMedia(window.drzzle.viewports.mobile).matches) {
+      } else if (window.matchMedia(drzzle.viewports.mobile).matches) {
         $topLink.next('ul').hide();
       }
     }
 
     let resizeTimer;
-    window.drzzle.window.resize(() => {
+    drzzle.window.resize(() => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(linkDisplays, 250);
     });

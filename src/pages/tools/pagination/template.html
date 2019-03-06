@@ -1,3 +1,45 @@
 <div>
- Pagination Page!
+  <header class="picazzo-page-header">Pagination</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <pagination-tool></pagination-tool>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzPaginate').drzPagination();</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Options</p>
+
+  <p>
+    Options for this plugin are set as HTML attributes. This option is for the number of visible
+    elements per paginated page.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">data-paginate-items="3" //default is 9</code></pre>
+  </div>
+
+  <p>
+    <a
+      href="https://gitlab.com/runrog/picazzo/blob/master/src/tools/notifications/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </p>
+
+  <div class="picazzo-docFooter"></div>
 </div>

@@ -80,7 +80,7 @@
       resetTabs($hiddenActive, $tabContent, $tabMenu) {
         // if all mobile tabs are collapsed, re open correct content if moving to desktop
         const $findContent = $tabContent.eq($hiddenActive);
-        if (!window.matchMedia(window.drzzle.viewports.mobile).matches && !$findContent.is(':visible')) {
+        if (!window.matchMedia(drzzle.viewports.mobile).matches && !$findContent.is(':visible')) {
           $findContent.show();
         }
         // make sure left content border extends beyond left menu
@@ -91,7 +91,7 @@
         }
       },
       setLeftHeight($tabContent, $tabMenu) {
-        if (!window.matchMedia(window.drzzle.viewports.mobile).matches) {
+        if (!window.matchMedia(drzzle.viewports.mobile).matches) {
           $tabContent.parent().css('min-height', parseInt($tabMenu.outerHeight() + 25, 10));
         } else {
           $tabContent.parent().css('min-height', 1);
@@ -141,7 +141,7 @@
 
     // reset tabs when resizing screen
     let resizeTimer;
-    window.drzzle.window.resize(() => {
+    drzzle.window.resize(() => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         const $hiddenActive = $tabs.find(`.${activeTabClass}`).index();
