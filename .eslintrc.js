@@ -51,6 +51,7 @@ module.exports = {
         'e' // for e.returnvalue
       ]
     }],
+    'no-multi-assign': 0,
     'no-plusplus': [
       "error", {
         "allowForLoopAfterthoughts": true
@@ -62,7 +63,7 @@ module.exports = {
       }
     ],
     'no-underscore-dangle': ['error', {
-      allow: ['$_']
+      allow: ['$_', '__editor']
     }],
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {

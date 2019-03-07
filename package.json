@@ -119,7 +119,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:less"
+      "pre-commit": "npm run lint:less && npm run lint:js"
     }
   },
   "engines": {

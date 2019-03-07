@@ -779,7 +779,6 @@ window.drzzle = {
       var $timer = $this.find('.drzCountdown-timerContainer');
       var countDownInterval = void 0;
       var checkStartInterval = void 0;
-      var sets = void 0;
 
       var actions = {
         tempDate: function tempDate() {
@@ -1006,7 +1005,7 @@ window.drzzle = {
         // configure custom options
         if ((typeof $opts === 'undefined' ? 'undefined' : _typeof($opts)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $opts !== false) {
           $opts = JSON.parse($opts);
-          sets = $opts.sets.length;
+          var sets = $opts.sets.length;
           $opts.sets = $opts.sets.sort(actions.orderSets);
           if (sets > 0) {
             for (var i = 0; i <= sets - 1; i++) {
@@ -1354,6 +1353,7 @@ window.drzzle = {
           // email validation
           if (inputType === 'email' && $el.is(':required')) {
             if ((typeof $msgAttr === 'undefined' ? 'undefined' : _typeof($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $msgAttr !== false) {
+              // eslint-disable-line
               msg = $el.attr('data-validator-msg');
             } else {
               msg = 'This value is required.';
@@ -1369,6 +1369,7 @@ window.drzzle = {
           // phone validation
           if (inputType === 'tel' && $el.is(':required')) {
             if ((typeof $msgAttr === 'undefined' ? 'undefined' : _typeof($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $msgAttr !== false) {
+              // eslint-disable-line
               msg = $el.attr('data-validator-msg');
             } else {
               msg = 'This value is required.';
@@ -1384,6 +1385,7 @@ window.drzzle = {
           // website validation
           if (inputType === 'url' && $el.is(':required')) {
             if ((typeof $msgAttr === 'undefined' ? 'undefined' : _typeof($msgAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $msgAttr !== false) {
+              // eslint-disable-line
               msg = $el.attr('data-validator-msg');
             } else {
               msg = 'This value is required.';
@@ -1910,7 +1912,7 @@ window.drzzle = {
 ============================
 */
 (function ($) {
-  $.fn.drzNav = function drzNav(options) {
+  $.fn.drzNav = function drzNav() {
     var $this = $(this);
     var $navList = $this.find('.drzNav-list');
     var $dropDownLink = $this.find('.drzNav-link-dropDown');
@@ -1971,11 +1973,11 @@ window.drzzle = {
     };
 
     var navActions = {
-      desktopDropDown: function desktopDropDown($dropDownLink) {
-        var $nextMenu = $dropDownLink.next(slCls);
+      desktopDropDown: function desktopDropDown($ddLink) {
+        var $nextMenu = $ddLink.next(slCls);
         var delay = 400;
         var offTimer = void 0;
-        $dropDownLink.mouseover(function () {
+        $ddLink.mouseover(function () {
           if (!navIsContained) {
             clearTimeout(offTimer);
             $nextMenu.addClass(slShowCls);
@@ -2129,8 +2131,8 @@ window.drzzle = {
     // from a passed in parameter on color changes, otherwise
     // the nav's css transition delay will not give the correct
     // value.
-    var defs = { opacity: 1 };
-    var opts = $.extend(true, {}, defs, options);
+    // const defs = { opacity: 1 };
+    // const opts = $.extend(true, {}, defs, options);
     var findStop = void 0;
     // the magic behind sticky and fixed navs
     // $.fn.trigger('drzzlenavscroll');
@@ -2148,10 +2150,10 @@ window.drzzle = {
           var $sections = $('\n            .section,\n            .drzTopControlBar,\n            .drz-app-bar,\n            .drzTopLegend');
           var totalHeight = 0;
           $sections.each(function getSections() {
-            var $this = $(this);
-            var $pos = $this.css('position');
+            var $el = $(this);
+            var $pos = $el.css('position');
             if ($pos === 'fixed' || $pos === 'sticky') {
-              totalHeight += $this.outerHeight();
+              totalHeight += $el.outerHeight();
             }
           });
           return totalHeight;
@@ -2159,7 +2161,7 @@ window.drzzle = {
         location: function location(p) {
           // reset location of nav only if it isn't stuck
           if (!p.nav.stuck) {
-            p.nav.startingLocation = p.top;
+            p.nav.startingLocation = p.top; // eslint-disable-line
           }
         },
 
@@ -2180,7 +2182,7 @@ window.drzzle = {
       };
       drzzle.window.off('scroll', findStop);
       $navs.each(function setSticky(i) {
-        var $this = $(this);
+        var $this = $(this); // eslint-disable-line
         var view = void 0;
         var bump = 0;
         store.navs.push({

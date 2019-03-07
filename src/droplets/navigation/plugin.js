@@ -4,7 +4,7 @@
 ============================
 */
 (($) => {
-  $.fn.drzNav = function drzNav(options) {
+  $.fn.drzNav = function drzNav() {
     const $this = $(this);
     const $navList = $this.find('.drzNav-list');
     const $dropDownLink = $this.find('.drzNav-link-dropDown');
@@ -74,11 +74,11 @@
     };
 
     const navActions = {
-      desktopDropDown($dropDownLink) {
-        const $nextMenu = $dropDownLink.next(slCls);
+      desktopDropDown($ddLink) {
+        const $nextMenu = $ddLink.next(slCls);
         const delay = 400;
         let offTimer;
-        $dropDownLink.mouseover(() => {
+        $ddLink.mouseover(() => {
           if (!navIsContained) {
             clearTimeout(offTimer);
             $nextMenu.addClass(slShowCls);
@@ -238,8 +238,8 @@
     // from a passed in parameter on color changes, otherwise
     // the nav's css transition delay will not give the correct
     // value.
-    const defs = { opacity: 1 };
-    const opts = $.extend(true, {}, defs, options);
+    // const defs = { opacity: 1 };
+    // const opts = $.extend(true, {}, defs, options);
     let findStop;
     // the magic behind sticky and fixed navs
     // $.fn.trigger('drzzlenavscroll');
@@ -262,10 +262,10 @@
           );
           let totalHeight = 0;
           $sections.each(function getSections() {
-            const $this = $(this);
-            const $pos = $this.css('position');
+            const $el = $(this);
+            const $pos = $el.css('position');
             if ($pos === 'fixed' || $pos === 'sticky') {
-              totalHeight += $this.outerHeight();
+              totalHeight += $el.outerHeight();
             }
           });
           return totalHeight;
@@ -273,7 +273,7 @@
         location(p) {
           // reset location of nav only if it isn't stuck
           if (!p.nav.stuck) {
-            p.nav.startingLocation = p.top;
+            p.nav.startingLocation = p.top; // eslint-disable-line
           }
         },
         // for cases of fixed, transparent navs. auto add bg on scroll
@@ -293,7 +293,7 @@
       };
       drzzle.window.off('scroll', findStop);
       $navs.each(function setSticky(i) {
-        const $this = $(this);
+        const $this = $(this);  // eslint-disable-line
         let view;
         let bump = 0;
         store.navs.push(

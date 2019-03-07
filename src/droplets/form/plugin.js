@@ -344,7 +344,7 @@
 
             // email validation
             if (inputType === 'email' && $el.is(':required')) {
-              if (typeof $msgAttr !== typeof undefined && $msgAttr !== false) {
+              if (typeof $msgAttr !== typeof undefined && $msgAttr !== false) { // eslint-disable-line
                 msg = $el.attr('data-validator-msg');
               } else {
                 msg = 'This value is required.';
@@ -359,7 +359,7 @@
 
             // phone validation
             if (inputType === 'tel' && $el.is(':required')) {
-              if (typeof $msgAttr !== typeof undefined && $msgAttr !== false) {
+              if (typeof $msgAttr !== typeof undefined && $msgAttr !== false) { // eslint-disable-line
                 msg = $el.attr('data-validator-msg');
               } else {
                 msg = 'This value is required.';
@@ -374,7 +374,7 @@
 
             // website validation
             if (inputType === 'url' && $el.is(':required')) {
-              if (typeof $msgAttr !== typeof undefined && $msgAttr !== false) {
+              if (typeof $msgAttr !== typeof undefined && $msgAttr !== false) { // eslint-disable-line
                 msg = $el.attr('data-validator-msg');
               } else {
                 msg = 'This value is required.';

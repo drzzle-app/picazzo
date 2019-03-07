@@ -13,7 +13,6 @@
       const $timer = $this.find('.drzCountdown-timerContainer');
       let countDownInterval;
       let checkStartInterval;
-      let sets;
 
       const actions = {
         tempDate() {
@@ -251,7 +250,7 @@
         // configure custom options
         if (typeof $opts !== typeof undefined && $opts !== false) {
           $opts = JSON.parse($opts);
-          sets = $opts.sets.length;
+          const sets = $opts.sets.length;
           $opts.sets = $opts.sets.sort(actions.orderSets);
           if (sets > 0) {
             for (let i = 0; i <= sets - 1; i++) {
