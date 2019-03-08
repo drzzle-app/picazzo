@@ -9,7 +9,7 @@ export default Vue.component('app-view', {
   computed: {
     ...mapGetters(['currentTheme']),
     theme() {
-      return `/static/css/themes/${this.currentTheme}/main.min.css`;
+      return `/static/css/${this.currentTheme}.min.css`;
     },
   },
   watch: {

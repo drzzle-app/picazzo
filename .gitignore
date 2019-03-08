@@ -7,6 +7,8 @@ src/pages.json
 src/theme-reload.js
 src/router/routes.js
 static/css/
+static/fonts/
+static/icons/
 dist/index.html
 dist/static
 scripts/deploy-docs.sh

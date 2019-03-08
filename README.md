@@ -4,6 +4,106 @@ Picazzo is an open source front end framework that was created for websites buil
 
 [See Docs](http://drz-picazzo.s3-website-us-west-2.amazonaws.com/)
 
+## Install NPM
+```bash
+npm install picazzo --save
+```
+
+## What's Included
+```
+├── dist
+|  ├── css
+|  |  └── default.min.css
+|  ├── icons
+|  |  ├── css
+|  |  |  ├── animation.min.css
+|  |  |  ├── drzzle-codes.min.css
+|  |  |  ├── drzzle-embedded.min.css
+|  |  |  ├── drzzle-ie7-codes.min.css
+|  |  |  ├── drzzle-ie7.min.css
+|  |  |  └── drzzle.min.css
+|  |  └── font
+|  |     ├── drzzle.eot
+|  |     ├── drzzle.svg
+|  |     ├── drzzle.ttf
+|  |     ├── drzzle.woff
+|  |     └── drzzle.woff2
+|  ├── js
+|  |  ├── droplets
+|  |  |  ├── accordion.min.js
+|  |  |  ├── audio-player.min.js
+|  |  |  ├── carousel.min.js
+|  |  |  ├── content-slider.min.js
+|  |  |  ├── countdown.min.js
+|  |  |  ├── footer-nav.min.js
+|  |  |  ├── form.min.js
+|  |  |  ├── google-map.min.js
+|  |  |  ├── image-gallery.min.js
+|  |  |  ├── navigation.min.js
+|  |  |  ├── section.min.js
+|  |  |  ├── table.min.js
+|  |  |  ├── tabs.min.js
+|  |  |  └── video-player.min.js
+|  |  ├── globals
+|  |  |  └── picazzo.global.js.min.js
+|  |  ├── modules
+|  |  |  ├── jquery-2.2.4.min.js
+|  |  |  └── jquery.mobile.custom.min.js
+|  |  ├── picazzo.bundle.min.js
+|  |  ├── picazzo.droplet.lib.js
+|  |  ├── picazzo.droplet.lib.min.js
+|  |  └── tools
+|  |     ├── filter.min.js
+|  |     ├── modals.min.js
+|  |     ├── multi-step.min.js
+|  |     ├── notifications.min.js
+|  |     ├── pagination.min.js
+|  |     ├── scrolling.min.js
+|  |     └── tool-tips.min.js
+```
+
+## Usage
+You can use the static files in your project like so or import them from node_modules.
+
+#### Option 1 (All)
+```html
+<!-- index.html -->
+<head>
+  <!-- default theme css -->
+  <link rel="stylesheet" href="node_modules/picazzo/dist/css/default.min.css">
+  <!-- full plugin bundle (includes jquery dependencies) -->
+  <script src="node_modules/picazzo/dist/js/picazzo.bundle.min.js" charset="utf-8" defer></script>
+</head>
+```
+
+#### Option 2 (Custom)
+```html
+<!-- index.html -->
+<head>
+  <!-- default theme css -->
+  <link rel="stylesheet" href="node_modules/picazzo/dist/css/default.min.css">
+  <!-- add jQuery dependencies -->
+  <script src="node_modules/picazzo/dist/js/modules/jquery-2.2.4.min.js" charset="utf-8" defer></script>
+  <script src="node_modules/picazzo/dist/js/modules/jquery.mobile.custom.min.js" charset="utf-8" defer></script>
+  <!-- include Picazzo globals -->
+  <script src="node_modules/picazzo/dist/js/globals/picazzo.globals.min.js" charset="utf-8" defer></script>
+  <!-- use Droplets as needed -->
+  <script src="node_modules/picazzo/dist/js/droplets/accordion.min.js" charset="utf-8" defer></script>
+  <script src="node_modules/picazzo/dist/js/droplets/table.min.js" charset="utf-8" defer></script>
+</head>
+```
+
+Picazzo includes a Google Maps plugin. Depending on which JS option you use to install above you may need to create your own [API Key](https://developers.google.com/maps/documentation/javascript/get-api-key) to use it.
+
+```html
+<script defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" type="text/javascript"></script>
+```
+
+If using **option 1** you will need to include this script before the bundle file. If using **option 2** you will need to include this script only if you use the ```google-map``` plugin (as long as it's called before the map plugin file).
+
+## Development
+---
+
 ## Build Setup
 
 ```bash
@@ -131,4 +231,4 @@ npm version major | minor | patch
 ```
 
 ## Further Vue documentation regarding this app
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Picazzo docs is built with vue. For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

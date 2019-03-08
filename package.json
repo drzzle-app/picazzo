@@ -20,7 +20,9 @@
     "build:jsplugins:separate": "gulp build-js-separate",
     "build:routes": "gulp build-routes",
     "build:search": "gulp build-search",
-    "build:icons": "gulp build-icons"
+    "build:icons": "gulp build-icons",
+    "deploy:docs": "./scripts/deploy-docs.sh",
+    "deploy:lib": "./scripts/deploy-lib.sh"
   },
   "repository": {
     "type": "git",

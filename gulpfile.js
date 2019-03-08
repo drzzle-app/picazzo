@@ -235,6 +235,15 @@ const buildSearch = () => {
     });
 };
 
+const bundleJs = () =>
+  gulp.src([
+    './dist/js/modules/jquery-2.2.4.min.js',
+    './dist/js/modules/jquery.mobile.custom.min.js',
+    './dist/js/picazzo.droplet.lib.min.js',
+  ]).pipe(concat('picazzo.bundle.min.js'))
+    .pipe(gulp.dest('./dist/js/'))
+    .on('end', () => { console.log('\x1b[32mSuccessfully Bundled JS!\x1b[34m'); });
+
 const buildJsPluginsSeperate = () => {
   const dropletsPath = './src/droplets/';
   const toolsPath = './src/tools/';
@@ -243,6 +252,7 @@ const buildJsPluginsSeperate = () => {
 
   function compress(p, f, t) {
     const jsFile = !f.match(/picazzo\.global\.js/gi) ? '/plugin.js' : '';
+    const name = t === 'global' ? 'picazzo.globals' : f;
     return gulp
       .src(`${p}${f}${jsFile}`)
       .pipe(
@@ -253,7 +263,7 @@ const buildJsPluginsSeperate = () => {
         minify({
           noSource: true,
           ext: {
-            min: [/picazzo\.global\.js|plugin\.js$/, `${f}.min.js`],
+            min: [/picazzo\.global\.js|plugin\.js$/, `${name}.min.js`],
           },
         }))
       .pipe(gulp.dest(`./dist/js/${t}s/`))
@@ -420,12 +430,13 @@ const newDroplet = type =>
       }));
 
 const buildThemes = () => {
-  const fontelloImports = [
-    '@import "icons/css/animation.min.css";',
-    '@import "icons/css/drzzle-embedded.min.css";',
-    '@import "icons/css/drzzle-ie7-codes.min.css";',
-    '@import "icons/css/drzzle-ie7.min.css";',
-    '@import "icons/css/drzzle.min.css";',
+  const fontImports = [
+    '@import "../fonts/source-sans-pro/source-sans-pro.css;"',
+    '@import "../icons/css/animation.min.css";',
+    '@import "../icons/css/drzzle-embedded.min.css";',
+    '@import "../icons/css/drzzle-ie7-codes.min.css";',
+    '@import "../icons/css/drzzle-ie7.min.css";',
+    '@import "../icons/css/drzzle.min.css";',
   ];
   function buildTheme(theme) {
     return gulp
@@ -437,11 +448,11 @@ const buildThemes = () => {
           browsers: ['last 5 versions'],
           cascade: false,
         }))
-      .pipe(rename('main.min.css'))
+      .pipe(rename(`${theme}.min.css`))
       .pipe(cssmin())
-      .pipe(inject.prepend(fontelloImports.join('').trim()))
-      .pipe(gulp.dest(`./dist/css/themes/${theme}`))
-      .pipe(gulp.dest(`./static/css/themes/${theme}`));
+      .pipe(inject.prepend(fontImports.join('').trim()))
+      .pipe(gulp.dest('./dist/css'))
+      .pipe(gulp.dest('./static/css'));
   }
   // get all themes in themes/ directory and build them
   const themePath = './src/less/themes/';
@@ -479,57 +490,42 @@ const buildThemes = () => {
 };
 
 const buildIcons = () => {
-  const themeDistPath = './dist/css/themes/';
-  const themes = getFolders(themeDistPath);
   const iconDir = './src/icons/css/';
-  fse.readdir(iconDir, (err, cssFiles) => {
+  fse.readdir(iconDir, async (err, cssFiles) => {
     if (err) {
       console.log(err);
       return;
     }
 
-    const copyFontFiles = (fontDir, res) =>
-      fse.copy('./src/icons/font', fontDir, { overwrite: true })
-        .then(() => {
-          if (res) {
-            res(fontDir);
-          }
-        })
-        // we need to resolve even if there is a no file error
-        .catch(er => res(er));
+    await Promise.all(_.map(cssFiles, (iconCss) => {
+      const fullPath = `${iconDir}${iconCss}`;
+      const name = path.basename(iconCss, '.css');
+      return gulp.src(fullPath)
+        .pipe(rename(`${name}.min.css`))
+        .pipe(
+          autoprefixer({
+            browsers: ['last 10 versions'],
+            cascade: false,
+          }))
+        .pipe(cssmin())
+        .pipe(gulp.dest('dist/icons/css'));
+    }));
 
-    const iconChain = [];
-    cssFiles.forEach((file) => {
-      iconChain.push(
-        new Promise((resolve) => {
-          const fullPath = `${iconDir}${file}`;
-          const name = path.basename(file, '.css');
-          const pipeline = gulp.src(fullPath)
-            .pipe(rename(`${name}.min.css`))
-            .pipe(
-              autoprefixer({
-                browsers: ['last 10 versions'],
-                cascade: false,
-              }))
-            .pipe(cssmin());
-          // place all icon css files in all themes
-          themes.forEach((theme, i) => {
-            pipeline.pipe(gulp.dest(`${themeDistPath}${theme}/icons/css`));
-            // copy the font files into each themes dist
-            const fontDir = `${themeDistPath}${theme}/icons/font`;
-            const last = i === themes.length - 1 ? resolve : false;
-            fse.emptyDir(fontDir)
-              .then(() => copyFontFiles(fontDir, last));
-          });
-        }));
-    });
-    Promise.all(iconChain).then(() => {
-      // now copy dist to static
-      fse.copy('./dist/css/themes', './static/css/themes', { overwrite: true })
-        .then(() => console.log('\x1b[32m Successfully built icons'))
-        .catch(er => console.log('recreating path: ', er.path));
-    });
+    // copy font files into dist
+    await fse.copy('./src/icons/font', './dist/icons/font', { overwrite: true });
+
+    // copy font files into static
+    await fse.copy('./dist/icons', './static/icons', { overwrite: true });
   });
+};
+
+const buildFonts = async () => {
+  // copy font files into dist
+  await fse.copy('./src/fonts', './dist/fonts', { overwrite: true });
+  // copy font files into static
+  await fse.copy('./src/fonts', './static/fonts', { overwrite: true });
+
+  console.log('\x1b[32mSuccessfully Built Fonts!\x1b[34m');
 };
 
 const newTheme = () => {
@@ -578,8 +574,10 @@ const buildAll = async () => {
   await buildJsPluginsSeperate();
   await buildSearch();
   await buildRoutes();
+  await buildFonts();
   await buildIcons();
   await buildThemes();
+  await bundleJs();
 };
 
 gulp.task('new-theme', newTheme);
@@ -588,9 +586,11 @@ gulp.task('new-droplet', () => newDroplet('droplet'));
 gulp.task('new-tool', () => newDroplet('tool'));
 gulp.task('build-search', buildSearch);
 gulp.task('build-routes', buildRoutes);
+gulp.task('bundle-js', bundleJs);
 gulp.task('build-js-plugins', buildJsPlugins);
 gulp.task('build-js-separate', buildJsPluginsSeperate);
 gulp.task('build-icons', buildIcons);
+gulp.task('build-fonts', buildFonts);
 gulp.task('build-themes', buildThemes);
 gulp.task('build', buildAll);
 
@@ -600,6 +600,7 @@ gulp.task('default', ['build-js-plugins', 'build-search', 'build-routes', 'build
   watch(['./src/pages/**/template.html', './src/droplets/**/template.html', './src/tools/**/template.html'], () => buildSearch());
   watch(['./src/router/routes.json'], () => buildRoutes());
   watch(['./src/icons/**/*'], () => buildIcons());
+  watch(['./src/fonts/**/*'], () => buildFonts());
   watch(
     ['./src/droplets/**/*.less', './src/tools/**/*.less', './src/less/themes/**/*.less', './src/less/theme-globals/*.less'],
     () => buildThemes());
