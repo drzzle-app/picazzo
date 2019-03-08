@@ -1,4 +1,9 @@
-# Picazzo
+<p align="center">
+  <a href="https://picazzo.drzzle.app" target="\_blank">
+    <img src="static/images/picazzo-logo.svg" style="width:50%;"/>
+  </a>
+</p>
+
 
 Picazzo is an open source front end framework that was created for websites built from the [drzzle.app](https://drzzle.app) site builder.
 
@@ -101,8 +106,7 @@ Picazzo includes a Google Maps plugin. Depending on which JS option you use to i
 
 If using **option 1** you will need to include this script before the bundle file. If using **option 2** you will need to include this script only if you use the ```google-map``` plugin (as long as it's called before the map plugin file).
 
-## Development
----
+# Development
 
 ## Build Setup
 
