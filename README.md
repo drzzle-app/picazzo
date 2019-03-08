@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://picazzo.drzzle.app" target="\_blank">
-    <img src="static/images/picazzo-logo.svg" style="width:50%;"/>
+  <a href="https://picazzo.drzzle.app">
+    <img src="static/images/picazzo-logo.svg" />
   </a>
 </p>
 
