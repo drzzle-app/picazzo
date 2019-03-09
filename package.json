@@ -1,6 +1,6 @@
 {
   "name": "picazzo",
-  "version": "2.0.0",
+  "version": "1.4.3",
   "description": "Drzzle design system for droplets and components.",
   "author": "Roger Avalos",
   "license": "MIT",
@@ -129,7 +129,10 @@
     "npm": ">= 3.0.0"
   },
   "files": [
-    "dist/**/*"
+    "dist/fonts/**/*",
+    "dist/css/*",
+    "dist/js/**/*",
+    "dist/icons/**/*"
   ],
   "browserslist": [
     "> 1%",
