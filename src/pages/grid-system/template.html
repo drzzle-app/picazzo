@@ -14,6 +14,8 @@
 
   <header class="picazzo-sectionHeader">Column List</header>
 
+  <p>By default, the "col-#" classes span 100% on mobile for convenience. There are more specific column class options available (see further below).</p>
+
   <div class="row center-txt">
     <div class="row">
       <div class="column col-1 picazzo-exCol">
@@ -194,6 +196,99 @@
       .col-2-4
     </div>
   </div>
+
+  <header class="picazzo-sectionHeader">Device Specific Columns</header>
+
+  <p>
+    If you don't want to use the default columns, you can specify what device you'd like to use the fraction width for.
+    The class format is as follows</p>
+  <pre v-highlightjs><code class="html">.col-{device}-{fraction}</code></pre>
+
+  <p>
+    Device letters need to be in order.
+  </p>
+  <pre v-highlightjs><code class="html">device = d (desktop), t (tablet), m (mobile)
+fraction = 1 - 12 (as seen above)</code></pre>
+
+  <p class="picazzo-section-subHeader">Examples</p>
+
+  <p>
+    Desktop Only
+  </p>
+
+  <div class="row">
+    <div class="column col-d-3 picazzo-exCol">
+      .col-d-3
+    </div>
+    <div class="column col-d-3 picazzo-exCol">
+      .col-d-3
+    </div>
+    <div class="column col-d-3 picazzo-exCol">
+      .col-d-3
+    </div>
+    <div class="column col-d-3 picazzo-exCol">
+      .col-d-3
+    </div>
+  </div>
+
+  <p>
+    Desktop and Mobile Only
+  </p>
+
+  <div class="row">
+    <div class="column col-dm-3 picazzo-exCol">
+      .col-dm-3
+    </div>
+    <div class="column col-dm-3 picazzo-exCol">
+      .col-dm-3
+    </div>
+    <div class="column col-dm-3 picazzo-exCol">
+      .col-dm-3
+    </div>
+    <div class="column col-dm-3 picazzo-exCol">
+      .col-dm-3
+    </div>
+  </div>
+
+  <p>
+    Tablet and Mobile Only
+  </p>
+
+  <div class="row">
+    <div class="column col-tm-3 picazzo-exCol">
+      .col-tm-3
+    </div>
+    <div class="column col-tm-3 picazzo-exCol">
+      .col-tm-3
+    </div>
+    <div class="column col-tm-3 picazzo-exCol">
+      .col-tm-3
+    </div>
+    <div class="column col-tm-3 picazzo-exCol">
+      .col-tm-3
+    </div>
+  </div>
+
+
+  <p>
+    All Devices
+  </p>
+
+  <div class="row">
+    <div class="column col-all-3 picazzo-exCol">
+      .col-all-3
+    </div>
+    <div class="column col-all-3 picazzo-exCol">
+      .col-all-3
+    </div>
+    <div class="column col-all-3 picazzo-exCol">
+      .col-all-3
+    </div>
+    <div class="column col-all-3 picazzo-exCol">
+      .col-all-3
+    </div>
+  </div>
+
 
   <header class="picazzo-sectionHeader">Page Layouts</header>
 
