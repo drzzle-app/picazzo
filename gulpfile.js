@@ -90,7 +90,7 @@ const buildRoutes = () => {
         `/* eslint-disable */\n// This is a generated file, do not edit it directly\nmodule.exports = {\n routes: ${contents}\n};`)
       .then(() => {
         fse.readFile('./src/router/routes.js', 'utf8');
-        console.log('\x1b[32m Generated routes');
+        console.log('\x1b[32mGenerated routes!');
       })
       .catch(er => console.error(er));
   });
