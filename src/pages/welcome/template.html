@@ -9,33 +9,106 @@
     Themes in Picazzo exist merely to provide default styling for all droplets and components. Most styling can be
     overwritten using the Drzzle page editor.
   </p>
+  <p>
+    <router-link
+      tag="a"
+      class="drzBtn-link"
+      to="/all-droplets">
+      <button class="drzBtn">See All Droplets</button>
+    </router-link>
+  </p>
+  <header class="picazzo-section-subHeader">
+    What's Included
+  </header>
+  <pre v-highlightjs><code class="bash">
+├── dist
+|  ├── css
+|  |  └── default.min.css
+|  ├── icons
+|  |  ├── css
+|  |  |  ├── animation.min.css
+|  |  |  ├── drzzle-codes.min.css
+|  |  |  ├── drzzle-embedded.min.css
+|  |  |  ├── drzzle-ie7-codes.min.css
+|  |  |  ├── drzzle-ie7.min.css
+|  |  |  └── drzzle.min.css
+|  |  └── font
+|  |     ├── drzzle.eot
+|  |     ├── drzzle.svg
+|  |     ├── drzzle.ttf
+|  |     ├── drzzle.woff
+|  |     └── drzzle.woff2
+|  ├── js
+|  |  ├── droplets
+|  |  |  ├── accordion.min.js
+|  |  |  ├── audio-player.min.js
+|  |  |  ├── carousel.min.js
+|  |  |  ├── content-slider.min.js
+|  |  |  ├── countdown.min.js
+|  |  |  ├── footer-nav.min.js
+|  |  |  ├── form.min.js
+|  |  |  ├── google-map.min.js
+|  |  |  ├── image-gallery.min.js
+|  |  |  ├── navigation.min.js
+|  |  |  ├── section.min.js
+|  |  |  ├── table.min.js
+|  |  |  ├── tabs.min.js
+|  |  |  └── video-player.min.js
+|  |  ├── globals
+|  |  |  └── picazzo.global.js.min.js
+|  |  ├── modules
+|  |  |  ├── jquery-2.2.4.min.js
+|  |  |  └── jquery.mobile.custom.min.js
+|  |  ├── picazzo.bundle.min.js
+|  |  ├── picazzo.droplet.lib.js
+|  |  ├── picazzo.droplet.lib.min.js
+|  |  └── tools
+|  |     ├── filter.min.js
+|  |     ├── modals.min.js
+|  |     ├── multi-step.min.js
+|  |     ├── notifications.min.js
+|  |     ├── pagination.min.js
+|  |     ├── scrolling.min.js
+|  |     └── tool-tips.min.js
+  </code></pre>
+  
   <header class="picazzo-section-subHeader">
     Use Picazzo in Your Project
   </header>
-  <p>NPM</p>
+
+  <header class="picazzo-section-subHeader">NPM</header>
   <pre v-highlightjs><code class="bash">npm install picazzo --save</code></pre>
+
+  <pre v-highlightjs><code class="javascript">// app.js
+
+// default theme css
+import 'node_modules/picazzo/dist/css/default.min.css';
+// all droplets including dependencies (jQuery)
+import 'node_modules/picazzo/dist/js/picazzo.bundle.min.js';</code></pre>
+  
+  <header class="picazzo-section-subHeader">Browser (CDN)</header>
+
+  <p>Option 1 (All)</p>
+  
+  <pre v-highlightjs><code class="html">{{ optionOneHtml() }}</code></pre>
+  
+  <p>Option 2 (Custom)</p>
+  
+  <pre v-highlightjs><code class="html">{{ optionTwoHtml() }}</code></pre>
+  
   <p>
-    You can then access all assets from your node_modules folder.
+  Picazzo includes a Google Maps plugin. Depending on which JS option you use to install above you may 
+  need to create your own <a class="picazzo-link" href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">API Key</a> to use it.
   </p>
-  <pre v-highlightjs><code>node_modules/
-..dist/
-....css/
-......themes/
-....js/
-......droplets/
-......js files</code></pre>
+  
   <p>
-    Have a look at our full list of droplets 👇
+  If using <b>option 1</b> you will need to include this script before the bundle file. If using <b>option 2</b> 
+  you will need to include this script <i>only</i> if you use the "google-map" plugin (as long as it's called before the map plugin file).
   </p>
-  <p>
-    <router-link
-      tag="img"
-      class="picazzo-imgLink"
-      to="/all-droplets"
-      src="/static/images/all-droplets.png"
-      alt="All Droplets">
-    </router-link>
-  </p>
+  
+  <pre v-highlightjs><code class="html">{{ googleMapHtml() }}</code></pre>
+  
+  <hr class="drz-hr" />
 
   <div class="picazzo-docFooter">
     <span class="picazzo-fineText">Made with 💚 by devs@drzzle.com</span>

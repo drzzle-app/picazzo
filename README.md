@@ -7,12 +7,7 @@
 
 Picazzo is an open source front end framework that was created for websites built from the [drzzle.app](https://drzzle.app) site builder.
 
-[See Docs](http://drz-picazzo.s3-website-us-west-2.amazonaws.com/)
-
-## Install NPM
-```bash
-npm install picazzo --save
-```
+[See Docs](https://picazzo.drzzle.app)
 
 ## What's Included
 ```
@@ -67,44 +62,57 @@ npm install picazzo --save
 |  |     └── tool-tips.min.js
 ```
 
-## Usage
-You can use the static files in your project like so or import them from node_modules.
+# Usage
+
+## NPM
+```bash
+npm install picazzo --save
+```
+
+```javascript
+// app.js
+
+// default theme css
+import 'node_modules/picazzo/dist/css/default.min.css';
+// all droplets including dependencies (jQuery)
+import 'node_modules/picazzo/dist/js/picazzo.bundle.min.js';
+```
+
+## Browser (CDN)
 
 #### Option 1 (All)
 ```html
-<!-- index.html -->
-<head>
+<html>
   <!-- default theme css -->
-  <link rel="stylesheet" href="node_modules/picazzo/dist/css/default.min.css">
-  <!-- full plugin bundle (includes jquery dependencies) -->
-  <script src="node_modules/picazzo/dist/js/picazzo.bundle.min.js" charset="utf-8" defer></script>
-</head>
+  <link rel="stylesheet" href="https://cdn.drzzle.app/themes/default.min.css">
+  <!-- all droplets including dependencies (jQuery) -->
+  <script src="https://cdn.drzzle.app/scripts/js/picazzo.bundle.min.js" charset="utf-8" defer></script>
+</html>
 ```
 
 #### Option 2 (Custom)
 ```html
-<!-- index.html -->
 <head>
   <!-- default theme css -->
-  <link rel="stylesheet" href="node_modules/picazzo/dist/css/default.min.css">
+  <link rel="stylesheet" href="https://cdn.drzzle.app/themes/default.min.css">
   <!-- add jQuery dependencies -->
-  <script src="node_modules/picazzo/dist/js/modules/jquery-2.2.4.min.js" charset="utf-8" defer></script>
-  <script src="node_modules/picazzo/dist/js/modules/jquery.mobile.custom.min.js" charset="utf-8" defer></script>
+  <script src="https://cdn.drzzle.app/scripts/js/modules/jquery-2.2.4.min.js" charset="utf-8" defer></script>
+  <script src="https://cdn.drzzle.app/scripts/js/modules/jquery.mobile.custom.min.js" charset="utf-8" defer></script>
   <!-- include Picazzo globals -->
-  <script src="node_modules/picazzo/dist/js/globals/picazzo.globals.min.js" charset="utf-8" defer></script>
-  <!-- use Droplets as needed -->
-  <script src="node_modules/picazzo/dist/js/droplets/accordion.min.js" charset="utf-8" defer></script>
-  <script src="node_modules/picazzo/dist/js/droplets/table.min.js" charset="utf-8" defer></script>
+  <script src="https://cdn.drzzle.app/scripts/js/globals/picazzo.globals.min.js" charset="utf-8" defer></script>
+  <!-- use droplets as needed -->
+  <script src="https://cdn.drzzle.app/scripts/js/droplets/accordion.min.js" charset="utf-8" defer></script>
+  <script src="https://cdn.drzzle.app/scripts/js/droplets/table.min.js" charset="utf-8" defer></script>
 </head>
 ```
 
 Picazzo includes a Google Maps plugin. Depending on which JS option you use to install above you may need to create your own [API Key](https://developers.google.com/maps/documentation/javascript/get-api-key) to use it.
 
+If using **option 1** you will need to include this script before the bundle file. If using **option 2** you will need to include this script only if you use the ```google-map``` plugin (as long as it's called before the map plugin file).
+
 ```html
 <script defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" type="text/javascript"></script>
 ```
-
-If using **option 1** you will need to include this script before the bundle file. If using **option 2** you will need to include this script only if you use the ```google-map``` plugin (as long as it's called before the map plugin file).
 
 # Development
 
