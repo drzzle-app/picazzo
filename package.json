@@ -4,6 +4,7 @@
   "description": "Drzzle design system for droplets and components.",
   "author": "Roger Avalos",
   "license": "MIT",
+  "homepage": "https://picazzo.drzzle.app",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "gulp & npm run dev",
@@ -26,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+git@github.com:drzzle-app/picazzo.git"
   },
   "dependencies": {
     "jquery": "^2.2.4",
