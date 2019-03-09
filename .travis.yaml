@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - "stable"
+stage: lint
+ - script: npm run lint:less
+ - script: npm run lint:js
+stage: test
+ - script: npm run test:unit
