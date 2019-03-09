@@ -244,38 +244,45 @@ const bundleJs = () =>
     .pipe(gulp.dest('./dist/js/'))
     .on('end', () => { console.log('\x1b[32mSuccessfully Bundled JS!\x1b[34m'); });
 
-const buildJsPluginsSeperate = () => {
+const buildJsPluginsSeperate = async () => {
   const dropletsPath = './src/droplets/';
   const toolsPath = './src/tools/';
-  const droplets = getFolders(dropletsPath);
-  const tools = getFolders(toolsPath);
+  const droplets = getFolders(dropletsPath).filter(folder => fse.existsSync(`${dropletsPath}${folder}/plugin.js`));
+  const tools = getFolders(toolsPath).filter(folder => fse.existsSync(`${toolsPath}${folder}/plugin.js`));
 
   function compress(p, f, t) {
     const jsFile = !f.match(/picazzo\.global\.js/gi) ? '/plugin.js' : '';
     const name = t === 'global' ? 'picazzo.globals' : f;
-    return gulp
-      .src(`${p}${f}${jsFile}`)
-      .pipe(
-        babel({
-          presets: ['env'],
-        }))
-      .pipe(
-        minify({
-          noSource: true,
-          ext: {
-            min: [/picazzo\.global\.js|plugin\.js$/, `${name}.min.js`],
-          },
-        }))
-      .pipe(gulp.dest(`./dist/js/${t}s/`))
-      .on('end', () => {
-        console.log(`\x1b[32m Successfully built "${f}" js plugin!`);
-      });
+    return new Promise((resolve, reject) => {
+      gulp
+        .src(`${p}${f}${jsFile}`)
+        .pipe(
+          babel({
+            presets: ['env'],
+          }))
+        .pipe(
+          minify({
+            noSource: true,
+            ext: {
+              min: [/picazzo\.global\.js|plugin\.js$/, `${name}.min.js`],
+            },
+          }))
+        .pipe(gulp.dest(`./dist/js/${t}s/`))
+        .on('end', () => {
+          console.log(`\x1b[32mSuccessfully built "${f}" js plugin!\x1b[32m`);
+          resolve();
+        })
+        .on('error', () => {
+          reject();
+        });
+    });
   }
-
-  droplets.forEach(file => compress(dropletsPath, file, 'droplet'));
-  tools.forEach(file => compress(toolsPath, file, 'tool'));
+  // build droplets
+  await Promise.all(droplets.map(file => compress(dropletsPath, file, 'droplet')));
+  // build tools
+  await Promise.all(tools.map(file => compress(toolsPath, file, 'tool')));
   // run the globals also
-  compress('./src/js-lib/', 'picazzo.global.js', 'global');
+  await compress('./src/js-lib/', 'picazzo.global.js', 'global');
 };
 
 const buildJsPlugins = async () => {
@@ -305,7 +312,7 @@ const buildJsPlugins = async () => {
       }));
   });
 
-  Promise.all(chain).catch(() => {
+  await Promise.all(chain).catch(() => {
     console.log('one or more droplets does not have js, but that is OK!');
   });
   // finally, run the concating
@@ -324,7 +331,7 @@ const buildJsPlugins = async () => {
       }))
     .pipe(gulp.dest('./dist/js/'))
     .on('end', () => {
-      console.log('\x1b[32m Successfully built picazzo droplet javascript library!');
+      console.log('\x1b[32m Successfully built Picazzo javascript library!');
     });
 };
 
