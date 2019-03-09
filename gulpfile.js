@@ -167,7 +167,7 @@ const newPage = () => {
             fse
               .outputFile(routeJSON, list)
               .then(() => {
-                console.log('\x1b[32m Successfully built new page!: ', page);
+                console.log('\x1b[32mSuccessfully built new page!: ', page);
               })
               .catch(er => console.log(er));
           } else {
@@ -223,7 +223,7 @@ const buildSearch = () => {
   Promise.all(chain)
     .then(() => {
       fse.writeFile('./src/pages.json', JSON.stringify(output, null, 4), (error) => {
-        let msg = '\x1b[32m Successfully built search data!';
+        let msg = '\x1b[32mSuccessfully built search data!';
         if (error) {
           msg = error;
         }
@@ -331,7 +331,7 @@ const buildJsPlugins = async () => {
       }))
     .pipe(gulp.dest('./dist/js/'))
     .on('end', () => {
-      console.log('\x1b[32m Successfully built Picazzo javascript library!');
+      console.log('\x1b[32mSuccessfully built Picazzo javascript library!');
     });
 };
 
@@ -438,7 +438,7 @@ const newDroplet = type =>
 
 const buildThemes = () => {
   const fontImports = [
-    '@import "../fonts/source-sans-pro/source-sans-pro.css;"',
+    '@import "../fonts/source-sans-pro/source-sans-pro.css";',
     '@import "../icons/css/animation.min.css";',
     '@import "../icons/css/drzzle-embedded.min.css";',
     '@import "../icons/css/drzzle-ie7-codes.min.css";',
@@ -472,7 +472,7 @@ const buildThemes = () => {
           if (err == null) {
             // main.less file exists
             buildTheme(theme).on('end', () => {
-              console.log(`\x1b[32m Successfully Built theme: \x1b[34m ${theme}`);
+              console.log(`\x1b[32mSuccessfully Built theme: \x1b[34m ${theme}`);
               resolve(theme);
             });
           } else if (err.code === 'ENOENT') {
@@ -565,7 +565,7 @@ const newTheme = () => {
               gulp.src(`./src/droplets/${droplet}/themes/${defaultTheme}/**/*`)
                 .pipe(gulp.dest(`./src/droplets/${droplet}/themes/${name}`))
                 .on('end', () => {
-                  console.log(`\x1b[32m Successfully created "${name}" droplet: \x1b[34m ${droplet}`);
+                  console.log(`\x1b[32mSuccessfully created "${name}" droplet: \x1b[34m ${droplet}`);
                 });
             });
             const newThemePath = `./src/less/themes/${name}/droplets.less`;
