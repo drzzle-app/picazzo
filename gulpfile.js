@@ -33,6 +33,13 @@ function getFolders(srcpath) {
     .filter(file => fse.statSync(path.join(srcpath, file)).isDirectory());
 }
 
+// callback to get folders in a directory
+function getFiles(srcpath) {
+  return fse
+    .readdirSync(srcpath)
+    .filter(file => !fse.statSync(path.join(srcpath, file)).isDirectory());
+}
+
 // title case words
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
@@ -90,7 +97,7 @@ const buildRoutes = () => {
         `/* eslint-disable */\n// This is a generated file, do not edit it directly\nmodule.exports = {\n routes: ${contents}\n};`)
       .then(() => {
         fse.readFile('./src/router/routes.js', 'utf8');
-        console.log('\x1b[32mGenerated routes!');
+        console.log('\x1b[32mSuccessfully generated routes!');
       })
       .catch(er => console.error(er));
   });
@@ -236,13 +243,18 @@ const buildSearch = () => {
 };
 
 const bundleJs = () =>
-  gulp.src([
-    './dist/js/modules/jquery-2.2.4.min.js',
-    './dist/js/modules/jquery.mobile.custom.min.js',
-    './dist/js/picazzo.droplet.lib.min.js',
-  ]).pipe(concat('picazzo.bundle.min.js'))
-    .pipe(gulp.dest('./dist/js/'))
-    .on('end', () => { console.log('\x1b[32mSuccessfully Bundled JS!\x1b[34m'); });
+  new Promise((resolve, reject) =>
+    gulp.src([
+      './dist/js/modules/jquery-2.2.4.min.js',
+      './dist/js/modules/jquery.mobile.custom.min.js',
+      './dist/js/picazzo.droplet.lib.min.js',
+    ]).pipe(concat('picazzo.bundle.min.js'))
+      .pipe(gulp.dest('./dist/js/'))
+      .on('end', () => {
+        console.log('\x1b[32mSuccessfully bundled Picazzo js!\x1b[34m');
+        resolve();
+      })
+      .on('end', () => reject()));
 
 const buildJsPluginsSeperate = async () => {
   const dropletsPath = './src/droplets/';
@@ -424,7 +436,7 @@ const newDroplet = type =>
           .catch(err => console.error(err));
       }));
 
-const buildThemes = () => {
+const buildThemes = async () => {
   const fontImports = [
     '@import "../fonts/source-sans-pro/source-sans-pro.css";',
     '@import "../icons/css/animation.min.css";',
@@ -434,68 +446,56 @@ const buildThemes = () => {
     '@import "../icons/css/drzzle.min.css";',
   ];
   function buildTheme(theme) {
-    return gulp
-      .src(`./src/less/themes/${theme}/main.less`)
-      .pipe(aliases(gulpAliases))
-      .pipe(less())
-      .pipe(
-        autoprefixer({
-          browsers: ['last 5 versions'],
-          cascade: false,
-        }))
-      .pipe(rename(`${theme}.min.css`))
-      .pipe(cssmin())
-      .pipe(inject.prepend(fontImports.join('').trim()))
-      .pipe(gulp.dest('./dist/css'))
-      .pipe(gulp.dest('./static/css'));
-  }
-  // get all themes in themes/ directory and build them
-  const themePath = './src/less/themes/';
-  const themes = getFolders(themePath);
-  const themeChain = [];
-  themes.forEach((theme) => {
-    themeChain.push(
-      new Promise((resolve, reject) => {
-        fse.stat(`${themePath}${theme}/main.less`, (err) => {
-          if (err == null) {
-            // main.less file exists
-            buildTheme(theme).on('end', () => {
-              console.log(`\x1b[32mSuccessfully Built theme: \x1b[34m ${theme}`);
-              resolve(theme);
-            });
-          } else if (err.code === 'ENOENT') {
-            // main.less file does not exist
-            console.log('\x1b[31m', `Error: No 'main.less' file for theme: \x1b[34m ${theme}`);
-            reject(err);
-          }
-        });
-      }));
-  });
-  Promise.all(themeChain).then((t) => {
-    const now = new Date();
-    // we use this so webpack can hot reload when we edit any theme
-    let themeList = '[';
-    t.forEach((th) => {
-      themeList += `'${th}',`;
+    return new Promise((resolve, reject) => {
+      gulp
+        .src(`./src/less/themes/${theme}/main.less`)
+        .pipe(aliases(gulpAliases))
+        .pipe(less())
+        .pipe(
+          autoprefixer({
+            browsers: ['last 5 versions'],
+            cascade: false,
+          }))
+        .pipe(rename(`${theme}.min.css`))
+        .pipe(cssmin())
+        .pipe(inject.prepend(fontImports.join('').trim()))
+        .pipe(gulp.dest('./dist/css'))
+        .pipe(gulp.dest('./static/css'))
+        .on('end', () => {
+          console.log(`\x1b[32mSuccessfully built theme: \x1b[34m${_.startCase(theme)}`);
+          resolve(theme);
+        })
+        .on('error', () => reject());
     });
-    themeList += ']';
-    fse.outputFile('./src/theme-reload.js',
-      `/* eslint-disable */\n// this file is auto generated, do not edit it manually\n// last edited on ${now.toISOString()}\nmodule.exports = {\n themes: ${themeList}\n}`);
-  }).catch(er => console.log(er));
+  }
+
+  // get all themes in themes/ directory and build them
+  const themesPath = './src/less/themes/';
+  const themes = getFolders(themesPath).filter(theme => fse.existsSync(`${themesPath}${theme}/main.less`));
+
+  await Promise.all(themes.map(theme => buildTheme(theme)));
+
+  const now = new Date();
+  // we use this so webpack can hot reload when we edit any theme
+  let themeList = '[';
+  themes.forEach((th, i) => {
+    const tail = i === themes.length - 1 ? '' : ',';
+    themeList += `'${th}'${tail}`;
+  });
+  themeList += ']';
+  await fse.outputFile('./src/theme-reload.js',
+    `/* eslint-disable */\n// this file is auto generated, do not edit it manually\n// last edited on ${now.toISOString()}\nmodule.exports = {\n themes: ${themeList}\n}`);
 };
 
-const buildIcons = () => {
+const buildIcons = async () => {
   const iconDir = './src/icons/css/';
-  fse.readdir(iconDir, async (err, cssFiles) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
+  const cssFiles = getFiles(iconDir);
 
-    await Promise.all(_.map(cssFiles, (iconCss) => {
-      const fullPath = `${iconDir}${iconCss}`;
-      const name = path.basename(iconCss, '.css');
-      return gulp.src(fullPath)
+  await Promise.all(_.map(cssFiles, (iconCss) => {
+    const fullPath = `${iconDir}${iconCss}`;
+    const name = path.basename(iconCss, '.css');
+    return new Promise((resolve, reject) => {
+      gulp.src(fullPath)
         .pipe(rename(`${name}.min.css`))
         .pipe(
           autoprefixer({
@@ -503,15 +503,18 @@ const buildIcons = () => {
             cascade: false,
           }))
         .pipe(cssmin())
-        .pipe(gulp.dest('dist/icons/css'));
-    }));
+        .pipe(gulp.dest('dist/icons/css'))
+        .on('end', () => resolve(iconCss))
+        .on('error', () => reject());
+    });
+  }));
 
-    // copy font files into dist
-    await fse.copy('./src/icons/font', './dist/icons/font', { overwrite: true });
+  // copy font files into dist
+  await fse.copy('./src/icons/font', './dist/icons/font', { overwrite: true });
+  // copy font files into static
+  await fse.copy('./dist/icons', './static/icons', { overwrite: true });
 
-    // copy font files into static
-    await fse.copy('./dist/icons', './static/icons', { overwrite: true });
-  });
+  console.log('\x1b[32mSuccessfully built icons!\x1b[34m');
 };
 
 const buildFonts = async () => {
@@ -520,7 +523,7 @@ const buildFonts = async () => {
   // copy font files into static
   await fse.copy('./src/fonts', './static/fonts', { overwrite: true });
 
-  console.log('\x1b[32mSuccessfully Built Fonts!\x1b[34m');
+  console.log('\x1b[32mSuccessfully built fonts!\x1b[34m');
 };
 
 const newTheme = () => {
