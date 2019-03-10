@@ -1,10 +1,16 @@
 language: node_js
 node_js:
-  - "stable"
+  - "9"
 jobs:
   include:
     - stage: lint
+      install: npm install
       script: npm run lint:less
       script: npm run lint:js
     - stage: test
-      script: npm run test:unit
+      install: npm install
+      before_script:
+        - npm install -g gulp-cli
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+      script: gulp build && npm run test:unit --browsers Firefox

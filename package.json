@@ -12,6 +12,7 @@
     "lint:sass": "sass-lint -v",
     "lint:less": "lesshint --max-warnings 3 src/ -c .lesshintrc --reporter lesshint-reporter-stylisher",
     "test:unit": "karma start --single-run",
+    "test:unit:travis": "karma start --browsers Firefox --single-run",
     "build": "gulp build && node build/build.js",
     "build:newpage": "gulp new-page",
     "build:newdroplet": "gulp new-droplet",
