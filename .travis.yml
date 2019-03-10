@@ -5,8 +5,7 @@ jobs:
   include:
     - stage: lint
       install: npm install
-      script: npm run lint:less
-      script: npm run lint:js
+      script: npm run lint:less && npm run lint:js
     - stage: test
       install: npm install
       before_script:
