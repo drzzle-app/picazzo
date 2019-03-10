@@ -1,9 +1,10 @@
 <div>
   <header class="picazzo-page-header">Welcome</header>
   <p>
-    Welcome to Drzzle's design and development system. Here you will find guidelines on how to
-    develop new droplets and themes, as well as find code snippets on how to initiate and impliment
-    all existing things.
+    Picazzo is an open source front end framework that was created for websites built from the
+    <a class="picazzo-link" href="https://drzzle.app" target="_blank">drzzle.app</a> site builder.
+    Here you will find guidelines on how to develop new droplets and themes, as well as find code
+    snippets on how to initiate and impliment all existing things.
   </p>
   <p>
     Themes in Picazzo exist merely to provide default styling for all droplets and components. Most styling can be
@@ -71,7 +72,7 @@
 |  |     ├── scrolling.min.js
 |  |     └── tool-tips.min.js
   </code></pre>
-  
+
   <header class="picazzo-section-subHeader">
     Use Picazzo in Your Project
   </header>
@@ -85,29 +86,29 @@
 import 'node_modules/picazzo/dist/css/default.min.css';
 // all droplets including dependencies (jQuery)
 import 'node_modules/picazzo/dist/js/picazzo.bundle.min.js';</code></pre>
-  
+
   <header class="picazzo-section-subHeader">Browser (CDN)</header>
 
   <p>Option 1 (All)</p>
-  
+
   <pre v-highlightjs><code class="html">{{ optionOneHtml() }}</code></pre>
-  
+
   <p>Option 2 (Custom)</p>
-  
+
   <pre v-highlightjs><code class="html">{{ optionTwoHtml() }}</code></pre>
-  
+
   <p>
-  Picazzo includes a Google Maps plugin. Depending on which JS option you use to install above you may 
+  Picazzo includes a Google Maps plugin. Depending on which JS option you use to install above you may
   need to create your own <a class="picazzo-link" href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">API Key</a> to use it.
   </p>
-  
+
   <p>
-  If using <b>option 1</b> you will need to include this script before the bundle file. If using <b>option 2</b> 
+  If using <b>option 1</b> you will need to include this script before the bundle file. If using <b>option 2</b>
   you will need to include this script <i>only</i> if you use the "google-map" plugin (as long as it's called before the map plugin file).
   </p>
-  
+
   <pre v-highlightjs><code class="html">{{ googleMapHtml() }}</code></pre>
-  
+
   <hr class="drz-hr" />
 
   <div class="picazzo-docFooter">
