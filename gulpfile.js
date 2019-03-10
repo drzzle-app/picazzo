@@ -286,53 +286,41 @@ const buildJsPluginsSeperate = async () => {
 };
 
 const buildJsPlugins = async () => {
-  // grab all droplets with JS
-  const dropletJS = ['./src/js-lib/picazzo.global.js'];
-  const droplets = getFolders('./src/droplets/').map(item => ({ type: 'droplet', item }));
-  const tools = getFolders('./src/tools').map(item => ({ type: 'tool', item }));
-  const all = droplets.concat(tools);
-  const chain = [];
+  // grab all droplets and tools with JS plugins
+  const plugins = ['./src/js-lib/picazzo.global.js'];
+  const dropletsPath = './src/droplets/';
+  const toolsPath = './src/tools/';
+  const droplets = getFolders(dropletsPath)
+    .filter(folder => fse.existsSync(`${dropletsPath}${folder}/plugin.js`))
+    .map(name => ({ type: 'droplet', name }));
+  const tools = getFolders(toolsPath)
+    .filter(folder => fse.existsSync(`${toolsPath}${folder}/plugin.js`))
+    .map(name => ({ type: 'tool', name }));
+  const all = plugins.concat(
+    droplets.concat(tools).map(item => `./src/${item.type}s/${item.name}/plugin.js`),
+  );
 
-  // move modules to dist
-  await fse.copy('./src/js-lib/modules', './dist/js/modules', { overwrite: true });
-
-  // start build
-  all.forEach((droplet) => {
-    const jsPath = `./src/${droplet.type}s/${droplet.item}/plugin.js`;
-    chain.push(
-      new Promise((resolve, reject) => {
-        try {
-          // if there is a js file, add it to the concat list!
-          fse.statSync(jsPath);
-          dropletJS.push(jsPath);
-          resolve(jsPath);
-        } catch (e) {
-          reject(undefined);
-        }
-      }));
+  return new Promise((resolve, reject) => {
+    gulp
+      .src(all)
+      .pipe(concat('picazzo.droplet.lib.js'))
+      .pipe(
+        babel({
+          presets: ['env'],
+        }))
+      .pipe(
+        minify({
+          ext: {
+            min: '.min.js',
+          },
+        }))
+      .pipe(gulp.dest('./dist/js/'))
+      .on('end', () => {
+        console.log('\x1b[32mSuccessfully built Picazzo javascript library!');
+        resolve();
+      })
+      .on('error', () => reject());
   });
-
-  await Promise.all(chain).catch(() => {
-    console.log('one or more droplets does not have js, but that is OK!');
-  });
-  // finally, run the concating
-  return gulp
-    .src(dropletJS)
-    .pipe(concat('picazzo.droplet.lib.js'))
-    .pipe(
-      babel({
-        presets: ['env'],
-      }))
-    .pipe(
-      minify({
-        ext: {
-          min: '.min.js',
-        },
-      }))
-    .pipe(gulp.dest('./dist/js/'))
-    .on('end', () => {
-      console.log('\x1b[32mSuccessfully built Picazzo javascript library!');
-    });
 };
 
 const newDroplet = type =>
