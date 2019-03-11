@@ -14,6 +14,7 @@ const cssmin = require('gulp-cssmin');
 const inject = require('gulp-inject-string');
 const concat = require('gulp-concat');
 const watch = require('gulp-watch');
+const colors = require('colors');
 const _ = require('lodash');
 
 // utils
@@ -97,7 +98,7 @@ const buildRoutes = () => {
         `/* eslint-disable */\n// This is a generated file, do not edit it directly\nmodule.exports = {\n routes: ${contents}\n};`)
       .then(() => {
         fse.readFile('./src/router/routes.js', 'utf8');
-        console.log('\x1b[32mSuccessfully generated routes!');
+        console.log(colors.green(`Successfully built ${colors.blue('routes')}!`));
       })
       .catch(er => console.error(er));
   });
@@ -127,7 +128,7 @@ const newPage = () => {
           validate(input) {
             const inp = input.toLowerCase();
             if (inp !== 'full' && inp !== 'sidebar' && inp !== '') {
-              console.log('\x1b[31m invalid answer');
+              console.log(colors.yellow('invalid answer'));
               return false;
             }
             return true;
@@ -174,11 +175,11 @@ const newPage = () => {
             fse
               .outputFile(routeJSON, list)
               .then(() => {
-                console.log('\x1b[32mSuccessfully built new page!: ', page);
+                console.log(colors.green('Successfully built new page!: '), colors.blue(page));
               })
-              .catch(er => console.log(er));
+              .catch(er => console.log(colors.red(er)));
           } else {
-            console.log(`\x1b[31m There is already a ${name} page with the name: ${route}. Please try again.`);
+            console.log(colors.yellow(`There is already a ${name} page with the name: ${route}. Please try again.`));
           }
         });
       }));
@@ -230,15 +231,15 @@ const buildSearch = () => {
   Promise.all(chain)
     .then(() => {
       fse.writeFile('./src/pages.json', JSON.stringify(output, null, 4), (error) => {
-        let msg = '\x1b[32mSuccessfully built search data!';
+        let msg = `Successfully built ${colors.gray('search data')}!`;
         if (error) {
           msg = error;
         }
-        return console.log(msg);
+        return console.log(colors.green(msg));
       });
     })
     .catch((error) => {
-      console.log('There was an issue creating pages.json: ', error);
+      console.log(colors.red('There was an issue creating pages.json: '), error);
     });
 };
 
@@ -251,7 +252,7 @@ const bundleJs = () =>
     ]).pipe(concat('picazzo.bundle.min.js'))
       .pipe(gulp.dest('./dist/js/'))
       .on('end', () => {
-        console.log('\x1b[32mSuccessfully bundled Picazzo js!\x1b[34m');
+        console.log(colors.green('Successfully bundled Picazzo js!'));
         resolve();
       })
       .on('end', () => reject()));
@@ -281,7 +282,7 @@ const buildJsPluginsSeperate = async () => {
           }))
         .pipe(gulp.dest(`./dist/js/${t}s/`))
         .on('end', () => {
-          console.log(`\x1b[32mSuccessfully built "${f}" js plugin!\x1b[32m`);
+          console.log(colors.green(`Successfully built ${colors.white(f)} js plugin!`));
           resolve();
         })
         .on('error', () => {
@@ -328,7 +329,7 @@ const buildJsPlugins = async () => {
         }))
       .pipe(gulp.dest('./dist/js/'))
       .on('end', () => {
-        console.log('\x1b[32mSuccessfully built Picazzo javascript library!');
+        console.log(colors.green('Successfully built Picazzo javascript library!'));
         resolve();
       })
       .on('error', () => reject());
@@ -346,7 +347,7 @@ const newDroplet = type =>
           validate(input) {
             const inp = input.toLowerCase().trim();
             if (inp === '') {
-              console.log('\x1b[31m Invalid answer, you must specify a name.');
+              console.log(colors.yellow('Invalid answer, you must specify a name.'));
               return false;
             }
             return true;
@@ -359,7 +360,7 @@ const newDroplet = type =>
           validate(input) {
             const inp = input.toLowerCase();
             if (inp !== 'y' && inp !== 'n' && inp !== '') {
-              console.log('\x1b[31m invalid answer');
+              console.log(colors.yellow('invalid answer'));
               return false;
             }
             return true;
@@ -425,12 +426,12 @@ const newDroplet = type =>
                       `@import '../../../${type}s/${name}/themes/${theme}/styles';\n`,
                       (err) => {
                         if (err) {
-                          console.log(`There was an issue appending ${name} to droplets.less`);
+                          console.log(colors.red(`There was an issue appending ${name} to droplets.less`));
                         }
                       });
                   })
                   .catch(err => console.error(err));
-              }).catch(err => console.log(err));
+              }).catch(err => console.error(err));
             });
           })
           .catch(err => console.error(err));
@@ -462,7 +463,7 @@ const buildThemes = async () => {
         .pipe(gulp.dest('./dist/css'))
         .pipe(gulp.dest('./static/css'))
         .on('end', () => {
-          console.log(`\x1b[32mSuccessfully built theme: \x1b[34m${_.startCase(theme)}`);
+          console.log(colors.green('Successfully built theme: '), colors.rainbow(_.startCase(theme)));
           resolve(theme);
         })
         .on('error', () => reject());
@@ -514,7 +515,7 @@ const buildIcons = async () => {
   // copy font files into static
   await fse.copy('./dist/icons', './static/icons', { overwrite: true });
 
-  console.log('\x1b[32mSuccessfully built icons!\x1b[34m');
+  console.log(colors.green(`Successfully built ${colors.magenta('icons')}!`));
 };
 
 const buildFonts = async () => {
@@ -523,7 +524,7 @@ const buildFonts = async () => {
   // copy font files into static
   await fse.copy('./src/fonts', './static/fonts', { overwrite: true });
 
-  console.log('\x1b[32mSuccessfully built fonts!\x1b[34m');
+  console.log(colors.green(`Successfully built ${colors.cyan('fonts')}!`));
 };
 
 const newTheme = () => {
@@ -538,7 +539,7 @@ const newTheme = () => {
           validate(input) {
             const inp = input.toLowerCase().trim();
             if (inp === '') {
-              console.log('\x1b[31m Invalid answer, you must specify a name.');
+              console.log(colors.yellow('Invalid answer, you must specify a name.'));
               return false;
             }
             return true;
@@ -556,7 +557,7 @@ const newTheme = () => {
               gulp.src(`./src/droplets/${droplet}/themes/${defaultTheme}/**/*`)
                 .pipe(gulp.dest(`./src/droplets/${droplet}/themes/${name}`))
                 .on('end', () => {
-                  console.log(`\x1b[32mSuccessfully created "${name}" droplet: \x1b[34m ${droplet}`);
+                  console.log(colors.green(`Successfully created "${name}" droplet: ${droplet}`));
                 });
             });
             const newThemePath = `./src/less/themes/${name}/droplets.less`;
