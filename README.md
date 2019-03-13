@@ -4,13 +4,15 @@
   </a>
 </p>
 
-![npm](https://img.shields.io/npm/v/picazzo.svg)
-![NPM](https://img.shields.io/npm/l/picazzo.svg)
-![npm](https://img.shields.io/npm/dw/picazzo.svg?color=%237f63ff&label=npm%20downloads)
-[![Build Status](https://travis-ci.com/drzzle-app/picazzo.svg?branch=master)](https://travis-ci.com/drzzle-app/picazzo)
-![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/drzzle-app/picazzo.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/drzzle-app/picazzo.svg)
-![Twitter Follow](https://img.shields.io/twitter/follow/drzzleapp.svg?style=social)
+<p style="text-align:center;">
+<img alt="npm" src="https://img.shields.io/npm/v/picazzo.svg">
+<img alt="NPM" src="https://img.shields.io/npm/l/picazzo.svg">
+<img alt="npm" src="https://img.shields.io/npm/dw/picazzo.svg?color=%237a68ff&label=npm%20downloads">
+<a href="https://travis-ci.com/drzzle-app/picazzo"><img alt="Travis (.com) branch" src="https://img.shields.io/travis/com/drzzle-app/picazzo/master.svg" /></a>
+<img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed-raw/drzzle-app/picazzo.svg">
+<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/drzzle-app/picazzo.svg">
+<a href="https://twitter.com/drzzleapp"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/drzzleapp.svg" /></a>
+</p>
 
 
 Picazzo is an open source front end framework that was created for websites built from the [drzzle.app](https://drzzle.app) site builder.
@@ -230,11 +232,13 @@ Our nested side bar links are templated using json from our ```src/layout/side-b
 In case you forget what page route your page is, see the ```src/pages.json``` file.
 
 ## Adding new Icons
-When adding new icons in fontello, you just need to copy the new files and dump them into ```./src/icons/```. There is a watcher in place on this icons directory that should auto run this command for you
+We use [fontello](http://fontello.com/) to manage icons. You will need to grab the config file located at ```src/icons/config.json``` and import it in fontello.
+
+After selecting/adding new icons, you just need to download and copy the new files and place them into ```./src/icons/```. There is a watcher in place on this icons directory that should auto run this command for you
 ```bash
 npm run build:icons
 ```
-This task will take the fontello icons/files from ```./src/icons/``` and add them to the relative location for each theme in ```dist/```. The icons page also auto generates it's content from the fontello config file.
+This task will take the fontello icons/files from ```./src/icons/``` and minify them then place them in ```dist/```. The icons page also auto generates it's content from the fontello config file.
 
 ## LESS Breakdown
 The styling for Picazzo _the app_ is separated from everything else, those core LESS files are located in ```./src/less/picazzo/``` and are compiled by webpack. The themes on the other hand are different. Those are compiled into ```dist/``` by gulp and their core files are located in  ```./src/less/themes/```. You'll notice each droplet has a ```themes/``` directory. This is in case the same droplet will need to look different in each theme, if they are not needed, they can be removed.
