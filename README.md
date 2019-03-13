@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<p style="text-align:center;">
+<p align="center">
 <img alt="npm" src="https://img.shields.io/npm/v/picazzo.svg">
 <img alt="NPM" src="https://img.shields.io/npm/l/picazzo.svg">
 <img alt="npm" src="https://img.shields.io/npm/dw/picazzo.svg?color=%237a68ff&label=npm%20downloads">
@@ -14,6 +14,7 @@
 <a href="https://twitter.com/drzzleapp"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/drzzleapp.svg" /></a>
 </p>
 
+---
 
 Picazzo is an open source front end framework that was created for websites built from the [drzzle.app](https://drzzle.app) site builder.
 
