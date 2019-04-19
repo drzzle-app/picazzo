@@ -137,6 +137,7 @@
 .drzicon-resize-vertical { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87c;&nbsp;'); }
 .drzicon-logout-1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87d;&nbsp;'); }
 .drzicon-comment { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87e;&nbsp;'); }
+.drzicon-download { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87f;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-github-circled { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf09b;&nbsp;'); }
