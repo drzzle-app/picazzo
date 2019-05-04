@@ -67,10 +67,15 @@ window.drzzle = {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(setHeights, 250);
     });
-    // initiate the plugin after load
-    drzzle.window.load(function () {
-      return setHeights();
-    });
+    if (window.__editor) {
+      // initiate the plugin asap in editor
+      setHeights();
+    } else {
+      // set after window loads in a page env
+      drzzle.window.load(function () {
+        return setHeights();
+      });
+    }
     $.fn.equalHeights.destroy = function ($el) {
       $el.children().each(function unSet() {
         $(this).css('min-height', '');
