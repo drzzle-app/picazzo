@@ -67,7 +67,10 @@ window.drzzle = {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(setHeights, 250);
     });
-    setHeights();
+    // initiate the plugin after load
+    drzzle.window.load(function () {
+      return setHeights();
+    });
     $.fn.equalHeights.destroy = function ($el) {
       $el.children().each(function unSet() {
         $(this).css('min-height', '');
@@ -1361,7 +1364,7 @@ window.drzzle = {
             validate.type(e, {
               input: $el,
               check: 'email',
-              typeMsg: 'Valid email required',
+              typeMsg: 'Valid email required.',
               format: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
             });
           }

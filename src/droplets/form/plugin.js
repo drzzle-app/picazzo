@@ -352,7 +352,7 @@
               validate.type(e, {
                 input: $el,
                 check: 'email',
-                typeMsg: 'Valid email required',
+                typeMsg: 'Valid email required.',
                 format: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
               });
             }
