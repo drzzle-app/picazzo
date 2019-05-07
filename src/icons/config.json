@@ -1653,6 +1653,12 @@
       "css": "download",
       "code": 59519,
       "src": "iconic"
+    },
+    {
+      "uid": "4a74a0f87d4089efe7aba1825bff4193",
+      "css": "copyright",
+      "code": 61945,
+      "src": "fontawesome"
     }
   ]
 }
