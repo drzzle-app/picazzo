@@ -127,6 +127,9 @@
 .drzicon-logout-1:before { content: '\e87d'; } /* '' */
 .drzicon-comment:before { content: '\e87e'; } /* '' */
 .drzicon-download:before { content: '\e87f'; } /* '' */
+.drzicon-cloud-flash-inv:before { content: '\e880'; } /* '' */
+.drzicon-flash:before { content: '\e881'; } /* '' */
+.drzicon-cloud-flash-alt:before { content: '\e882'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-github-circled:before { content: '\f09b'; } /* '' */

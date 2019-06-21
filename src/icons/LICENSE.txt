@@ -46,3 +46,12 @@ Font license info
    Homepage:  http://www.justbenicestudio.com/
 
 
+## Meteocons
+
+   Copyright (C) 2012 by Alessio Atzeni
+
+   Author:    Alessio Atzeni
+   License:   SIL (http://scripts.sil.org/OFL)
+   Homepage:  http://www.alessioatzeni.com
+
+

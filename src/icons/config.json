@@ -1659,6 +1659,24 @@
       "css": "copyright",
       "code": 61945,
       "src": "fontawesome"
+    },
+    {
+      "uid": "4bc859f73783486400fc769a90d0a8e0",
+      "css": "cloud-flash-inv",
+      "code": 59520,
+      "src": "meteocons"
+    },
+    {
+      "uid": "3212f42c65d41ed91cb435d0490e29ed",
+      "css": "flash",
+      "code": 59521,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "9af2b75a89bd99b83457f041df26da8b",
+      "css": "cloud-flash-alt",
+      "code": 59522,
+      "src": "meteocons"
     }
   ]
 }
