@@ -1677,6 +1677,12 @@
       "css": "cloud-flash-alt",
       "code": 59522,
       "src": "meteocons"
+    },
+    {
+      "uid": "d5fabfa46384953ae055fceacb2229a7",
+      "css": "arrows-cw",
+      "code": 59523,
+      "src": "elusive"
     }
   ]
 }
