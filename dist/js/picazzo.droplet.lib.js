@@ -1552,7 +1552,6 @@ window.drzzle = {
           }
         },
         renderMap: function renderMap(opts) {
-          // let $opts = $this.attr('data-google-map');
           var $opts = opts;
           var defaults = {
             baseColor: $addressSection.css('background-color'),
@@ -2139,11 +2138,8 @@ window.drzzle = {
     // from a passed in parameter on color changes, otherwise
     // the nav's css transition delay will not give the correct
     // value.
-    // const defs = { opacity: 1 };
-    // const opts = $.extend(true, {}, defs, options);
     var findStop = void 0;
     // the magic behind sticky and fixed navs
-    // $.fn.trigger('drzzlenavscroll');
     $.fn.drzNav.setScrolling = function setScrolling() {
       var $navs = $('.drzNav-sticky, .drzNav-fixed');
       var stickyCls = 'drzNav-sticky-set';
@@ -2203,7 +2199,7 @@ window.drzzle = {
         // Create sticky menu if option is selected
         if ($this.hasClass('drzNav-sticky')) {
           // checks on load
-          if (window.pageYOffset + get.top() > nav.startingLocation) {
+          if (window.pageYOffset + get.top() >= nav.startingLocation) {
             // nav is fixed / stuck
             nav.stuck = true;
             $this.addClass(stickyCls);
@@ -2385,30 +2381,30 @@ window.drzzle = {
         getSource: function getSource(data) {
           var src = '';
           var type = '';
-          if (window.matchMedia(drzzle.viewports.mobile).matches) {
-            src = data.mobile.src;
-            type = data.mobile.type;
+          if (window.matchMedia(drzzle.viewports.desktop).matches) {
+            src = data.desktop.src;
+            type = data.desktop.type;
           }
           if (window.matchMedia(drzzle.viewports.tablet).matches) {
             src = data.tablet.src;
             type = data.tablet.type;
           }
-          if (window.matchMedia(drzzle.viewports.desktop).matches) {
-            src = data.desktop.src;
-            type = data.desktop.type;
+          if (window.matchMedia(drzzle.viewports.mobile).matches) {
+            src = data.mobile.src;
+            type = data.mobile.type;
           }
           return { src: src, type: type };
         },
         get: function get() {
           var viewport = '';
-          if (window.matchMedia(drzzle.viewports.mobile).matches) {
-            viewport = 'mobile';
+          if (window.matchMedia(drzzle.viewports.desktop).matches) {
+            viewport = 'desktop';
           }
           if (window.matchMedia(drzzle.viewports.tablet).matches) {
             viewport = 'tablet';
           }
-          if (window.matchMedia(drzzle.viewports.desktop).matches) {
-            viewport = 'desktop';
+          if (window.matchMedia(drzzle.viewports.mobile).matches) {
+            viewport = 'mobile';
           }
           return { viewport: viewport };
         },
