@@ -238,11 +238,8 @@
     // from a passed in parameter on color changes, otherwise
     // the nav's css transition delay will not give the correct
     // value.
-    // const defs = { opacity: 1 };
-    // const opts = $.extend(true, {}, defs, options);
     let findStop;
     // the magic behind sticky and fixed navs
-    // $.fn.trigger('drzzlenavscroll');
     $.fn.drzNav.setScrolling = function setScrolling() {
       const $navs = $('.drzNav-sticky, .drzNav-fixed');
       const stickyCls = 'drzNav-sticky-set';
@@ -308,7 +305,7 @@
         // Create sticky menu if option is selected
         if ($this.hasClass('drzNav-sticky')) {
           // checks on load
-          if ((window.pageYOffset + get.top()) > nav.startingLocation) {
+          if ((window.pageYOffset + get.top()) >= nav.startingLocation) {
             // nav is fixed / stuck
             nav.stuck = true;
             $this.addClass(stickyCls);

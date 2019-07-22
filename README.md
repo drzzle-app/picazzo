@@ -7,7 +7,6 @@
 <p align="center">
 <img alt="npm" src="https://img.shields.io/npm/v/picazzo.svg">
 <img alt="NPM" src="https://img.shields.io/npm/l/picazzo.svg">
-<img alt="npm" src="https://img.shields.io/npm/dw/picazzo.svg?color=%237a68ff&label=npm%20downloads">
 <a href="https://travis-ci.com/drzzle-app/picazzo"><img alt="Travis (.com) branch" src="https://img.shields.io/travis/com/drzzle-app/picazzo/master.svg" /></a>
 <img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed-raw/drzzle-app/picazzo.svg">
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/drzzle-app/picazzo.svg">

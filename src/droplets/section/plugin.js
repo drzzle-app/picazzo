@@ -50,30 +50,30 @@
         getSource(data) {
           let src = '';
           let type = '';
-          if (window.matchMedia(drzzle.viewports.mobile).matches) {
-            src = data.mobile.src;
-            type = data.mobile.type;
+          if (window.matchMedia(drzzle.viewports.desktop).matches) {
+            src = data.desktop.src;
+            type = data.desktop.type;
           }
           if (window.matchMedia(drzzle.viewports.tablet).matches) {
             src = data.tablet.src;
             type = data.tablet.type;
           }
-          if (window.matchMedia(drzzle.viewports.desktop).matches) {
-            src = data.desktop.src;
-            type = data.desktop.type;
+          if (window.matchMedia(drzzle.viewports.mobile).matches) {
+            src = data.mobile.src;
+            type = data.mobile.type;
           }
           return { src, type };
         },
         get() {
           let viewport = '';
-          if (window.matchMedia(drzzle.viewports.mobile).matches) {
-            viewport = 'mobile';
+          if (window.matchMedia(drzzle.viewports.desktop).matches) {
+            viewport = 'desktop';
           }
           if (window.matchMedia(drzzle.viewports.tablet).matches) {
             viewport = 'tablet';
           }
-          if (window.matchMedia(drzzle.viewports.desktop).matches) {
-            viewport = 'desktop';
+          if (window.matchMedia(drzzle.viewports.mobile).matches) {
+            viewport = 'mobile';
           }
           return { viewport };
         },

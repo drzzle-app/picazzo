@@ -52,7 +52,6 @@
           }
         },
         renderMap(opts) {
-          // let $opts = $this.attr('data-google-map');
           let $opts = opts;
           const defaults = {
             baseColor: $addressSection.css('background-color'),
