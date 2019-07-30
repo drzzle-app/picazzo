@@ -1825,11 +1825,11 @@ window.drzzle = {
       var _this2 = this;
 
       var $this = $(this);
-      var $newBuild = $this.html();
       isGalleryModal = false;
 
       $this.find('.drzImageGallery-img').click(function (e) {
         e.preventDefault();
+        var $newBuild = $this.html();
         var $el = $(e.currentTarget);
         totalImages = ~~$this.find('.drzImageGallery-img').length;
         isGalleryModal = true;

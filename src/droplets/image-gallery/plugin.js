@@ -68,11 +68,11 @@
 
     $imageGallery.each(function initGallery() {
       const $this = $(this);
-      const $newBuild = $this.html();
       isGalleryModal = false;
 
       $this.find('.drzImageGallery-img').click((e) => {
         e.preventDefault();
+        const $newBuild = $this.html();
         const $el = $(e.currentTarget);
         totalImages = ~~$this.find('.drzImageGallery-img').length;
         isGalleryModal = true;
