@@ -24,7 +24,8 @@
     "build:search": "gulp build-search",
     "build:icons": "gulp build-icons",
     "deploy:docs": "./scripts/deploy-docs.sh",
-    "deploy:lib": "./scripts/deploy-lib.sh"
+    "deploy:lib:dev": "./scripts/deploy-lib.sh",
+    "deploy:lib:prod": "./scripts/deploy-lib.sh prod"
   },
   "repository": {
     "type": "git",
