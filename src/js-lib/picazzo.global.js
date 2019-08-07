@@ -139,3 +139,19 @@ window.drzzle = {
     return this;
   };
 })(jQuery);
+
+
+/* Url checker for hashed links
+* ======================= */
+(($) => {
+  $.fn.drzCheckUrl = function drzCheckUrl() {
+    const hash = window.location.hash;
+    if (hash.match(/^#/gi)) {
+      const scrollId = hash.split('#')[1];
+      const $el = $(`[data-anchor-scroll="${scrollId}"]`);
+      if ($el.length && typeof $el.offset() !== 'undefined' && $el.offset() !== false) {
+        $('html, body').animate({ scrollTop: $el.offset().top }, 500);
+      }
+    }
+  };
+})(jQuery);

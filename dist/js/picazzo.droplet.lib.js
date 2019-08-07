@@ -145,6 +145,21 @@ window.drzzle = {
   };
 })(jQuery);
 
+/* Url checker for hashed links
+* ======================= */
+(function ($) {
+  $.fn.drzCheckUrl = function drzCheckUrl() {
+    var hash = window.location.hash;
+    if (hash.match(/^#/gi)) {
+      var scrollId = hash.split('#')[1];
+      var $el = $('[data-anchor-scroll="' + scrollId + '"]');
+      if ($el.length && typeof $el.offset() !== 'undefined' && $el.offset() !== false) {
+        $('html, body').animate({ scrollTop: $el.offset().top }, 500);
+      }
+    }
+  };
+})(jQuery);
+
 /*
 ============================
  Drzzle Accordian Plugin
@@ -2061,9 +2076,12 @@ window.drzzle = {
       },
       checkAnchor: function checkAnchor(e) {
         var $el = $(e.currentTarget);
-        if (sliderIsOpen && $el.attr('href').match(/^#/gi)) {
+        var $href = $el.attr('href');
+        if (sliderIsOpen && $href.match(/^#|^\/#/gi)) {
           navActions.closeSlider();
-          e.preventDefault();
+          if ($href.match(/^#/gi)) {
+            e.preventDefault();
+          }
         }
       },
       resetNav: function resetNav() {

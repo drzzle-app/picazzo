@@ -156,9 +156,12 @@
       },
       checkAnchor(e) {
         const $el = $(e.currentTarget);
-        if (sliderIsOpen && $el.attr('href').match(/^#/gi)) {
+        const $href = $el.attr('href');
+        if (sliderIsOpen && $href.match(/^#|^\/#/gi)) {
           navActions.closeSlider();
-          e.preventDefault();
+          if ($href.match(/^#/gi)) {
+            e.preventDefault();
+          }
         }
       },
       resetNav() {
