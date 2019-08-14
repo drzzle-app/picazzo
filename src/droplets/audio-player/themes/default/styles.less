@@ -1,13 +1,28 @@
 @audioCtrlBg: #ffffff;
 @audioTrackColor: darken(@white, 20%);
-@audioCtrlText: lighten(@black, 50%);
+@audioCtrlText: #e8e8e8;
+@playBtn: #616469;
 
 /*Audio Player Styling*/
 .drzAudio {
   .row;
-  height: 54px;
+  background-color: @white;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
   margin-bottom: 0;
+  padding: 20px;
   position: relative;
+}
+
+.drzAudio-titleContainer {
+  background: fade(@black, 3%);
+  font-size: 18pt;
+  font-weight: 800;
+  margin-bottom: 15px;
+  overflow: hidden;
+  padding: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .drzAudio-src {
@@ -17,56 +32,45 @@
 }
 
 .drzAudio-controlBar {
-  border-bottom: 1px solid darken(@white, 5%);
+  .drzClearFix;
   bottom: 0;
   min-height: 1px;
-  position: absolute;
   width: 100%;
   z-index: 2;
-
-  @media @mobile {
-    position: relative;
-  }
 }
 
 .drzAudio-controls {
-  background-color: @white;
-  clear: both;
-  color: @audioCtrlText;
-  height: 43px;
+  .drzClearFix;
+  display: flex;
+}
+
+.drzAudio-playBtnContainer {
+  .drzClearFix;
+  float: left;
+  width: 10%;
+}
+
+.drzAudio-midContainer {
+  width: 100%;
+}
+
+.drzAudio-progressBarContainer {
+  .drzClearFix;
+  .flex-center-all;
+  float: left;
   overflow: hidden;
+  width: 90%;
 }
 
 .drzAudio-controlBtn {
-  background-color: inherit;
   border: 0;
-  border-left: 1px solid darken(@white, 5%);
-  color: inherit;
   display: inline-block;
   float: left;
-  height: 100%;
-  padding: 15px 20px;
+  padding: 5px;
   text-align: center;
-  transition-duration: @defaultDuration;
-
-  @media @mobile {
-    padding: 15px 3px;
-  }
 
   &:hover {
-    background-color: fade(@black, 5%);
-    cursor: hand;
     cursor: pointer;
-  }
-
-  &:focus {
-    background-color: fade(@black, 5%);
-    outline: 0;
-  }
-
-  &:active {
-    background-color: fade(@black, 5%);
-    outline: 0;
   }
 
   &:after {
@@ -76,27 +80,49 @@
 
 .drzAudio-playBtn {
   .drzAudio-controlBtn;
-  .col-1;
+  background-color: @playBtn;
+  border-radius: 50%;
+  color: fade(@white, 80%);
+  font-size: 14pt;
+  height: 50px;
+  width: 50px;
+
+  @media @tablet {
+    font-size: 12pt;
+    height: 40px;
+    width: 40px;
+  }
 
   @media @mobile {
-    width: 25%;
+    font-size: 11pt;
+    height: 35px;
+    width: 35px;
   }
 
   &:after {
     content: '\e861';
   }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:active {
+    outline: 0;
+  }
 }
 
 .drzAudio-pauseBtn {
-  .drzAudio-controlBtn;
-  .col-1;
-
-  @media @mobile {
-    width: 25%;
-  }
 
   &:after {
     content: '\e868';
+  }
+}
+
+.drzAudio-replayBtn {
+
+  &:after {
+    content: '\e875';
   }
 }
 
@@ -124,6 +150,7 @@
 
 .drzAudio-progressBar {
    background-color: fade(@black, 15%);
+   border-radius: 10px;
    color: @white;
    height: 10px;
    width: 100%;
@@ -135,6 +162,7 @@
 
 .drzAudio-progress {
    background-color: @baseColor;
+   border-radius: 10px;
    display: block;
    height: 10px;
    transition: all 0.2s ease;
@@ -142,41 +170,60 @@
 }
 
 .drzAudio-timeContainer {
-  .col-6;
   border: 0;
-  border-left: 1px solid darken(@white, 5%);
-  color: inherit;
+  color: darken(@audioCtrlText, 50%);
   display: inline-block;
-  float: right;
   font-size: 10pt;
   font-weight: 600;
   height: 100%;
-  padding: 13px 20px;
+  padding: 5px 0;
+  text-align: center;
+  width: 100%;
+}
+
+.drzAudio-currentTime {
+  float: left;
+}
+
+.drzAudio-totalTime {
+  float: right;
+}
+
+.drzAudio-volumeContainer {
+  .flex-center-all;
+  position: relative;
+  width: 10%;
+}
+
+.drzAudio-volumeBtn {
+  background-color: transparent;
+  border: 0;
+  color: @playBtn;
+  display: inline-block;
+  float: left;
+  font-size: 15pt;
+  padding: 5px;
   text-align: center;
 
-  @media @mobile {
-    border-right: 1px solid darken(@white, 5%);
-    padding: 13px 8px;
-    width: 25%;
+  &:after {
+    content: '\e88a';
+    font-family: 'drzzle';
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 }
 
-.drzAudio-volSliderContainer {
-  .col-3;
-  border-right: 1px solid darken(@white, 5%);
-  display: inline-block;
-  float: right;
-  height: 100%;
-  padding: 17.5px 0;
-
-  @media @mobile {
-    border-right: 1px solid darken(@white, 5%);
-    width: 25%;
-  }
-
-  @-moz-document url-prefix() {
-    padding: 15px 0;
-  }
+.drzAudio-volumeSliderContainer {
+  background-color: @white;
+  border: 1px solid #e6e6e6;
+  display: none;
+  padding: 10px;
+  position: absolute;
+  right: 0;
+  top: -20px;
+  width: 200px;
 }
 
 .drzAudio-volTrack {
@@ -185,7 +232,7 @@
 }
 
 .drzAudio-volThumb {
-  background-color: @audioCtrlText;
+  background-color: @playBtn;
   border: 0;
   border-radius: 1px;
   cursor: pointer;

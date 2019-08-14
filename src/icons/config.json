@@ -1767,6 +1767,12 @@
       "search": [
         "point-up"
       ]
+    },
+    {
+      "uid": "edd88296295d95d6510e66d9a6bbd6c3",
+      "css": "volume",
+      "code": 59530,
+      "src": "entypo"
     }
   ]
 }

@@ -11,6 +11,9 @@
       const $audio = $this.find('.drzAudio-src').get(0);
       const $playBtn = $this.find('.drzAudio-playBtn');
       const $pauseBtn = $this.find('.drzAudio-pauseBtn');
+      const $volToggle = $this.find('.drzAudio-volumeBtn');
+      const $volContainer = $this.find('.drzAudio-volumeContainer');
+      const $floatingVol = $this.find('.drzAudio-volumeSliderContainer');
       const $volume = $this.find('.drzAudio-volSlider');
       const $mute = $this.find('.drzAudio-muteBtn');
       const $progress = $this.find('.drzAudio-progress');
@@ -120,11 +123,50 @@
         $mute.toggleClass('drzAudio-muteOff');
       }
 
+      function togglePlay() {
+        if (!$playBtn.hasClass('drzAudio-pauseBtn')) {
+          playAudio();
+        } else {
+          pauseAudio();
+        }
+      }
+
+      function onPlay() {
+        $playBtn.addClass('drzAudio-pauseBtn');
+        $playBtn.removeClass('drzAudio-replayBtn');
+      }
+
+      function onEnd() {
+        $playBtn.removeClass('drzAudio-pauseBtn');
+        $playBtn.addClass('drzAudio-replayBtn');
+      }
+
+      function onPause() {
+        $playBtn.removeClass('drzAudio-pauseBtn');
+        $playBtn.removeClass('drzAudio-replayBtn');
+      }
+
+      function hideVolume() {
+        $floatingVol.fadeOut('fast');
+      }
+
+      function toggleVolume() {
+        $floatingVol.fadeToggle('fast');
+      }
+
       // attach listeners
       $audio.addEventListener('durationchange', durChange, false);
       $audio.addEventListener('timeupdate', timeUpdate, false);
-      $playBtn.click(playAudio);
+      $audio.addEventListener('play', onPlay, false);
+      $audio.addEventListener('ended', onEnd, false);
+      $audio.addEventListener('pause', onPause, false);
+      $this.click(hideVolume);
+      $playBtn.click(togglePlay);
+      $volToggle.click(toggleVolume);
       $pauseBtn.click(pauseAudio);
+      $volContainer.click((e) => {
+        e.stopPropagation();
+      });
       $volume.change(setVolume);
       $mute.click(toggleMute);
 
@@ -135,9 +177,14 @@
         $el.find('.drzAudio-volSlider').off('change');
         $el.find('.drzAudio-muteBtn').off('click');
         $el.find('.drzAudio-progressBar').off('vmousedown');
+        $el.find('.drzAudio-volumeBtn').off('click');
+        $this.off('click');
         const audioNode = $el.find('.drzAudio-src').get(0);
         audioNode.removeEventListener('durationchange', durChange, false);
         audioNode.removeEventListener('timeupdate', timeUpdate, false);
+        audioNode.addEventListener('play', onPlay, false);
+        audioNode.addEventListener('ended', onEnd, false);
+        audioNode.addEventListener('pause', onPause, false);
       };
     });
     return this;
