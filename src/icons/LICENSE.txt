@@ -55,3 +55,12 @@ Font license info
    Homepage:  http://www.alessioatzeni.com
 
 
+## Zocial
+
+   Copyright (C) 2012 by Sam Collins
+
+   Author:    Sam Collins
+   License:   MIT (http://opensource.org/licenses/mit-license.php)
+   Homepage:  http://zocial.smcllns.com/
+
+
