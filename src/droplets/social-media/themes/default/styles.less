@@ -12,18 +12,26 @@
 }
 
 [class^='drzSocialMedia-icon'] {
-  color: fade(@black, 30%);
+  background-color: fade(@black, 60%);
+  color: white;
   display: inline-block;
-  font-size: 24pt;
+  font-size: 20pt;
+  height: 40px;
   margin-right: 15px;
+  text-align: center;
   text-decoration: none;
+  width: 40px;
 
   &:before {
+    display: block;
     font-family: 'drzzle';
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   &:hover {
-    color: fade(@black, 15%);
+    background-color: fade(@black, 45%);
     transition-duration: @defaultDuration;
   }
 
@@ -64,14 +72,14 @@
 .drzSocialMedia-iconFacebook {
 
   &::before {
-    content: '\f230';
+    content: '\f09a';
   }
 }
 
 .drzSocialMedia-iconTwitter {
 
   &::before {
-    content: '\f304';
+    content: '\f099';
   }
 }
 
@@ -82,51 +90,86 @@
   }
 }
 
-.drzSocialMedia-iconGooglePlus {
-
-  &::before {
-    content: '\f0d4';
-  }
-}
-
 .drzSocialMedia-iconLinkedin {
 
   &::before {
-    content: '\f30c';
+    content: '\f0e1';
   }
 }
 
 .drzSocialMedia-iconPinterest {
 
   &::before {
-    content: '\f0d3';
+    content: '\f231';
   }
 }
 
 .drzSocialMedia-iconSlack {
 
   &::before {
-    content: '\f198';
+    content: '\e88b';
   }
 }
 
 .drzSocialMedia-iconYouTube {
 
   &::before {
-    content: '\f166';
+    content: '\f167';
   }
 }
 
 .drzSocialMedia-iconTumblr {
 
   &::before {
-    content: '\f174';
+    content: '\f173';
   }
 }
 
 .drzSocialMedia-iconReddit {
 
   &::before {
-    content: '\f1a2';
+    content: '\e88d';
+  }
+}
+
+.drzSocialMedia-iconTwitch {
+
+  &::before {
+    content: '\f1e8';
+  }
+}
+
+.drzSocialMedia-iconVimeo {
+
+  &::before {
+    content: '\f27d';
+  }
+}
+
+.drzSocialMedia-iconDribbble {
+
+  &::before {
+    content: '\f17d';
+  }
+}
+
+.drzSocialMedia-iconBehance {
+
+  &::before {
+    content: '\f1b4';
+  }
+}
+
+.drzSocialMedia-iconSnapchat {
+
+  &::before {
+    content: '\f2ac';
+  }
+}
+
+.drzSocialMedia-iconGithub {
+
+  &::before {
+    content: '\f09b';
   }
 }

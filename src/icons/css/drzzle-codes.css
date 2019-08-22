@@ -139,11 +139,11 @@
 .drzicon-point-up:before { content: '\e889'; } /* '' */
 .drzicon-volume:before { content: '\e88a'; } /* '' */
 .drzicon-slack-new:before { content: '\e88b'; } /* '' */
-.drzicon-slack-new-square:before { content: '\e88c'; } /* '' */
+.drzicon-twitch-square:before { content: '\e88c'; } /* '' */
 .drzicon-reddit:before { content: '\e88d'; } /* '' */
-.drzicon-dribbble-square:before { content: '\e88e'; } /* '' */
-.drzicon-instagram-new-square:before { content: '\e88f'; } /* '' */
-.drzicon-twitch-square:before { content: '\e890'; } /* '' */
+.drzicon-instagram-square:before { content: '\e88e'; } /* '' */
+.drzicon-dribbble-square:before { content: '\e88f'; } /* '' */
+.drzicon-slack-square:before { content: '\e890'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */

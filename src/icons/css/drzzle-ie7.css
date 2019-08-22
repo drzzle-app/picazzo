@@ -150,11 +150,11 @@
 .drzicon-point-up { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe889;&nbsp;'); }
 .drzicon-volume { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88a;&nbsp;'); }
 .drzicon-slack-new { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88b;&nbsp;'); }
-.drzicon-slack-new-square { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88c;&nbsp;'); }
+.drzicon-twitch-square { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88c;&nbsp;'); }
 .drzicon-reddit { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88d;&nbsp;'); }
-.drzicon-dribbble-square { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88e;&nbsp;'); }
-.drzicon-instagram-new-square { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88f;&nbsp;'); }
-.drzicon-twitch-square { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe890;&nbsp;'); }
+.drzicon-instagram-square { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88e;&nbsp;'); }
+.drzicon-dribbble-square { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88f;&nbsp;'); }
+.drzicon-slack-square { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe890;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
