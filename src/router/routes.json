@@ -206,6 +206,11 @@
                     "path": "/tool-tips",
                     "name": "tool-tips",
                     "component": "require('@/pages/tools/tool-tips/').default"
+                },
+                {
+                    "path": "/grid",
+                    "name": "grid",
+                    "component": "require('@/pages/droplets/grid/').default"
                 }
             ]
         },

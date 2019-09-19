@@ -27,4 +27,5 @@ export default {
   'video-player': require('@/droplets/video-player'),
   'wide-card': require('@/droplets/wide-card'),
   'youtube-player': require('@/droplets/youtube-player'),
+  'grid': require('@/droplets/grid'),
 };

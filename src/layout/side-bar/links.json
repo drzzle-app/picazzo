@@ -84,6 +84,11 @@
           "children": []
         },
         {
+          "text": "Grid",
+          "route": "/grid",
+          "children": []
+        },
+        {
           "text": "Header",
           "route": "/header",
           "children": []
