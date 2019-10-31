@@ -1613,6 +1613,15 @@ window.drzzle = {
             });
           }
         },
+        getImgPin: function getImgPin(img) {
+          var pin = img;
+          if (window.__editor && !img.match(/^http/gi)) {
+            var prefix = process.env.NODE_ENV === 'development' ? '' : 'file://';
+            prefix = '' + prefix + process.env._staticWrite; // eslint-disable-line
+            pin = prefix + '/' + window._currentSite.name + img; // eslint-disable-line
+          }
+          return pin;
+        },
         renderMap: function renderMap(opts) {
           var $opts = opts;
           var defaults = {
@@ -1748,7 +1757,7 @@ window.drzzle = {
               maxWidth: 200
             });
             var position = new google.maps.LatLng(m.lat, m.lng);
-            var markerUrl = isIE11 ? 'https://s3-us-west-1.amazonaws.com/drz-assets/mock-images/icons/maps-default-pin.png' : m.markerImg;
+            var markerUrl = isIE11 ? 'https://s3-us-west-1.amazonaws.com/drz-assets/mock-images/icons/maps-default-pin.png' : actions.getImgPin(m.markerImg);
             bounds.extend(position);
             var marker = new google.maps.Marker({
               position: position,
@@ -2425,7 +2434,7 @@ window.drzzle = {
         drawVideo: function drawVideo($vid) {
           // draw new video
           var data = methods.getSource($attrs);
-          var $newVideo = $('\n            <video class="drzSection-video" muted loop playsinline autoplay>\n              <source src="' + data.src + '" type="video/' + data.type + '" />\n              <p class="warning">Your browser does not support HTML5 video.</p>\n            </video>');
+          var $newVideo = $('\n            <video class="drzSection-video" muted loop playsinline autoplay>\n              <source src="' + methods.getVidPath(data.src) + '" type="video/' + data.type + '" />\n              <p class="warning">Your browser does not support HTML5 video.</p>\n            </video>');
           // prepend to container
           $vid.prepend($newVideo);
           // auto play video if it hasn't started on it's own
@@ -2442,6 +2451,15 @@ window.drzzle = {
             };
             tryToPlay();
           });
+        },
+        getVidPath: function getVidPath(src) {
+          var path = src;
+          if (window.__editor && !src.match(/^http/gi)) {
+            var prefix = process.env.NODE_ENV === 'development' ? '' : 'file://';
+            prefix = '' + prefix + process.env._staticWrite; // eslint-disable-line
+            path = prefix + '/' + window._currentSite.name + path; // eslint-disable-line
+          }
+          return path;
         },
         getSource: function getSource(data) {
           var src = '';

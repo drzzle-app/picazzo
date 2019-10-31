@@ -29,7 +29,7 @@
           const data = methods.getSource($attrs);
           const $newVideo = $(`
             <video class="drzSection-video" muted loop playsinline autoplay>
-              <source src="${data.src}" type="video/${data.type}" />
+              <source src="${methods.getVidPath(data.src)}" type="video/${data.type}" />
               <p class="warning">Your browser does not support HTML5 video.</p>
             </video>`);
           // prepend to container
@@ -46,6 +46,15 @@
             };
             tryToPlay();
           });
+        },
+        getVidPath(src) {
+          let path = src;
+          if (window.__editor && !src.match(/^http/gi)) {
+            let prefix = process.env.NODE_ENV === 'development' ? '' : 'file://';
+            prefix = `${prefix}${process.env._staticWrite}`; // eslint-disable-line
+            path = `${prefix}/${window._currentSite.name}${path}`; // eslint-disable-line
+          }
+          return path;
         },
         getSource(data) {
           let src = '';

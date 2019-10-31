@@ -51,6 +51,15 @@
             });
           }
         },
+        getImgPin(img) {
+          let pin = img;
+          if (window.__editor && !img.match(/^http/gi)) {
+            let prefix = process.env.NODE_ENV === 'development' ? '' : 'file://';
+            prefix = `${prefix}${process.env._staticWrite}`; // eslint-disable-line
+            pin = `${prefix}/${window._currentSite.name}${img}`; // eslint-disable-line
+          }
+          return pin;
+        },
         renderMap(opts) {
           let $opts = opts;
           const defaults = {
@@ -281,7 +290,7 @@
             });
             const position = new google.maps.LatLng(m.lat, m.lng);
             const markerUrl = (isIE11) ?
-              'https://s3-us-west-1.amazonaws.com/drz-assets/mock-images/icons/maps-default-pin.png' : m.markerImg;
+              'https://s3-us-west-1.amazonaws.com/drz-assets/mock-images/icons/maps-default-pin.png' : actions.getImgPin(m.markerImg);
             bounds.extend(position);
             const marker = new google.maps.Marker({
               position,
