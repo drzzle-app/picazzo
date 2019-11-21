@@ -94,7 +94,7 @@
     "karma-webpack": "^3.0.5",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
-    "lesshint": "^6.3.2",
+    "lesshint": "^6.3.7",
     "lesshint-reporter-stylisher": "^1.0.0",
     "mocha": "^6.0.2",
     "node-notifier": "^5.1.2",
