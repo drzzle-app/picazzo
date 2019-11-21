@@ -945,6 +945,8 @@ window.drzzle = {
         sameTime: function sameTime(date, currently) {
           return date.getFullYear() === currently.getFullYear() && date.getMonth() === currently.getMonth() && date.getDate() === currently.getDate() && date.getHours() === currently.getHours() && date.getMinutes() === currently.getMinutes() && date.getSeconds() === currently.getSeconds();
         },
+
+        lastOccurance: null,
         getNextOccurance: function getNextOccurance(set) {
           var time = new Date(set.end);
           var seconds = time.getSeconds();
@@ -981,6 +983,12 @@ window.drzzle = {
             // when the last end time in recurring list is built, it will
             // inifinately loop, so we need to properly add a week to it.
             if (newDate < new Date() || actions.sameTime(newDate, new Date())) {
+              actions.lastOccurance = {
+                end: new Date(newDate.setUTCDate(newDate.getUTCDate())),
+                buffer: set.buffer,
+                endMessage: set.endMessage,
+                recurring: set.recurring
+              };
               newDate.setUTCDate(newDate.getUTCDate() + 7);
             }
           }
@@ -995,12 +1003,24 @@ window.drzzle = {
               recurringSets.push(set);
             }
           }
+          // we need to check for the last known occurrance in
+          // case there is a buffer zone in progress from it,
+          // otherwise, onload a new countdown will start. If there
+          // is one, we append to the new set
+          if (actions.lastOccurance) {
+            recurringSets.unshift(actions.lastOccurance);
+          }
           // if there are any recurring sets, init them
           if (recurringSets.length > 0) {
             $endMsg.hide();
             $timer.show();
             recurringSets = recurringSets.sort(actions.orderSets);
             actions.initCountDown($this, recurringSets[0], recurringSets, 0);
+          } else {
+            // if there are no more countdowns left (ie no recurring one's)
+            // we need to show the last end message
+            $endMsg.show();
+            $timer.hide();
           }
         },
         countDownEnded: function countDownEnded($el, sets, i) {
@@ -1017,6 +1037,12 @@ window.drzzle = {
           var buffer = actions.getBuffer(liveSet);
           if ((typeof nextSet === 'undefined' ? 'undefined' : _typeof(nextSet)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && nextSet !== false) {
             if (buffer) {
+              var rem = actions.getRemainingTime(buffer);
+              if (rem.total <= 0) {
+                // if buffer time is now passed, proceed with next
+                $endMsg.hide();
+                $timer.show();
+              }
               checkStartInterval = setInterval(function () {
                 var t = actions.getRemainingTime(buffer);
                 if (t.total <= 0) {
