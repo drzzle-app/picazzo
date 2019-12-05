@@ -28,4 +28,5 @@ export default {
   'wide-card': require('@/droplets/wide-card'),
   'youtube-player': require('@/droplets/youtube-player'),
   'grid': require('@/droplets/grid'),
+  'audio-episodes': require('@/droplets/audio-episodes'),
 };

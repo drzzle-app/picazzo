@@ -33,6 +33,11 @@
                     "component": "require('@/pages/droplets/accordion/').default"
                 },
                 {
+                    "path": "/audio-episodes",
+                    "name": "audio-episodes",
+                    "component": "require('@/pages/droplets/audio-episodes/').default"
+                },
+                {
                     "path": "/audio-player",
                     "name": "audio-player",
                     "component": "require('@/pages/droplets/audio-player/').default"

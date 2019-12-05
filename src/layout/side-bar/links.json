@@ -24,6 +24,11 @@
           "children": []
         },
         {
+          "text": "Audio Episodes",
+          "route": "/audio-episodes",
+          "children": []
+        },
+        {
           "text": "Audio Player",
           "route": "/audio-player",
           "children": []

@@ -1,0 +1,50 @@
+<div
+  class="drzAudio"
+  data-player-id="some-id"
+  data-episodes='{
+    "list": [
+      {
+        "source": "https://cdn.drzzle.app/multi-media/sample-audio.mp3",
+        "title": "Track One",
+        "published": "11-01-19"
+      },
+      {
+        "source": "http://www.noiseaddicts.com/samples_1w72b820/4353.mp3",
+        "title": "Track Two",
+        "published": "12-01-19"
+      }
+    ]}'
+    ref="audioEpisodes">
+  <div class="drzAudio-titleContainer">
+    Track One
+  </div>
+  <audio class="drzAudio-src">
+     <source src="https://cdn.drzzle.app/multi-media/sample-audio.mp3" type="audio/mpeg">
+  </audio>
+  <div class="drzAudio-controlBar">
+    <div class="drzAudio-controls">
+      <div class="drzAudio-playBtnContainer">
+        <button class="drzAudio-playBtn"></button>
+      </div>
+      <div class="drzAudio-progressBarContainer">
+        <div class="drzAudio-midContainer">
+          <div class="drzAudio-progressBar">
+            <span class="drzAudio-progress"></span>
+          </div>
+          <div class="drzAudio-timeContainer">
+            <span class="drzAudio-currentTime"></span>
+            <span class="drzAudio-totalTime"></span>
+          </div>
+        </div>
+      </div>
+      <div class="drzAudio-volumeContainer">
+        <div class="drzAudio-volumeSliderContainer">
+          <div class="drzAudio-volSliderContainer">
+            <input class="drzAudio-volSlider" min="0" max="1" step="0.1" type="range" />
+          </div>
+        </div>
+        <button class="drzAudio-volumeBtn"></button>
+      </div>
+    </div>
+  </div>
+</div>
