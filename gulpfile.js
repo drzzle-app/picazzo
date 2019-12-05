@@ -7,7 +7,8 @@ const babel = require('gulp-babel');
 const less = require('gulp-less');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
-const autoprefixer = require('gulp-autoprefixer');
+const autoprefixer = require('autoprefixer');
+const postcss = require('gulp-postcss');
 const aliases = require('gulp-style-aliases');
 const minify = require('gulp-minify');
 const cssmin = require('gulp-cssmin');
@@ -452,11 +453,10 @@ const buildThemes = async () => {
         .src(`./src/less/themes/${theme}/main.less`)
         .pipe(aliases(gulpAliases))
         .pipe(less())
-        .pipe(
-          autoprefixer({
-            browsers: ['last 5 versions'],
-            cascade: false,
-          }))
+        .pipe(postcss([autoprefixer({
+          grid: 'autoplace',
+          cascade: false,
+        })]))
         .pipe(rename(`${theme}.min.css`))
         .pipe(cssmin())
         .pipe(inject.prepend(fontImports.join('').trim()))
@@ -498,11 +498,9 @@ const buildIcons = async () => {
     return new Promise((resolve, reject) => {
       gulp.src(fullPath)
         .pipe(rename(`${name}.min.css`))
-        .pipe(
-          autoprefixer({
-            browsers: ['last 10 versions'],
-            cascade: false,
-          }))
+        .pipe(postcss([autoprefixer({
+          cascade: false,
+        })]))
         .pipe(cssmin())
         .pipe(gulp.dest('dist/icons/css'))
         .on('end', () => resolve(iconCss))
