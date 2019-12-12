@@ -1,27 +1,47 @@
 <div class="drzVideo" ref="videoPlayer">
   <div class="drzVideo-overlay">
+    <!-- loader -->
+    <div class="drzVideo-loader" aria-hidden="true"></div>
+    <!-- overlay icon -->
     <span class="drzVideo-playBtn-lrg" aria-hidden="true"></span>
   </div>
   <video class="drzVideo-src">
-     <source src="https://s3-us-west-1.amazonaws.com/drz-assets/multi-media/love-coding.mp4" type="video/mp4">
+     <source src="https://drz-assets.s3-us-west-1.amazonaws.com/multi-media/00004.mp4" type="video/mp4">
      <source src="grass-in-the-wind-sma.webm" type="video/webm">
   </video>
   <div class="drzVideo-controlBar">
     <div class="drzVideo-progressBar">
+      <span class="drzVideo-timeline-tooltip"></span>
       <span class="drzVideo-progress"></span>
+      <span class="drzVideo-buffer"></span>
     </div>
     <div class="drzVideo-controls">
-      <button class="drzVideo-playBtn"></button>
-      <button class="drzVideo-pauseBtn"></button>
-      <button class="drzVideo-fullScreenBtn"></button>
-      <div class="drzVideo-volSliderContainer">
-        <input class="drzVideo-volSlider" min="0" max="1" step="0.1" type="range" />
-      </div>
-      <button class="drzVideo-muteBtn"></button>
+      <button class="drzVideo-playBtn">
+        <span class="drzVideo-btn-tooltip"></span>
+        <span class="drzVideo-btn-flex">
+          <span class="drzVideo-playBtn-inner drzVideo-play-icon" tabindex="-1"></span>
+        </span>
+      </button>
       <div class="drzVideo-videoTime">
-        <span class="drzVideo-currentTime"></span> /
-        <span class="drzVideo-totalTime"></span>
+        <span class="drzVideo-currentTime"></span> / <span class="drzVideo-totalTime"></span>
       </div>
+      <button class="drzVideo-volBtn">
+        <span class="drzVideo-btn-tooltip"></span>
+        <span class="drzVideo-btn-flex">
+          <span class="drzVideo-volBtn-inner" tabindex="-1"></span>
+        </span>
+      </button>
+      <div class="drzVideo-volSliderContainer">
+        <div class="drzVideo-volSlider-inner">
+          <input class="drzVideo-volSlider" min="0" max="1" step="0.05" type="range" />
+        </div>
+      </div>
+      <button class="drzVideo-fullScreenBtn">
+        <span class="drzVideo-btn-tooltip"></span>
+        <span class="drzVideo-btn-flex">
+          <span class="drzVideo-fullScreenBtn-inner" tabindex="-1"></span>
+        </span>
+      </button>
     </div>
   </div>
 </div>
