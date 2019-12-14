@@ -16,7 +16,7 @@
 
   "propertyUnits": {
     "properties": {
-        "font-size": ["pt", "px"]
+        "font-size": ["pt", "px", "vw"]
     }
   },
 

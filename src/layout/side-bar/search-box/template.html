@@ -14,7 +14,7 @@
         <ul class="picazzo-search-ul">
           <li
             v-for="page in filterPages"
-            :key="page.text"
+            :key="page.route"
             @click="goToPage(page.route)"
             class="picazzo-search-item">
              <span class="picazzo-search-title">{{ page.title }}</span>
