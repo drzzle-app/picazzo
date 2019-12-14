@@ -1,0 +1,83 @@
+// video-episodes styles here
+.drzVideo-episodes-container {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 20px;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.drzVideo-episodes-item {
+  background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 2px;
+  color: inherit;
+  display: flex;
+  padding: 10px;
+  text-decoration: none;
+  transition-duration: .2s;
+
+  &:hover {
+    background-color: #e6e6e6;
+  }
+}
+
+.drzVideo-episodes-data {
+  width: 80%;
+}
+
+.drzVideo-episodes-title {
+  display: block;
+  font-size: 11pt;
+}
+
+.drzVideo-episodes-date {
+  display: block;
+  font-size: 8pt;
+  opacity: .6;
+}
+
+.drzVideo-episodes-rcol {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  width: 20%;
+}
+
+.drzVideo-episodes-plbtn {
+  color: #c3c3c3;
+
+  &:before {
+    content: '\e861';
+    font-family: 'drzzle';
+  }
+}
+
+.drzVideo-episode-playing {
+  color: @drzGreen;
+  display: none;
+  font-family: 'drzzle';
+
+  &:after {
+    content: '\e895';
+    display: inline-block;
+  }
+}
+
+.drzVideo-episodes-livebtn {
+  color: @drzGreen;
+}
+
+.drzVideo-playing {
+
+  .drzVideo-episode-playing {
+    display: block;
+  }
+
+  .drzVideo-episodes-plbtn {
+    display: none;
+  }
+}
