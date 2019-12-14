@@ -144,6 +144,11 @@
 .drzicon-instagram-square:before { content: '\e88e'; } /* '' */
 .drzicon-dribbble-square:before { content: '\e88f'; } /* '' */
 .drzicon-slack-square:before { content: '\e890'; } /* '' */
+.drzicon-volume-mute:before { content: '\e891'; } /* '' */
+.drzicon-volume-min:before { content: '\e892'; } /* '' */
+.drzicon-volume-med:before { content: '\e893'; } /* '' */
+.drzicon-volume-max:before { content: '\e894'; } /* '' */
+.drzicon-video:before { content: '\e895'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
