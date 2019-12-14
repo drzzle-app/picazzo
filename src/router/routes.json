@@ -216,6 +216,11 @@
                     "path": "/grid",
                     "name": "grid",
                     "component": "require('@/pages/droplets/grid/').default"
+                },
+                {
+                    "path": "/video-episodes",
+                    "name": "video-episodes",
+                    "component": "require('@/pages/droplets/video-episodes/').default"
                 }
             ]
         },

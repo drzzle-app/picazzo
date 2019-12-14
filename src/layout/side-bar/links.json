@@ -149,6 +149,11 @@
           "children": []
         },
         {
+          "text": "Video Episodes",
+          "route": "/video-episodes",
+          "children": []
+        },
+        {
           "text": "Video Player",
           "route": "/video-player",
           "children": []
