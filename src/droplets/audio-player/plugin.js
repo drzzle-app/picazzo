@@ -18,6 +18,7 @@
       const $audioTag = $this.find('.drzAudio-src');
       const $audio = $audioTag.get(0);
       const $title = $this.find('.drzAudio-titleContainer');
+      const $loader = $this.find('.drzAudio-loader');
       const $playBtn = $this.find('.drzAudio-playBtn');
       const $pauseBtn = $this.find('.drzAudio-pauseBtn');
       const $volToggle = $this.find('.drzAudio-volumeBtn');
@@ -31,40 +32,10 @@
       const $totalTime = $this.find('.drzAudio-totalTime');
       const $sourceTag = $audioTag.find('source');
       const $initialSource = $sourceTag.attr('src');
+      let loading = false;
 
       // set time elapsed to 0 at first
       $timeElapsed.html('0:00');
-      // if audio was in progress, set time
-      const previousData = storage.audioPlayer[$id];
-      if (previousData) {
-        // if a there is a single source only and there is a time in storage, only
-        // set if the source's are the same. this will prevent new sources from starting
-        // in random times from a previous session
-        if (!episodes && previousData.source === $initialSource) {
-          const initAudio = new Audio(previousData.source);
-          initAudio.onloadeddata = () => {
-            $audio.currentTime = previousData.seconds;
-          };
-        }
-
-        if (episodes) {
-          // here we can switch between source files if there are multiple sources and the last
-          // one being listened to is still in the list
-          const sources = JSON.parse(episodes).list;
-          const list = sources.map(item => item.source);
-          if (list.includes(previousData.source)) {
-            $sourceTag.attr('src', previousData.source);
-            const initAudio = new Audio(previousData.source);
-            initAudio.onloadeddata = () => {
-              $audio.currentTime = previousData.seconds;
-              const track = sources.find(item => item.source === previousData.source);
-              $title.text(track.title);
-            };
-          }
-        }
-      } else {
-        storage.audioPlayer[$id] = { source: null, seconds: 0 };
-      }
 
       // prepare for any dynamically changed src
       $this.find('.drzAudio-src').load();
@@ -182,6 +153,19 @@
             $item.find('.drzAudio-episodes-rcol').removeClass('drzAudio-playing');
           }
         },
+        setLoading(isLoading) {
+          if (isLoading) {
+            loading = true;
+            $playBtn.hide();
+            $pauseBtn.hide();
+            $loader.show();
+          } else {
+            loading = false;
+            $playBtn.show();
+            $pauseBtn.show();
+            $loader.hide();
+          }
+        },
         hideVolume() {
           $floatingVol.fadeOut('fast');
         },
@@ -205,24 +189,28 @@
         },
         onClickTrack(e) {
           e.preventDefault();
-          $audioContainer.drzAudioPlayer.destroy($audioContainer);
-          // remove local storage for this particular audio player
-          delete storage.audioPlayer[$id];
-          window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
-          // replace audio source
-          const $link = $(e.target).closest('[data-audio-src]');
-          const $newSource = $link.attr('data-audio-src');
-          const trackTitle = $link.find('.drzAudio-episodes-title').text();
-          $sourceTag.attr('src', $newSource);
-          // once new track is loaded, reinit the audio plugin
-          const clickedTrack = new Audio($newSource);
-          clickedTrack.onloadeddata = () => {
-            // reinit audio plugin and start
-            $audioContainer.drzAudioPlayer();
-            $title.text(trackTitle);
-            methods.showPlaying();
-            methods.togglePlay();
-          };
+          if (!loading) {
+            methods.setLoading(true);
+            $audioContainer.drzAudioPlayer.destroy($audioContainer, 'play');
+            // remove local storage for this particular audio player
+            delete storage.audioPlayer[$id];
+            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
+            // replace audio source
+            const $link = $(e.target).closest('[data-audio-src]');
+            const $newSource = $link.attr('data-audio-src');
+            const trackTitle = $link.find('.drzAudio-episodes-title').text();
+            $sourceTag.attr('src', $newSource);
+            // once new track is loaded, reinit the audio plugin
+            const clickedTrack = new Audio($newSource);
+            clickedTrack.onloadeddata = () => {
+              // reinit audio plugin and start
+              $audioContainer.drzAudioPlayer();
+              $title.text(trackTitle);
+              methods.showPlaying();
+              methods.togglePlay();
+              methods.setLoading(false);
+            };
+          }
         },
         buildEpisodes() {
           const list = JSON.parse(episodes).list;
@@ -272,6 +260,42 @@
         },
       };
 
+      // if audio was in progress, set time
+      const previousData = storage.audioPlayer[$id];
+      if (previousData) {
+        // if a there is a single source only and there is a time in storage, only
+        // set if the source's are the same. this will prevent new sources from starting
+        // in random times from a previous session
+        if (!episodes && previousData.source === $initialSource) {
+          methods.setLoading(true);
+          const initAudio = new Audio(previousData.source);
+          initAudio.onloadeddata = () => {
+            $audio.currentTime = previousData.seconds;
+            methods.setLoading(false);
+          };
+        }
+
+        if (episodes) {
+          // here we can switch between source files if there are multiple sources and the last
+          // one being listened to is still in the list
+          const sources = JSON.parse(episodes).list;
+          const list = sources.map(item => item.source);
+          if (list.includes(previousData.source)) {
+            methods.setLoading(true);
+            $sourceTag.attr('src', previousData.source);
+            const initAudio = new Audio(previousData.source);
+            initAudio.onloadeddata = () => {
+              $audio.currentTime = previousData.seconds;
+              const track = sources.find(item => item.source === previousData.source);
+              $title.text(track.title);
+              methods.setLoading(false);
+            };
+          }
+        }
+      } else {
+        storage.audioPlayer[$id] = { source: null, seconds: 0 };
+      }
+
       // attach listeners
       $audio.addEventListener('durationchange', methods.onDurationChange, false);
       $audio.addEventListener('timeupdate', methods.onTimeUpdate, false);
@@ -297,7 +321,7 @@
         methods.showPlaying();
       }
 
-      $.fn.drzAudioPlayer.destroy = ($el) => {
+      $.fn.drzAudioPlayer.destroy = ($el, call) => {
         // grab attached selectors and remove attached listeners
         $el.find('.drzAudio-playBtn').off('click').removeClass('drzAudio-pauseBtn drzAudio-replayBtn');
         $el.find('.drzAudio-pauseBtn').off('click');
@@ -308,6 +332,10 @@
         $document.off('vmouseup', methods.onMouseUp);
         $document.off('vmousemove', methods.onMouseMove);
         $this.off('click');
+        // remove all playlist items if in editor only
+        if (window.__editor && !call) {
+          $el.next('.drzAudio-episodes-container').remove();
+        }
         const audioNode = $el.find('.drzAudio-src').get(0);
         audioNode.removeEventListener('durationchange', methods.onDurationChange, false);
         audioNode.removeEventListener('timeupdate', methods.onTimeUpdate, false);
