@@ -18,7 +18,7 @@
       const $audioTag = $this.find('.drzAudio-src');
       const $audio = $audioTag.get(0);
       const $title = $this.find('.drzAudio-titleContainer');
-      const $loader = $this.find('.drzAudio-loader');
+      const $playContainer = $this.find('.playBtnContainer');
       const $playBtn = $this.find('.drzAudio-playBtn');
       const $pauseBtn = $this.find('.drzAudio-pauseBtn');
       const $volToggle = $this.find('.drzAudio-volumeBtn');
@@ -158,12 +158,12 @@
             loading = true;
             $playBtn.hide();
             $pauseBtn.hide();
-            $loader.show();
+            methods.$loader.show();
           } else {
             loading = false;
             $playBtn.show();
             $pauseBtn.show();
-            $loader.hide();
+            methods.$loader.hide();
           }
         },
         hideVolume() {
@@ -258,7 +258,31 @@
             methods.updateProgress(e.pageX);
           }
         },
+        $loader: null,
+        createLoader() {
+          const $loader = $playContainer.find('.drzAudio-loader');
+          if (!$loader.length) {
+            const $newLoader = $(`
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" class="drzAudio-loader">
+                <g fill="none" fill-rule="evenodd">
+                  <g transform="translate(1 1)" stroke-width="2">
+                    <circle stroke-opacity=".5" cx="18" cy="18" r="18"/>
+                    <path d="M36 18c0-9.94-8.06-18-18-18" transform="rotate(356.81 18.0001 18.0001)">
+                      <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/>
+                    </path>
+                  </g>
+                </g>
+              </svg>
+            `);
+            $newLoader.insertBefore($playBtn);
+            methods.$loader = $newLoader;
+          } else {
+            methods.$loader = $loader;
+          }
+        },
       };
+      // setup loader
+      methods.createLoader();
 
       // if audio was in progress, set time
       const previousData = storage.audioPlayer[$id];

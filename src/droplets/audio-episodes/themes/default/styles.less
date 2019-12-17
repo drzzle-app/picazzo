@@ -4,10 +4,16 @@
   grid-gap: 10px;
   grid-template-columns: repeat(3, 1fr);
   margin-top: 20px;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+  }
 }
 
 .drzAudio-episodes-item {
+  background-color: #ffffff;
   border: 1px solid #e6e6e6;
+  border-radius: 2px;
   color: inherit;
   display: flex;
   padding: 10px;
@@ -15,7 +21,7 @@
   transition-duration: .2s;
 
   &:hover {
-    background-color: fade(@black, 3%);
+    background-color: #e6e6e6;
   }
 }
 
@@ -25,7 +31,7 @@
 
 .drzAudio-episodes-title {
   display: block;
-  font-size: 13pt;
+  font-size: 11pt;
 }
 
 .drzAudio-episodes-date {
@@ -67,6 +73,14 @@
   .drzAudio-episodes-plbtn {
     display: none;
   }
+}
+
+.drzAudio-loader {
+  display: none;
+  float: left;
+  height: 50px;
+  stroke: #616469;
+  width: 50px;
 }
 
 .drzAudio-episodes-eqbar {
