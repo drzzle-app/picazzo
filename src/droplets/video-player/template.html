@@ -1,4 +1,4 @@
-<div class="drzVideo" ref="videoPlayer">
+<div class="drzVideo" data-player-id="some-id" ref="videoPlayer">
   <div class="drzVideo-overlay">
     <!-- loader -->
     <div class="drzVideo-loader" aria-hidden="true"></div>
@@ -7,7 +7,6 @@
   </div>
   <video class="drzVideo-src">
      <source src="https://drz-assets.s3-us-west-1.amazonaws.com/multi-media/00004.mp4" type="video/mp4">
-     <source src="grass-in-the-wind-sma.webm" type="video/webm">
   </video>
   <div class="drzVideo-controlBar">
     <div class="drzVideo-progressBar">
@@ -16,7 +15,7 @@
       <span class="drzVideo-buffer"></span>
     </div>
     <div class="drzVideo-controls">
-      <button class="drzVideo-playBtn">
+      <button aria-label="play" class="drzVideo-playBtn">
         <span class="drzVideo-btn-tooltip"></span>
         <span class="drzVideo-btn-flex">
           <span class="drzVideo-playBtn-inner drzVideo-play-icon" tabindex="-1"></span>
@@ -25,7 +24,7 @@
       <div class="drzVideo-videoTime">
         <span class="drzVideo-currentTime"></span> / <span class="drzVideo-totalTime"></span>
       </div>
-      <button class="drzVideo-volBtn">
+      <button aria-label="mute" class="drzVideo-volBtn">
         <span class="drzVideo-btn-tooltip"></span>
         <span class="drzVideo-btn-flex">
           <span class="drzVideo-volBtn-inner" tabindex="-1"></span>
@@ -33,10 +32,10 @@
       </button>
       <div class="drzVideo-volSliderContainer">
         <div class="drzVideo-volSlider-inner">
-          <input class="drzVideo-volSlider" min="0" max="1" step="0.05" type="range" />
+          <input aria-label="volume slider" class="drzVideo-volSlider" min="0" max="1" step="0.05" type="range" />
         </div>
       </div>
-      <button class="drzVideo-fullScreenBtn">
+      <button aria-label="full screen" class="drzVideo-fullScreenBtn">
         <span class="drzVideo-btn-tooltip"></span>
         <span class="drzVideo-btn-flex">
           <span class="drzVideo-fullScreenBtn-inner" tabindex="-1"></span>

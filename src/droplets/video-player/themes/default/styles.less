@@ -32,7 +32,7 @@
 .drzVideo-playBtn-lrg {
   margin-top: -35px;
 
-  &:before {
+  &:after {
     color: fade(@white, 50%);
     content: '\e861';
     font-family: 'drzzle';
@@ -118,7 +118,7 @@
   background-color: inherit;
   border: 0;
   border-radius: 0;
-  color: inherit;
+  color: @videoCtrlText;
   height: 100%;
   padding: 0;
   position: relative;
@@ -141,6 +141,8 @@
   }
 
   &:hover {
+    color: @white;
+
     .drzVideo-btn-tooltip {
       display: inline-block;
     }
@@ -154,12 +156,7 @@
   justify-content: center;
 
   &:hover {
-    cursor: hand;
     cursor: pointer;
-
-    &:after {
-      color: @white;
-    }
   }
 }
 
@@ -215,6 +212,13 @@
   &:after {
     // plause btn
     content: '\e868';
+  }
+}
+
+.drzVideo-replayBtn {
+
+  &:after {
+    content: '\e875';
   }
 }
 

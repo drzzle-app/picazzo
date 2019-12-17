@@ -7,9 +7,17 @@
   $.fn.drzVideoPlayer = function drzVideoPlayer() {
     const $videoContainer = $(this);
     const $document = $(document);
+    const $id = $videoContainer.attr('data-player-id');
+    const episodes = $videoContainer.attr('data-episodes');
+    // register local storage
+    const drzzleStorage = window.localStorage.getItem('drzzleStorage');
+    const storage = drzzleStorage ? JSON.parse(drzzleStorage) : {};
+    storage.videoPlayer = storage.videoPlayer || {};
     $videoContainer.each(function initPlayer() {
       const $this = $(this);
-      const $video = $this.find('.drzVideo-src').get(0);
+      const $videoTag = $this.find('.drzVideo-src');
+      const $video = $videoTag.get(0);
+      const $sourceTag = $videoTag.find('source');
       const thisNode = $this.get(0);
       const $controlsContainer = $this.find('.drzVideo-controls');
       const $controlBtn = $controlsContainer.find('button');
@@ -28,6 +36,7 @@
       const $sliderContainer = $this.find('.drzVideo-volSliderContainer');
       const $overlay = $this.find('.drzVideo-overlay');
       const $overlayPlayBtn = $overlay.find('.drzVideo-playBtn-lrg');
+      const $initialSource = $sourceTag.attr('src');
       // set timeElapsed to 0 at first
       $timeElapsed.html('0:00');
 
@@ -43,8 +52,10 @@
           methods.loading = loading;
           if (loading) {
             $overlay.addClass('drzVideo-loading');
+            $overlayPlayBtn.hide();
           } else {
             $overlay.removeClass('drzVideo-loading');
+            $overlayPlayBtn.show();
           }
         },
         getTotalTime() {
@@ -68,11 +79,18 @@
             $parent.find('.drzVideo-featureTotalTime').html(totalHours + totalMinutes + totalSeconds);
           }
         },
-        updateTime() {
-          let value = 0;
+        onTimeUpdate() {
           const minutes = parseInt($video.currentTime / 60, 10);
           let seconds = parseInt($video.currentTime % 60, 10);
           let hours = parseInt(minutes / 60, 10);
+          // update local storage with new location
+          const ct = parseInt($video.currentTime.toFixed(0), 10);
+          const st = parseInt(storage.videoPlayer[$id].seconds, 10);
+          if (ct !== 0 && ct !== st) {
+            storage.videoPlayer[$id].seconds = ct;
+            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
+          }
+          let value = 0;
           if ($video.currentTime > 0) {
             value = Math.floor((100 / $video.duration) * $video.currentTime);
           }
@@ -93,10 +111,20 @@
             $parent.find('.drzVideo-featureDuration').html(hours + minutes + seconds);
           }
         },
-        setOverlay() {
+        onEnded() {
           $overlay.css('opacity', 1);
           if (!$overlayPlayBtn.is(':visible')) {
             $overlayPlayBtn.show();
+          }
+          $overlayPlayBtn.addClass('drzVideo-replayBtn');
+          $playBtn.find('.drzVideo-playBtn-inner')
+            .removeClass('drzVideo-play-icon drzVideo-pause-icon')
+            .addClass('drzVideo-replayBtn');
+          $playBtn.find('.drzVideo-btn-tooltip').text('Replay (p)');
+          if (episodes) {
+            const src = $sourceTag.attr('src');
+            const $item = methods.$listContainer.find(`[data-video-src="${src}"]`);
+            $item.find('.drzVideo-episodes-rcol').removeClass('drzVideo-playing');
           }
         },
         updateProgress(p) {
@@ -247,17 +275,27 @@
         },
         onPlay() {
           $overlay.css('opacity', 0);
+          $overlayPlayBtn.removeClass('drzVideo-replayBtn');
           if ($overlayPlayBtn.is(':visible')) {
             $overlayPlayBtn.hide();
           }
           $playBtn.find('.drzVideo-playBtn-inner')
-            .removeClass('drzVideo-play-icon')
+            .removeClass('drzVideo-play-icon drzVideo-replayBtn')
             .addClass('drzVideo-pause-icon');
           $playBtn.find('.drzVideo-btn-tooltip').text('Pause (p)');
+
+          // we need to store the last source being played in localStorage
+          // in case the page crashed, you can start where you left off
+          const source = $videoTag.find('source').attr('src');
+          storage.videoPlayer[$id].source = source;
+          if (episodes) {
+            const $liveBtn = methods.$listContainer.find('.drzVideo-episodes-livebtn');
+            $liveBtn.parent().addClass('drzVideo-playing');
+          }
         },
         onPause() {
           $playBtn.find('.drzVideo-playBtn-inner')
-            .removeClass('drzVideo-pause-icon')
+            .removeClass('drzVideo-pause-icon drzVideo-replayBtn')
             .addClass('drzVideo-play-icon');
           $overlay.css('opacity', 1);
           if (!$overlayPlayBtn.is(':visible')) {
@@ -269,10 +307,16 @@
           if (window.matchMedia(drzzle.viewports.mobile).matches) {
             methods.slideControlsUp();
           }
+          if (episodes) {
+            const src = $sourceTag.attr('src');
+            const $item = methods.$listContainer.find(`[data-video-src="${src}"]`);
+            $item.find('.drzVideo-episodes-rcol').removeClass('drzVideo-playing');
+          }
         },
         togglePlay(e) {
           if (!methods.loading) {
-            if ($playBtn.find('.drzVideo-playBtn-inner').hasClass('drzVideo-play-icon')) {
+            if ($playBtn.find('.drzVideo-playBtn-inner').hasClass('drzVideo-play-icon') ||
+                $playBtn.find('.drzVideo-playBtn-inner').hasClass('drzVideo-replayBtn')) {
               methods.playVideo(e);
             } else {
               methods.pauseVideo(e);
@@ -470,14 +514,117 @@
             }
           }
         },
+        $listContainer: null,
+        showPlaying() {
+          const currentSource = $sourceTag.attr('src');
+          methods.$listContainer.find('[data-video-src]').each(function src() {
+            const $item = $(this);
+            const $col = $item.find('.drzVideo-episodes-rcol');
+            $col.removeClass('drzVideo-playing');
+            const $btn = $item.find('.drzVideo-episodes-plbtn');
+            if ($item.attr('data-video-src') === currentSource) {
+              $btn.addClass('drzVideo-episodes-livebtn');
+            } else {
+              $btn.removeClass('drzVideo-episodes-livebtn');
+            }
+          });
+        },
+        onClickTrack(e) {
+          e.preventDefault();
+          if (!methods.loading) {
+            methods.setLoading(true);
+            $videoContainer.drzVideoPlayer.destroy($videoContainer, 'play');
+            // remove local storage for this particular video player
+            delete storage.videoPlayer[$id];
+            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
+            // replace video source
+            const $link = $(e.target).closest('[data-video-src]');
+            const $newSource = $link.attr('data-video-src');
+            $sourceTag.attr('src', $newSource);
+            const newVideo = document.createElement('video');
+            newVideo.src = $newSource;
+            // once new track is loaded, reinit the video plugin
+            newVideo.onloadeddata = () => {
+              // reinit video plugin and start
+              $videoContainer.drzVideoPlayer();
+              methods.setLoading(false);
+              methods.showPlaying();
+              $this.trigger('click');
+              methods.togglePlay();
+              newVideo.remove();
+            };
+          }
+        },
+        buildEpisodes() {
+          const list = JSON.parse(episodes).list;
+          const listEl = $videoContainer.next('.drzVideo-episodes-container');
+          if (!listEl.length) {
+            const $listWrapper = $('<div class="drzVideo-episodes-container"></div>');
+            list.forEach((item) => {
+              const $link = $(
+                `<a class="drzVideo-episodes-item" data-video-src="${item.source}" href="#">
+                  <div class="drzVideo-episodes-data">
+                    <span class="drzVideo-episodes-title">${item.title}</span>
+                    <span class="drzVideo-episodes-date">Published - ${item.published}</span>
+                  </div>
+                  <div class="drzVideo-episodes-rcol">
+                    <span class="drzVideo-episode-playing"></span>
+                    <span class="drzVideo-episodes-plbtn"></span>
+                  </div>
+                </a>`,
+              );
+              $link.click(methods.onClickTrack);
+              $listWrapper.append($link);
+              $listWrapper.insertAfter($videoContainer);
+            });
+            methods.$listContainer = $listWrapper;
+          } else {
+            methods.$listContainer = listEl;
+          }
+        },
       };
 
-      // TODO storage and episodes
-      // TODO test full screen on mobile
-      // TODO test control toggle in mobile UX
+      $playBtn.find('.drzVideo-playBtn-inner').addClass('drzVideo-play-icon');
+      // methods.setLoading(true);
+      // $video.addEventListener('loadeddata', methods.onVideoLoad);
+      // if audio was in progress, set time
+      const previousData = storage.videoPlayer[$id];
+      if (previousData) {
+        // if a there is a single source only and there is a time in storage, only
+        // set if the source's are the same. this will prevent new sources from starting
+        // in random times from a previous session
+        if (!episodes && previousData.source === $initialSource) {
+          methods.setLoading(true);
+          const newVideo = document.createElement('video');
+          newVideo.src = $initialSource;
+          newVideo.onloadeddata = () => {
+            $video.currentTime = previousData.seconds;
+            methods.setLoading(false);
+            newVideo.remove();
+          };
+        }
 
-      methods.setLoading(true);
-      $video.addEventListener('loadeddata', methods.onVideoLoad);
+        if (episodes) {
+          // here we can switch between source files if there are multiple sources and the last
+          // one being listened to is still in the list
+          const sources = JSON.parse(episodes).list;
+          const list = sources.map(item => item.source);
+          if (list.includes(previousData.source)) {
+            methods.setLoading(true);
+            $sourceTag.attr('src', previousData.source);
+            const newVideo = document.createElement('video');
+            newVideo.src = previousData.source;
+            newVideo.onloadeddata = () => {
+              $video.currentTime = previousData.seconds;
+              methods.setLoading(false);
+              newVideo.remove();
+            };
+          }
+        }
+      } else {
+        storage.videoPlayer[$id] = { source: null, seconds: 0 };
+      }
+
       // bind the control toggling only once after clicking on video
       $video.addEventListener('progress', methods.onBuffer);
       $this.one('click', methods.toggleControls);
@@ -492,8 +639,8 @@
       // attach callbacks on listeners
       $overlay.click(methods.togglePlay);
       $video.addEventListener('durationchange', methods.getTotalTime, false);
-      $video.addEventListener('timeupdate', methods.updateTime, false);
-      $video.addEventListener('ended', methods.setOverlay, false);
+      $video.addEventListener('timeupdate', methods.onTimeUpdate, false);
+      $video.addEventListener('ended', methods.onEnded, false);
       $video.addEventListener('play', methods.onPlay, false);
       $video.addEventListener('pause', methods.onPause, false);
       $progressBar.on('vmousemove', methods.onProgressHover);
@@ -509,8 +656,13 @@
       $fullScreenBtn.click(methods.toggleFullScreen);
       methods.setVolumeIcon();
 
+      if (episodes) {
+        methods.buildEpisodes();
+        methods.showPlaying();
+      }
+
       // grab attached selectors and remove attached listeners
-      $.fn.drzVideoPlayer.destroy = ($el) => {
+      $.fn.drzVideoPlayer.destroy = ($el, call) => {
         $el.off('click');
         $el.off('mouseleave');
         $el.off('vmousemove');
@@ -521,7 +673,7 @@
         $el.find('.drzVideo-progressBar').off('vmousemove', methods.onProgressHover);
         $el.find('.drzVideo-progressBar').off('vmouseout', methods.onProgressLeave);
         $el.find('.drzVideo-controls button').on('vmouseover', methods.onButtonHover);
-        $el.find('.drzVideo-playBtn-inner').off('click');
+        $el.find('.drzVideo-playBtn-inner').off('click').removeClass('drzVideo-pause-icon drzVideo-play-icon');
         $el.find('.drzVideo-volSlider').off('change');
         $el.find('.drzVideo-volSlider').off('vmouseup', methods.volMouseUp);
         $el.find('.drzVideo-volBtn-inner').off('click');
@@ -534,14 +686,18 @@
         vidNode.removeEventListener('loadeddata', methods.onVideoLoad);
         vidNode.removeEventListener('progress', methods.onBuffer);
         vidNode.removeEventListener('durationchange', methods.getTotalTime, false);
-        vidNode.removeEventListener('timeupdate', methods.updateTime, false);
-        vidNode.removeEventListener('ended', methods.setOverlay, false);
+        vidNode.removeEventListener('timeupdate', methods.onTimeUpdate, false);
+        vidNode.removeEventListener('ended', methods.onEnded, false);
         vidNode.removeEventListener('play', methods.onPlay, false);
         vidNode.removeEventListener('pause', methods.onPause, false);
         const $ctrlBar = $el.find('.drzVideo-controlBar');
         $ctrlBar.off('vmouseover');
         $ctrlBar.off('mouseleave');
         methods.destroyFullScreenEvents();
+        // remove all playlist items if in editor only
+        if (window.__editor && !call) {
+          $el.next('.drzVideo-episodes-container').remove();
+        }
       };
     });
     return this;
