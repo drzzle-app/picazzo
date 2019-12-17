@@ -217,6 +217,7 @@ window.drzzle = {
       var $audioTag = $this.find('.drzAudio-src');
       var $audio = $audioTag.get(0);
       var $title = $this.find('.drzAudio-titleContainer');
+      var $playContainer = $this.find('.playBtnContainer');
       var $playBtn = $this.find('.drzAudio-playBtn');
       var $pauseBtn = $this.find('.drzAudio-pauseBtn');
       var $volToggle = $this.find('.drzAudio-volumeBtn');
@@ -230,44 +231,10 @@ window.drzzle = {
       var $totalTime = $this.find('.drzAudio-totalTime');
       var $sourceTag = $audioTag.find('source');
       var $initialSource = $sourceTag.attr('src');
+      var loading = false;
 
       // set time elapsed to 0 at first
       $timeElapsed.html('0:00');
-      // if audio was in progress, set time
-      var previousData = storage.audioPlayer[$id];
-      if (previousData) {
-        // if a there is a single source only and there is a time in storage, only
-        // set if the source's are the same. this will prevent new sources from starting
-        // in random times from a previous session
-        if (!episodes && previousData.source === $initialSource) {
-          var initAudio = new Audio(previousData.source);
-          initAudio.onloadeddata = function () {
-            $audio.currentTime = previousData.seconds;
-          };
-        }
-
-        if (episodes) {
-          // here we can switch between source files if there are multiple sources and the last
-          // one being listened to is still in the list
-          var sources = JSON.parse(episodes).list;
-          var list = sources.map(function (item) {
-            return item.source;
-          });
-          if (list.includes(previousData.source)) {
-            $sourceTag.attr('src', previousData.source);
-            var _initAudio = new Audio(previousData.source);
-            _initAudio.onloadeddata = function () {
-              $audio.currentTime = previousData.seconds;
-              var track = sources.find(function (item) {
-                return item.source === previousData.source;
-              });
-              $title.text(track.title);
-            };
-          }
-        }
-      } else {
-        storage.audioPlayer[$id] = { source: null, seconds: 0 };
-      }
 
       // prepare for any dynamically changed src
       $this.find('.drzAudio-src').load();
@@ -386,6 +353,19 @@ window.drzzle = {
             $item.find('.drzAudio-episodes-rcol').removeClass('drzAudio-playing');
           }
         },
+        setLoading: function setLoading(isLoading) {
+          if (isLoading) {
+            loading = true;
+            $playBtn.hide();
+            $pauseBtn.hide();
+            methods.$loader.show();
+          } else {
+            loading = false;
+            $playBtn.show();
+            $pauseBtn.show();
+            methods.$loader.hide();
+          }
+        },
         hideVolume: function hideVolume() {
           $floatingVol.fadeOut('fast');
         },
@@ -410,24 +390,28 @@ window.drzzle = {
         },
         onClickTrack: function onClickTrack(e) {
           e.preventDefault();
-          $audioContainer.drzAudioPlayer.destroy($audioContainer);
-          // remove local storage for this particular audio player
-          delete storage.audioPlayer[$id];
-          window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
-          // replace audio source
-          var $link = $(e.target).closest('[data-audio-src]');
-          var $newSource = $link.attr('data-audio-src');
-          var trackTitle = $link.find('.drzAudio-episodes-title').text();
-          $sourceTag.attr('src', $newSource);
-          // once new track is loaded, reinit the audio plugin
-          var clickedTrack = new Audio($newSource);
-          clickedTrack.onloadeddata = function () {
-            // reinit audio plugin and start
-            $audioContainer.drzAudioPlayer();
-            $title.text(trackTitle);
-            methods.showPlaying();
-            methods.togglePlay();
-          };
+          if (!loading) {
+            methods.setLoading(true);
+            $audioContainer.drzAudioPlayer.destroy($audioContainer, 'play');
+            // remove local storage for this particular audio player
+            delete storage.audioPlayer[$id];
+            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
+            // replace audio source
+            var $link = $(e.target).closest('[data-audio-src]');
+            var $newSource = $link.attr('data-audio-src');
+            var trackTitle = $link.find('.drzAudio-episodes-title').text();
+            $sourceTag.attr('src', $newSource);
+            // once new track is loaded, reinit the audio plugin
+            var clickedTrack = new Audio($newSource);
+            clickedTrack.onloadeddata = function () {
+              // reinit audio plugin and start
+              $audioContainer.drzAudioPlayer();
+              $title.text(trackTitle);
+              methods.showPlaying();
+              methods.togglePlay();
+              methods.setLoading(false);
+            };
+          }
         },
         buildEpisodes: function buildEpisodes() {
           var list = JSON.parse(episodes).list;
@@ -459,8 +443,62 @@ window.drzzle = {
           if (methods.progressDrag) {
             methods.updateProgress(e.pageX);
           }
+        },
+
+        $loader: null,
+        createLoader: function createLoader() {
+          var $loader = $playContainer.find('.drzAudio-loader');
+          if (!$loader.length) {
+            var $newLoader = $('\n              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" class="drzAudio-loader">\n                <g fill="none" fill-rule="evenodd">\n                  <g transform="translate(1 1)" stroke-width="2">\n                    <circle stroke-opacity=".5" cx="18" cy="18" r="18"/>\n                    <path d="M36 18c0-9.94-8.06-18-18-18" transform="rotate(356.81 18.0001 18.0001)">\n                      <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/>\n                    </path>\n                  </g>\n                </g>\n              </svg>\n            ');
+            $newLoader.insertBefore($playBtn);
+            methods.$loader = $newLoader;
+          } else {
+            methods.$loader = $loader;
+          }
         }
       };
+      // setup loader
+      methods.createLoader();
+
+      // if audio was in progress, set time
+      var previousData = storage.audioPlayer[$id];
+      if (previousData) {
+        // if a there is a single source only and there is a time in storage, only
+        // set if the source's are the same. this will prevent new sources from starting
+        // in random times from a previous session
+        if (!episodes && previousData.source === $initialSource) {
+          methods.setLoading(true);
+          var initAudio = new Audio(previousData.source);
+          initAudio.onloadeddata = function () {
+            $audio.currentTime = previousData.seconds;
+            methods.setLoading(false);
+          };
+        }
+
+        if (episodes) {
+          // here we can switch between source files if there are multiple sources and the last
+          // one being listened to is still in the list
+          var sources = JSON.parse(episodes).list;
+          var list = sources.map(function (item) {
+            return item.source;
+          });
+          if (list.includes(previousData.source)) {
+            methods.setLoading(true);
+            $sourceTag.attr('src', previousData.source);
+            var _initAudio = new Audio(previousData.source);
+            _initAudio.onloadeddata = function () {
+              $audio.currentTime = previousData.seconds;
+              var track = sources.find(function (item) {
+                return item.source === previousData.source;
+              });
+              $title.text(track.title);
+              methods.setLoading(false);
+            };
+          }
+        }
+      } else {
+        storage.audioPlayer[$id] = { source: null, seconds: 0 };
+      }
 
       // attach listeners
       $audio.addEventListener('durationchange', methods.onDurationChange, false);
@@ -487,7 +525,7 @@ window.drzzle = {
         methods.showPlaying();
       }
 
-      $.fn.drzAudioPlayer.destroy = function ($el) {
+      $.fn.drzAudioPlayer.destroy = function ($el, call) {
         // grab attached selectors and remove attached listeners
         $el.find('.drzAudio-playBtn').off('click').removeClass('drzAudio-pauseBtn drzAudio-replayBtn');
         $el.find('.drzAudio-pauseBtn').off('click');
@@ -498,6 +536,10 @@ window.drzzle = {
         $document.off('vmouseup', methods.onMouseUp);
         $document.off('vmousemove', methods.onMouseMove);
         $this.off('click');
+        // remove all playlist items if in editor only
+        if (window.__editor && !call) {
+          $el.next('.drzAudio-episodes-container').remove();
+        }
         var audioNode = $el.find('.drzAudio-src').get(0);
         audioNode.removeEventListener('durationchange', methods.onDurationChange, false);
         audioNode.removeEventListener('timeupdate', methods.onTimeUpdate, false);
@@ -2851,153 +2893,238 @@ window.drzzle = {
 (function ($) {
   $.fn.drzVideoPlayer = function drzVideoPlayer() {
     var $videoContainer = $(this);
+    var $document = $(document);
+    var $id = $videoContainer.attr('data-player-id');
+    var episodes = $videoContainer.attr('data-episodes');
+    // register local storage
+    var drzzleStorage = window.localStorage.getItem('drzzleStorage');
+    var storage = drzzleStorage ? JSON.parse(drzzleStorage) : {};
+    storage.videoPlayer = storage.videoPlayer || {};
     $videoContainer.each(function initPlayer() {
       var $this = $(this);
-      var $video = $this.find('.drzVideo-src').get(0);
+      var $videoTag = $this.find('.drzVideo-src');
+      var $video = $videoTag.get(0);
+      var $sourceTag = $videoTag.find('source');
       var thisNode = $this.get(0);
       var $controlsContainer = $this.find('.drzVideo-controls');
+      var $controlBtn = $controlsContainer.find('button');
       var $playBtn = $this.find('.drzVideo-playBtn');
-      var $pauseBtn = $this.find('.drzVideo-pauseBtn');
       var $volume = $this.find('.drzVideo-volSlider');
-      var $mute = $this.find('.drzVideo-muteBtn');
+      var $mute = $this.find('.drzVideo-volBtn');
+      var $muteTooltip = $mute.find('.drzVideo-btn-tooltip');
       var $progress = $this.find('.drzVideo-progress');
       var $progressBar = $this.find('.drzVideo-progressBar');
+      var $bufferBar = $this.find('.drzVideo-buffer');
+      var $tooltip = $this.find('.drzVideo-timeline-tooltip');
       var $fullScreenBtn = $this.find('.drzVideo-fullScreenBtn');
       var $timeElapsed = $this.find('.drzVideo-currentTime');
       var $totalTime = $this.find('.drzVideo-totalTime');
       var $timeContainer = $this.find('.drzVideo-videoTime');
       var $sliderContainer = $this.find('.drzVideo-volSliderContainer');
       var $overlay = $this.find('.drzVideo-overlay');
-      var $initialOverlayBg = $overlay.css('background-color');
       var $overlayPlayBtn = $overlay.find('.drzVideo-playBtn-lrg');
-
+      var $initialSource = $sourceTag.attr('src');
       // set timeElapsed to 0 at first
       $timeElapsed.html('0:00');
 
       // prepare for any dynamically changed src
       $this.find('.drzVideo-src').load();
 
-      // callback for triggering video play on overlay click
-      var oPlay = function oPlay() {
-        if ($video.paused || $video.ended) {
-          $video.play();
-          $overlay.css('background-color', 'transparent');
-          if ($overlayPlayBtn.is(':visible')) {
-            $overlayPlayBtn.fadeOut();
+      var methods = {
+        onVideoLoad: function onVideoLoad() {
+          methods.setLoading(false);
+        },
+
+        loading: false,
+        setLoading: function setLoading(loading) {
+          methods.loading = loading;
+          if (loading) {
+            $overlay.addClass('drzVideo-loading');
+            $overlayPlayBtn.hide();
+          } else {
+            $overlay.removeClass('drzVideo-loading');
+            $overlayPlayBtn.show();
           }
-        } else {
-          $video.pause();
-          $overlay.css('background-color', $initialOverlayBg);
+        },
+        getTotalTime: function getTotalTime() {
+          var totalMinutes = parseInt($video.duration / 60, 10);
+          var totalSeconds = parseInt($video.duration % 60, 10);
+          var totalHours = parseInt(totalMinutes / 60, 10);
+          if (totalSeconds < 10) {
+            totalSeconds = ':0' + totalSeconds;
+          } else {
+            totalSeconds = ':' + totalSeconds;
+          }
+          if (totalHours > 0) {
+            totalHours = totalHours + ':';
+          } else {
+            totalHours = '';
+          }
+          $totalTime.html(totalHours + totalMinutes + totalSeconds);
+          var $parent = $this.parent();
+          if ($parent.hasClass('drzVideo-feature')) {
+            $parent.find('.drzVideo-featureDuration').html('0:00');
+            $parent.find('.drzVideo-featureTotalTime').html(totalHours + totalMinutes + totalSeconds);
+          }
+        },
+        onTimeUpdate: function onTimeUpdate() {
+          var minutes = parseInt($video.currentTime / 60, 10);
+          var seconds = parseInt($video.currentTime % 60, 10);
+          var hours = parseInt(minutes / 60, 10);
+          // update local storage with new location
+          var ct = parseInt($video.currentTime.toFixed(0), 10);
+          var st = parseInt(storage.videoPlayer[$id].seconds, 10);
+          if (ct !== 0 && ct !== st) {
+            storage.videoPlayer[$id].seconds = ct;
+            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
+          }
+          var value = 0;
+          if ($video.currentTime > 0) {
+            value = Math.floor(100 / $video.duration * $video.currentTime);
+          }
+          if (seconds < 10) {
+            seconds = ':0' + seconds;
+          } else {
+            seconds = ':' + seconds;
+          }
+          if (hours > 0) {
+            hours = hours + ':';
+          } else {
+            hours = '';
+          }
+          $progress.css('width', value + '%');
+          $timeElapsed.html(hours + minutes + seconds);
+          var $parent = $this.parent();
+          if ($parent.hasClass('drzVideo-feature')) {
+            $parent.find('.drzVideo-featureDuration').html(hours + minutes + seconds);
+          }
+        },
+        onEnded: function onEnded() {
+          $overlay.css('opacity', 1);
           if (!$overlayPlayBtn.is(':visible')) {
-            $overlayPlayBtn.fadeIn();
+            $overlayPlayBtn.show();
           }
-        }
-      };
+          $overlayPlayBtn.addClass('drzVideo-replayBtn');
+          $playBtn.find('.drzVideo-playBtn-inner').removeClass('drzVideo-play-icon drzVideo-pause-icon').addClass('drzVideo-replayBtn');
+          $playBtn.find('.drzVideo-btn-tooltip').text('Replay (p)');
+          if (episodes) {
+            var src = $sourceTag.attr('src');
+            var $item = methods.$listContainer.find('[data-video-src="' + src + '"]');
+            $item.find('.drzVideo-episodes-rcol').removeClass('drzVideo-playing');
+          }
+        },
+        updateProgress: function updateProgress(p) {
+          var dur = $video.duration;
+          var pos = p - $progressBar.offset().left;
+          var perc = 100 * (pos / $progressBar.width());
+          if (perc > 100) {
+            perc = 100;
+          }
+          if (perc < 0) {
+            perc = 0;
+          }
+          $video.currentTime = dur * (perc / 100);
+          $progress.css('width', perc + '%');
+        },
+        displayTime: function displayTime(seconds) {
+          var hrs = ~~(seconds / 3600);
+          var mins = ~~(seconds % 3600 / 60);
+          var secs = ~~seconds % 60;
 
-      // wait for the video meta data to come in, then show total time
-      var getTotalTime = function getTotalTime() {
-        var totalMinutes = parseInt($video.duration / 60, 10);
-        var totalSeconds = parseInt($video.duration % 60, 10);
-        var totalHours = parseInt(totalMinutes / 60, 10);
-        if (totalSeconds < 10) {
-          totalSeconds = ':0' + totalSeconds;
-        } else {
-          totalSeconds = ':' + totalSeconds;
-        }
-        if (totalHours > 0) {
-          totalHours = totalHours + ':';
-        } else {
-          totalHours = '';
-        }
-        $totalTime.html(totalHours + totalMinutes + totalSeconds);
-        var $parent = $this.parent();
-        if ($parent.hasClass('drzVideo-feature')) {
-          $parent.find('.drzVideo-featureDuration').html('0:00');
-          $parent.find('.drzVideo-featureTotalTime').html(totalHours + totalMinutes + totalSeconds);
-        }
-      };
+          var timeString = '';
 
-      // update time of video for progress callback
-      var updateTime = function updateTime() {
-        var value = 0;
-        var minutes = parseInt($video.currentTime / 60, 10);
-        var seconds = parseInt($video.currentTime % 60, 10);
-        var hours = parseInt(minutes / 60, 10);
-        if ($video.currentTime > 0) {
-          value = Math.floor(100 / $video.duration * $video.currentTime);
-        }
-        if (seconds < 10) {
-          seconds = ':0' + seconds;
-        } else {
-          seconds = ':' + seconds;
-        }
-        if (hours > 0) {
-          hours = hours + ':';
-        } else {
-          hours = '';
-        }
-        $progress.css('width', value + '%');
-        $timeElapsed.html(hours + minutes + seconds);
-        var $parent = $this.parent();
-        if ($parent.hasClass('drzVideo-feature')) {
-          $parent.find('.drzVideo-featureDuration').html(hours + minutes + seconds);
-        }
-      };
+          if (hrs > 0) {
+            timeString += hrs + ':' + (mins < 10 ? '0' : '');
+          }
 
-      // when video is over, show the overlay and play button again
-      var setOverlay = function setOverlay() {
-        $overlay.css('background-color', $initialOverlayBg);
-        if (!$overlayPlayBtn.is(':visible')) {
-          $overlayPlayBtn.fadeIn();
-        }
-      };
+          timeString += mins + ':' + (secs < 10 ? '0' : '');
+          timeString += '' + secs;
 
-      // enable the dragging events to update/change the video time
-      var progressDrag = false;
-      var doc = $(document);
+          return timeString;
+        },
 
-      // update progress for dragging on time bar
-      var updateProgress = function updateProgress(p) {
-        var dur = $video.duration;
-        var pos = p - $progressBar.offset().left;
-        var perc = 100 * (pos / $progressBar.width());
-        if (perc > 100) {
-          perc = 100;
-        }
-        if (perc < 0) {
-          perc = 0;
-        }
-        $video.currentTime = dur * (perc / 100);
-        $progress.css('width', perc + '%');
-      };
+        progressDrag: false,
+        onProgressHover: function onProgressHover(e) {
+          $tooltip.show();
+          var dur = $video.duration;
+          var pos = e.pageX - $progressBar.offset().left;
+          var perc = 100 * (pos / $progressBar.width());
+          if (perc > 100) {
+            perc = 100;
+          }
+          if (perc < 0) {
+            perc = 0;
+          }
+          var $barWidth = $progressBar.width();
+          var seconds = Math.round(dur * (perc / 100));
+          var displayTime = methods.displayTime(seconds);
 
-      var setProgress = function setProgress(e) {
-        progressDrag = true;
-        updateProgress(e.pageX);
-      };
+          $tooltip.text(displayTime);
+          // center tip
+          var halfTip = $tooltip.outerWidth() / 2;
+          if (pos >= 0 && pos <= $barWidth) {
+            $tooltip.css('left', pos - halfTip + 'px');
+            // check if tip bleeds off player so we can keep it inbounds
+            var posCheck = methods.posCheck($progressBar, $tooltip);
+            if (posCheck.bleeding) {
+              $tooltip.css('left', pos - halfTip - posCheck.diff + 'px');
+            }
+          }
+        },
+        posCheck: function posCheck(parent, child) {
+          var parentRect = parent.get(0).getBoundingClientRect();
+          var childRect = child.get(0).getBoundingClientRect();
+          var bleedingLeft = childRect.left <= parentRect.left;
+          var bleedingRight = childRect.right >= parentRect.right;
+          var bleeding = bleedingLeft || bleedingRight;
+          var bleedDir = void 0;
+          var diff = 0;
+          if (bleedingLeft) {
+            diff = childRect.left - parentRect.left;
+            bleedDir = 'left';
+          }
+          if (bleedingRight) {
+            diff = childRect.right - parentRect.right;
+            bleedDir = 'right';
+          }
+          return {
+            bleeding: bleeding,
+            diff: diff,
+            bleedDir: bleedDir
+          };
+        },
+        onProgressLeave: function onProgressLeave() {
+          // hide tooltip
+          $tooltip.hide();
+        },
+        setProgress: function setProgress(e) {
+          methods.progressDrag = true;
+          methods.updateProgress(e.pageX);
+        },
+        onMouseUp: function onMouseUp(e) {
+          $document.find('body').removeClass('drz-mousedown');
+          if (methods.progressDrag) {
+            methods.progressDrag = false;
+            methods.updateProgress(e.pageX);
+          }
+        },
+        onMouseDown: function onMouseDown() {
+          $document.find('body').addClass('drz-mousedown');
+        },
+        onMouseMove: function onMouseMove(e) {
+          if (methods.progressDrag) {
+            methods.updateProgress(e.pageX);
+          }
+        },
 
-      doc.on('vmouseup', function (e) {
-        if (progressDrag) {
-          progressDrag = false;
-          updateProgress(e.pageX);
-        }
-      });
-
-      doc.on('vmousemove', function (e) {
-        if (progressDrag) {
-          updateProgress(e.pageX);
-        }
-      });
-
-      var toggleControls = function toggleControls() {
-        var hideControls = void 0;
-        function slideControlsUp() {
+        hideControls: null,
+        slideControlsUp: function slideControlsUp() {
           if ($controlsContainer.hasClass('drzVide-slideDown')) {
             $controlsContainer.removeClass('drzVide-slideDown');
             $progress.removeClass('drzVideo-soloProgress');
             $progressBar.removeClass('drzVideo-soloProgress');
-            clearTimeout(hideControls);
-            hideControls = setTimeout(function () {
+            clearTimeout(methods.hideControls);
+            methods.hideControls = setTimeout(function () {
               if (!$controlsContainer.hasClass('drzVide-slideDown')) {
                 $controlsContainer.addClass('drzVide-slideDown');
                 $progress.addClass('drzVideo-soloProgress');
@@ -3005,93 +3132,379 @@ window.drzzle = {
               }
             }, 3000);
           }
-        }
-
-        function clearTime() {
-          return clearTimeout(hideControls);
-        }
-
-        function slideControlsDown() {
-          clearTimeout(hideControls);
-          hideControls = setTimeout(function () {
+        },
+        clearTime: function clearTime() {
+          return clearTimeout(methods.hideControls);
+        },
+        slideControlsDown: function slideControlsDown() {
+          clearTimeout(methods.hideControls);
+          methods.hideControls = setTimeout(function () {
             if (!$controlsContainer.hasClass('drzVide-slideDown')) {
               $controlsContainer.addClass('drzVide-slideDown');
               $progress.addClass('drzVideo-soloProgress');
               $progressBar.addClass('drzVideo-soloProgress');
             }
           }, 3000);
-        }
-
-        function offHover() {
-          clearTimeout(hideControls);
+        },
+        offHover: function offHover() {
+          clearTimeout(methods.hideControls);
           if (!$controlsContainer.hasClass('drzVide-slideDown')) {
             $controlsContainer.addClass('drzVide-slideDown');
             $progress.addClass('drzVideo-soloProgress');
             $progressBar.addClass('drzVideo-soloProgress');
           }
-        }
-
-        $this.on('vmousemove', slideControlsUp);
-        $this.find('.drzVideo-controlBar').on('vmouseover', clearTime);
-        $this.find('.drzVideo-controlBar').on('mouseleave', slideControlsDown);
-        $this.mouseleave(offHover);
-      };
-
-      function playVideo() {
-        if ($video.paused || $video.ended) {
-          $video.play();
-          $overlay.css('background-color', 'transparent');
+        },
+        toggleControls: function toggleControls() {
+          $this.on('vmousemove', methods.slideControlsUp);
+          $this.find('.drzVideo-controlBar').on('vmouseover', methods.clearTime);
+          $this.find('.drzVideo-controlBar').on('mouseleave', methods.slideControlsDown);
+          $this.mouseleave(methods.offHover);
+          methods.slideControlsDown();
+        },
+        onPlay: function onPlay() {
+          $overlay.css('opacity', 0);
+          $overlayPlayBtn.removeClass('drzVideo-replayBtn');
           if ($overlayPlayBtn.is(':visible')) {
-            $overlayPlayBtn.fadeOut();
+            $overlayPlayBtn.hide();
           }
-        }
-      }
+          $playBtn.find('.drzVideo-playBtn-inner').removeClass('drzVideo-play-icon drzVideo-replayBtn').addClass('drzVideo-pause-icon');
+          $playBtn.find('.drzVideo-btn-tooltip').text('Pause (p)');
 
-      function pauseVideo(e) {
-        e.stopPropagation();
-        $video.pause();
-        $overlay.css('background-color', $initialOverlayBg);
-        if (!$overlayPlayBtn.is(':visible')) {
-          $overlayPlayBtn.fadeIn();
-        }
-      }
-
-      function setVolume() {
-        $video.volume = $volume.val();
-      }
-
-      function toggleMute(e) {
-        e.stopPropagation();
-        $video.muted = !$video.muted;
-        $mute.toggleClass('drzVideo-muteOff');
-      }
-
-      var toggleFullScreen = function toggleFullScreen(e) {
-        e.stopPropagation();
-        if (document.fullScreenElement !== undefined && document.fullScreenElement === null || document.msFullscreenElement !== undefined && document.msFullscreenElement === null || document.mozFullScreen !== undefined && !document.mozFullScreen || document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen) {
-          if (thisNode.requestFullScreen) {
-            thisNode.requestFullScreen();
-          } else if (thisNode.mozRequestFullScreen) {
-            thisNode.mozRequestFullScreen();
-          } else if (thisNode.webkitRequestFullScreen) {
-            thisNode.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-          } else if (thisNode.msRequestFullscreen) {
-            thisNode.msRequestFullscreen();
+          // we need to store the last source being played in localStorage
+          // in case the page crashed, you can start where you left off
+          var source = $videoTag.find('source').attr('src');
+          storage.videoPlayer[$id].source = source;
+          if (episodes) {
+            var $liveBtn = methods.$listContainer.find('.drzVideo-episodes-livebtn');
+            $liveBtn.parent().addClass('drzVideo-playing');
           }
-        } else if (document.cancelFullScreen) {
-          document.cancelFullScreen();
-        } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
-        } else if (document.webkitCancelFullScreen) {
-          document.webkitCancelFullScreen();
-        } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
+        },
+        onPause: function onPause() {
+          $playBtn.find('.drzVideo-playBtn-inner').removeClass('drzVideo-pause-icon drzVideo-replayBtn').addClass('drzVideo-play-icon');
+          $overlay.css('opacity', 1);
+          if (!$overlayPlayBtn.is(':visible')) {
+            $overlayPlayBtn.show();
+          }
+          $playBtn.find('.drzVideo-btn-tooltip').text('Play (p)');
+          // on mobile for better UX, we need to reshow the controls
+          // if user clicks on the video overlay
+          if (window.matchMedia(drzzle.viewports.mobile).matches) {
+            methods.slideControlsUp();
+          }
+          if (episodes) {
+            var src = $sourceTag.attr('src');
+            var $item = methods.$listContainer.find('[data-video-src="' + src + '"]');
+            $item.find('.drzVideo-episodes-rcol').removeClass('drzVideo-playing');
+          }
+        },
+        togglePlay: function togglePlay(e) {
+          if (!methods.loading) {
+            if ($playBtn.find('.drzVideo-playBtn-inner').hasClass('drzVideo-play-icon') || $playBtn.find('.drzVideo-playBtn-inner').hasClass('drzVideo-replayBtn')) {
+              methods.playVideo(e);
+            } else {
+              methods.pauseVideo(e);
+            }
+          }
+        },
+        playVideo: function playVideo() {
+          if ($video.paused || $video.ended) {
+            $video.play();
+          }
+        },
+        pauseVideo: function pauseVideo() {
+          $video.pause();
+        },
+        setVolume: function setVolume(e) {
+          var val = $volume.val();
+          $video.volume = val;
+          if (val === 0) {
+            methods.toggleMute(e, true);
+          }
+          methods.setVolumeIcon();
+        },
+        volMouseUp: function volMouseUp() {
+          $volume.blur();
+        },
+        setVolumeIcon: function setVolumeIcon() {
+          var $muteInner = $mute.find('.drzVideo-volBtn-inner');
+          var max = ~~$volume.attr('max');
+          var percent = ($volume.val() / max * 100).toFixed(0);
+          $muteInner.removeClass('drzVideo-vol-mute drzVideo-vol-min drzVideo-vol-med drzVideo-vol-max');
+          var volClass = '';
+          if (~~percent === 0) {
+            // mute
+            volClass = 'drzVideo-vol-mute';
+            $muteTooltip.text('Unmute (m)');
+          } else {
+            $muteTooltip.text('Mute (m)');
+          }
+          if (percent > 0 && percent <= 30) {
+            // min
+            volClass = 'drzVideo-vol-min';
+          }
+          if (percent > 30 && percent <= 70) {
+            // med
+            volClass = 'drzVideo-vol-med';
+          }
+          if (percent > 70 && percent <= 100) {
+            // max
+            volClass = 'drzVideo-vol-max';
+          }
+          $muteInner.addClass(volClass);
+        },
+
+        lastVolume: null,
+        isMuted: false,
+        toggleMute: function toggleMute(e, skipIcon) {
+          if (e) {
+            e.stopPropagation();
+          }
+          if (methods.isMuted) {
+            $video.volume = methods.lastVolume;
+            $volume.val(methods.lastVolume);
+            $muteTooltip.text('Mute (m)');
+            methods.isMuted = false;
+          } else {
+            methods.lastVolume = $volume.val();
+            $video.volume = 0;
+            $volume.val(0);
+            $muteTooltip.text('Unmute (m)');
+            methods.isMuted = true;
+          }
+          if (!skipIcon) {
+            methods.setVolumeIcon();
+          }
+        },
+        onButtonHover: function onButtonHover(e) {
+          var $btn = $(e.target);
+          var $btnTip = $btn.parent().prev('.drzVideo-btn-tooltip');
+          if ($btnTip.length > 0) {
+            var posCheck = methods.posCheck($progressBar, $btnTip);
+            if (posCheck.bleeding) {
+              $btnTip.css({
+                left: 50 - posCheck.diff + '%',
+                transform: 'translateX(' + (-50 - posCheck.diff) + '%)'
+              });
+            }
+          }
+        },
+        onButtoneLeave: function onButtoneLeave(e) {
+          var $btn = $(e.target);
+          var $btnTip = $btn.parent().prev('.drzVideo-btn-tooltip');
+          if ($btnTip.length > 0) {
+            $btnTip.css({
+              left: '',
+              transform: ''
+            });
+          }
+        },
+        toggleFullScreen: function toggleFullScreen(e) {
+          if (e) {
+            e.stopPropagation();
+          }
+          if (document.fullScreenElement !== undefined && document.fullScreenElement === null || document.msFullscreenElement !== undefined && document.msFullscreenElement === null || document.mozFullScreen !== undefined && !document.mozFullScreen || document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen) {
+            if (thisNode.requestFullScreen) {
+              thisNode.requestFullScreen();
+            } else if (thisNode.mozRequestFullScreen) {
+              thisNode.mozRequestFullScreen();
+            } else if (thisNode.webkitRequestFullScreen) {
+              thisNode.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+            } else if (thisNode.msRequestFullscreen) {
+              thisNode.msRequestFullscreen();
+            }
+          } else if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+        },
+        fastForward: function fastForward(seconds) {
+          $video.currentTime += seconds;
+        },
+        rewind: function rewind(seconds) {
+          $video.currentTime -= seconds;
+        },
+        onKeydown: function onKeydown(e) {
+          var code = e.key || e.which;
+          // play
+          if (code === 'p') {
+            methods.togglePlay();
+          }
+          // mute
+          if (code === 'm') {
+            methods.toggleMute();
+          }
+          // fullscreen
+          if (code === 'f') {
+            methods.toggleFullScreen();
+          }
+          // ff seconds
+          if (code === 'ArrowRight') {
+            methods.fastForward(5);
+          }
+          // rewind totalSeconds
+          if (code === 'ArrowLeft') {
+            methods.rewind(5);
+          }
+        },
+        fullscreenChecks: function fullscreenChecks() {
+          var $tip = $fullScreenBtn.find('.drzVideo-btn-tooltip');
+          var def = document.fullscreenElement;
+          var ms = document.msFullscreenElement;
+          var moz = document.mozFullScreen;
+          var webkit = document.webkitIsFullScreen;
+          if (def || ms || moz || webkit) {
+            $tip.text('Exit full screen (f)');
+          } else {
+            $tip.text('Full screen (f)');
+          }
+        },
+        bindFullScreenEvents: function bindFullScreenEvents() {
+          document.addEventListener('fullscreenchange', methods.fullscreenChecks);
+          document.addEventListener('mozfullscreenchange', methods.fullscreenChecks);
+          document.addEventListener('webkitfullscreenchange', methods.fullscreenChecks);
+          document.addEventListener('msfullscreenchange', methods.fullscreenChecks);
+        },
+        destroyFullScreenEvents: function destroyFullScreenEvents() {
+          document.removeEventListener('fullscreenchange', methods.fullscreenChecks);
+          document.removeEventListener('mozfullscreenchange', methods.fullscreenChecks);
+          document.removeEventListener('webkitfullscreenchange', methods.fullscreenChecks);
+          document.removeEventListener('msfullscreenchange', methods.fullscreenChecks);
+        },
+        buildToolTips: function buildToolTips() {
+          $playBtn.find('.drzVideo-btn-tooltip').text('Play (p)');
+          $mute.find('.drzVideo-btn-tooltip').text('Mute (m)');
+          $fullScreenBtn.find('.drzVideo-btn-tooltip').text('Full screen (f)');
+        },
+        onBuffer: function onBuffer() {
+          // here we can calculate and display the video buffer ghost
+          // progress behind the timeline progress for better UX
+          var duration = $video.duration;
+          if (duration > 0) {
+            for (var i = 0; i < $video.buffered.length; i++) {
+              if ($video.buffered.start($video.buffered.length - 1 - i) < $video.currentTime) {
+                var p = $video.buffered.end($video.buffered.length - 1 - i) / duration * 100;
+                $bufferBar.css({ width: Math.floor(p) + '%' });
+                break;
+              }
+            }
+          }
+        },
+
+        $listContainer: null,
+        showPlaying: function showPlaying() {
+          var currentSource = $sourceTag.attr('src');
+          methods.$listContainer.find('[data-video-src]').each(function src() {
+            var $item = $(this);
+            var $col = $item.find('.drzVideo-episodes-rcol');
+            $col.removeClass('drzVideo-playing');
+            var $btn = $item.find('.drzVideo-episodes-plbtn');
+            if ($item.attr('data-video-src') === currentSource) {
+              $btn.addClass('drzVideo-episodes-livebtn');
+            } else {
+              $btn.removeClass('drzVideo-episodes-livebtn');
+            }
+          });
+        },
+        onClickTrack: function onClickTrack(e) {
+          e.preventDefault();
+          if (!methods.loading) {
+            methods.setLoading(true);
+            $videoContainer.drzVideoPlayer.destroy($videoContainer, 'play');
+            // remove local storage for this particular video player
+            delete storage.videoPlayer[$id];
+            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
+            // replace video source
+            var $link = $(e.target).closest('[data-video-src]');
+            var $newSource = $link.attr('data-video-src');
+            $sourceTag.attr('src', $newSource);
+            var newVideo = document.createElement('video');
+            newVideo.src = $newSource;
+            // once new track is loaded, reinit the video plugin
+            newVideo.onloadeddata = function () {
+              // reinit video plugin and start
+              $videoContainer.drzVideoPlayer();
+              methods.setLoading(false);
+              methods.showPlaying();
+              $this.trigger('click');
+              methods.togglePlay();
+              newVideo.remove();
+            };
+          }
+        },
+        buildEpisodes: function buildEpisodes() {
+          var list = JSON.parse(episodes).list;
+          var listEl = $videoContainer.next('.drzVideo-episodes-container');
+          if (!listEl.length) {
+            var $listWrapper = $('<div class="drzVideo-episodes-container"></div>');
+            list.forEach(function (item) {
+              var $link = $('<a class="drzVideo-episodes-item" data-video-src="' + item.source + '" href="#">\n                  <div class="drzVideo-episodes-data">\n                    <span class="drzVideo-episodes-title">' + item.title + '</span>\n                    <span class="drzVideo-episodes-date">Published - ' + item.published + '</span>\n                  </div>\n                  <div class="drzVideo-episodes-rcol">\n                    <span class="drzVideo-episode-playing"></span>\n                    <span class="drzVideo-episodes-plbtn"></span>\n                  </div>\n                </a>');
+              $link.click(methods.onClickTrack);
+              $listWrapper.append($link);
+              $listWrapper.insertAfter($videoContainer);
+            });
+            methods.$listContainer = $listWrapper;
+          } else {
+            methods.$listContainer = listEl;
+          }
         }
       };
+
+      $playBtn.find('.drzVideo-playBtn-inner').addClass('drzVideo-play-icon');
+      // methods.setLoading(true);
+      // $video.addEventListener('loadeddata', methods.onVideoLoad);
+      // if audio was in progress, set time
+      var previousData = storage.videoPlayer[$id];
+      if (previousData) {
+        // if a there is a single source only and there is a time in storage, only
+        // set if the source's are the same. this will prevent new sources from starting
+        // in random times from a previous session
+        if (!episodes && previousData.source === $initialSource) {
+          methods.setLoading(true);
+          var newVideo = document.createElement('video');
+          newVideo.src = $initialSource;
+          newVideo.onloadeddata = function () {
+            $video.currentTime = previousData.seconds;
+            methods.setLoading(false);
+            newVideo.remove();
+          };
+        }
+
+        if (episodes) {
+          // here we can switch between source files if there are multiple sources and the last
+          // one being listened to is still in the list
+          var sources = JSON.parse(episodes).list;
+          var list = sources.map(function (item) {
+            return item.source;
+          });
+          if (list.includes(previousData.source)) {
+            methods.setLoading(true);
+            $sourceTag.attr('src', previousData.source);
+            var _newVideo = document.createElement('video');
+            _newVideo.src = previousData.source;
+            _newVideo.onloadeddata = function () {
+              $video.currentTime = previousData.seconds;
+              methods.setLoading(false);
+              _newVideo.remove();
+            };
+          }
+        }
+      } else {
+        storage.videoPlayer[$id] = { source: null, seconds: 0 };
+      }
 
       // bind the control toggling only once after clicking on video
-      $this.one('click', toggleControls);
-
+      $video.addEventListener('progress', methods.onBuffer);
+      $this.one('click', methods.toggleControls);
+      methods.bindFullScreenEvents();
+      methods.buildToolTips();
+      $document.on('vmousedown', methods.onMouseDown);
+      $document.on('vmouseup', methods.onMouseUp);
+      $document.on('vmousemove', methods.onMouseMove);
       // need to stop propagation on the following
       $timeContainer.click(function (e) {
         return e.stopPropagation();
@@ -3099,41 +3512,68 @@ window.drzzle = {
       $sliderContainer.click(function (e) {
         return e.stopPropagation();
       });
-
       // attach callbacks on listeners
-      $overlay.click(oPlay);
-      $video.addEventListener('durationchange', getTotalTime, false);
-      $video.addEventListener('timeupdate', updateTime, false);
-      $video.addEventListener('ended', setOverlay, false);
-      $progressBar.on('vmousedown', setProgress);
+      $overlay.click(methods.togglePlay);
+      $video.addEventListener('durationchange', methods.getTotalTime, false);
+      $video.addEventListener('timeupdate', methods.onTimeUpdate, false);
+      $video.addEventListener('ended', methods.onEnded, false);
+      $video.addEventListener('play', methods.onPlay, false);
+      $video.addEventListener('pause', methods.onPause, false);
+      $progressBar.on('vmousemove', methods.onProgressHover);
+      $progressBar.on('vmouseout', methods.onProgressLeave);
+      $progressBar.on('vmousedown', methods.setProgress);
+      $controlBtn.on('vmouseover', methods.onButtonHover);
+      $controlBtn.on('vmouseout', methods.onButtoneLeave);
+      document.addEventListener('keydown', methods.onKeydown);
+      $playBtn.click(methods.togglePlay);
+      $volume.change(methods.setVolume);
+      $volume.on('vmouseup', methods.volMouseUp);
+      $mute.click(methods.toggleMute);
+      $fullScreenBtn.click(methods.toggleFullScreen);
+      methods.setVolumeIcon();
 
-      $playBtn.click(playVideo);
-      $pauseBtn.click(pauseVideo);
-      $volume.change(setVolume);
-      $mute.click(toggleMute);
-      $fullScreenBtn.click(toggleFullScreen);
+      if (episodes) {
+        methods.buildEpisodes();
+        methods.showPlaying();
+      }
 
-      $.fn.drzVideoPlayer.destroy = function ($el) {
-        // grab attached selectors and remove attached listeners
+      // grab attached selectors and remove attached listeners
+      $.fn.drzVideoPlayer.destroy = function ($el, call) {
         $el.off('click');
         $el.off('mouseleave');
         $el.off('vmousemove');
         $el.find('.drzVideo-videoTime').off('click');
         $el.find('.drzVideo-volSliderContainer').off('click');
         $el.find('.drzVideo-overlay').off('click');
-        $el.find('.drzVideo-progressBar').off('vmousedown');
-        $el.find('.drzVideo-playBtn').off('click');
-        $el.find('.drzVideo-pauseBtn').off('click');
+        $el.find('.drzVideo-progressBar').off('vmousedown', methods.setProgress);
+        $el.find('.drzVideo-progressBar').off('vmousemove', methods.onProgressHover);
+        $el.find('.drzVideo-progressBar').off('vmouseout', methods.onProgressLeave);
+        $el.find('.drzVideo-controls button').on('vmouseover', methods.onButtonHover);
+        $el.find('.drzVideo-playBtn-inner').off('click').removeClass('drzVideo-pause-icon drzVideo-play-icon');
         $el.find('.drzVideo-volSlider').off('change');
-        $el.find('.drzVideo-muteBtn').off('click');
-        $el.find('.drzVideo-fullScreenBtn').off('click');
+        $el.find('.drzVideo-volSlider').off('vmouseup', methods.volMouseUp);
+        $el.find('.drzVideo-volBtn-inner').off('click');
+        $el.find('.drzVideo-fullScreenBtn-inner').off('click');
+        document.removeEventListener('keydown', methods.onKeydown);
+        $document.off('vmousedown', methods.onMouseDown);
+        $document.off('vmouseup', methods.onMouseUp);
+        $document.off('vmousemove', methods.onMouseMove);
         var vidNode = $el.find('.drzVideo-src').get(0);
-        vidNode.removeEventListener('durationchange', getTotalTime, false);
-        vidNode.removeEventListener('timeupdate', updateTime, false);
-        vidNode.removeEventListener('ended', setOverlay, false);
+        vidNode.removeEventListener('loadeddata', methods.onVideoLoad);
+        vidNode.removeEventListener('progress', methods.onBuffer);
+        vidNode.removeEventListener('durationchange', methods.getTotalTime, false);
+        vidNode.removeEventListener('timeupdate', methods.onTimeUpdate, false);
+        vidNode.removeEventListener('ended', methods.onEnded, false);
+        vidNode.removeEventListener('play', methods.onPlay, false);
+        vidNode.removeEventListener('pause', methods.onPause, false);
         var $ctrlBar = $el.find('.drzVideo-controlBar');
         $ctrlBar.off('vmouseover');
         $ctrlBar.off('mouseleave');
+        methods.destroyFullScreenEvents();
+        // remove all playlist items if in editor only
+        if (window.__editor && !call) {
+          $el.next('.drzVideo-episodes-container').remove();
+        }
       };
     });
     return this;
