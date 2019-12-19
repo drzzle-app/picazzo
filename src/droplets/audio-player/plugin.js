@@ -123,7 +123,9 @@
             methods.pauseAudio();
           }
         },
+        isPlaying: false,
         onPlay() {
+          methods.isPlaying = true;
           $playBtn.addClass('drzAudio-pauseBtn');
           $playBtn.removeClass('drzAudio-replayBtn');
           // we need to store the last source being played in localStorage
@@ -136,6 +138,7 @@
           }
         },
         onEnd() {
+          methods.isPlaying = false;
           $playBtn.removeClass('drzAudio-pauseBtn');
           $playBtn.addClass('drzAudio-replayBtn');
           if (episodes) {
@@ -145,6 +148,7 @@
           }
         },
         onPause() {
+          methods.isPlaying = false;
           $playBtn.removeClass('drzAudio-pauseBtn');
           $playBtn.removeClass('drzAudio-replayBtn');
           if (episodes) {
@@ -192,6 +196,10 @@
           if (!loading) {
             methods.setLoading(true);
             $audioContainer.drzAudioPlayer.destroy($audioContainer, 'play');
+            if (methods.isPlaying) {
+              $audio.pause();
+              $audio.currentTime = 0;
+            }
             // remove local storage for this particular audio player
             delete storage.audioPlayer[$id];
             window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
@@ -206,6 +214,8 @@
               clickedTrack.autoplay = true;
             }
             clickedTrack.onloadeddata = () => {
+              clickedTrack.pause();
+              clickedTrack.remove();
               // reinit audio plugin and start
               $audioContainer.drzAudioPlayer();
               $title.text(trackTitle);
@@ -303,6 +313,8 @@
             initAudio.autoplay = true;
           }
           initAudio.onloadeddata = () => {
+            initAudio.pause();
+            initAudio.remove();
             $audio.currentTime = previousData.seconds;
             methods.setLoading(false);
           };
@@ -321,6 +333,8 @@
               initAudio.autoplay = true;
             }
             initAudio.onloadeddata = () => {
+              initAudio.pause();
+              initAudio.remove();
               $audio.currentTime = previousData.seconds;
               const track = sources.find(item => item.source === previousData.source);
               $title.text(track.title);

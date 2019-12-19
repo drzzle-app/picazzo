@@ -323,7 +323,10 @@ window.drzzle = {
             methods.pauseAudio();
           }
         },
+
+        isPlaying: false,
         onPlay: function onPlay() {
+          methods.isPlaying = true;
           $playBtn.addClass('drzAudio-pauseBtn');
           $playBtn.removeClass('drzAudio-replayBtn');
           // we need to store the last source being played in localStorage
@@ -336,6 +339,7 @@ window.drzzle = {
           }
         },
         onEnd: function onEnd() {
+          methods.isPlaying = false;
           $playBtn.removeClass('drzAudio-pauseBtn');
           $playBtn.addClass('drzAudio-replayBtn');
           if (episodes) {
@@ -345,6 +349,7 @@ window.drzzle = {
           }
         },
         onPause: function onPause() {
+          methods.isPlaying = false;
           $playBtn.removeClass('drzAudio-pauseBtn');
           $playBtn.removeClass('drzAudio-replayBtn');
           if (episodes) {
@@ -393,6 +398,10 @@ window.drzzle = {
           if (!loading) {
             methods.setLoading(true);
             $audioContainer.drzAudioPlayer.destroy($audioContainer, 'play');
+            if (methods.isPlaying) {
+              $audio.pause();
+              $audio.currentTime = 0;
+            }
             // remove local storage for this particular audio player
             delete storage.audioPlayer[$id];
             window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
@@ -407,6 +416,8 @@ window.drzzle = {
               clickedTrack.autoplay = true;
             }
             clickedTrack.onloadeddata = function () {
+              clickedTrack.pause();
+              clickedTrack.remove();
               // reinit audio plugin and start
               $audioContainer.drzAudioPlayer();
               $title.text(trackTitle);
@@ -480,6 +491,8 @@ window.drzzle = {
             initAudio.autoplay = true;
           }
           initAudio.onloadeddata = function () {
+            initAudio.pause();
+            initAudio.remove();
             $audio.currentTime = previousData.seconds;
             methods.setLoading(false);
           };
@@ -500,6 +513,8 @@ window.drzzle = {
               _initAudio.autoplay = true;
             }
             _initAudio.onloadeddata = function () {
+              _initAudio.pause();
+              _initAudio.remove();
               $audio.currentTime = previousData.seconds;
               var track = sources.find(function (item) {
                 return item.source === previousData.source;
@@ -3477,6 +3492,7 @@ window.drzzle = {
             }
             // once new track is loaded, reinit the video plugin
             newVideo.onloadeddata = function () {
+              newVideo.pause();
               newVideo.remove();
               // reinit video plugin and start
               $videoContainer.drzVideoPlayer();
@@ -3556,9 +3572,10 @@ window.drzzle = {
             newVideo.autoplay = true;
           }
           newVideo.onloadeddata = function () {
+            newVideo.pause();
+            newVideo.remove();
             $video.currentTime = previousData.seconds;
             methods.setLoading(false);
-            newVideo.remove();
           };
         }
 
@@ -3578,9 +3595,10 @@ window.drzzle = {
               _newVideo.autoplay = true;
             }
             _newVideo.onloadeddata = function () {
+              _newVideo.pause();
+              _newVideo.remove();
               $video.currentTime = previousData.seconds;
               methods.setLoading(false);
-              _newVideo.remove();
             };
           }
         }

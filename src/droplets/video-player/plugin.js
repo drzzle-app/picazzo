@@ -577,6 +577,7 @@
             }
             // once new track is loaded, reinit the video plugin
             newVideo.onloadeddata = () => {
+              newVideo.pause();
               newVideo.remove();
               // reinit video plugin and start
               $videoContainer.drzVideoPlayer();
@@ -665,9 +666,10 @@
             newVideo.autoplay = true;
           }
           newVideo.onloadeddata = () => {
+            newVideo.pause();
+            newVideo.remove();
             $video.currentTime = previousData.seconds;
             methods.setLoading(false);
-            newVideo.remove();
           };
         }
 
@@ -685,9 +687,10 @@
               newVideo.autoplay = true;
             }
             newVideo.onloadeddata = () => {
+              newVideo.pause();
+              newVideo.remove();
               $video.currentTime = previousData.seconds;
               methods.setLoading(false);
-              newVideo.remove();
             };
           }
         }
