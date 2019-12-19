@@ -50,13 +50,28 @@
         loading: false,
         setLoading(loading) {
           methods.loading = loading;
+          methods.$errorEl.hide();
           if (loading) {
             $overlay.addClass('drzVideo-loading');
             $overlayPlayBtn.hide();
+            // fallback errors for issues when video can't load
+            methods.loadTimeout = setTimeout(methods.onLoadTimeout, 20000);
           } else {
             $overlay.removeClass('drzVideo-loading');
             $overlayPlayBtn.show();
+            if (methods.loadTimeout) {
+              clearTimeout(methods.loadTimeout);
+            }
           }
+        },
+        loadTimeout: null,
+        onLoadTimeout() {
+          methods.$errorEl.text('There was an issue loading video.');
+          methods.$errorEl.show();
+          // kill loader
+          $overlayPlayBtn.hide();
+          $overlay.removeClass('drzVideo-loading');
+          methods.loading = false;
         },
         getTotalTime() {
           const totalMinutes = parseInt($video.duration / 60, 10);
@@ -231,7 +246,7 @@
         },
         hideControls: null,
         slideControlsUp() {
-          if ($controlsContainer.hasClass('drzVide-slideDown')) {
+          if (!methods.isIOS() && $controlsContainer.hasClass('drzVide-slideDown')) {
             $controlsContainer.removeClass('drzVide-slideDown');
             $progress.removeClass('drzVideo-soloProgress');
             $progressBar.removeClass('drzVideo-soloProgress');
@@ -249,21 +264,25 @@
           return clearTimeout(methods.hideControls);
         },
         slideControlsDown() {
-          clearTimeout(methods.hideControls);
-          methods.hideControls = setTimeout(() => {
+          if (!methods.isIOS()) {
+            clearTimeout(methods.hideControls);
+            methods.hideControls = setTimeout(() => {
+              if (!$controlsContainer.hasClass('drzVide-slideDown')) {
+                $controlsContainer.addClass('drzVide-slideDown');
+                $progress.addClass('drzVideo-soloProgress');
+                $progressBar.addClass('drzVideo-soloProgress');
+              }
+            }, 3000);
+          }
+        },
+        offHover() {
+          if (!methods.isIOS()) {
+            clearTimeout(methods.hideControls);
             if (!$controlsContainer.hasClass('drzVide-slideDown')) {
               $controlsContainer.addClass('drzVide-slideDown');
               $progress.addClass('drzVideo-soloProgress');
               $progressBar.addClass('drzVideo-soloProgress');
             }
-          }, 3000);
-        },
-        offHover() {
-          clearTimeout(methods.hideControls);
-          if (!$controlsContainer.hasClass('drzVide-slideDown')) {
-            $controlsContainer.addClass('drzVide-slideDown');
-            $progress.addClass('drzVideo-soloProgress');
-            $progressBar.addClass('drzVideo-soloProgress');
           }
         },
         toggleControls() {
@@ -321,6 +340,9 @@
             } else {
               methods.pauseVideo(e);
             }
+          }
+          if (methods.$errorEl) {
+            methods.$errorEl.hide();
           }
         },
         playVideo() {
@@ -414,9 +436,45 @@
             });
           }
         },
+        fastForward(seconds) {
+          $video.currentTime += seconds;
+        },
+        rewind(seconds) {
+          $video.currentTime -= seconds;
+        },
+        onKeydown(e) {
+          const bodyPress = e.target.tagName === 'BODY';
+          const code = e.key || e.which;
+          // play
+          if (bodyPress && code === 'p') {
+            methods.togglePlay();
+          }
+          // mute
+          if (bodyPress && code === 'm') {
+            methods.toggleMute();
+          }
+          // fullscreen
+          if (bodyPress && code === 'f') {
+            methods.toggleFullScreen();
+          }
+          // ff seconds
+          if (bodyPress && code === 'ArrowRight') {
+            methods.fastForward(5);
+          }
+          // rewind totalSeconds
+          if (bodyPress && code === 'ArrowLeft') {
+            methods.rewind(5);
+          }
+        },
+        isFullScreen: false,
         toggleFullScreen(e) {
+          methods.isFullScreen = !methods.isFullScreen;
           if (e) {
             e.stopPropagation();
+          }
+          // iphone / IOS
+          if (methods.isIOS()) {
+            $video.webkitEnterFullscreen();
           }
           if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) ||
               (document.msFullscreenElement !== undefined &&
@@ -440,35 +498,6 @@
             document.webkitCancelFullScreen();
           } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
-          }
-        },
-        fastForward(seconds) {
-          $video.currentTime += seconds;
-        },
-        rewind(seconds) {
-          $video.currentTime -= seconds;
-        },
-        onKeydown(e) {
-          const code = e.key || e.which;
-          // play
-          if (code === 'p') {
-            methods.togglePlay();
-          }
-          // mute
-          if (code === 'm') {
-            methods.toggleMute();
-          }
-          // fullscreen
-          if (code === 'f') {
-            methods.toggleFullScreen();
-          }
-          // ff seconds
-          if (code === 'ArrowRight') {
-            methods.fastForward(5);
-          }
-          // rewind totalSeconds
-          if (code === 'ArrowLeft') {
-            methods.rewind(5);
           }
         },
         fullscreenChecks() {
@@ -543,15 +572,20 @@
             $sourceTag.attr('src', $newSource);
             const newVideo = document.createElement('video');
             newVideo.src = $newSource;
+            if (methods.isIOS()) {
+              newVideo.autoplay = true;
+            }
             // once new track is loaded, reinit the video plugin
             newVideo.onloadeddata = () => {
+              newVideo.remove();
               // reinit video plugin and start
               $videoContainer.drzVideoPlayer();
               methods.setLoading(false);
               methods.showPlaying();
-              $this.trigger('click');
-              methods.togglePlay();
-              newVideo.remove();
+              if (!methods.isIOS()) {
+                $this.trigger('click');
+                methods.togglePlay();
+              }
             };
           }
         },
@@ -582,8 +616,38 @@
             methods.$listContainer = listEl;
           }
         },
+        isIOS() {
+          return /iPad|iPhone|iPod/.test(navigator.userAgent);
+        },
+        iosChecks() {
+          if (methods.isIOS()) {
+            $mute.hide();
+            $sliderContainer.hide();
+          }
+        },
+        $errorEl: null,
+        addErrorMessage() {
+          const $msg = $overlay.find('.drzVideo-error-message');
+          if (!$msg.length) {
+            const $newMsg = $('<div class="drzVideo-error-message"></div>');
+            $overlay.append($newMsg);
+            methods.$errorEl = $newMsg;
+          } else {
+            methods.$errorEl = $msg;
+          }
+        },
       };
 
+      if (methods.isIOS()) {
+        // this is needed to disable the auto
+        // full screen IOS fires on default
+        $videoTag.attr('playsinline', true);
+        // we can patentially add the default controls
+        // for ios video if this player becomes to
+        // difficult to do
+      }
+
+      methods.addErrorMessage();
       $playBtn.find('.drzVideo-playBtn-inner').addClass('drzVideo-play-icon');
       // methods.setLoading(true);
       // $video.addEventListener('loadeddata', methods.onVideoLoad);
@@ -597,6 +661,9 @@
           methods.setLoading(true);
           const newVideo = document.createElement('video');
           newVideo.src = $initialSource;
+          if (methods.isIOS()) {
+            newVideo.autoplay = true;
+          }
           newVideo.onloadeddata = () => {
             $video.currentTime = previousData.seconds;
             methods.setLoading(false);
@@ -614,6 +681,9 @@
             $sourceTag.attr('src', previousData.source);
             const newVideo = document.createElement('video');
             newVideo.src = previousData.source;
+            if (methods.isIOS()) {
+              newVideo.autoplay = true;
+            }
             newVideo.onloadeddata = () => {
               $video.currentTime = previousData.seconds;
               methods.setLoading(false);
@@ -625,6 +695,7 @@
         storage.videoPlayer[$id] = { source: null, seconds: 0 };
       }
 
+      methods.iosChecks();
       // bind the control toggling only once after clicking on video
       $video.addEventListener('progress', methods.onBuffer);
       $this.one('click', methods.toggleControls);
@@ -649,7 +720,7 @@
       $controlBtn.on('vmouseover', methods.onButtonHover);
       $controlBtn.on('vmouseout', methods.onButtoneLeave);
       document.addEventListener('keydown', methods.onKeydown);
-      $playBtn.click(methods.togglePlay);
+      $playBtn.on('click', methods.togglePlay);
       $volume.change(methods.setVolume);
       $volume.on('vmouseup', methods.volMouseUp);
       $mute.click(methods.toggleMute);

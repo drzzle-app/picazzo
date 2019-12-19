@@ -18,7 +18,7 @@
       const $audioTag = $this.find('.drzAudio-src');
       const $audio = $audioTag.get(0);
       const $title = $this.find('.drzAudio-titleContainer');
-      const $playContainer = $this.find('.playBtnContainer');
+      const $playContainer = $this.find('.drzAudio-playBtnContainer');
       const $playBtn = $this.find('.drzAudio-playBtn');
       const $pauseBtn = $this.find('.drzAudio-pauseBtn');
       const $volToggle = $this.find('.drzAudio-volumeBtn');
@@ -202,12 +202,15 @@
             $sourceTag.attr('src', $newSource);
             // once new track is loaded, reinit the audio plugin
             const clickedTrack = new Audio($newSource);
+            if (methods.isIOS()) {
+              clickedTrack.autoplay = true;
+            }
             clickedTrack.onloadeddata = () => {
               // reinit audio plugin and start
               $audioContainer.drzAudioPlayer();
               $title.text(trackTitle);
               methods.showPlaying();
-              methods.togglePlay();
+              $playBtn.trigger('click');
               methods.setLoading(false);
             };
           }
@@ -280,6 +283,9 @@
             methods.$loader = $loader;
           }
         },
+        isIOS() {
+          return /iPad|iPhone|iPod/.test(navigator.userAgent);
+        },
       };
       // setup loader
       methods.createLoader();
@@ -293,6 +299,9 @@
         if (!episodes && previousData.source === $initialSource) {
           methods.setLoading(true);
           const initAudio = new Audio(previousData.source);
+          if (methods.isIOS()) {
+            initAudio.autoplay = true;
+          }
           initAudio.onloadeddata = () => {
             $audio.currentTime = previousData.seconds;
             methods.setLoading(false);
@@ -308,6 +317,9 @@
             methods.setLoading(true);
             $sourceTag.attr('src', previousData.source);
             const initAudio = new Audio(previousData.source);
+            if (methods.isIOS()) {
+              initAudio.autoplay = true;
+            }
             initAudio.onloadeddata = () => {
               $audio.currentTime = previousData.seconds;
               const track = sources.find(item => item.source === previousData.source);
@@ -318,6 +330,10 @@
         }
       } else {
         storage.audioPlayer[$id] = { source: null, seconds: 0 };
+        // in order to trigger a play event in IOS we need to auto play
+        if (methods.isIOS()) {
+          $audio.autoplay = true;
+        }
       }
 
       // attach listeners

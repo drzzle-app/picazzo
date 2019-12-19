@@ -217,7 +217,7 @@ window.drzzle = {
       var $audioTag = $this.find('.drzAudio-src');
       var $audio = $audioTag.get(0);
       var $title = $this.find('.drzAudio-titleContainer');
-      var $playContainer = $this.find('.playBtnContainer');
+      var $playContainer = $this.find('.drzAudio-playBtnContainer');
       var $playBtn = $this.find('.drzAudio-playBtn');
       var $pauseBtn = $this.find('.drzAudio-pauseBtn');
       var $volToggle = $this.find('.drzAudio-volumeBtn');
@@ -403,12 +403,15 @@ window.drzzle = {
             $sourceTag.attr('src', $newSource);
             // once new track is loaded, reinit the audio plugin
             var clickedTrack = new Audio($newSource);
+            if (methods.isIOS()) {
+              clickedTrack.autoplay = true;
+            }
             clickedTrack.onloadeddata = function () {
               // reinit audio plugin and start
               $audioContainer.drzAudioPlayer();
               $title.text(trackTitle);
               methods.showPlaying();
-              methods.togglePlay();
+              $playBtn.trigger('click');
               methods.setLoading(false);
             };
           }
@@ -455,6 +458,10 @@ window.drzzle = {
           } else {
             methods.$loader = $loader;
           }
+        },
+        isIOS: function isIOS() {
+          return (/iPad|iPhone|iPod/.test(navigator.userAgent)
+          );
         }
       };
       // setup loader
@@ -469,6 +476,9 @@ window.drzzle = {
         if (!episodes && previousData.source === $initialSource) {
           methods.setLoading(true);
           var initAudio = new Audio(previousData.source);
+          if (methods.isIOS()) {
+            initAudio.autoplay = true;
+          }
           initAudio.onloadeddata = function () {
             $audio.currentTime = previousData.seconds;
             methods.setLoading(false);
@@ -486,6 +496,9 @@ window.drzzle = {
             methods.setLoading(true);
             $sourceTag.attr('src', previousData.source);
             var _initAudio = new Audio(previousData.source);
+            if (methods.isIOS()) {
+              _initAudio.autoplay = true;
+            }
             _initAudio.onloadeddata = function () {
               $audio.currentTime = previousData.seconds;
               var track = sources.find(function (item) {
@@ -498,6 +511,10 @@ window.drzzle = {
         }
       } else {
         storage.audioPlayer[$id] = { source: null, seconds: 0 };
+        // in order to trigger a play event in IOS we need to auto play
+        if (methods.isIOS()) {
+          $audio.autoplay = true;
+        }
       }
 
       // attach listeners
@@ -2938,13 +2955,29 @@ window.drzzle = {
         loading: false,
         setLoading: function setLoading(loading) {
           methods.loading = loading;
+          methods.$errorEl.hide();
           if (loading) {
             $overlay.addClass('drzVideo-loading');
             $overlayPlayBtn.hide();
+            // fallback errors for issues when video can't load
+            methods.loadTimeout = setTimeout(methods.onLoadTimeout, 20000);
           } else {
             $overlay.removeClass('drzVideo-loading');
             $overlayPlayBtn.show();
+            if (methods.loadTimeout) {
+              clearTimeout(methods.loadTimeout);
+            }
           }
+        },
+
+        loadTimeout: null,
+        onLoadTimeout: function onLoadTimeout() {
+          methods.$errorEl.text('There was an issue loading video.');
+          methods.$errorEl.show();
+          // kill loader
+          $overlayPlayBtn.hide();
+          $overlay.removeClass('drzVideo-loading');
+          methods.loading = false;
         },
         getTotalTime: function getTotalTime() {
           var totalMinutes = parseInt($video.duration / 60, 10);
@@ -3119,7 +3152,7 @@ window.drzzle = {
 
         hideControls: null,
         slideControlsUp: function slideControlsUp() {
-          if ($controlsContainer.hasClass('drzVide-slideDown')) {
+          if (!methods.isIOS() && $controlsContainer.hasClass('drzVide-slideDown')) {
             $controlsContainer.removeClass('drzVide-slideDown');
             $progress.removeClass('drzVideo-soloProgress');
             $progressBar.removeClass('drzVideo-soloProgress');
@@ -3137,21 +3170,25 @@ window.drzzle = {
           return clearTimeout(methods.hideControls);
         },
         slideControlsDown: function slideControlsDown() {
-          clearTimeout(methods.hideControls);
-          methods.hideControls = setTimeout(function () {
+          if (!methods.isIOS()) {
+            clearTimeout(methods.hideControls);
+            methods.hideControls = setTimeout(function () {
+              if (!$controlsContainer.hasClass('drzVide-slideDown')) {
+                $controlsContainer.addClass('drzVide-slideDown');
+                $progress.addClass('drzVideo-soloProgress');
+                $progressBar.addClass('drzVideo-soloProgress');
+              }
+            }, 3000);
+          }
+        },
+        offHover: function offHover() {
+          if (!methods.isIOS()) {
+            clearTimeout(methods.hideControls);
             if (!$controlsContainer.hasClass('drzVide-slideDown')) {
               $controlsContainer.addClass('drzVide-slideDown');
               $progress.addClass('drzVideo-soloProgress');
               $progressBar.addClass('drzVideo-soloProgress');
             }
-          }, 3000);
-        },
-        offHover: function offHover() {
-          clearTimeout(methods.hideControls);
-          if (!$controlsContainer.hasClass('drzVide-slideDown')) {
-            $controlsContainer.addClass('drzVide-slideDown');
-            $progress.addClass('drzVideo-soloProgress');
-            $progressBar.addClass('drzVideo-soloProgress');
           }
         },
         toggleControls: function toggleControls() {
@@ -3204,6 +3241,9 @@ window.drzzle = {
             } else {
               methods.pauseVideo(e);
             }
+          }
+          if (methods.$errorEl) {
+            methods.$errorEl.hide();
           }
         },
         playVideo: function playVideo() {
@@ -3298,9 +3338,46 @@ window.drzzle = {
             });
           }
         },
+        fastForward: function fastForward(seconds) {
+          $video.currentTime += seconds;
+        },
+        rewind: function rewind(seconds) {
+          $video.currentTime -= seconds;
+        },
+        onKeydown: function onKeydown(e) {
+          var bodyPress = e.target.tagName === 'BODY';
+          var code = e.key || e.which;
+          // play
+          if (bodyPress && code === 'p') {
+            methods.togglePlay();
+          }
+          // mute
+          if (bodyPress && code === 'm') {
+            methods.toggleMute();
+          }
+          // fullscreen
+          if (bodyPress && code === 'f') {
+            methods.toggleFullScreen();
+          }
+          // ff seconds
+          if (bodyPress && code === 'ArrowRight') {
+            methods.fastForward(5);
+          }
+          // rewind totalSeconds
+          if (bodyPress && code === 'ArrowLeft') {
+            methods.rewind(5);
+          }
+        },
+
+        isFullScreen: false,
         toggleFullScreen: function toggleFullScreen(e) {
+          methods.isFullScreen = !methods.isFullScreen;
           if (e) {
             e.stopPropagation();
+          }
+          // iphone / IOS
+          if (methods.isIOS()) {
+            $video.webkitEnterFullscreen();
           }
           if (document.fullScreenElement !== undefined && document.fullScreenElement === null || document.msFullscreenElement !== undefined && document.msFullscreenElement === null || document.mozFullScreen !== undefined && !document.mozFullScreen || document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen) {
             if (thisNode.requestFullScreen) {
@@ -3320,35 +3397,6 @@ window.drzzle = {
             document.webkitCancelFullScreen();
           } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
-          }
-        },
-        fastForward: function fastForward(seconds) {
-          $video.currentTime += seconds;
-        },
-        rewind: function rewind(seconds) {
-          $video.currentTime -= seconds;
-        },
-        onKeydown: function onKeydown(e) {
-          var code = e.key || e.which;
-          // play
-          if (code === 'p') {
-            methods.togglePlay();
-          }
-          // mute
-          if (code === 'm') {
-            methods.toggleMute();
-          }
-          // fullscreen
-          if (code === 'f') {
-            methods.toggleFullScreen();
-          }
-          // ff seconds
-          if (code === 'ArrowRight') {
-            methods.fastForward(5);
-          }
-          // rewind totalSeconds
-          if (code === 'ArrowLeft') {
-            methods.rewind(5);
           }
         },
         fullscreenChecks: function fullscreenChecks() {
@@ -3424,15 +3472,20 @@ window.drzzle = {
             $sourceTag.attr('src', $newSource);
             var newVideo = document.createElement('video');
             newVideo.src = $newSource;
+            if (methods.isIOS()) {
+              newVideo.autoplay = true;
+            }
             // once new track is loaded, reinit the video plugin
             newVideo.onloadeddata = function () {
+              newVideo.remove();
               // reinit video plugin and start
               $videoContainer.drzVideoPlayer();
               methods.setLoading(false);
               methods.showPlaying();
-              $this.trigger('click');
-              methods.togglePlay();
-              newVideo.remove();
+              if (!methods.isIOS()) {
+                $this.trigger('click');
+                methods.togglePlay();
+              }
             };
           }
         },
@@ -3451,9 +3504,41 @@ window.drzzle = {
           } else {
             methods.$listContainer = listEl;
           }
+        },
+        isIOS: function isIOS() {
+          return (/iPad|iPhone|iPod/.test(navigator.userAgent)
+          );
+        },
+        iosChecks: function iosChecks() {
+          if (methods.isIOS()) {
+            $mute.hide();
+            $sliderContainer.hide();
+          }
+        },
+
+        $errorEl: null,
+        addErrorMessage: function addErrorMessage() {
+          var $msg = $overlay.find('.drzVideo-error-message');
+          if (!$msg.length) {
+            var $newMsg = $('<div class="drzVideo-error-message"></div>');
+            $overlay.append($newMsg);
+            methods.$errorEl = $newMsg;
+          } else {
+            methods.$errorEl = $msg;
+          }
         }
       };
 
+      if (methods.isIOS()) {
+        // this is needed to disable the auto
+        // full screen IOS fires on default
+        $videoTag.attr('playsinline', true);
+        // we can patentially add the default controls
+        // for ios video if this player becomes to
+        // difficult to do
+      }
+
+      methods.addErrorMessage();
       $playBtn.find('.drzVideo-playBtn-inner').addClass('drzVideo-play-icon');
       // methods.setLoading(true);
       // $video.addEventListener('loadeddata', methods.onVideoLoad);
@@ -3467,6 +3552,9 @@ window.drzzle = {
           methods.setLoading(true);
           var newVideo = document.createElement('video');
           newVideo.src = $initialSource;
+          if (methods.isIOS()) {
+            newVideo.autoplay = true;
+          }
           newVideo.onloadeddata = function () {
             $video.currentTime = previousData.seconds;
             methods.setLoading(false);
@@ -3486,6 +3574,9 @@ window.drzzle = {
             $sourceTag.attr('src', previousData.source);
             var _newVideo = document.createElement('video');
             _newVideo.src = previousData.source;
+            if (methods.isIOS()) {
+              _newVideo.autoplay = true;
+            }
             _newVideo.onloadeddata = function () {
               $video.currentTime = previousData.seconds;
               methods.setLoading(false);
@@ -3497,6 +3588,7 @@ window.drzzle = {
         storage.videoPlayer[$id] = { source: null, seconds: 0 };
       }
 
+      methods.iosChecks();
       // bind the control toggling only once after clicking on video
       $video.addEventListener('progress', methods.onBuffer);
       $this.one('click', methods.toggleControls);
@@ -3525,7 +3617,7 @@ window.drzzle = {
       $controlBtn.on('vmouseover', methods.onButtonHover);
       $controlBtn.on('vmouseout', methods.onButtoneLeave);
       document.addEventListener('keydown', methods.onKeydown);
-      $playBtn.click(methods.togglePlay);
+      $playBtn.on('click', methods.togglePlay);
       $volume.change(methods.setVolume);
       $volume.on('vmouseup', methods.volMouseUp);
       $mute.click(methods.toggleMute);
