@@ -562,13 +562,14 @@
           e.preventDefault();
           if (!methods.loading) {
             methods.setLoading(true);
-            $videoContainer.drzVideoPlayer.destroy($videoContainer, 'play');
-            // remove local storage for this particular video player
-            delete storage.videoPlayer[$id];
-            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
-            // replace video source
             const $link = $(e.target).closest('[data-video-src]');
             const $newSource = $link.attr('data-video-src');
+            $videoContainer.drzVideoPlayer.destroy($videoContainer, 'play');
+            // remove local storage for this particular video player
+            storage.videoPlayer[$id].source = $newSource;
+            storage.videoPlayer[$id].seconds = 0;
+            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
+            // replace video source
             $sourceTag.attr('src', $newSource);
             const newVideo = document.createElement('video');
             newVideo.src = $newSource;

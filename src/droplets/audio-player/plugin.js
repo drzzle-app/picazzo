@@ -195,17 +195,18 @@
           e.preventDefault();
           if (!loading) {
             methods.setLoading(true);
+            const $link = $(e.target).closest('[data-audio-src]');
+            const $newSource = $link.attr('data-audio-src');
             $audioContainer.drzAudioPlayer.destroy($audioContainer, 'play');
             if (methods.isPlaying) {
               $audio.pause();
               $audio.currentTime = 0;
             }
             // remove local storage for this particular audio player
-            delete storage.audioPlayer[$id];
+            storage.audioPlayer[$id].source = $newSource;
+            storage.audioPlayer[$id].seconds = 0;
             window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
             // replace audio source
-            const $link = $(e.target).closest('[data-audio-src]');
-            const $newSource = $link.attr('data-audio-src');
             const trackTitle = $link.find('.drzAudio-episodes-title').text();
             $sourceTag.attr('src', $newSource);
             // once new track is loaded, reinit the audio plugin

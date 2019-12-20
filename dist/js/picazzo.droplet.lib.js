@@ -397,17 +397,18 @@ window.drzzle = {
           e.preventDefault();
           if (!loading) {
             methods.setLoading(true);
+            var $link = $(e.target).closest('[data-audio-src]');
+            var $newSource = $link.attr('data-audio-src');
             $audioContainer.drzAudioPlayer.destroy($audioContainer, 'play');
             if (methods.isPlaying) {
               $audio.pause();
               $audio.currentTime = 0;
             }
             // remove local storage for this particular audio player
-            delete storage.audioPlayer[$id];
+            storage.audioPlayer[$id].source = $newSource;
+            storage.audioPlayer[$id].seconds = 0;
             window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
             // replace audio source
-            var $link = $(e.target).closest('[data-audio-src]');
-            var $newSource = $link.attr('data-audio-src');
             var trackTitle = $link.find('.drzAudio-episodes-title').text();
             $sourceTag.attr('src', $newSource);
             // once new track is loaded, reinit the audio plugin
@@ -3477,13 +3478,14 @@ window.drzzle = {
           e.preventDefault();
           if (!methods.loading) {
             methods.setLoading(true);
-            $videoContainer.drzVideoPlayer.destroy($videoContainer, 'play');
-            // remove local storage for this particular video player
-            delete storage.videoPlayer[$id];
-            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
-            // replace video source
             var $link = $(e.target).closest('[data-video-src]');
             var $newSource = $link.attr('data-video-src');
+            $videoContainer.drzVideoPlayer.destroy($videoContainer, 'play');
+            // remove local storage for this particular video player
+            storage.videoPlayer[$id].source = $newSource;
+            storage.videoPlayer[$id].seconds = 0;
+            window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
+            // replace video source
             $sourceTag.attr('src', $newSource);
             var newVideo = document.createElement('video');
             newVideo.src = $newSource;
