@@ -54,9 +54,7 @@
         getImgPin(img) {
           let pin = img;
           if (window.__editor && !img.match(/^http/gi)) {
-            let prefix = process.env.NODE_ENV === 'development' ? '' : 'file://';
-            prefix = `${prefix}${process.env._staticWrite}`; // eslint-disable-line
-            pin = `${prefix}/${window._currentSite.name}${img}`; // eslint-disable-line
+            pin = `${window.assetPrefix}${img}`;
           }
           return pin;
         },

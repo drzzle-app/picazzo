@@ -496,12 +496,14 @@ const buildIcons = async () => {
     const fullPath = `${iconDir}${iconCss}`;
     const name = path.basename(iconCss, '.css');
     return new Promise((resolve, reject) => {
+      // fontello css is already minified. trying
+      // to minify again causes some of the files
+      // erase a lot of code
       gulp.src(fullPath)
         .pipe(rename(`${name}.min.css`))
         .pipe(postcss([autoprefixer({
           cascade: false,
         })]))
-        .pipe(cssmin())
         .pipe(gulp.dest('dist/icons/css'))
         .on('end', () => resolve(iconCss))
         .on('error', () => reject());

@@ -1837,9 +1837,7 @@ window.drzzle = {
         getImgPin: function getImgPin(img) {
           var pin = img;
           if (window.__editor && !img.match(/^http/gi)) {
-            var prefix = process.env.NODE_ENV === 'development' ? '' : 'file://';
-            prefix = '' + prefix + process.env._staticWrite; // eslint-disable-line
-            pin = prefix + '/' + window._currentSite.name + img; // eslint-disable-line
+            pin = '' + window.assetPrefix + img;
           }
           return pin;
         },
@@ -2676,9 +2674,7 @@ window.drzzle = {
         getVidPath: function getVidPath(src) {
           var path = src;
           if (window.__editor && !src.match(/^http/gi)) {
-            var prefix = process.env.NODE_ENV === 'development' ? '' : 'file://';
-            prefix = '' + prefix + process.env._staticWrite; // eslint-disable-line
-            path = prefix + '/' + window._currentSite.name + path; // eslint-disable-line
+            path = '' + window.assetPrefix + src;
           }
           return path;
         },

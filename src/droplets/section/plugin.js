@@ -50,9 +50,7 @@
         getVidPath(src) {
           let path = src;
           if (window.__editor && !src.match(/^http/gi)) {
-            let prefix = process.env.NODE_ENV === 'development' ? '' : 'file://';
-            prefix = `${prefix}${process.env._staticWrite}`; // eslint-disable-line
-            path = `${prefix}/${window._currentSite.name}${path}`; // eslint-disable-line
+            path = `${window.assetPrefix}${src}`;
           }
           return path;
         },
