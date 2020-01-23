@@ -18,8 +18,6 @@ const watch = require('gulp-watch');
 const colors = require('colors');
 const _ = require('lodash');
 
-// utils
-
 // gulp file aliases
 const gulpAliases = {
   '@modules': './node_modules',
@@ -449,15 +447,18 @@ const buildThemes = async () => {
   ];
   function buildTheme(theme) {
     return new Promise((resolve, reject) => {
-      gulp
+      const css = gulp
         .src(`./src/less/themes/${theme}/main.less`)
         .pipe(aliases(gulpAliases))
         .pipe(less())
         .pipe(postcss([autoprefixer({
           grid: 'autoplace',
           cascade: false,
-        })]))
-        .pipe(rename(`${theme}.min.css`))
+        })]));
+      css.pipe(inject.prepend(fontImports.join('').trim()))
+        .pipe(rename(`${theme}.css`))
+        .pipe(gulp.dest('./dist/css'));
+      css.pipe(rename(`${theme}.min.css`))
         .pipe(cssmin())
         .pipe(inject.prepend(fontImports.join('').trim()))
         .pipe(gulp.dest('./dist/css'))
