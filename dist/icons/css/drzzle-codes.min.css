@@ -149,6 +149,7 @@
 .drzicon-volume-med:before { content: '\e893'; } /* '' */
 .drzicon-volume-max:before { content: '\e894'; } /* '' */
 .drzicon-video:before { content: '\e895'; } /* '' */
+.drzicon-group-1:before { content: '\e896'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
@@ -190,6 +191,7 @@
 .drzicon-dot-circled:before { content: '\f192'; } /* '' */
 .drzicon-vimeo-squared:before { content: '\f194'; } /* '' */
 .drzicon-slack:before { content: '\f198'; } /* '' */
+.drzicon-google:before { content: '\f1a0'; } /* '' */
 .drzicon-reddit-squared:before { content: '\f1a2'; } /* '' */
 .drzicon-behance:before { content: '\f1b4'; } /* '' */
 .drzicon-behance-squared:before { content: '\f1b5'; } /* '' */
@@ -206,6 +208,10 @@
 .drzicon-hashtag:before { content: '\f292'; } /* '' */
 .drzicon-snapchat-ghost:before { content: '\f2ac'; } /* '' */
 .drzicon-snapchat-square:before { content: '\f2ad'; } /* '' */
+.drzicon-user-circle:before { content: '\f2bd'; } /* '' */
+.drzicon-user-circle-o:before { content: '\f2be'; } /* '' */
+.drzicon-id-card:before { content: '\f2c2'; } /* '' */
+.drzicon-id-card-o:before { content: '\f2c3'; } /* '' */
 .drzicon-github-squared:before { content: '\f300'; } /* '' */
 .drzicon-twitter-squared:before { content: '\f304'; } /* '' */
 .drzicon-linkedin-squared:before { content: '\f30c'; } /* '' */
