@@ -604,7 +604,37 @@
                     <span class="drzVideo-episodes-date">Published - ${item.published}</span>
                   </div>
                   <div class="drzVideo-episodes-rcol">
-                    <span class="drzVideo-episode-playing"></span>
+                    <div class="drzVideo-episode-playing">
+                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
+                         height="24px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                         <g id="Layer_2">
+                            <path class="drzVideo-film-base" d="M40,0H10H0v16.667v16.667V50h10h30h10V33.333V16.667V0H40z M40,2v12.667H10V2H40z M40,18.667v12.667H10V18.667H40z M10,48
+                               V35.333h30V48H10z"/>
+                         </g>
+                         <g id="Layer_1">
+                            <rect x="2.917" y="2.083" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="2.917" y="10.417" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="2.917" y="18.75" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="2.917" y="27.083" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="2.917" y="35.417" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="2.917" y="43.75" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="2.083" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="10.417" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="18.75" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="27.083" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="35.417" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="43.75" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="52.083" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="60.417" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="68.75" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="42.917" y="77.083" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="2.917" y="52.083" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="2.917" y="60.417" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="2.917" y="68.75" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                            <rect x="2.917" y="77.083" class="drzVideo-film-strip" width="4.167" height="4.167"/>
+                         </g>
+                      </svg>
+                    </div>
                     <span class="drzVideo-episodes-plbtn"></span>
                   </div>
                 </a>`,

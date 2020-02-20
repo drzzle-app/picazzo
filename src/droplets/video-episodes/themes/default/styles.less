@@ -59,14 +59,7 @@
 }
 
 .drzVideo-episode-playing {
-  color: @drzGreen;
   display: none;
-  font-family: 'drzzle';
-
-  &:after {
-    content: '\e895';
-    display: inline-block;
-  }
 }
 
 .drzVideo-episodes-livebtn {
@@ -81,5 +74,20 @@
 
   .drzVideo-episodes-plbtn {
     display: none;
+  }
+}
+
+.drzVideo-film-base {
+  fill: @drzGreen;
+}
+
+.drzVideo-film-strip {
+  animation: move-film-strip 2s linear infinite;
+  fill: @white;
+}
+
+@keyframes move-film-strip {
+  100% {
+    transform: translateY(-66.6666%);
   }
 }
