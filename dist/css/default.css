@@ -6352,13 +6352,7 @@ header {
   font-family: 'drzzle';
 }
 .drzVideo-episode-playing {
-  color: #41e0c4;
   display: none;
-  font-family: 'drzzle';
-}
-.drzVideo-episode-playing:after {
-  content: '\e895';
-  display: inline-block;
 }
 .drzVideo-episodes-livebtn {
   color: #41e0c4;
@@ -6368,4 +6362,24 @@ header {
 }
 .drzVideo-playing .drzVideo-episodes-plbtn {
   display: none;
+}
+.drzVideo-film-base {
+  fill: #41e0c4;
+}
+.drzVideo-film-strip {
+  -webkit-animation: move-film-strip 2s linear infinite;
+  animation: move-film-strip 2s linear infinite;
+  fill: #fff;
+}
+@-webkit-keyframes move-film-strip {
+  100% {
+    -webkit-transform: translateY(-66.6666%);
+    transform: translateY(-66.6666%);
+  }
+}
+@keyframes move-film-strip {
+  100% {
+    -webkit-transform: translateY(-66.6666%);
+    transform: translateY(-66.6666%);
+  }
 }

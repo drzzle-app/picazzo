@@ -150,6 +150,8 @@
 .drzicon-volume-max { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe894;&nbsp;'); }
 .drzicon-video { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe895;&nbsp;'); }
 .drzicon-group-1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe896;&nbsp;'); }
+.drzicon-video-1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe897;&nbsp;'); }
+.drzicon-video-2 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe898;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
