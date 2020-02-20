@@ -25,8 +25,7 @@
   <div
     class="picazzo-icon-col"
     v-for="icon in icons"
-    :key="icon.uid"
-    v-if="icon.selected">
+    :key="icon.uid">
     <i :class="'drzicon-' + icon.css"></i>
     <span class="picazzo-icon-label" :title="icon.css">
       {{ icon.css }}

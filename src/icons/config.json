@@ -1998,51 +1998,56 @@
     },
     {
       "uid": "c23a66951b34ed7d449688d559afb213",
-      "selected": true,
       "css": "video",
       "code": 59541,
       "src": "websymbols"
     },
     {
       "uid": "e36d581e4f2844db345bddc205d15dda",
-      "selected": true,
       "css": "group-1",
       "code": 59542,
       "src": "elusive"
     },
     {
       "uid": "f06fe7ff18d1c591bc1183cb3ab105e9",
-      "selected": true,
       "css": "google",
       "code": 61856,
       "src": "fontawesome"
     },
     {
       "uid": "2e6301ac94d0d51566727b9199259451",
-      "selected": true,
       "css": "id-card-o",
       "code": 62147,
       "src": "fontawesome"
     },
     {
       "uid": "37b41cdae5ec9dab40e0c5bfff8a0ec8",
-      "selected": true,
       "css": "id-card",
       "code": 62146,
       "src": "fontawesome"
     },
     {
       "uid": "818981e2ad316f18ae61cfa805d41309",
-      "selected": true,
       "css": "user-circle",
       "code": 62141,
       "src": "fontawesome"
     },
     {
       "uid": "3fce1eca43f917c8f23e532749abae5d",
-      "selected": true,
       "css": "user-circle-o",
       "code": 62142,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "6341ebcbe1ed1f6777c1b9527ead368e",
+      "css": "video-1",
+      "code": 59543,
+      "src": "entypo"
+    },
+    {
+      "uid": "872d9516df93eb6b776cc4d94bd97dac",
+      "css": "video-2",
+      "code": 59544,
       "src": "fontawesome"
     }
   ]
