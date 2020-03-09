@@ -3060,6 +3060,37 @@ body > .row {
   content: '';
   display: table;
 }
+.drzForm-captcha-container {
+  border: 1px solid #e2e2e2;
+  border-radius: 2px;
+  min-width: 280px;
+  padding: 5px 10px;
+  width: 50%;
+}
+.drzForm-captcha-container .drzForm-fieldContainer {
+  margin-bottom: 0;
+}
+.drzForm-buttonContainer {
+  background-color: transparent;
+  border-radius: 1px;
+  clear: both;
+  display: block;
+  float: left;
+  min-height: 5px;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}
+.drzForm-buttonContainer:after {
+  clear: both;
+  content: '';
+  display: table;
+}
+.drzForm-buttonContainer:before {
+  clear: both;
+  content: '';
+  display: table;
+}
 .drzForm-fieldLabel {
   clear: both;
   color: #808080;
