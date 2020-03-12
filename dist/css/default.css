@@ -2769,6 +2769,7 @@ body > .row {
   display: block;
   float: left;
   height: 0;
+  position: relative;
   width: 100%;
 }
 /* Event Cards */
@@ -2878,6 +2879,7 @@ body > .row {
   margin: 0;
   overflow: hidden;
   padding: 0;
+  position: relative;
 }
 .drzFooterNav-list:after {
   clear: both;
@@ -3700,6 +3702,7 @@ body > .row {
   display: table;
   float: left;
   min-height: 1px;
+  position: relative;
 }
 .drzImage-center {
   text-align: center;
@@ -4287,6 +4290,9 @@ header {
   }
 }
 /* General Text */
+.drz-general-text {
+  position: relative;
+}
 .drz-link {
   color: #41e0c4;
   text-decoration: none;
@@ -4551,6 +4557,7 @@ header {
   display: block;
   float: left;
   min-height: 10px;
+  position: relative;
   width: 100%;
 }
 .drzImageGallery-controls {
@@ -5622,6 +5629,7 @@ header {
   float: left;
   min-height: 20px;
   padding: 5px 25px;
+  position: relative;
   -webkit-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
