@@ -2645,7 +2645,7 @@ window.drzzle = {
             $vid.find('video.drzSection-video').remove();
             methods.drawVideo($vid);
           }
-          if (!resize) {
+          if (!resize || window.__editor) {
             $vid.find('video.drzSection-video').remove();
             methods.drawVideo($vid);
           }
@@ -2673,7 +2673,7 @@ window.drzzle = {
         },
         getVidPath: function getVidPath(src) {
           var path = src;
-          if (window.__editor && !src.match(/^http/gi)) {
+          if (window.__editor && src && !src.match(/^http/gi)) {
             path = '' + window.assetPrefix + src;
           }
           return path;

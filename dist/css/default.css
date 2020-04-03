@@ -2902,6 +2902,9 @@ body > .row {
   float: left;
   margin-right: 45px;
 }
+.drzFooterNav-list-item:last-child {
+  margin-right: 0;
+}
 @media only screen and (min-width:50px) and (max-width:600px) {
   .drzFooterNav-list-item {
     float: none;
@@ -3623,6 +3626,9 @@ body > .row {
   background-color: #20c4a7;
   outline: 0;
 }
+.drzForm-loader svg {
+  stroke: rgba(0, 0, 0, 0.35);
+}
 /* General Card */
 .drzCard-general {
   background-position: center center;
@@ -3953,6 +3959,9 @@ header {
   -webkit-transition-duration: 0.2s;
   -o-transition-duration: 0.2s;
   transition-duration: 0.2s;
+}
+[class^='drzSocialMedia-icon']:last-child {
+  margin-right: 0;
 }
 @media only screen and (min-width:50px) and (max-width:600px) {
   [class^='drzSocialMedia-icon'] {
