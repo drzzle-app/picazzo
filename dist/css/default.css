@@ -4063,6 +4063,9 @@ header {
   width: 100%;
 }
 .section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   margin: 0 auto;
   min-height: 10px;
   position: relative;
