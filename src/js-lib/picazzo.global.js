@@ -155,3 +155,117 @@ window.drzzle = {
     }
   };
 })(jQuery);
+
+/* On Reveal Plugin
+* ======================= */
+(($) => {
+  $.fn.drzOnReveal = function drzOnReveal(options) {
+    const $droplet = $(this);
+    const $child = $droplet.find(options.child);
+    $droplet.css('transition', '0s');
+    $child.css('transition', '0s');
+    const animations = $droplet.attr('data-on-reveal');
+    const editor = window.__editor;
+    let onScroll;
+    const methods = {
+      beenAnimated: false,
+      isVisible(el) {
+        const rect = el.getBoundingClientRect();
+        const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+        return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+      },
+      get() {
+        let viewport = '';
+        if (window.matchMedia(drzzle.viewports.desktop).matches) {
+          viewport = 'desktop';
+        }
+        if (window.matchMedia(drzzle.viewports.tablet).matches) {
+          viewport = 'tablet';
+        }
+        if (window.matchMedia(drzzle.viewports.mobile).matches) {
+          viewport = 'mobile';
+        }
+        return { viewport };
+      },
+      getValue(revealData, type) {
+        const viewport = methods.get().viewport;
+        let value = revealData[type][viewport];
+        if (viewport !== 'desktop' && value === 'default' && value.desktop !== 'default') {
+          value = revealData[type].desktop;
+        }
+        if (value === 'default') {
+          value = '0s';
+        }
+        return parseFloat(value.replace(/[^0-9.,]+/gi, ''));
+      },
+      getTotalDuration(buffer) {
+        const revealData = JSON.parse(animations);
+        const time = buffer || 0;
+        if (!revealData.transition) {
+          return time;
+        }
+        const transition = methods.getValue(revealData, 'transition');
+        const transitionDelay = methods.getValue(revealData, 'transition-delay');
+        const life = transition + transitionDelay + (time / 1000.0);
+        // change to milliseconds for setTimeout
+        return life.toFixed(3) * 1000.0;
+      },
+      life: 0,
+      revealingTime: null,
+      checkElement(buffer) {
+        const isVisible = methods.isVisible($child.get(0));
+        if (!methods.beenAnimated) {
+          $droplet.addClass('drzAnimation-onReveal-row');
+          $child.addClass('drzAnimation-onReveal');
+          if (animations && isVisible) {
+            const startAfter = buffer === 0 && !editor ? 100 : 0;
+            setTimeout(() => {
+              $droplet.css('transition', '');
+              $child.css('transition', '');
+              $droplet.addClass('drzAnimation-revealing');
+              $child.addClass('drzAnimation-revealing');
+              methods.beenAnimated = true;
+              const life = methods.getTotalDuration(buffer);
+              methods.life = life;
+              $droplet.removeClass('drzAnimation-onReveal-row');
+              $child.removeClass('drzAnimation-onReveal');
+              clearTimeout(methods.revealingTime);
+              methods.revealingTime = setTimeout(() => {
+                $droplet.removeClass('drzAnimation-revealing');
+                $child.removeClass('drzAnimation-revealing');
+                // we need to add the animation class back if editing
+                // the reveal state
+                if (editor && options.editing) {
+                  $droplet.addClass('drzAnimation-onReveal-row');
+                  $child.addClass('drzAnimation-onReveal');
+                }
+                if (onScroll) {
+                  drzzle.window.off('scroll', onScroll);
+                }
+              }, life);
+            }, startAfter);
+          }
+        }
+      },
+      init() {
+        $(document).ready(() => {
+          this.checkElement(0);
+          let scrollTimer;
+          onScroll = () => {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(methods.checkElement, 25);
+          };
+          if (!editor) {
+            drzzle.window.on('scroll', onScroll);
+          }
+        });
+      },
+    };
+    methods.init();
+    // destroy plugin
+    $.fn.drzOnReveal.destroy = () => {
+      drzzle.window.off('scroll', onScroll);
+    };
+    return this;
+  };
+})(jQuery);

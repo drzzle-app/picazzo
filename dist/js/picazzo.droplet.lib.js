@@ -160,6 +160,123 @@ window.drzzle = {
   };
 })(jQuery);
 
+/* On Reveal Plugin
+* ======================= */
+(function ($) {
+  $.fn.drzOnReveal = function drzOnReveal(options) {
+    var $droplet = $(this);
+    var $child = $droplet.find(options.child);
+    $droplet.css('transition', '0s');
+    $child.css('transition', '0s');
+    var animations = $droplet.attr('data-on-reveal');
+    var editor = window.__editor;
+    var onScroll = void 0;
+    var methods = {
+      beenAnimated: false,
+      isVisible: function isVisible(el) {
+        var rect = el.getBoundingClientRect();
+        var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+        return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+      },
+      get: function get() {
+        var viewport = '';
+        if (window.matchMedia(drzzle.viewports.desktop).matches) {
+          viewport = 'desktop';
+        }
+        if (window.matchMedia(drzzle.viewports.tablet).matches) {
+          viewport = 'tablet';
+        }
+        if (window.matchMedia(drzzle.viewports.mobile).matches) {
+          viewport = 'mobile';
+        }
+        return { viewport: viewport };
+      },
+      getValue: function getValue(revealData, type) {
+        var viewport = methods.get().viewport;
+        var value = revealData[type][viewport];
+        if (viewport !== 'desktop' && value === 'default' && value.desktop !== 'default') {
+          value = revealData[type].desktop;
+        }
+        if (value === 'default') {
+          value = '0s';
+        }
+        return parseFloat(value.replace(/[^0-9.,]+/gi, ''));
+      },
+      getTotalDuration: function getTotalDuration(buffer) {
+        var revealData = JSON.parse(animations);
+        var time = buffer || 0;
+        if (!revealData.transition) {
+          return time;
+        }
+        var transition = methods.getValue(revealData, 'transition');
+        var transitionDelay = methods.getValue(revealData, 'transition-delay');
+        var life = transition + transitionDelay + time / 1000.0;
+        // change to milliseconds for setTimeout
+        return life.toFixed(3) * 1000.0;
+      },
+
+      life: 0,
+      revealingTime: null,
+      checkElement: function checkElement(buffer) {
+        var isVisible = methods.isVisible($child.get(0));
+        if (!methods.beenAnimated) {
+          $droplet.addClass('drzAnimation-onReveal-row');
+          $child.addClass('drzAnimation-onReveal');
+          if (animations && isVisible) {
+            var startAfter = buffer === 0 && !editor ? 100 : 0;
+            setTimeout(function () {
+              $droplet.css('transition', '');
+              $child.css('transition', '');
+              $droplet.addClass('drzAnimation-revealing');
+              $child.addClass('drzAnimation-revealing');
+              methods.beenAnimated = true;
+              var life = methods.getTotalDuration(buffer);
+              methods.life = life;
+              $droplet.removeClass('drzAnimation-onReveal-row');
+              $child.removeClass('drzAnimation-onReveal');
+              clearTimeout(methods.revealingTime);
+              methods.revealingTime = setTimeout(function () {
+                $droplet.removeClass('drzAnimation-revealing');
+                $child.removeClass('drzAnimation-revealing');
+                // we need to add the animation class back if editing
+                // the reveal state
+                if (editor && options.editing) {
+                  $droplet.addClass('drzAnimation-onReveal-row');
+                  $child.addClass('drzAnimation-onReveal');
+                }
+                if (onScroll) {
+                  drzzle.window.off('scroll', onScroll);
+                }
+              }, life);
+            }, startAfter);
+          }
+        }
+      },
+      init: function init() {
+        var _this2 = this;
+
+        $(document).ready(function () {
+          _this2.checkElement(0);
+          var scrollTimer = void 0;
+          onScroll = function onScroll() {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(methods.checkElement, 25);
+          };
+          if (!editor) {
+            drzzle.window.on('scroll', onScroll);
+          }
+        });
+      }
+    };
+    methods.init();
+    // destroy plugin
+    $.fn.drzOnReveal.destroy = function () {
+      drzzle.window.off('scroll', onScroll);
+    };
+    return this;
+  };
+})(jQuery);
+
 /*
 ============================
  Drzzle Accordian Plugin
@@ -2112,7 +2229,7 @@ window.drzzle = {
     $doc.keydown(galleryKeys);
 
     $imageGallery.each(function initGallery() {
-      var _this2 = this;
+      var _this3 = this;
 
       var $this = $(this);
       isGalleryModal = false;
@@ -2124,7 +2241,7 @@ window.drzzle = {
         totalImages = ~~$this.find('.drzImageGallery-img').length;
         isGalleryModal = true;
         if ($el.parent().attr('class').match(/pg-page-/gi)) {
-          index = ~~$el.closest('.drzImageGallery').find('.drzImageGallery-img').index(_this2);
+          index = ~~$el.closest('.drzImageGallery').find('.drzImageGallery-img').index(_this3);
         } else {
           index = ~~$el.index();
         }
