@@ -334,6 +334,7 @@ window.drzzle = {
       var $audioTag = $this.find('.drzAudio-src');
       var $audio = $audioTag.get(0);
       var $title = $this.find('.drzAudio-titleContainer');
+      var $errorMsg = $this.find('.drzAudio-error');
       var $playContainer = $this.find('.drzAudio-playBtnContainer');
       var $playBtn = $this.find('.drzAudio-playBtn');
       var $pauseBtn = $this.find('.drzAudio-pauseBtn');
@@ -533,6 +534,11 @@ window.drzzle = {
             if (methods.isIOS()) {
               clickedTrack.autoplay = true;
             }
+            clickedTrack.onerror = function () {
+              $title.text(trackTitle);
+              methods.showPlaying();
+              methods.onError();
+            };
             clickedTrack.onloadeddata = function () {
               clickedTrack.pause();
               clickedTrack.remove();
@@ -541,7 +547,7 @@ window.drzzle = {
               $title.text(trackTitle);
               methods.showPlaying();
               $playBtn.trigger('click');
-              methods.setLoading(false);
+              methods.onLoad();
             };
           }
         },
@@ -576,6 +582,15 @@ window.drzzle = {
             methods.updateProgress(e.pageX);
           }
         },
+        onLoad: function onLoad() {
+          $errorMsg.hide();
+          methods.setLoading(false);
+        },
+        onError: function onError() {
+          $errorMsg.show();
+          $audio.currentTime = 0;
+          methods.setLoading(false);
+        },
 
         $loader: null,
         createLoader: function createLoader() {
@@ -608,11 +623,12 @@ window.drzzle = {
           if (methods.isIOS()) {
             initAudio.autoplay = true;
           }
+          initAudio.onerror = methods.onError();
           initAudio.onloadeddata = function () {
             initAudio.pause();
             initAudio.remove();
             $audio.currentTime = previousData.seconds;
-            methods.setLoading(false);
+            methods.onLoad();
           };
         }
 
@@ -630,6 +646,14 @@ window.drzzle = {
             if (methods.isIOS()) {
               _initAudio.autoplay = true;
             }
+            _initAudio.onerror = function () {
+              var track = sources.find(function (item) {
+                return item.source === previousData.source;
+              });
+              $title.text(track.title);
+              methods.showPlaying();
+              methods.onError();
+            };
             _initAudio.onloadeddata = function () {
               _initAudio.pause();
               _initAudio.remove();
@@ -638,7 +662,7 @@ window.drzzle = {
                 return item.source === previousData.source;
               });
               $title.text(track.title);
-              methods.setLoading(false);
+              methods.onLoad();
             };
           }
         }

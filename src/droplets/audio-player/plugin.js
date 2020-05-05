@@ -18,6 +18,7 @@
       const $audioTag = $this.find('.drzAudio-src');
       const $audio = $audioTag.get(0);
       const $title = $this.find('.drzAudio-titleContainer');
+      const $errorMsg = $this.find('.drzAudio-error');
       const $playContainer = $this.find('.drzAudio-playBtnContainer');
       const $playBtn = $this.find('.drzAudio-playBtn');
       const $pauseBtn = $this.find('.drzAudio-pauseBtn');
@@ -214,6 +215,11 @@
             if (methods.isIOS()) {
               clickedTrack.autoplay = true;
             }
+            clickedTrack.onerror = () => {
+              $title.text(trackTitle);
+              methods.showPlaying();
+              methods.onError();
+            };
             clickedTrack.onloadeddata = () => {
               clickedTrack.pause();
               clickedTrack.remove();
@@ -222,7 +228,7 @@
               $title.text(trackTitle);
               methods.showPlaying();
               $playBtn.trigger('click');
-              methods.setLoading(false);
+              methods.onLoad();
             };
           }
         },
@@ -272,6 +278,15 @@
             methods.updateProgress(e.pageX);
           }
         },
+        onLoad() {
+          $errorMsg.hide();
+          methods.setLoading(false);
+        },
+        onError() {
+          $errorMsg.show();
+          $audio.currentTime = 0;
+          methods.setLoading(false);
+        },
         $loader: null,
         createLoader() {
           const $loader = $playContainer.find('.drzAudio-loader');
@@ -313,11 +328,12 @@
           if (methods.isIOS()) {
             initAudio.autoplay = true;
           }
+          initAudio.onerror = methods.onError();
           initAudio.onloadeddata = () => {
             initAudio.pause();
             initAudio.remove();
             $audio.currentTime = previousData.seconds;
-            methods.setLoading(false);
+            methods.onLoad();
           };
         }
 
@@ -333,13 +349,19 @@
             if (methods.isIOS()) {
               initAudio.autoplay = true;
             }
+            initAudio.onerror = () => {
+              const track = sources.find(item => item.source === previousData.source);
+              $title.text(track.title);
+              methods.showPlaying();
+              methods.onError();
+            };
             initAudio.onloadeddata = () => {
               initAudio.pause();
               initAudio.remove();
               $audio.currentTime = previousData.seconds;
               const track = sources.find(item => item.source === previousData.source);
               $title.text(track.title);
-              methods.setLoading(false);
+              methods.onLoad();
             };
           }
         }
