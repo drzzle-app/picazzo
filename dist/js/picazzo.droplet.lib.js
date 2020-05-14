@@ -1170,6 +1170,15 @@ window.drzzle = {
   };
 })(jQuery);
 
+(function ($) {
+  $.fn.drzCopyright = function drzCopyright() {
+    var $droplet = $(this);
+    var $year = $droplet.find('.drzCopyright-year');
+    $year.html(new Date().getFullYear());
+    return this;
+  };
+})(jQuery);
+
 /*
 ============================
  Drzzle Countdown Plugin

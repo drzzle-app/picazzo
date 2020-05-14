@@ -30,4 +30,5 @@ export default {
   'grid': require('@/droplets/grid'),
   'audio-episodes': require('@/droplets/audio-episodes'),
   'video-episodes': require('@/droplets/video-episodes'),
+  'copyright': require('@/droplets/copyright'),
 };

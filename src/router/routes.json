@@ -221,6 +221,11 @@
                     "path": "/video-episodes",
                     "name": "video-episodes",
                     "component": "require('@/pages/droplets/video-episodes/').default"
+                },
+                {
+                    "path": "/copyright",
+                    "name": "copyright",
+                    "component": "require('@/pages/droplets/copyright/').default"
                 }
             ]
         },

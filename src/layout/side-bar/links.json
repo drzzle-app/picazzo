@@ -54,6 +54,11 @@
           "children": []
         },
         {
+          "text": "Copyright",
+          "route": "/copyright",
+          "children": []
+        },
+        {
           "text": "Countdown",
           "route": "/countdown",
           "children": []

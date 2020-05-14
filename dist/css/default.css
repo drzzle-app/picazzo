@@ -6455,3 +6455,7 @@ header {
     transform: translateY(-66.6666%);
   }
 }
+.drzCopyright {
+  display: inline-block;
+  width: 100%;
+}
