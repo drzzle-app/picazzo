@@ -152,11 +152,15 @@
 .drzicon-group-1:before { content: '\e896'; } /* '' */
 .drzicon-video-1:before { content: '\e897'; } /* '' */
 .drzicon-video-2:before { content: '\e898'; } /* '' */
+.drzicon-newspaper:before { content: '\e899'; } /* '' */
+.drzicon-doc:before { content: '\e89a'; } /* '' */
+.drzicon-book-open:before { content: '\e89b'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
 .drzicon-facebook:before { content: '\f09a'; } /* '' */
 .drzicon-github-circled:before { content: '\f09b'; } /* '' */
+.drzicon-filter:before { content: '\f0b0'; } /* '' */
 .drzicon-docs:before { content: '\f0c5'; } /* '' */
 .drzicon-menu:before { content: '\f0c9'; } /* '' */
 .drzicon-list-bullet:before { content: '\f0ca'; } /* '' */
@@ -170,6 +174,7 @@
 .drzicon-mail-alt:before { content: '\f0e0'; } /* '' */
 .drzicon-linkedin:before { content: '\f0e1'; } /* '' */
 .drzicon-upload-cloud:before { content: '\f0ee'; } /* '' */
+.drzicon-doc-text:before { content: '\f0f6'; } /* '' */
 .drzicon-plus-squared:before { content: '\f0fe'; } /* '' */
 .drzicon-angle-left:before { content: '\f104'; } /* '' */
 .drzicon-angle-right:before { content: '\f105'; } /* '' */
@@ -180,6 +185,9 @@
 .drzicon-minus-squared:before { content: '\f146'; } /* '' */
 .drzicon-pencil-squared:before { content: '\f14b'; } /* '' */
 .drzicon-expand:before { content: '\f150'; } /* '' */
+.drzicon-doc-inv:before { content: '\f15b'; } /* '' */
+.drzicon-doc-text-inv:before { content: '\f15c'; } /* '' */
+.drzicon-sort-alt-down:before { content: '\f161'; } /* '' */
 .drzicon-youtube-squared:before { content: '\f166'; } /* '' */
 .drzicon-youtube:before { content: '\f167'; } /* '' */
 .drzicon-instagram:before { content: '\f16d'; } /* '' */
@@ -198,6 +206,7 @@
 .drzicon-behance:before { content: '\f1b4'; } /* '' */
 .drzicon-behance-squared:before { content: '\f1b5'; } /* '' */
 .drzicon-recycle:before { content: '\f1b8'; } /* '' */
+.drzicon-file-pdf:before { content: '\f1c1'; } /* '' */
 .drzicon-git:before { content: '\f1d3'; } /* '' */
 .drzicon-paragraph:before { content: '\f1dd'; } /* '' */
 .drzicon-twitch:before { content: '\f1e8'; } /* '' */

@@ -31,4 +31,5 @@ export default {
   'audio-episodes': require('@/droplets/audio-episodes'),
   'video-episodes': require('@/droplets/video-episodes'),
   'copyright': require('@/droplets/copyright'),
+  'pdf-menu': require('@/droplets/pdf-menu'),
 };

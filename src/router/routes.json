@@ -226,6 +226,11 @@
                     "path": "/copyright",
                     "name": "copyright",
                     "component": "require('@/pages/droplets/copyright/').default"
+                },
+                {
+                    "path": "/pdf-menu",
+                    "name": "pdf-menu",
+                    "component": "require('@/pages/droplets/pdf-menu/').default"
                 }
             ]
         },

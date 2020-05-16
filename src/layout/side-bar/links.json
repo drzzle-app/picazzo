@@ -119,6 +119,11 @@
           "children": []
         },
         {
+          "text": "PDF Menu",
+          "route": "/pdf-menu",
+          "children": []
+        },
+        {
           "text": "Section",
           "route": "/section",
           "children": []
