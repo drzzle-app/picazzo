@@ -1,0 +1,58 @@
+.drzProduct-card {
+  background-color: @white;
+  border: 1px solid #dedede;
+  display: table;
+  width: 400px;
+}
+
+.drzProduct-card-img {
+  width: 100%;
+}
+
+.drzProduct-card-info {
+  padding: 10px;
+  position: relative;
+}
+
+.drzProduct-card-price {
+  font-size: 11pt;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.drzProduct-card-name {
+  color: fade(@black, 80%);
+  display: inline-block;
+  font-size: 13pt;
+  margin: 3px auto;
+  width: 100%;
+}
+
+.drzProduct-card-desc {
+  display: inline-block;
+  font-size: 11pt;
+  font-weight: 300;
+  margin: 3px auto;
+  width: 100%;
+}
+
+.drzProduct-card-cta {
+  border-color: fade(@black, 70%);
+  border-style: solid;
+  border-width: 2px;
+  color: fade(@black, 70%);
+  display: inline-block;
+  margin: 10px auto;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+
+  &:before {
+    content: '\f217';
+    display: inline-block;
+    font-family: 'drzzle';
+    margin-right: 5px;
+  }
+}

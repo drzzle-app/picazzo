@@ -12,6 +12,7 @@
     const $navHamburger = $this.find('.drzNav-hamburger');
     const $navLogo = $this.find('.drzNav-logo');
     const $navSearch = $this.find('.drzNav-search');
+    const $navCart = $this.find('.drzNav-cart');
     const $linksWidth = ~~($navList.outerWidth());
     const slShowCls = 'drzNav-subList-show';
     const slCls = '.drzNav-subList';
@@ -42,6 +43,9 @@
     let $searchWidth = 0;
     let $searchMarginLeft = 0;
     let $searchMarginRight = 0;
+    let $cartWidth = 0;
+    let $cartMarginLeft = 0;
+    let $cartMarginRight = 0;
 
     if ($navHamburger.is(':visible')) {
       $hamburgerWidth = ~~($navHamburger.outerWidth());
@@ -193,6 +197,15 @@
           $logoMarginLeft = 0;
           $logoMarginRight = 0;
         }
+        if ($navCart.is(':visible') && $navCart.length) {
+          $cartWidth = ~~($navCart.outerWidth());
+          $cartMarginLeft = parseInt($navCart.css('margin-left'), 10);
+          $cartMarginRight = parseInt($navCart.css('margin-right'), 10);
+        } else {
+          $cartWidth = 0;
+          $cartMarginLeft = 0;
+          $cartMarginRight = 0;
+        }
         if ($navSearch.is(':visible') && $navSearch.length) {
           $searchWidth = ~~($navSearch.outerWidth());
           $searchMarginLeft = parseInt($navSearch.css('margin-left'), 10);
@@ -208,6 +221,7 @@
         // nav is not there in editor, that's why
         const $navBuffer = parseInt($navWidth - ($logoWidth +
                                   $hamburgerWidth + $navPadLeft +
+                                  $cartWidth + $cartMarginLeft + $cartMarginRight +
                                   $searchWidth + $searchMarginLeft +
                                   $searchMarginRight + $logoMarginLeft +
                                   $logoMarginRight + $navPadRight), 10);

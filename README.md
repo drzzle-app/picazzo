@@ -159,7 +159,7 @@ npm run build:newpage
 This will ask you a few questions like "name?", "full page layout or side bar?" and "path in the pages dir.", after which this
 will generate the needed files to get you started as well as create routing and searchable content. If you want this page to be a link in the sidebar, that needs to be done manually.
 
-Creating a droplet page for example, you would use the path `/droplets/droplet-name`. Then add this to the `layout/side-bar/links.json` file.
+Creating a droplet page for example, you would use the path `/droplets`. Then add this to the `layout/side-bar/links.json` file.
 
 #### Creating New Droplets
 ```bash

@@ -32,4 +32,6 @@ export default {
   'video-episodes': require('@/droplets/video-episodes'),
   'copyright': require('@/droplets/copyright'),
   'pdf-menu': require('@/droplets/pdf-menu'),
+  'product-card': require('@/droplets/product-card'),
+  'buy-button': require('@/droplets/buy-button'),
 };

@@ -2367,6 +2367,7 @@ window.drzzle = {
     var $navHamburger = $this.find('.drzNav-hamburger');
     var $navLogo = $this.find('.drzNav-logo');
     var $navSearch = $this.find('.drzNav-search');
+    var $navCart = $this.find('.drzNav-cart');
     var $linksWidth = ~~$navList.outerWidth();
     var slShowCls = 'drzNav-subList-show';
     var slCls = '.drzNav-subList';
@@ -2397,6 +2398,9 @@ window.drzzle = {
     var $searchWidth = 0;
     var $searchMarginLeft = 0;
     var $searchMarginRight = 0;
+    var $cartWidth = 0;
+    var $cartMarginLeft = 0;
+    var $cartMarginRight = 0;
 
     if ($navHamburger.is(':visible')) {
       $hamburgerWidth = ~~$navHamburger.outerWidth();
@@ -2538,6 +2542,15 @@ window.drzzle = {
           $logoMarginLeft = 0;
           $logoMarginRight = 0;
         }
+        if ($navCart.is(':visible') && $navCart.length) {
+          $cartWidth = ~~$navCart.outerWidth();
+          $cartMarginLeft = parseInt($navCart.css('margin-left'), 10);
+          $cartMarginRight = parseInt($navCart.css('margin-right'), 10);
+        } else {
+          $cartWidth = 0;
+          $cartMarginLeft = 0;
+          $cartMarginRight = 0;
+        }
         if ($navSearch.is(':visible') && $navSearch.length) {
           $searchWidth = ~~$navSearch.outerWidth();
           $searchMarginLeft = parseInt($navSearch.css('margin-left'), 10);
@@ -2551,7 +2564,7 @@ window.drzzle = {
         var $navPadLeft = parseInt($this.css('padding-left'), 10);
         var $navPadRight = parseInt($this.css('padding-right'), 10);
         // nav is not there in editor, that's why
-        var $navBuffer = parseInt($navWidth - ($logoWidth + $hamburgerWidth + $navPadLeft + $searchWidth + $searchMarginLeft + $searchMarginRight + $logoMarginLeft + $logoMarginRight + $navPadRight), 10);
+        var $navBuffer = parseInt($navWidth - ($logoWidth + $hamburgerWidth + $navPadLeft + $cartWidth + $cartMarginLeft + $cartMarginRight + $searchWidth + $searchMarginLeft + $searchMarginRight + $logoMarginLeft + $logoMarginRight + $navPadRight), 10);
         if ($linksWidth >= $navBuffer - 1 || window.matchMedia(drzzle.viewports.mobile).matches) {
           if (!navIsContained) {
             // hide slider just before it would break grid or if mobile

@@ -39,6 +39,11 @@
           "children": []
         },
         {
+          "text": "Buy Button",
+          "route": "/buy-button",
+          "children": []
+        },
+        {
           "text": "Carousel",
           "route": "/carousel",
           "children": []
@@ -121,6 +126,11 @@
         {
           "text": "PDF Menu",
           "route": "/pdf-menu",
+          "children": []
+        },
+        {
+          "text": "Product Card",
+          "route": "/product-card",
           "children": []
         },
         {

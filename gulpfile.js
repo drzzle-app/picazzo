@@ -436,6 +436,26 @@ const newDroplet = type =>
           .catch(err => console.error(err));
       }));
 
+const buildOverrides = () => new Promise((resolve, reject) => {
+  gulp.src('./src/less/overrides/main.less')
+    .pipe(less())
+    .pipe(postcss([autoprefixer({
+      grid: 'autoplace',
+      cascade: false,
+    })]))
+    .pipe(rename('overrides.css'))
+    .pipe(gulp.dest('./dist/css'))
+    .pipe(rename('overrides.min.css'))
+    .pipe(cssmin())
+    .pipe(gulp.dest('./dist/css'))
+    .pipe(gulp.dest('./static/css'))
+    .on('end', () => {
+      console.log(colors.green('Successfully built overrides'));
+      resolve();
+    })
+    .on('error', () => reject());
+});
+
 const buildThemes = async () => {
   const fontImports = [
     '@import "../fonts/source-sans-pro/source-sans-pro.css";',
@@ -576,6 +596,7 @@ const buildAll = async () => {
   await buildRoutes();
   await buildFonts();
   await buildIcons();
+  await buildOverrides();
   await buildThemes();
   await bundleJs();
 };
@@ -591,6 +612,7 @@ gulp.task('build-js-plugins', buildJsPlugins);
 gulp.task('build-js-separate', buildJsPluginsSeperate);
 gulp.task('build-icons', buildIcons);
 gulp.task('build-fonts', buildFonts);
+gulp.task('build-overrides', buildOverrides);
 gulp.task('build-themes', buildThemes);
 gulp.task('build', buildAll);
 

@@ -560,3 +560,29 @@
     transition-duration: @defaultDuration;
   }
 }
+
+.drzNav-cart {
+  color: inherit;
+  display: inline-block;
+  float: right;
+  padding: 12.5px;
+  text-align: center;
+  text-decoration: none;
+
+  &:before {
+    content: '\e870';
+    font-family: 'drzzle';
+    font-size: 12pt;
+  }
+
+  &:hover {
+    background-color: fade(@black, 12%);
+    transition-duration: @defaultDuration;
+  }
+}
+
+.drzNav-cart-count {
+  color: inherit;
+  display: none;
+  margin-left: 3px;
+}

@@ -6,7 +6,8 @@
     "src/fonts",
     "src/less/picazzo/fonts",
     "src/less/picazzo/vendors",
-    "src/tools/pagination/themes"
+    "src/tools/pagination/themes",
+    "src/less/overrides"
   ],
 
   "spaceAfterPropertyColon": {

@@ -231,6 +231,16 @@
                     "path": "/pdf-menu",
                     "name": "pdf-menu",
                     "component": "require('@/pages/droplets/pdf-menu/').default"
+                },
+                {
+                    "path": "/product-card",
+                    "name": "product-card",
+                    "component": "require('@/pages/droplets/product-card/').default"
+                },
+                {
+                    "path": "/buy-button",
+                    "name": "buy-button",
+                    "component": "require('@/pages/droplets/buy-button/').default"
                 }
             ]
         },
