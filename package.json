@@ -25,7 +25,8 @@
     "build:icons": "gulp build-icons",
     "deploy:docs": "./scripts/deploy-docs.sh",
     "deploy:lib:dev": "./scripts/deploy-lib.sh",
-    "deploy:lib:prod": "./scripts/deploy-lib.sh prod"
+    "deploy:lib:prod": "./scripts/deploy-lib.sh prod",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",

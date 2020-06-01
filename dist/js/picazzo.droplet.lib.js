@@ -4561,11 +4561,13 @@ window.drzzle = {
   $.fn.drzAnchorScroll = function anchorScroll() {
     var $this = $(this);
     var scrollTo = function scrollTo(e) {
-      var name = $(this.hash).selector.split('#')[1];
-      var $el = $('[data-anchor-scroll="' + name + '"]');
-      if (_typeof($el.offset()) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $el.offset() !== false) {
-        e.preventDefault();
-        $('html, body').animate({ scrollTop: $el.offset().top }, 500);
+      if (this.hash !== '#/cart') {
+        var name = $(this.hash).selector.split('#')[1];
+        var $el = $('[data-anchor-scroll="' + name + '"]');
+        if (_typeof($el.offset()) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && $el.offset() !== false) {
+          e.preventDefault();
+          $('html, body').animate({ scrollTop: $el.offset().top }, 500);
+        }
       }
     };
     $this.find('a').click(scrollTo);

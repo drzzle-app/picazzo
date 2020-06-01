@@ -26,11 +26,13 @@
   $.fn.drzAnchorScroll = function anchorScroll() {
     const $this = $(this);
     const scrollTo = function scrollTo(e) {
-      const name = $(this.hash).selector.split('#')[1];
-      const $el = $(`[data-anchor-scroll="${name}"]`);
-      if (typeof $el.offset() !== typeof undefined && $el.offset() !== false) {
-        e.preventDefault();
-        $('html, body').animate({ scrollTop: $el.offset().top }, 500);
+      if (this.hash !== '#/cart') {
+        const name = $(this.hash).selector.split('#')[1];
+        const $el = $(`[data-anchor-scroll="${name}"]`);
+        if (typeof $el.offset() !== typeof undefined && $el.offset() !== false) {
+          e.preventDefault();
+          $('html, body').animate({ scrollTop: $el.offset().top }, 500);
+        }
       }
     };
     $this.find('a').click(scrollTo);

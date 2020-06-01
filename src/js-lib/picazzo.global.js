@@ -140,7 +140,6 @@ window.drzzle = {
   };
 })(jQuery);
 
-
 /* Url checker for hashed links
 * ======================= */
 (($) => {
