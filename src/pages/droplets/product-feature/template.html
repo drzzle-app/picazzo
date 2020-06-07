@@ -1,0 +1,66 @@
+<div>
+  <header class="picazzo-page-header">Product Feature</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <product-feature-droplet></product-feature-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzProduct-feature').drzProductFeature();</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Options</p>
+  <p>
+    Options for this plugin are set using HTML attributes <i>and</i> within js paramaters.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// zoom on hover option
+data-image-zoom="true" // default is false</code></pre>
+  </div>
+  <p>
+    On plugin initialization, you can pass some options into the plugin.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzProduct-feature').drzProductFeature({
+  onCartAdd() => {
+    // callback when clicking cart button
+  },
+  // this will override the quantity counter limits
+  overrides: {
+    quantity: {
+      max: 5,
+      step: 3,
+    },
+  },
+});</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Destroy Plugin</p>
+  <p>
+    To destroy the plugin, use the .destroy() method. This will remove all event listeners and added classes/attributes.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter">
+    <a
+      href="https://github.com/drzzle-app/picazzo/blob/master/src/droplets/product-feature/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </div>
+</div>

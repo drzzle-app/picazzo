@@ -1,0 +1,356 @@
+@inputColor: fade(@black, 50%);
+
+.drzProduct-feature {
+  display: grid;
+  grid-template-columns: 100px 400px 1fr;
+
+  @media @tablet {
+    grid-template-columns: 100px 1fr;
+  }
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.drzProduct-feature-imagesList {
+  max-height: 500px;
+  overflow-y: scroll;
+  padding: 0 10px 0 0;
+  position: relative;
+  scrollbar-width: none;
+  // -ms-overflow-style: none;  /* Internet Explorer 10+ */
+
+  @media @mobile {
+    // TODO COULD give this display grid so we can dynamically add
+    // x num of repeat(x, 1fr). this will make 1 horizontal row
+    grid-column-end: 2;
+    grid-column-start: 1;
+    grid-row-end: 3;
+    grid-row-start: 2;
+    overflow-x: scroll;
+    overflow-y: initial;
+    padding: 0;
+  }
+}
+
+.drzProduct-feature-imageContainer {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  position: relative;
+
+  @media @mobile {
+    margin-bottom: 5px;
+    // grid-column-end: 2;
+    // grid-column-start: 1;
+    // grid-row-end: 3;
+    // grid-row-start: 2;
+  }
+
+  &:hover {
+    .drzProduct-feature-imageBack {
+      opacity: 1;
+    }
+
+    .drzProduct-feature-imageNext {
+      opacity: 1;
+    }
+
+    .drzProduct-feature-image {
+      opacity: 0;
+      transition: opacity .4s;
+    }
+  }
+}
+
+.drzProduct-feature-noHover {
+
+  &:hover {
+    .drzProduct-feature-image {
+      opacity: 1;
+    }
+  }
+}
+
+.drzProduct-feature-image {
+  display: block;
+  opacity: 1;
+  width: 100%;
+}
+
+.drzProduct-feature-info {
+  padding-left: 10px;
+
+  @media @tablet {
+    grid-column-end: 3;
+    grid-column-start: 1;
+    grid-row-end: 3;
+    grid-row-start: 2;
+    margin-top: 15px;
+  }
+
+  @media @mobile {
+    grid-column-end: 2;
+    grid-column-start: 1;
+    grid-row-end: 4;
+    grid-row-start: 3;
+    margin-top: 15px;
+  }
+}
+
+.drzProduct-feature-imgBtn {
+  background-color: fade(@black, 20%);
+  border-radius: 50%;
+  color: fade(@white, 70%);
+  display: block;
+  height: 45px;
+  opacity: 0;
+  padding-top: 12px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  transition-duration: .2s;
+  width: 45px;
+  z-index: 2;
+
+  &:after {
+    display: inline-block;
+    font-family: 'drzzle';
+  }
+}
+
+.drzProduct-feature-imageBack {
+  .drzProduct-feature-imgBtn;
+  left: 3px;
+
+  &:after {
+    content: '\e808';
+  }
+}
+
+.drzProduct-feature-imageNext {
+  .drzProduct-feature-imgBtn;
+  right: 3px;
+
+  &:after {
+    content: '\e809';
+  }
+}
+
+.drzProduct-feature-thumb {
+  display: block;
+  height: 112.5px;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media @mobile {
+    float: left;
+    height: initial;
+    margin-bottom: 0;
+    margin-right: 5px;
+    width: 100px;
+  }
+}
+
+.drzProduct-feature-thumbImg {
+  border: 1px solid transparent;
+  width: 100%;
+}
+
+.drzProduct-feature-thumbActive {
+  border: 1px solid @black;
+}
+
+.drzProduct-feature-name {
+  font-size: 24pt;
+  font-weight: 600;
+}
+
+.drzProduct-feature-price {
+  color: #808080;
+  display: block;
+  font-size: 18pt;
+  margin-bottom: 20px;
+}
+
+.drzProduct-feature-buyBtn {
+  border-color: fade(@black, 70%);
+  border-style: solid;
+  border-width: 2px;
+  color: fade(@black, 70%);
+  display: table;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+
+  &:before {
+    content: '\f217';
+    display: inline-block;
+    font-family: 'drzzle';
+    margin-right: 5px;
+  }
+
+  &:hover {
+    background-color: fade(@black, 50%);
+    color: @white;
+  }
+}
+
+.drzProduct-feature-description {
+  color: @inputColor;
+  font-weight: 300;
+}
+
+.drzProduct-feature-optionsWrap {
+  float: left;
+  width: 100%;
+}
+
+.drzProduct-feature-fieldWrap {
+  margin-bottom: 10px;
+
+  @media @desktop {
+    width: 60%;
+  }
+}
+
+.drzProduct-feature-fieldLabel {
+  clear: both;
+  color: darken(@white, 50%);
+  display: block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.drzProduct-feature-selectContainer {
+  clear: both;
+  min-height: 1px;
+  overflow: hidden;
+  position: relative;
+
+  &:after {
+    color: @inputColor;
+    content: '\e803';
+    font-family: 'drzzle';
+    font-size: 9pt;
+    position: absolute;
+    right: 10px;
+    top: 15px;
+  }
+}
+
+.drzProduct-feature-select {
+  appearance: none;
+  background-color: fade(@black, 5%);
+  border: 1px solid @inputColor;
+  border-radius: 1px;
+  clear: both;
+  color: @inputColor;
+  display: block;
+  float: left;
+  font-size: 11pt;
+  margin-bottom: 5px;
+  padding: 12px;
+  width: 100%;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    background-color: transparent;
+    border: 1px solid fade(@black, 15%);
+    box-shadow: 0;
+    outline: 0;
+    transition-duration: @defaultDuration;
+  }
+
+  &::-webkit-input-placeholder {
+    color: @inputColor;
+  }
+
+  &::-moz-placeholder {
+    color: @inputColor;
+  }
+
+  &:-ms-input-placeholder {
+    color: @inputColor;
+  }
+
+  &:-moz-focus-inner {
+    border: 0;
+  }
+
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 darken(@white, 35%);
+  }
+}
+
+.drzProduct-feature-quantityWrap {
+  float: left;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.drzProduct-feature-quantBtn {
+  background-color: transparent;
+  border: 1px solid @inputColor;
+  color: @inputColor;
+  float: left;
+  height: 30px;
+  padding: 5px;
+  text-align: center;
+  width: 30px;
+
+  &:after {
+    font-family: 'drzzle';
+  }
+
+  &:focus {
+    border-radius: 0;
+  }
+
+  &:hover {
+    background-color: fade(@black, 50%);
+    color: @white;
+    cursor: pointer;
+  }
+}
+
+.drzProduct-feature-count {
+  border: 1px solid fade(@black, 50%);
+  border-left: 0;
+  border-right: 0;
+  color: fade(@black, 50%);
+  display: inline-block;
+  float: left;
+  font-weight: 600;
+  height: 30px;
+  padding: 3px;
+  text-align: center;
+  width: 50px;
+}
+
+.drzProduct-feature-remove {
+  .drzProduct-feature-quantBtn;
+
+  &:after {
+    content: '\e818';
+  }
+}
+
+.drzProduct-feature-add {
+  .drzProduct-feature-quantBtn;
+
+  &:after {
+    content: '\e842';
+  }
+}

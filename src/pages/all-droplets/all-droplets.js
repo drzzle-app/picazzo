@@ -34,4 +34,5 @@ export default {
   'pdf-menu': require('@/droplets/pdf-menu'),
   'product-card': require('@/droplets/product-card'),
   'buy-button': require('@/droplets/buy-button'),
+  'product-feature': require('@/droplets/product-feature'),
 };
