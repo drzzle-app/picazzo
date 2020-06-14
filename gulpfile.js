@@ -151,7 +151,7 @@ const newPage = () => {
         fse
           .outputFile(
             `${fullPagePath}/index.js`,
-            `import Vue from 'vue';\n\nconst template = require('./template.html');\n\nexport default Vue.component('${route}', {\n  template,\n  name: '${route}',\n});\n`)
+            `import Vue from 'vue';\n\nconst template = require('./template.html');\n\nexport default Vue.component('${route}-page', {\n  template,\n  name: '${route}-page',\n});\n`)
           .then(() => fse.readFile(`${fullPagePath}/index.js`, 'utf8'))
           .catch(err => console.error(err));
 

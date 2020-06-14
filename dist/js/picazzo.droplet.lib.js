@@ -2787,6 +2787,175 @@ window.drzzle = {
   };
 })(jQuery);
 
+/*
+================================
+ Drzzle Product Feature Plugin
+================================
+*/
+(function ($) {
+  $.fn.drzProductFeature = function productFeature(params) {
+    var $productFeature = $(this);
+    var options = params || {};
+    $productFeature.each(function initProductFeature() {
+      var $this = $(this);
+      var $featuredImgContainer = $this.find('.drzProduct-feature-imageContainer');
+      var $featuredImg = $featuredImgContainer.find('.drzProduct-feature-image');
+      var $thumb = $this.find('.drzProduct-feature-thumb');
+      var $nextBtn = $featuredImgContainer.find('.drzProduct-feature-imageNext');
+      var $backBtn = $featuredImgContainer.find('.drzProduct-feature-imageBack');
+      var $buyBtn = $this.find('.drzProduct-feature-buyBtn');
+      var $options = $this.find('.drzProduct-feature-optionsWrap select');
+      var $removeBtn = $this.find('.drzProduct-feature-remove');
+      var $addBtn = $this.find('.drzProduct-feature-add');
+      var $count = $this.find('.drzProduct-feature-count');
+      var shouldZoom = $this.attr('data-image-zoom');
+      var methods = {
+        activeImage: null,
+        quantity: 1,
+        step: 1,
+        max: false,
+        $options: $options,
+        clickThumb: function clickThumb(e) {
+          e.preventDefault();
+          var $link = $(e.currentTarget);
+          var $thumbImg = $link.find('.drzProduct-feature-thumbImg');
+          var $img = $thumbImg.attr('src');
+          methods.activeImage = $img;
+          $featuredImg.attr('src', $img);
+          $featuredImg.attr('alt', $thumbImg.attr('alt'));
+          // fall back in case user does not hover off next / right button
+          $featuredImgContainer.css('background-image', 'url(' + $img + ')');
+          $featuredImgContainer.attr('data-active-image', $link.index());
+          $link.parent().find('.drzProduct-feature-thumbImg').removeClass('drzProduct-feature-thumbActive');
+          $link.find('.drzProduct-feature-thumbImg').addClass('drzProduct-feature-thumbActive');
+        },
+        moveNext: function moveNext(e) {
+          e.preventDefault();
+          var $activeIndex = parseInt($featuredImgContainer.attr('data-active-image'), 10);
+          var $lastImgIndex = $thumb.length - 1;
+          if ($activeIndex < $lastImgIndex) {
+            $thumb.eq($activeIndex + 1).trigger('click');
+          }
+        },
+        moveBack: function moveBack(e) {
+          e.preventDefault();
+          var $activeIndex = parseInt($featuredImgContainer.attr('data-active-image'), 10);
+          if ($activeIndex > 0) {
+            $thumb.eq($activeIndex - 1).trigger('click');
+          }
+        },
+        zoomMove: function zoomMove(e) {
+          var zoomer = $(e.currentTarget);
+          if (e.target.tagName === 'A') {
+            zoomer.css('background-position', '');
+            return;
+          }
+          if (e.type !== 'mousemove') {
+            return;
+          }
+          var x = e.offsetX / zoomer.outerWidth() * 100;
+          var y = e.offsetY / zoomer.outerHeight() * 100;
+          zoomer.css('background-position', x + '% ' + y + '%');
+        },
+        updateQuantity: function updateQuantity(e) {
+          var $btn = $(e.currentTarget);
+          if ($btn.hasClass('drzProduct-feature-add')) {
+            var max = methods.max;
+            if (max && methods.quantity + methods.step > methods.max) {
+              methods.quantity = methods.max;
+            } else {
+              methods.quantity += methods.step;
+            }
+          }
+          if ($btn.hasClass('drzProduct-feature-remove') && methods.quantity > 1) {
+            methods.quantity -= methods.step;
+            if (methods.quantity < 0) {
+              methods.quantity = 0;
+            }
+          }
+          $count.text(methods.quantity);
+        },
+        buyClick: function buyClick(e) {
+          e.preventDefault();
+          if (options.onCartAdd) {
+            options.onCartAdd(methods);
+          }
+        }
+      };
+
+      methods.activeImage = $featuredImg.attr('src');
+      $count.text(methods.quantity);
+
+      $thumb.click(methods.clickThumb);
+      $nextBtn.click(methods.moveNext).hover(function () {
+        $featuredImg.css('opacity', 1);
+      }, function () {
+        $featuredImg.css('opacity', '');
+      });
+      $backBtn.click(methods.moveBack).hover(function () {
+        $featuredImg.css('opacity', 1);
+      }, function () {
+        $featuredImg.css('opacity', '');
+      });
+      // mobile swipe events for next/back methods
+      $featuredImgContainer.on('swipeleft', methods.moveNext);
+      $featuredImgContainer.on('swiperight', methods.moveBack);
+      // quantity button events
+      $addBtn.click(methods.updateQuantity);
+      $removeBtn.click(methods.updateQuantity);
+      // optional zoom events
+      if (shouldZoom === 'true') {
+        $featuredImgContainer.mouseenter(function () {
+          $featuredImgContainer.css('background-image', 'url(' + methods.activeImage + ')');
+        }).mouseleave(function () {
+          $featuredImgContainer.css('background-image', '');
+        }).mousemove(methods.zoomMove);
+      } else {
+        $featuredImgContainer.addClass('drzProduct-feature-noHover');
+      }
+      // buy button events
+      $buyBtn.click(methods.buyClick);
+      // overrides for the step and max quantity step amounts
+      if (options.overrides && options.overrides.quantity.step) {
+        methods.step = options.overrides.quantity.step;
+      }
+      if (options.overrides && options.overrides.quantity.max) {
+        methods.max = options.overrides.quantity.max;
+      }
+      // destroy plugin
+      $.fn.drzProductFeature.destroy = function ($el) {
+        var $thumbs = $el.find('.drzProduct-feature-thumbImg');
+        $thumbs.removeClass('drzProduct-feature-thumbActive');
+        $featuredImg.attr('alt', '');
+        $el.find('.drzProduct-feature-thumb').eq(0).find('.drzProduct-feature-thumbImg').addClass('drzProduct-feature-thumbActive');
+        $featuredImgContainer.removeClass('drzProduct-feature-noHover');
+        $featuredImgContainer.css('background-image', '');
+        $featuredImgContainer.attr('data-active-image', 0);
+        $featuredImgContainer.off('swipeleft');
+        $featuredImgContainer.off('swiperight');
+        methods.activeImage = null;
+        methods.quantity = 1;
+        methods.step = 1;
+        methods.max = false;
+        $thumb.off('click');
+        $nextBtn.off('click');
+        $nextBtn.off('hover');
+        $backBtn.off('click');
+        $backBtn.off('hover');
+        $addBtn.off('click');
+        $removeBtn.off('click');
+        $buyBtn.off('click');
+        if (shouldZoom === 'true') {
+          $featuredImgContainer.off('mouseenter');
+          $featuredImgContainer.off('mouseleave');
+          $featuredImgContainer.off('mousemove');
+        }
+      };
+    });
+    return this;
+  };
+})(jQuery);
+
 /* Section Bg Videos
 * ======================= */
 (function ($) {

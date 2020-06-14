@@ -241,6 +241,11 @@
                     "path": "/buy-button",
                     "name": "buy-button",
                     "component": "require('@/pages/droplets/buy-button/').default"
+                },
+                {
+                    "path": "/product-feature",
+                    "name": "product-feature",
+                    "component": "require('@/pages/droplets/product-feature/').default"
                 }
             ]
         },

@@ -134,6 +134,11 @@
           "children": []
         },
         {
+          "text": "Product Feature",
+          "route": "/product-feature",
+          "children": []
+        },
+        {
           "text": "Section",
           "route": "/section",
           "children": []
