@@ -177,6 +177,15 @@
 .drzicon-web-page { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8a4;&nbsp;'); }
 .drzicon-feature-dollar { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8a5;&nbsp;'); }
 .drzicon-feature-cart { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8a6;&nbsp;'); }
+.drzicon-chart-pie { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8a7;&nbsp;'); }
+.drzicon-flow-cascade { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8a8;&nbsp;'); }
+.drzicon-flow-line { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8a9;&nbsp;'); }
+.drzicon-flow-tree { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8aa;&nbsp;'); }
+.drzicon-flow-branch { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ab;&nbsp;'); }
+.drzicon-flow-parallel { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ac;&nbsp;'); }
+.drzicon-chart-bar { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ad;&nbsp;'); }
+.drzicon-cart-feed { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ae;&nbsp;'); }
+.drzicon-clipboard { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8af;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
@@ -204,6 +213,7 @@
 .drzicon-desktop { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf108;&nbsp;'); }
 .drzicon-tablet { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf10a;&nbsp;'); }
 .drzicon-mobile { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf10b;&nbsp;'); }
+.drzicon-unlink { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf127;&nbsp;'); }
 .drzicon-play-circled { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf144;&nbsp;'); }
 .drzicon-minus-squared { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf146;&nbsp;'); }
 .drzicon-pencil-squared { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf14b;&nbsp;'); }

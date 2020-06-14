@@ -1,4 +1,8 @@
-/* global jQuery */
+/*
+================================
+ Drzzle Product Feature Plugin
+================================
+*/
 (($) => {
   $.fn.drzProductFeature = function productFeature(params) {
     const $productFeature = $(this);
@@ -25,9 +29,11 @@
         clickThumb(e) {
           e.preventDefault();
           const $link = $(e.currentTarget);
-          const $img = $link.find('.drzProduct-feature-thumbImg').attr('src');
+          const $thumbImg = $link.find('.drzProduct-feature-thumbImg');
+          const $img = $thumbImg.attr('src');
           methods.activeImage = $img;
           $featuredImg.attr('src', $img);
+          $featuredImg.attr('alt', $thumbImg.attr('alt'));
           // fall back in case user does not hover off next / right button
           $featuredImgContainer.css('background-image', `url(${$img})`);
           $featuredImgContainer.attr('data-active-image', $link.index());
@@ -115,9 +121,7 @@
         $featuredImgContainer.addClass('drzProduct-feature-noHover');
       }
       // buy button events
-      if (!window.__editor) {
-        $buyBtn.click(methods.buyClick);
-      }
+      $buyBtn.click(methods.buyClick);
       // overrides for the step and max quantity step amounts
       if (options.overrides && options.overrides.quantity.step) {
         methods.step = options.overrides.quantity.step;
@@ -127,7 +131,12 @@
       }
       // destroy plugin
       $.fn.drzProductFeature.destroy = ($el) => {
-        $el.find('.drzProduct-feature-thumbImg').removeClass('drzProduct-feature-thumbActive');
+        const $thumbs = $el.find('.drzProduct-feature-thumbImg');
+        $thumbs.removeClass('drzProduct-feature-thumbActive');
+        $featuredImg.attr('alt', '');
+        $el.find('.drzProduct-feature-thumb')
+          .eq(0).find('.drzProduct-feature-thumbImg')
+          .addClass('drzProduct-feature-thumbActive');
         $featuredImgContainer.removeClass('drzProduct-feature-noHover');
         $featuredImgContainer.css('background-image', '');
         $featuredImgContainer.attr('data-active-image', 0);

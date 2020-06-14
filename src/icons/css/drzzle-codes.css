@@ -166,6 +166,15 @@
 .drzicon-web-page:before { content: '\e8a4'; } /* '' */
 .drzicon-feature-dollar:before { content: '\e8a5'; } /* '' */
 .drzicon-feature-cart:before { content: '\e8a6'; } /* '' */
+.drzicon-chart-pie:before { content: '\e8a7'; } /* '' */
+.drzicon-flow-cascade:before { content: '\e8a8'; } /* '' */
+.drzicon-flow-line:before { content: '\e8a9'; } /* '' */
+.drzicon-flow-tree:before { content: '\e8aa'; } /* '' */
+.drzicon-flow-branch:before { content: '\e8ab'; } /* '' */
+.drzicon-flow-parallel:before { content: '\e8ac'; } /* '' */
+.drzicon-chart-bar:before { content: '\e8ad'; } /* '' */
+.drzicon-cart-feed:before { content: '\e8ae'; } /* '' */
+.drzicon-clipboard:before { content: '\e8af'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
@@ -193,6 +202,7 @@
 .drzicon-desktop:before { content: '\f108'; } /* '' */
 .drzicon-tablet:before { content: '\f10a'; } /* '' */
 .drzicon-mobile:before { content: '\f10b'; } /* '' */
+.drzicon-unlink:before { content: '\f127'; } /* '' */
 .drzicon-play-circled:before { content: '\f144'; } /* '' */
 .drzicon-minus-squared:before { content: '\f146'; } /* '' */
 .drzicon-pencil-squared:before { content: '\f14b'; } /* '' */

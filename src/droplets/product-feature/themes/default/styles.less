@@ -1,15 +1,28 @@
+/*
+ Since autoprefixer complains about not using grid-template-rows with grid-template-columns
+ we need to use them. However this spits out spcific rules that break the grid in ie. And ie
+ is the reason we use this in the first place (Catch 22). So we are forced to override those
+ auto rules with !important.
+*/
+// lesshint-disable importantRule
 @inputColor: fade(@black, 50%);
 
 .drzProduct-feature {
   display: grid;
-  grid-template-columns: 100px 400px 1fr;
+
+  @media @desktop {
+    grid-template-columns: 100px 400px 1fr;
+    grid-template-rows: auto;
+  }
 
   @media @tablet {
     grid-template-columns: 100px 1fr;
+    grid-template-rows: auto;
   }
 
   @media @mobile {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
   }
 }
 
@@ -19,15 +32,14 @@
   padding: 0 10px 0 0;
   position: relative;
   scrollbar-width: none;
-  // -ms-overflow-style: none;  /* Internet Explorer 10+ */
 
   @media @mobile {
-    // TODO COULD give this display grid so we can dynamically add
-    // x num of repeat(x, 1fr). this will make 1 horizontal row
-    grid-column-end: 2;
-    grid-column-start: 1;
-    grid-row-end: 3;
-    grid-row-start: 2;
+    -ms-grid-column-span: 1;
+    -ms-grid-row-span: 1;
+    grid-column-end: 2 !important;
+    grid-column-start: 1 !important;
+    grid-row-end: 3 !important;
+    grid-row-start: 2 !important;
     overflow-x: scroll;
     overflow-y: initial;
     padding: 0;
@@ -40,11 +52,13 @@
   position: relative;
 
   @media @mobile {
+    -ms-grid-column-span: 1;
+    -ms-grid-row-span: 1;
+    grid-column-end: 2 !important;
+    grid-column-start: 1 !important;
+    grid-row-end: 2 !important;
+    grid-row-start: 1 !important;
     margin-bottom: 5px;
-    // grid-column-end: 2;
-    // grid-column-start: 1;
-    // grid-row-end: 3;
-    // grid-row-start: 2;
   }
 
   &:hover {
@@ -82,18 +96,22 @@
   padding-left: 10px;
 
   @media @tablet {
-    grid-column-end: 3;
-    grid-column-start: 1;
-    grid-row-end: 3;
-    grid-row-start: 2;
+    -ms-grid-column-span: 2;
+    -ms-grid-row-span: 1;
+    grid-column-end: 3 !important;
+    grid-column-start: 1 !important;
+    grid-row-end: 3 !important;
+    grid-row-start: 2 !important;
     margin-top: 15px;
   }
 
   @media @mobile {
-    grid-column-end: 2;
-    grid-column-start: 1;
-    grid-row-end: 4;
-    grid-row-start: 3;
+    -ms-grid-column-span: 1;
+    -ms-grid-row-span: 1;
+    grid-column-end: 2 !important;
+    grid-column-start: 1 !important;
+    grid-row-end: 4 !important;
+    grid-row-start: 3 !important;
     margin-top: 15px;
   }
 }
@@ -162,7 +180,9 @@
 }
 
 .drzProduct-feature-thumbActive {
-  border: 1px solid @black;
+  border-color: @black;
+  border-style: solid;
+  border-width: 1px;
 }
 
 .drzProduct-feature-name {

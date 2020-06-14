@@ -4076,6 +4076,10 @@ header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
   margin: 0 auto;
   min-height: 10px;
   position: relative;
@@ -6564,22 +6568,62 @@ header {
   font-family: 'drzzle';
   margin-right: 5px;
 }
+/*
+ Since autoprefixer complains about not using grid-template-rows with grid-template-columns
+ we need to use them. However this spits out spcific rules that break the grid in ie. And ie
+ is the reason we use this in the first place (Catch 22). So we are forced to override those
+ auto rules with !important.
+*/
 .drzProduct-feature {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 100px 400px 1fr;
-  grid-template-columns: 100px 400px 1fr;
+}
+@media only screen and (min-width : 993px) {
+  .drzProduct-feature {
+    -ms-grid-columns: 100px 400px 1fr;
+    grid-template-columns: 100px 400px 1fr;
+    -ms-grid-rows: auto;
+    grid-template-rows: auto;
+  }
+  .drzProduct-feature > *:nth-child(1) {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+  }
+  .drzProduct-feature > *:nth-child(2) {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
+  }
+  .drzProduct-feature > *:nth-child(3) {
+    -ms-grid-row: 1;
+    -ms-grid-column: 3;
+  }
 }
 @media only screen and (min-width:601px) and (max-width:992px) {
   .drzProduct-feature {
     -ms-grid-columns: 100px 1fr;
     grid-template-columns: 100px 1fr;
+    -ms-grid-rows: auto;
+    grid-template-rows: auto;
+  }
+  .drzProduct-feature > *:nth-child(1) {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+  }
+  .drzProduct-feature > *:nth-child(2) {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
   }
 }
 @media only screen and (min-width:50px) and (max-width:600px) {
   .drzProduct-feature {
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
+    -ms-grid-rows: auto;
+    grid-template-rows: auto;
+  }
+  .drzProduct-feature > *:nth-child(1) {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
   }
 }
 .drzProduct-feature-imagesList {
@@ -6592,13 +6636,13 @@ header {
 @media only screen and (min-width:50px) and (max-width:600px) {
   .drzProduct-feature-imagesList {
     -ms-grid-column-span: 1;
-    grid-column-end: 2;
-    -ms-grid-column: 1;
-    grid-column-start: 1;
     -ms-grid-row-span: 1;
-    grid-row-end: 3;
-    -ms-grid-row: 2;
-    grid-row-start: 2;
+    grid-column-end: 2 !important;
+    -ms-grid-column: 1 !important;
+    grid-column-start: 1 !important;
+    grid-row-end: 3 !important;
+    -ms-grid-row: 2 !important;
+    grid-row-start: 2 !important;
     overflow-x: scroll;
     overflow-y: initial;
     padding: 0;
@@ -6611,6 +6655,14 @@ header {
 }
 @media only screen and (min-width:50px) and (max-width:600px) {
   .drzProduct-feature-imageContainer {
+    -ms-grid-column-span: 1;
+    -ms-grid-row-span: 1;
+    grid-column-end: 2 !important;
+    -ms-grid-column: 1 !important;
+    grid-column-start: 1 !important;
+    grid-row-end: 2 !important;
+    -ms-grid-row: 1 !important;
+    grid-row-start: 1 !important;
     margin-bottom: 5px;
   }
 }
@@ -6640,26 +6692,26 @@ header {
 @media only screen and (min-width:601px) and (max-width:992px) {
   .drzProduct-feature-info {
     -ms-grid-column-span: 2;
-    grid-column-end: 3;
-    -ms-grid-column: 1;
-    grid-column-start: 1;
     -ms-grid-row-span: 1;
-    grid-row-end: 3;
-    -ms-grid-row: 2;
-    grid-row-start: 2;
+    grid-column-end: 3 !important;
+    -ms-grid-column: 1 !important;
+    grid-column-start: 1 !important;
+    grid-row-end: 3 !important;
+    -ms-grid-row: 2 !important;
+    grid-row-start: 2 !important;
     margin-top: 15px;
   }
 }
 @media only screen and (min-width:50px) and (max-width:600px) {
   .drzProduct-feature-info {
     -ms-grid-column-span: 1;
-    grid-column-end: 2;
-    -ms-grid-column: 1;
-    grid-column-start: 1;
     -ms-grid-row-span: 1;
-    grid-row-end: 4;
-    -ms-grid-row: 3;
-    grid-row-start: 3;
+    grid-column-end: 2 !important;
+    -ms-grid-column: 1 !important;
+    grid-column-start: 1 !important;
+    grid-row-end: 4 !important;
+    -ms-grid-row: 3 !important;
+    grid-row-start: 3 !important;
     margin-top: 15px;
   }
 }
@@ -6765,7 +6817,9 @@ header {
   width: 100%;
 }
 .drzProduct-feature-thumbActive {
-  border: 1px solid #000;
+  border-color: #000;
+  border-style: solid;
+  border-width: 1px;
 }
 .drzProduct-feature-name {
   font-size: 24pt;
