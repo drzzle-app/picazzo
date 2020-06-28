@@ -246,6 +246,11 @@
                     "path": "/product-feature",
                     "name": "product-feature",
                     "component": "require('@/pages/droplets/product-feature/').default"
+                },
+                {
+                    "path": "/product-feed",
+                    "name": "product-feed",
+                    "component": "require('@/pages/droplets/product-feed/').default"
                 }
             ]
         },

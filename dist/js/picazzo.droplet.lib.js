@@ -2956,6 +2956,62 @@ window.drzzle = {
   };
 })(jQuery);
 
+(function ($) {
+  $.fn.drzProductFeed = function productFeed(params) {
+    var $productFeed = $(this);
+    var $curData = $productFeed.attr('data-currency');
+    var $sort = $productFeed.attr('data-sort') || 'newest';
+    var $filterAttr = $productFeed.attr('data-filter');
+    var $filters = $filterAttr ? $filterAttr.split(',') : [];
+    var $limitAttr = $productFeed.attr('data-items');
+    var $limit = $limitAttr ? parseInt($limitAttr, 10) : 4;
+    var $currency = { type: 'usd', symbol: '&#36;' };
+    if ($curData) {
+      $currency = JSON.parse($curData);
+    }
+    var methods = {
+      buildCard: function buildCard(data) {
+        return '\n        <a class="drzProduct-feed-card" href="' + data.pageLink + '">\n          <div class="drzProduct-feed-cardImageWrap">\n            <img class="drzProduct-feed-cardImage" src="' + data.itemImage + '" alt="' + data.itemName + '" />\n          </div>\n          <div class="drzProduct-feed-cardInfo">\n            <span class="drzProduct-feed-name">' + data.itemName + '</span>\n            <span class="drzProduct-feed-price">' + $currency.symbol + data.prices[$currency.type] + '</span>\n          </div>\n        </a>\n        ';
+      }
+    };
+    var list = params.feed || [];
+    // set by newest by default
+    var products = list.sort(function (a, b) {
+      return new Date(b.created) - new Date(a.created);
+    });
+    if ($sort === 'oldest') {
+      products = products.reverse();
+    }
+    products = products.slice(0, $limit);
+    if ($filters) {
+      products = products.filter(function (p) {
+        return $filters.every(function (f) {
+          return p.categories.indexOf(f) > -1;
+        });
+      });
+    }
+    $productFeed.each(function initPlugin() {
+      var $this = $(this);
+      var $cardList = $this.find('.drzProduct-feed-cards');
+      if (products.length > 0) {
+        $.each(products, function (index, value) {
+          var $newCard = $(methods.buildCard(value));
+          $cardList.append($newCard);
+        });
+      } else if (!$this.find('.drzProduct-feed-empty').length) {
+        $this.append($('<span class="drzProduct-feed-empty">No Products Found</span>'));
+      }
+    });
+    $.fn.drzProductFeed.destroy = function () {
+      var $emptyMsg = $productFeed.find('.drzProduct-feed-empty');
+      if ($emptyMsg.length) {
+        $emptyMsg.remove();
+      }
+    };
+    return $productFeed;
+  };
+})(jQuery);
+
 /* Section Bg Videos
 * ======================= */
 (function ($) {

@@ -139,6 +139,11 @@
           "children": []
         },
         {
+          "text": "Product Feed",
+          "route": "/product-feed",
+          "children": []
+        },
+        {
           "text": "Section",
           "route": "/section",
           "children": []

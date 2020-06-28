@@ -35,4 +35,5 @@ export default {
   'product-card': require('@/droplets/product-card'),
   'buy-button': require('@/droplets/buy-button'),
   'product-feature': require('@/droplets/product-feature'),
+  'product-feed': require('@/droplets/product-feed'),
 };
