@@ -4,9 +4,11 @@
     const $curData = $productFeed.attr('data-currency');
     const $sort = $productFeed.attr('data-sort') || 'newest';
     const $filterAttr = $productFeed.attr('data-filter');
-    const $filters = $filterAttr ? $filterAttr.split(',') : [];
+    const $filters = $filterAttr ? $filterAttr.split(',') : false;
     const $limitAttr = $productFeed.attr('data-items');
     const $limit = $limitAttr ? parseInt($limitAttr, 10) : 4;
+    const $matchAttr = $productFeed.attr('data-match');
+    const $match = $matchAttr || 'all';
     let $currency = { type: 'usd', symbol: '&#36;' };
     if ($curData) {
       $currency = JSON.parse($curData);
@@ -34,7 +36,14 @@
     }
     products = products.slice(0, $limit);
     if ($filters) {
-      products = products.filter(p => $filters.every(f => p.categories.indexOf(f) > -1));
+      // match all option
+      if ($match === 'all') {
+        products = products.filter(p => $filters.every(f => p.categories.indexOf(f) > -1));
+      }
+      // match some option
+      if ($match === 'some') {
+        products = products.filter(p => $filters.some(f => p.categories.indexOf(f) >= 0));
+      }
     }
     $productFeed.each(function initPlugin() {
       const $this = $(this);
@@ -47,13 +56,14 @@
       } else if (!$this.find('.drzProduct-feed-empty').length) {
         $this.append($('<span class="drzProduct-feed-empty">No Products Found</span>'));
       }
+      $.fn.drzProductFeed.destroy = ($el) => {
+        const $emptyMsg = $el.find('.drzProduct-feed-empty');
+        if ($emptyMsg.length) {
+          $emptyMsg.remove();
+        }
+        $el.find('.drzProduct-feed-cards').html('');
+      };
     });
-    $.fn.drzProductFeed.destroy = () => {
-      const $emptyMsg = $productFeed.find('.drzProduct-feed-empty');
-      if ($emptyMsg.length) {
-        $emptyMsg.remove();
-      }
-    };
     return $productFeed;
   };
 })(jQuery);
