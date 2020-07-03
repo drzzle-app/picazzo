@@ -2962,9 +2962,11 @@ window.drzzle = {
     var $curData = $productFeed.attr('data-currency');
     var $sort = $productFeed.attr('data-sort') || 'newest';
     var $filterAttr = $productFeed.attr('data-filter');
-    var $filters = $filterAttr ? $filterAttr.split(',') : [];
+    var $filters = $filterAttr ? $filterAttr.split(',') : false;
     var $limitAttr = $productFeed.attr('data-items');
     var $limit = $limitAttr ? parseInt($limitAttr, 10) : 4;
+    var $matchAttr = $productFeed.attr('data-match');
+    var $match = $matchAttr || 'all';
     var $currency = { type: 'usd', symbol: '&#36;' };
     if ($curData) {
       $currency = JSON.parse($curData);
@@ -2984,11 +2986,22 @@ window.drzzle = {
     }
     products = products.slice(0, $limit);
     if ($filters) {
-      products = products.filter(function (p) {
-        return $filters.every(function (f) {
-          return p.categories.indexOf(f) > -1;
+      // match all option
+      if ($match === 'all') {
+        products = products.filter(function (p) {
+          return $filters.every(function (f) {
+            return p.categories.indexOf(f) > -1;
+          });
         });
-      });
+      }
+      // match some option
+      if ($match === 'some') {
+        products = products.filter(function (p) {
+          return $filters.some(function (f) {
+            return p.categories.indexOf(f) >= 0;
+          });
+        });
+      }
     }
     $productFeed.each(function initPlugin() {
       var $this = $(this);
@@ -3001,13 +3014,14 @@ window.drzzle = {
       } else if (!$this.find('.drzProduct-feed-empty').length) {
         $this.append($('<span class="drzProduct-feed-empty">No Products Found</span>'));
       }
+      $.fn.drzProductFeed.destroy = function ($el) {
+        var $emptyMsg = $el.find('.drzProduct-feed-empty');
+        if ($emptyMsg.length) {
+          $emptyMsg.remove();
+        }
+        $el.find('.drzProduct-feed-cards').html('');
+      };
     });
-    $.fn.drzProductFeed.destroy = function () {
-      var $emptyMsg = $productFeed.find('.drzProduct-feed-empty');
-      if ($emptyMsg.length) {
-        $emptyMsg.remove();
-      }
-    };
     return $productFeed;
   };
 })(jQuery);
