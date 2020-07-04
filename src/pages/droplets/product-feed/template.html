@@ -35,7 +35,13 @@
       customLink: '#',
       categories: ['shirt'],
     },
-  ]
+  ],
+  onCartAdd(e) {
+    var btn = e.currentTarget;
+    var btnId = btn.getAttribute('data-product');
+    var product = this.feed.find(p => p._id === btnId);
+    // do something with product data
+  }
 });</code></pre>
   </div>
 

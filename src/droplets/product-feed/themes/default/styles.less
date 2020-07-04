@@ -21,8 +21,9 @@
 }
 
 .drzProduct-feed-card {
+  border-color: #dedede;
   border-style: solid;
-  border-width: 0;
+  border-width: 1px;
   display: inline-block;
   text-decoration: none;
 }
@@ -37,7 +38,7 @@
 
 .drzProduct-feed-cardInfo {
   color: fade(@black, 60%);
-  padding: 10px 0;
+  padding: 10px;
 }
 
 .drzProduct-feed-name {
@@ -53,4 +54,22 @@
   display: block;
   font-style: italic;
   text-align: center;
+}
+
+.drzProduct-feed-buyBtn {
+  background-color: transparent;
+  border: 0;
+  color: fade(@black, 60%);
+  float: right;
+  font-size: 13pt;
+  padding: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:after {
+    content: '\f217';
+    font-family: 'drzzle';
+  }
 }

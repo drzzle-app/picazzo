@@ -2957,7 +2957,7 @@ window.drzzle = {
 })(jQuery);
 
 (function ($) {
-  $.fn.drzProductFeed = function productFeed(params) {
+  $.fn.drzProductFeed = function productFeed(options) {
     var $productFeed = $(this);
     var $curData = $productFeed.attr('data-currency');
     var $sort = $productFeed.attr('data-sort') || 'newest';
@@ -2973,10 +2973,16 @@ window.drzzle = {
     }
     var methods = {
       buildCard: function buildCard(data) {
-        return '\n        <a class="drzProduct-feed-card" href="' + data.pageLink + '">\n          <div class="drzProduct-feed-cardImageWrap">\n            <img class="drzProduct-feed-cardImage" src="' + data.itemImage + '" alt="' + data.itemName + '" />\n          </div>\n          <div class="drzProduct-feed-cardInfo">\n            <span class="drzProduct-feed-name">' + data.itemName + '</span>\n            <span class="drzProduct-feed-price">' + $currency.symbol + data.prices[$currency.type] + '</span>\n          </div>\n        </a>\n        ';
+        return '\n        <a class="drzProduct-feed-card" href="' + data.pageLink + '">\n          <div class="drzProduct-feed-cardImageWrap">\n            <img class="drzProduct-feed-cardImage" src="' + data.itemImage + '" alt="' + data.itemName + '" />\n          </div>\n          <div class="drzProduct-feed-cardInfo">\n            <span class="drzProduct-feed-name">' + data.itemName + '</span>\n            <span class="drzProduct-feed-price">\n            ' + $currency.symbol + data.prices[$currency.type] + '\n            <button data-product="' + data._id + '" class="drzProduct-feed-buyBtn"></button>\n            </span>\n          </div>\n        </a>\n        ';
+      },
+      buyClick: function buyClick(e) {
+        e.preventDefault();
+        if (options.onCartAdd) {
+          options.onCartAdd(e);
+        }
       }
     };
-    var list = params.feed || [];
+    var list = options.feed || [];
     // set by newest by default
     var products = list.sort(function (a, b) {
       return new Date(b.created) - new Date(a.created);
@@ -3009,6 +3015,8 @@ window.drzzle = {
       if (products.length > 0) {
         $.each(products, function (index, value) {
           var $newCard = $(methods.buildCard(value));
+          var $buyBtn = $newCard.find('.drzProduct-feed-buyBtn');
+          $buyBtn.click(methods.buyClick);
           $cardList.append($newCard);
         });
       } else if (!$this.find('.drzProduct-feed-empty').length) {

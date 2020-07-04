@@ -7070,8 +7070,9 @@ header {
   }
 }
 .drzProduct-feed-card {
+  border-color: #dedede;
   border-style: solid;
-  border-width: 0;
+  border-width: 1px;
   display: inline-block;
   text-decoration: none;
 }
@@ -7083,7 +7084,7 @@ header {
 }
 .drzProduct-feed-cardInfo {
   color: rgba(0, 0, 0, 0.6);
-  padding: 10px 0;
+  padding: 10px;
 }
 .drzProduct-feed-name {
   display: block;
@@ -7096,4 +7097,19 @@ header {
   display: block;
   font-style: italic;
   text-align: center;
+}
+.drzProduct-feed-buyBtn {
+  background-color: transparent;
+  border: 0;
+  color: rgba(0, 0, 0, 0.6);
+  float: right;
+  font-size: 13pt;
+  padding: 0;
+}
+.drzProduct-feed-buyBtn:hover {
+  cursor: pointer;
+}
+.drzProduct-feed-buyBtn:after {
+  content: '\f217';
+  font-family: 'drzzle';
 }
