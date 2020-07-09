@@ -9,22 +9,15 @@ export default Vue.component('product-grid-droplet', {
     const $productGrid = $(this.$refs.productGrid);
     $productGrid.drzFilterGrid({
       output(data) {
-        // TODO need to pass this in also? this should be with the config
-        const $currency = { type: 'usd', symbol: '&#36;' };
-        // if ($curData) {
-        //   $currency = JSON.parse($curData);
-        // }
-        // TODO maybe this should be optional and this can be a "filterGrid" plugin
-        // we'd just need to set click events in here
         return `
         <a class="drzProduct-grid-card" href="${data.pageLink}">
           <div class="drzProduct-grid-cardImageWrap">
-            <img class="drzProduct-grid-cardImage" data-asset="${data.itemImage}" src="unset" alt="${data.itemName}" />
+            <img class="drzProduct-grid-cardImage" data-asset="${data.itemImage}" alt="${data.itemName}" />
           </div>
           <div class="drzProduct-grid-cardInfo">
             <span class="drzProduct-grid-name">${data.itemName}</span>
             <span class="drzProduct-grid-price">
-            ${$currency.symbol}${data.prices[$currency.type]}
+            $12
             <button data-product="${data._id}" class="drzProduct-grid-buyBtn"></button>
             </span>
           </div>
@@ -32,8 +25,13 @@ export default Vue.component('product-grid-droplet', {
         `;
       },
       onRender($card) {
-        // console.log('$card: ', $card);
+        const $btn = $card.find('.drzProduct-grid-buyBtn');
+        $btn.click((e) => {
+          e.preventDefault();
+        });
       },
+      filters: ['shirt', 'shoes'],
+      pagination: 4,
       searchKeys: ['itemName', 'itemDescription'],
       feed: [
         {

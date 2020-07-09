@@ -36,4 +36,5 @@ export default {
   'buy-button': require('@/droplets/buy-button'),
   'product-feature': require('@/droplets/product-feature'),
   'product-feed': require('@/droplets/product-feed'),
+  'product-grid': require('@/droplets/product-grid'),
 };

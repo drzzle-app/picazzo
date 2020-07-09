@@ -144,6 +144,11 @@
           "children": []
         },
         {
+          "text": "Product Grid",
+          "route": "/product-grid",
+          "children": []
+        },
+        {
           "text": "Section",
           "route": "/section",
           "children": []
@@ -211,6 +216,11 @@
         {
           "text": "Filtering",
           "route": "/filtering",
+          "children": []
+        },
+        {
+          "text": "Filter Grid",
+          "route": "/filter-grid",
           "children": []
         },
         {
