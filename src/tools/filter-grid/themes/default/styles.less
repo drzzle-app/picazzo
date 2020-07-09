@@ -1,0 +1,196 @@
+@filter-bar: #f1f1f1;
+@placeholder: fade(@black, 30%);
+
+.drzFilter-grid {
+  display: block;
+}
+
+.drzFilter-grid-bar {
+  .drzClearFix;
+  background-color: @filter-bar;
+  margin-bottom: 10px;
+  padding: 10px;
+  position: relative;
+}
+
+.drzFilter-grid-container {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzFilter-grid-empty {
+  display: block;
+  font-style: italic;
+  text-align: center;
+}
+
+.drzFilter-grid-pagination {
+  margin-top: 10px;
+  user-select: none;
+}
+
+.drzFilter-grid-paginationNums {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.drzFilter-grid-ellipses {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.drzFilter-grid-paginationBtn {
+  background-color: transparent;
+  border: 0;
+  padding: 5px 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.drzFilter-grid-paginationPrev {
+  .drzFilter-grid-paginationBtn;
+
+  &:after {
+    content: '\f104';
+    font-family: 'drzzle';
+  }
+}
+
+.drzFilter-grid-paginationNext {
+  .drzFilter-grid-paginationBtn;
+
+  &:after {
+    content: '\f105';
+    font-family: 'drzzle';
+  }
+}
+
+.drzFilter-grid-pageBtnDisabled {
+  opacity: 0.2;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.drzFilter-grid-pageBtn {
+  .drzFilter-grid-paginationBtn;
+  margin-right: 5px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.drzFilter-grid-pageBtnActive {
+  background-color: @drzGreen;
+  color: @white;
+}
+
+.drzFilter-grid-searchInput {
+  border: 0;
+  font-size: 12pt;
+  padding: 10px;
+  width: 100%;
+
+  &::-webkit-input-placeholder {
+  color: @placeholder;
+  }
+
+  &::-moz-placeholder {
+    color: @placeholder;
+  }
+
+  &:-ms-input-placeholder {
+    color: @placeholder;
+  }
+}
+
+.drzFilter-grid-searchBox {
+  float: left;
+  width: 50%;
+}
+
+.drzFilter-grid-filterBox {
+  float: left;
+  text-align: right;
+  width: 50%;
+}
+
+.drzFilter-grid-filterBtn {
+  background: transparent;
+  border: 1px solid #cccccc;
+  padding: 10px 15px;
+
+  &:after {
+    content: '\f104';
+    display: inline-block;
+    font-family: 'drzzle';
+    margin-left: 10px;
+    transform: rotate(-90deg);
+    transition-duration: .2s;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.drzFilter-grid-filterBtnOpen {
+  &:after {
+    transform: rotate(90deg);
+  }
+}
+
+.drzFilter-grid-filters {
+  background-color: @filter-bar;
+  display: none;
+  padding: 10px;
+  position: relative;
+  top: -8px;
+}
+
+.drzFilter-grid-checkFilter {
+  display: inline-block;
+  padding-right: 10px;
+}
+
+.drzFilter-grid-checkInput {
+  margin: 0 3px 0 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.drzFilter-grid-checkLabel {
+  position: relative;
+  text-transform: capitalize;
+  top: -1px;
+  user-select: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.drzFilter-grid-filterReset {
+  color: inherit;
+  display: none;
+  font-size: 10pt;
+  text-decoration: none;
+}
+
+.drzFilter-grid-filterResetShow {
+  display: inline-block;
+  margin-right: 10px;
+}
