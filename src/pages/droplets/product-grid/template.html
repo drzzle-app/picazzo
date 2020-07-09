@@ -1,0 +1,48 @@
+<div>
+  <header class="picazzo-page-header">Product Grid</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <product-grid-droplet></product-grid-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses the <router-link to="/filter-grid" class="picazzo-link" tag="a">Filter Grid</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular "output" markup.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzFilter-grid').drzFilterGrid({
+  feed: [],
+  output(data) {
+    return `
+      &lt;a class=&quot;drzProduct-grid-card&quot; href=&quot;${data.pageLink}&quot;&gt;
+        &lt;div class=&quot;drzProduct-grid-cardImageWrap&quot;&gt;
+          &lt;img class=&quot;drzProduct-grid-cardImage&quot; data-asset=&quot;${data.itemImage}&quot; alt=&quot;${data.itemName}&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;drzProduct-grid-cardInfo&quot;&gt;
+          &lt;span class=&quot;drzProduct-grid-name&quot;&gt;${data.itemName}&lt;/span&gt;
+          &lt;span class=&quot;drzProduct-grid-price&quot;&gt;
+          $12
+          &lt;button data-product=&quot;${data._id}&quot; class=&quot;drzProduct-grid-buyBtn&quot;&gt;&lt;/button&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/a&gt;
+    `;
+  },
+});</code></pre>
+  </div>
+
+ <div class="picazzo-docFooter"></div>
+</div>
