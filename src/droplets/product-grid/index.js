@@ -30,7 +30,7 @@ export default Vue.component('product-grid-droplet', {
           e.preventDefault();
         });
       },
-      filters: ['shirt', 'shoes'],
+      filters: ['mens', 'womens'],
       pagination: 4,
       searchKeys: ['itemName', 'itemDescription'],
       feed: [
@@ -46,7 +46,7 @@ export default Vue.component('product-grid-droplet', {
           itemName: 'Green Shirt',
           pageLink: '#',
           customLink: '#',
-          categories: ['shirt'],
+          categories: ['mens'],
         },
         {
           created: '2020-06-23T19:31:14.835Z',
@@ -60,7 +60,7 @@ export default Vue.component('product-grid-droplet', {
           itemName: 'Dark Gray Shirt',
           pageLink: '#',
           customLink: '#',
-          categories: ['shoes', 'shirt'],
+          categories: ['womens'],
         },
         {
           created: '2020-06-22T19:31:14.835Z',
@@ -74,7 +74,7 @@ export default Vue.component('product-grid-droplet', {
           itemName: 'Blue Shirt',
           pageLink: '#',
           customLink: '#',
-          categories: ['shoes', 'shirt'],
+          categories: ['womens'],
           options: [],
         },
         {
@@ -89,7 +89,7 @@ export default Vue.component('product-grid-droplet', {
           itemName: 'Red Shirt',
           pageLink: '#',
           customLink: '#',
-          categories: ['shirt'],
+          categories: ['mens'],
         },
         {
           created: '2020-06-21T19:31:14.835Z',
@@ -103,7 +103,7 @@ export default Vue.component('product-grid-droplet', {
           itemName: 'Pink Shirt',
           pageLink: '#',
           customLink: '#',
-          categories: ['shirt'],
+          categories: ['mens'],
         },
         {
           created: '2020-06-20T19:31:14.835Z',
@@ -117,7 +117,7 @@ export default Vue.component('product-grid-droplet', {
           itemName: 'Purple Shirt',
           pageLink: '#',
           customLink: '#',
-          categories: ['shirt'],
+          categories: ['mens'],
         },
         {
           created: '2020-06-19T19:31:14.835Z',
@@ -131,7 +131,7 @@ export default Vue.component('product-grid-droplet', {
           itemName: 'Teal Shirt',
           pageLink: '#',
           customLink: '#',
-          categories: ['shirt'],
+          categories: ['mens'],
         },
         {
           created: '2020-06-18T19:31:14.835Z',
@@ -145,7 +145,7 @@ export default Vue.component('product-grid-droplet', {
           itemName: 'Dark Green Shirt',
           pageLink: '#',
           customLink: '#',
-          categories: ['shirt'],
+          categories: ['mens'],
         },
       ],
     });
