@@ -207,7 +207,7 @@
         e.preventDefault();
         const el = $(this);
         el.parent().addClass('active').siblings().removeClass('active');
-        index = ~~(el.attr('class').split('-')[2]);
+        index = ~~(el.parent().index('.drzPaginate-li') + 1);
         if (pages > 11) {
           updatePagination(index, el.attr('class'));
         }
