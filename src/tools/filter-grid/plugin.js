@@ -8,6 +8,7 @@
       const $pagination = options.pagination ? ~~(options.pagination) : false;
       const $filters = options.filters;
       const classes = {
+        gridContainer: 'drzFilter-grid-container',
         pagination: 'drzFilter-grid-pagination',
         firstEllipses: 'drzFilter-ellipses-first',
         lastEllipses: 'drzFilter-ellipses-last',
@@ -18,7 +19,11 @@
         nextBtn: 'drzFilter-grid-paginationNext',
         disabledBtn: 'drzFilter-grid-pageBtnDisabled',
         empty: 'drzFilter-grid-empty',
+        checkFilters: 'drzFilter-grid-filters',
         checkbox: 'drzFilter-grid-checkInput',
+        filterBox: 'drzFilter-grid-filterBox',
+        filterReset: 'drzFilter-grid-filterReset',
+        filterOpen: 'drzFilter-grid-filterBtn',
       };
 
       const list = options.feed || [];
@@ -38,7 +43,7 @@
           $filterBtn: null,
         },
         drawGrid() {
-          const $cardList = $this.find('.drzFilter-grid-container');
+          const $cardList = $this.find(`.${classes.gridContainer}`);
           $cardList.html('');
           if (shownList.length > 0) {
             $.each(shownList, (index, value) => {
@@ -121,20 +126,20 @@
           if ($filters) {
             // build out filter buttons and events
             const $filterContainer = $(`
-              <div class="drzFilter-grid-filterBox">
-                <a href="#" class="drzFilter-grid-filterReset">Reset</a>
-                <button class="drzFilter-grid-filterBtn" name="filters">Filters</button>
+              <div class="${classes.filterBox}">
+                <a href="#" class="${classes.filterReset}">Reset</a>
+                <button class="${classes.filterOpen}" name="filters">Filters</button>
               </div>
             `);
             $filterBar.append($filterContainer);
-            const $filterBtn = $filterContainer.find('.drzFilter-grid-filterBtn');
+            const $filterBtn = $filterContainer.find(`.${classes.filterOpen}`);
             methods.$filterBtn = $filterBtn;
-            const $resetBtn = $filterContainer.find('.drzFilter-grid-filterReset');
+            const $resetBtn = $filterContainer.find(`.${classes.filterReset}`);
             methods.$resetBtn = $resetBtn;
             $filterBtn.click(methods.onFilterClick);
             $resetBtn.click(methods.resetFilter);
             // build filter checkboxes
-            const $filterBox = $('<div class="drzFilter-grid-filters"></div>');
+            const $filterBox = $(`<div class="${classes.checkFilters}"></div>`);
             methods.$filterBox = $filterBox;
             $filterBox.insertAfter($filterBar);
             $.each($filters, (index, filter) => {
@@ -381,14 +386,14 @@
         const $srch = $el.find('.drzFilter-grid-searchInput');
         $srch.val('');
         $srch.off('input');
-        $el.find('.drzFilter-grid-container').html('');
-        const $fltrBtn = $el.find('.drzFilter-grid-filterBtn');
-        const $rstBtn = $el.find('.drzFilter-grid-filterReset');
+        $el.find(`.${classes.gridContainer}`).html('');
+        const $fltrBtn = $el.find(`.${classes.filterOpen}`);
+        const $rstBtn = $el.find(`.${classes.filterReset}`);
         $fltrBtn.off('click');
         $rstBtn.off('click');
-        const $fltrBox = $el.find('.drzFilter-grid-filters');
+        const $fltrBox = $el.find(`.${classes.filterBox}`);
         $fltrBox.remove();
-        const $fltrBtns = $el.find('.drzFilter-grid-filterBox');
+        const $fltrBtns = $el.find(`.${classes.checkFilters}`);
         $fltrBtns.remove();
         $el.find(`.${classes.pagination}`).remove();
         const $emptyMsg = $el.find(`.${classes.empty}`);

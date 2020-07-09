@@ -54,6 +54,21 @@
 });</code></pre>
 </div>
 
+<p class="picazzo-section-subHeader">Lazy Load Images</p>
+<p>
+  To lazy load any assets in the "onRender" hook, you will need to use the "data-asset" attribute.
+  When the item comes into view, the image's url will auto set the src initializing the load. See example below.
+</p>
+<div class="row">
+  <pre v-highlightjs><code class="javascript">output(data) {
+  return `
+    &lt;div&gt;
+      &lt;img data-asset="${data.someImage}" /&gt;
+    &lt;/div&gt;
+  `;
+}</code></pre>
+</div>
+
 <p class="picazzo-section-subHeader">Destroy Plugin</p>
 
 <div class="row">
