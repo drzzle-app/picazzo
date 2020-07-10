@@ -165,17 +165,33 @@
 }
 
 .drzFilter-grid-checkInput {
-  margin: 0 3px 0 0;
+  appearance: none;
+  background-color: @white;
+  border: 1px solid fade(@black, 20%);
+  display: inline-block;
+  float: left;
+  height: 15px;
+  margin: 0 5px 0 0;
+  width: 15px;
 
   &:hover {
     cursor: pointer;
+  }
+
+  &:checked {
+    background-color: @drzGreen;
+  }
+
+  &:focus {
+    box-shadow: 0;
+    outline: 0;
   }
 }
 
 .drzFilter-grid-checkLabel {
   position: relative;
   text-transform: capitalize;
-  top: -1px;
+  top: -3px;
   user-select: none;
 
   &:hover {

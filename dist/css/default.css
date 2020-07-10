@@ -2091,15 +2091,32 @@ body > .row {
   padding-right: 10px;
 }
 .drzFilter-grid-checkInput {
-  margin: 0 3px 0 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  float: left;
+  height: 15px;
+  margin: 0 5px 0 0;
+  width: 15px;
 }
 .drzFilter-grid-checkInput:hover {
   cursor: pointer;
 }
+.drzFilter-grid-checkInput:checked {
+  background-color: #41e0c4;
+}
+.drzFilter-grid-checkInput:focus {
+  -webkit-box-shadow: 0;
+  box-shadow: 0;
+  outline: 0;
+}
 .drzFilter-grid-checkLabel {
   position: relative;
   text-transform: capitalize;
-  top: -1px;
+  top: -3px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
