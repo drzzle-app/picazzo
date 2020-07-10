@@ -214,11 +214,6 @@
           "children": []
         },
         {
-          "text": "Filtering",
-          "route": "/filtering",
-          "children": []
-        },
-        {
           "text": "Filter Grid",
           "route": "/filter-grid",
           "children": []

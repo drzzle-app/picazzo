@@ -188,11 +188,6 @@
                     "component": "require('@/pages/tools/breadcrumbs/').default"
                 },
                 {
-                    "path": "/filtering",
-                    "name": "filtering",
-                    "component": "require('@/pages/tools/filtering/').default"
-                },
-                {
                     "path": "/multi-step",
                     "name": "multi-step",
                     "component": "require('@/pages/tools/multi-step/').default"
