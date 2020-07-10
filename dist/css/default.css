@@ -1781,7 +1781,7 @@ body > .row {
   display: block;
 }
 .drzFilter-grid-bar {
-  background-color: #f1f1f1;
+  background-color: #eaeaea;
   margin-bottom: 10px;
   padding: 10px;
   position: relative;
@@ -1957,7 +1957,7 @@ body > .row {
   transform: rotate(90deg);
 }
 .drzFilter-grid-filters {
-  background-color: #f1f1f1;
+  background-color: #eaeaea;
   display: none;
   padding: 10px;
   position: relative;
