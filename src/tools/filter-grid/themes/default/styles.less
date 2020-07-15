@@ -8,6 +8,9 @@
 .drzFilter-grid-bar {
   .drzClearFix;
   background-color: @filter-bar;
+  border-color: #cccccc;
+  border-style: solid;;
+  border-width: 1px;
   margin-bottom: 10px;
   padding: 10px;
   position: relative;
@@ -97,7 +100,9 @@
 }
 
 .drzFilter-grid-searchInput {
-  border: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0;
   font-size: 12pt;
   padding: 10px;
   width: 100%;
@@ -128,7 +133,9 @@
 
 .drzFilter-grid-filterBtn {
   background: transparent;
-  border: 1px solid #cccccc;
+  border-color: #cccccc;
+  border-style: solid;;
+  border-width: 1px;
   padding: 10px 15px;
 
   &:after {
@@ -153,6 +160,9 @@
 
 .drzFilter-grid-filters {
   background-color: @filter-bar;
+  border-color: #cccccc;
+  border-style: solid;;
+  border-width: 1px;
   display: none;
   padding: 10px;
   position: relative;
@@ -184,7 +194,6 @@
 
   &:focus {
     box-shadow: 0;
-    outline: 0;
   }
 }
 

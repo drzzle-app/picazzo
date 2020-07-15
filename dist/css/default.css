@@ -1782,6 +1782,9 @@ body > .row {
 }
 .drzFilter-grid-bar {
   background-color: #eaeaea;
+  border-color: #cccccc;
+  border-style: solid;
+  border-width: 1px;
   margin-bottom: 10px;
   padding: 10px;
   position: relative;
@@ -1908,7 +1911,9 @@ body > .row {
   color: #fff;
 }
 .drzFilter-grid-searchInput {
-  border: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0;
   font-size: 12pt;
   padding: 10px;
   width: 100%;
@@ -1933,7 +1938,9 @@ body > .row {
 }
 .drzFilter-grid-filterBtn {
   background: transparent;
-  border: 1px solid #cccccc;
+  border-color: #cccccc;
+  border-style: solid;
+  border-width: 1px;
   padding: 10px 15px;
 }
 .drzFilter-grid-filterBtn:after {
@@ -1958,6 +1965,9 @@ body > .row {
 }
 .drzFilter-grid-filters {
   background-color: #eaeaea;
+  border-color: #cccccc;
+  border-style: solid;
+  border-width: 1px;
   display: none;
   padding: 10px;
   position: relative;
@@ -1988,7 +1998,6 @@ body > .row {
 .drzFilter-grid-checkInput:focus {
   -webkit-box-shadow: 0;
   box-shadow: 0;
-  outline: 0;
 }
 .drzFilter-grid-checkLabel {
   position: relative;

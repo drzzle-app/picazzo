@@ -216,6 +216,11 @@
             $pageBtn.click(methods.clickPagination);
             $nums.append($pageBtn);
           });
+          if (methods.totalPages < 2) {
+            $paginationContaner.hide();
+          } else {
+            $paginationContaner.show();
+          }
         },
         clickPagination(e) {
           e.preventDefault();
