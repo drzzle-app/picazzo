@@ -188,11 +188,6 @@
                     "component": "require('@/pages/tools/breadcrumbs/').default"
                 },
                 {
-                    "path": "/filtering",
-                    "name": "filtering",
-                    "component": "require('@/pages/tools/filtering/').default"
-                },
-                {
                     "path": "/multi-step",
                     "name": "multi-step",
                     "component": "require('@/pages/tools/multi-step/').default"
@@ -246,6 +241,21 @@
                     "path": "/product-feature",
                     "name": "product-feature",
                     "component": "require('@/pages/droplets/product-feature/').default"
+                },
+                {
+                    "path": "/product-feed",
+                    "name": "product-feed",
+                    "component": "require('@/pages/droplets/product-feed/').default"
+                },
+                {
+                    "path": "/product-grid",
+                    "name": "product-grid",
+                    "component": "require('@/pages/droplets/product-grid/').default"
+                },
+                {
+                    "path": "/filter-grid",
+                    "name": "filter-grid",
+                    "component": "require('@/pages/tools/filter-grid/').default"
                 }
             ]
         },

@@ -1,0 +1,46 @@
+.drzProduct-grid-card {
+  border-color: #dedede;
+  border-style: solid;
+  border-width: 1px;
+  text-decoration: none;
+}
+
+.drzProduct-grid-cardImageWrap {
+  display: block;
+}
+
+.drzProduct-grid-cardImage {
+  width: 100%;
+}
+
+.drzProduct-grid-cardInfo {
+  color: fade(@black, 60%);
+  padding: 10px;
+}
+
+.drzProduct-grid-name {
+  display: block;
+  font-size: 14pt;
+}
+
+.drzProduct-grid-price {
+  display: block;
+}
+
+.drzProduct-grid-buyBtn {
+  background-color: transparent;
+  border: 0;
+  color: fade(@black, 60%);
+  float: right;
+  font-size: 13pt;
+  padding: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:after {
+    content: '\f217';
+    font-family: 'drzzle';
+  }
+}

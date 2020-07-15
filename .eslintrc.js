@@ -63,7 +63,7 @@ module.exports = {
       }
     ],
     'no-underscore-dangle': ['error', {
-      allow: ['$_', '__editor']
+      allow: ['$_', '__editor', '_id']
     }],
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {

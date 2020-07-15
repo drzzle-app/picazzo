@@ -2,6 +2,8 @@
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 /*
 *  ===================================
 *   Drzzle Jquery droplet library
@@ -2956,6 +2958,84 @@ window.drzzle = {
   };
 })(jQuery);
 
+(function ($) {
+  $.fn.drzProductFeed = function productFeed(options) {
+    var $productFeed = $(this);
+    var $curData = $productFeed.attr('data-currency');
+    var $sort = $productFeed.attr('data-sort') || 'newest';
+    var $filterAttr = $productFeed.attr('data-filter');
+    var $filters = $filterAttr ? $filterAttr.split(',') : false;
+    var $limitAttr = $productFeed.attr('data-items');
+    var $limit = $limitAttr ? parseInt($limitAttr, 10) : 4;
+    var $matchAttr = $productFeed.attr('data-match');
+    var $match = $matchAttr || 'all';
+    var $currency = { type: 'usd', symbol: '&#36;' };
+    if ($curData) {
+      $currency = JSON.parse($curData);
+    }
+    var methods = {
+      buildCard: function buildCard(data) {
+        return '\n        <a class="drzProduct-feed-card" href="' + data.pageLink + '">\n          <div class="drzProduct-feed-cardImageWrap">\n            <img class="drzProduct-feed-cardImage" src="' + data.itemImage + '" alt="' + data.itemName + '" />\n          </div>\n          <div class="drzProduct-feed-cardInfo">\n            <span class="drzProduct-feed-name">' + data.itemName + '</span>\n            <span class="drzProduct-feed-price">\n            ' + $currency.symbol + data.prices[$currency.type] + '\n            <button data-product="' + data._id + '" class="drzProduct-feed-buyBtn"></button>\n            </span>\n          </div>\n        </a>\n        ';
+      },
+      buyClick: function buyClick(e) {
+        e.preventDefault();
+        if (options.onCartAdd) {
+          options.onCartAdd(e);
+        }
+      }
+    };
+    var list = options.feed || [];
+    // set by newest by default
+    var products = list.sort(function (a, b) {
+      return new Date(b.created) - new Date(a.created);
+    });
+    if ($sort === 'oldest') {
+      products = products.reverse();
+    }
+    products = products.slice(0, $limit);
+    if ($filters) {
+      // match all option
+      if ($match === 'all') {
+        products = products.filter(function (p) {
+          return $filters.every(function (f) {
+            return p.categories.indexOf(f) > -1;
+          });
+        });
+      }
+      // match some option
+      if ($match === 'some') {
+        products = products.filter(function (p) {
+          return $filters.some(function (f) {
+            return p.categories.indexOf(f) >= 0;
+          });
+        });
+      }
+    }
+    $productFeed.each(function initPlugin() {
+      var $this = $(this);
+      var $cardList = $this.find('.drzProduct-feed-cards');
+      if (products.length > 0) {
+        $.each(products, function (index, value) {
+          var $newCard = $(methods.buildCard(value));
+          var $buyBtn = $newCard.find('.drzProduct-feed-buyBtn');
+          $buyBtn.click(methods.buyClick);
+          $cardList.append($newCard);
+        });
+      } else if (!$this.find('.drzProduct-feed-empty').length) {
+        $this.append($('<span class="drzProduct-feed-empty">No Products Found</span>'));
+      }
+      $.fn.drzProductFeed.destroy = function ($el) {
+        var $emptyMsg = $el.find('.drzProduct-feed-empty');
+        if ($emptyMsg.length) {
+          $emptyMsg.remove();
+        }
+        $el.find('.drzProduct-feed-cards').html('');
+      };
+    });
+    return $productFeed;
+  };
+})(jQuery);
+
 /* Section Bg Videos
 * ======================= */
 (function ($) {
@@ -4020,171 +4100,406 @@ window.drzzle = {
   };
 })(jQuery);
 
-/*
-============================
- Drzzle Filtering Plugin
-============================
-*/
 (function ($) {
-  $.fn.sortFilter = function sortFilter() {
-    var $filter = $(this);
-    $filter.each(function initPlugin() {
+  $.fn.drzFilterGrid = function filterGrid(options) {
+    var $filterGrid = $(this);
+    $filterGrid.each(function initPlugin() {
       var $this = $(this);
-      var filterContainer = void 0;
-      var isTable = false;
-      if ($this.next().is('table')) {
-        isTable = true;
-        filterContainer = $this.next('table').find('.drzFilter-container');
-      } else {
-        filterContainer = $this.next('.drzFilter-container');
-      }
-      var filterBtn = $this.find('button');
-      var filterSearch = $this.find('.search');
-      var filterSearchAttr = filterSearch.attr('data-filter-search');
-      var animationSpeed = 200;
+      var $search = $this.find('.drzFilter-grid-searchInput');
+      var $filterBar = $this.find('.drzFilter-grid-bar');
+      var $pagination = options.pagination ? ~~options.pagination : false;
+      var $filters = options.filters;
+      var classes = {
+        gridContainer: 'drzFilter-grid-container',
+        pagination: 'drzFilter-grid-pagination',
+        firstEllipses: 'drzFilter-ellipses-first',
+        lastEllipses: 'drzFilter-ellipses-last',
+        pageNums: 'drzFilter-grid-paginationNums',
+        activeBtn: 'drzFilter-grid-pageBtnActive',
+        pageBtn: 'drzFilter-grid-pageBtn',
+        prevBtn: 'drzFilter-grid-paginationPrev',
+        nextBtn: 'drzFilter-grid-paginationNext',
+        disabledBtn: 'drzFilter-grid-pageBtnDisabled',
+        empty: 'drzFilter-grid-empty',
+        checkFilters: 'drzFilter-grid-filters',
+        checkbox: 'drzFilter-grid-checkInput',
+        filterBox: 'drzFilter-grid-filterBox',
+        filterReset: 'drzFilter-grid-filterReset',
+        filterOpen: 'drzFilter-grid-filterBtn'
+      };
 
-      if ((typeof filterSearchAttr === 'undefined' ? 'undefined' : _typeof(filterSearchAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && filterSearchAttr !== false) {
-        if (filterSearchAttr.match(/true/gi)) {
-          var searchContentContainer = filterContainer;
-          searchContentContainer.children().each(function go() {
-            $(this).addClass('search-element-parent');
-          });
-          // store the initial pagination states for resetting
-          var initialState = void 0;
-          searchContentContainer.ready(function () {
-            if (searchContentContainer.hasClass('paginate')) {
-              if (isTable === true) {
-                initialState = $this.next('table').find('.drzFilter-container').html();
-              } else {
-                initialState = $this.next('.drzFilter-container').html();
-              }
-            }
-          });
-          filterSearch.keyup(function onKeyup() {
-            var searchedElement = searchContentContainer.find('.search-element-parent');
-            var input = $(this).val();
-            var thisText = input.toString();
-            var searchedText = new RegExp(thisText, 'gim');
-            // var searchedText = new RegExp('(?![^<]*>)' + thisText + '\b(?![^ <>])', 'gim');
-            searchedElement.each(function update() {
-              var el = $(this);
-              var elText = el.text();
-              // var elText = el.html();
-              // elText = elText.replace('<mark class="search-result">','').replace('</mark>','');
-              if (elText.match(searchedText)) {
-                if (!el.is(':visible')) {
-                  if (isTable === true) {
-                    el.removeClass('hide');
-                    el.addClass('show-tr');
-                  } else {
-                    if (filterContainer.hasClass('paginate')) {
-                      if (!el.parent().is(':visible')) {
-                        el.parent().show();
-                      }
-                    }
-                    el.fadeIn();
-                  }
-                }
-                if (input !== '') {
-                  // stashing for future use (highlighting text)
-                  // need to not get <tag text>
-                  // elText = elText.replace(
-                  // new RegExp('(?![^<>]*>) *' + thisText + '*([^<> \d])', "igm"),
-                  // '<mark class="search-result">' + thisText + '</mark>');
-                  // el.html(elText);
-                }
-              } else if (isTable === true) {
-                el.removeClass('show-tr');
-                el.addClass('hide');
-              } else {
-                el.fadeOut();
-              }
-              if (input === '') {
-                if (filterContainer.hasClass('paginate')) {
-                  searchContentContainer.html(initialState);
-                  if (isTable === true) {
-                    searchContentContainer.parent().next('.pagination').find('.pg-link-1').trigger('click');
-                  } else {
-                    searchContentContainer.next('.pagination').find('.pg-link-1').trigger('click');
-                  }
-                }
-              }
-            });
-          });
-        }
-      }
-      var filterContainerContent = void 0;
-      filterContainer.ready(function () {
-        filterContainerContent = filterContainer.html();
+      var list = options.feed || [];
+      // set by newest by default
+      var shownList = list.sort(function (a, b) {
+        return new Date(b.created) - new Date(a.created);
       });
 
-      function sortContent(el, attr, sortBtn) {
-        return $(filterContainer.find(el).toArray().sort(function (a, b) {
-          var top = new Date($(a).attr(attr));
-          var bottom = new Date($(b).attr(attr));
-          var result = void 0;
-          if (sortBtn.match(/newest/gi)) {
-            result = bottom - top;
-          } else if (sortBtn.match(/oldest/gi)) {
-            result = top - bottom;
+      var methods = {
+        paginated: false,
+        totalPages: 0,
+        currentPage: 1,
+        fullList: [],
+        filteredList: false,
+        searchList: false,
+        filterElements: {
+          $filterBox: null,
+          $resetBtn: null,
+          $filterBtn: null
+        },
+        drawGrid: function drawGrid() {
+          var $cardList = $this.find('.' + classes.gridContainer);
+          $cardList.html('');
+          if (shownList.length > 0) {
+            $.each(shownList, function (index, value) {
+              var $newCard = $(options.output(value));
+              if (methods.paginated) {
+                $newCard.hide();
+                var page = ~~(index / $pagination + 1);
+                $newCard.attr('data-pagination-page', page);
+                // set the number of total pages here
+                if (index === shownList.length - 1) {
+                  methods.totalPages = page;
+                }
+              }
+              $cardList.append($newCard);
+              if (options.onRender) {
+                options.onRender($newCard);
+              }
+            });
+            if (methods.paginated) {
+              methods.updatePagination($this);
+              // auto set the first round of pages visible
+              methods.updatePaginationView({ $el: $this, page: 1 });
+              methods.currentPage = 1;
+              $this.find('.' + classes.pageBtn).eq(0).addClass(classes.activeBtn);
+              // since this also runs on a reset, we need to reset initial class states
+              $this.find('.' + classes.disabledBtn).removeClass(classes.disabledBtn);
+              $this.find('.' + classes.prevBtn).addClass(classes.disabledBtn);
+              if (methods.totalPages === 1) {
+                $this.find('.' + classes.nextBtn).addClass(classes.disabledBtn);
+              }
+            } else {
+              // pagination is disabled so show all cards
+              $cardList.children().each(function showAllItems() {
+                var $card = $(this);
+                // lazy load all here
+                var $unsetAsset = $card.find('[data-asset]');
+                $unsetAsset.each(function lazyLoad() {
+                  var $el = $(this);
+                  $el.attr('src', $el.attr('data-asset')).removeAttr('data-asset');
+                });
+              });
+            }
+            // on redraws, we need to make sure empty message is removed if there
+            // are items in the grid list
+            var $emptyMsg = $this.find('.' + classes.empty);
+            if ($emptyMsg.length) {
+              $emptyMsg.remove();
+            }
           }
-          return result;
-        }));
-      }
-
-      filterBtn.each(function initBtn() {
-        var thisBtn = $(this);
-        var thisBtnAttr = thisBtn.attr('data-filter-category');
-        var thisResetAttr = thisBtn.attr('data-filter-reset');
-        var thisSortAttr = thisBtn.attr('data-filter-sort');
-        // if reset button is present
-        if ((typeof thisResetAttr === 'undefined' ? 'undefined' : _typeof(thisResetAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && thisResetAttr !== false && thisResetAttr.match(/true/gi)) {
-          thisBtn.click(function () {
-            filterContainer.html(filterContainerContent);
-            if (filterContainer.hasClass('paginate')) {
-              filterContainer.next('.pagination').find('.pg-link-1').trigger('click');
-            }
-            filterContainer.find('[data-filter-category]').each(function categ() {
-              var el = $(this);
-              if (!el.is(':visible')) {
-                setTimeout(function () {
-                  el.fadeIn(animationSpeed);
-                }, animationSpeed);
-              }
+          if (shownList.length < 1 && methods.paginated) {
+            $this.find('.' + classes.pagination).remove();
+          }
+          if (shownList.length < 1 && !$this.find('.' + classes.empty).length) {
+            $this.append($('<span class="' + classes.empty + '">No Items Found</span>'));
+          }
+        },
+        resetFilter: function resetFilter(e) {
+          e.preventDefault();
+          methods.filteredList = false;
+          methods.searchList = false;
+          $search.val('');
+          // uncheck all filters
+          var checked = methods.$filterBox.find('.' + classes.checkbox + ':checked');
+          if (checked.length > 0) {
+            checked.each(function buildSelected() {
+              $(this).attr('checked', false);
             });
+          }
+          shownList = methods.fullList;
+          methods.drawGrid();
+        },
+        onFilterClick: function onFilterClick(e) {
+          e.preventDefault();
+          methods.$filterBox.toggle();
+          methods.$resetBtn.toggleClass('drzFilter-grid-filterResetShow');
+          methods.$filterBtn.toggleClass('drzFilter-grid-filterBtnOpen');
+        },
+        buildFilters: function buildFilters() {
+          if ($filters) {
+            // build out filter buttons and events
+            var $filterContainer = $('\n              <div class="' + classes.filterBox + '">\n                <a href="#" class="' + classes.filterReset + '">Reset</a>\n                <button class="' + classes.filterOpen + '" name="filters">Filters</button>\n              </div>\n            ');
+            $filterBar.append($filterContainer);
+            var $filterBtn = $filterContainer.find('.' + classes.filterOpen);
+            methods.$filterBtn = $filterBtn;
+            var $resetBtn = $filterContainer.find('.' + classes.filterReset);
+            methods.$resetBtn = $resetBtn;
+            $filterBtn.click(methods.onFilterClick);
+            $resetBtn.click(methods.resetFilter);
+            // build filter checkboxes
+            var $filterBox = $('<div class="' + classes.checkFilters + '"></div>');
+            methods.$filterBox = $filterBox;
+            $filterBox.insertAfter($filterBar);
+            $.each($filters, function (index, filter) {
+              var id = methods.tinyId();
+              var $filterDiv = $('\n                <div class="drzFilter-grid-checkFilter">\n                  <input class="' + classes.checkbox + '" value="' + filter + '" id="' + filter + '-' + id + '" type="checkbox" />\n                  <label class="drzFilter-grid-checkLabel" for="' + filter + '-' + id + '">' + filter + '</label>\n                </div>\n              ');
+              $filterBox.append($filterDiv);
+              var $checkbox = $filterDiv.find('.' + classes.checkbox);
+              $checkbox.change(function () {
+                var checked = $filterBox.find('.' + classes.checkbox + ':checked');
+                if (checked.length > 0) {
+                  var selected = [];
+                  checked.each(function buildSelected() {
+                    selected.push($(this).attr('value'));
+                  });
+                  var feed = methods.searchList || methods.fullList;
+                  shownList = feed.filter(function (p) {
+                    return selected.every(function (f) {
+                      return p.categories.indexOf(f) > -1;
+                    });
+                  });
+                  methods.filteredList = shownList;
+                } else {
+                  // reset list to full list
+                  shownList = methods.searchList || methods.fullList;
+                  methods.filteredList = false;
+                }
+                // redraw here
+                methods.drawGrid();
+              });
+            });
+          }
+        },
+        updatePagination: function updatePagination($el) {
+          // This runs when we need to redraw the entire pagination.
+          // This builds the pagination links
+          var $paginationContaner = $el.find('.' + classes.pagination);
+          var $nums = $paginationContaner.find('.' + classes.pageNums);
+          if (!$paginationContaner.length) {
+            $paginationContaner = $('\n            <div class="' + classes.pagination + '">\n              <button class="' + classes.prevBtn + '" data-page="prev"></button>\n              <div class="' + classes.pageNums + '"></div>\n              <button class="' + classes.nextBtn + '" data-page="next"></button>\n            </div>');
+            $nums = $paginationContaner.find('.' + classes.pageNums);
+            // set click events for prev/next buttons
+            $paginationContaner.find('.' + classes.prevBtn).click(methods.clickPagination);
+            $paginationContaner.find('.' + classes.nextBtn).click(methods.clickPagination);
+            $el.append($paginationContaner);
+          } else {
+            $nums.html('');
+          }
+          $.each([].concat(_toConsumableArray(Array(methods.totalPages).keys())), function (num) {
+            var page = num + 1;
+            var $pageBtn = $('<button class="' + classes.pageBtn + '" data-page="' + page + '">' + page + '</button>');
+            // for long listed paginations
+            if (methods.totalPages >= 10) {
+              // after first page btn and before last page btn, we need to add the ellipsis [...]
+              if (page === 2 || page === methods.totalPages) {
+                var direction = page === 2 ? 'first' : 'last';
+                var $ellipses = $('<span class="drzFilter-grid-ellipses drzFilter-ellipses-' + direction + '">...</span>');
+                $nums.append($ellipses);
+                if (direction === 'first') {
+                  $ellipses.hide();
+                }
+              }
+              // hide all buttons after the 6th one but not the last one
+              if (page >= 7 && page < methods.totalPages) {
+                // this basically creates the initial [1 2 3 4 5 6 ... 10]
+                $pageBtn.hide();
+              }
+            }
+            $pageBtn.click(methods.clickPagination);
+            $nums.append($pageBtn);
           });
-        }
-        // if a data-filter-category exists on a button
-        if ((typeof thisBtnAttr === 'undefined' ? 'undefined' : _typeof(thisBtnAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && thisBtnAttr !== false) {
-          thisBtn.click(function () {
-            filterContainer.find('[data-filter-category]').each(function initCat() {
-              var el = $(this);
-              var filterContentAttr = el.attr('data-filter-category');
-              if (filterContentAttr !== thisBtnAttr) {
-                el.fadeOut(animationSpeed);
-              } else {
-                if (filterContainer.hasClass('paginate')) {
-                  if (!el.parent().is(':visible')) {
-                    el.parent().show();
+          if (methods.totalPages < 2) {
+            $paginationContaner.hide();
+          } else {
+            $paginationContaner.show();
+          }
+        },
+        clickPagination: function clickPagination(e) {
+          e.preventDefault();
+          var $btn = $(e.currentTarget);
+          var $newActiveBtb = $btn;
+          var attr = $btn.attr('data-page');
+          var $activeBtn = $btn.parent().find('.' + classes.activeBtn);
+          var num = void 0;
+          if (attr === 'next') {
+            var nextPageNum = ~~methods.currentPage + 1;
+            if (nextPageNum > methods.totalPages) {
+              return;
+            }
+            num = nextPageNum;
+            $activeBtn.removeClass(classes.activeBtn);
+            $newActiveBtb = $btn.parent().find('[data-page="' + num + '"]');
+            $newActiveBtb.addClass(classes.activeBtn);
+          }
+          if (attr === 'prev') {
+            var prevPageNum = ~~methods.currentPage - 1;
+            if (prevPageNum < 1) {
+              return;
+            }
+            num = prevPageNum;
+            $activeBtn.removeClass(classes.activeBtn);
+            $newActiveBtb = $btn.parent().find('[data-page="' + num + '"]');
+            $newActiveBtb.addClass(classes.activeBtn);
+          }
+          if (attr !== 'prev' && attr !== 'next') {
+            $activeBtn.removeClass(classes.activeBtn);
+            $btn.addClass(classes.activeBtn);
+            num = ~~attr;
+          }
+          methods.currentPage = num;
+          // here we disable/enable buttons depending on if first
+          // or last page is active
+          var $prevBtn = $this.find('.' + classes.prevBtn);
+          var $nextBtn = $this.find('.' + classes.nextBtn);
+          if (~~num === 1) {
+            $prevBtn.addClass(classes.disabledBtn);
+          } else {
+            $prevBtn.removeClass(classes.disabledBtn);
+          }
+          if (~~num === methods.totalPages) {
+            $nextBtn.addClass(classes.disabledBtn);
+          } else {
+            $nextBtn.removeClass(classes.disabledBtn);
+          }
+          // set active page cards shown and kick off any lazy loading
+          methods.updatePaginationView({ $el: $this, page: num });
+          // if there is a large set of pages, we need to run the ellipsis generation
+          if (methods.totalPages >= 10) {
+            var $paginationContaner = $this.find('.' + classes.pagination);
+            var $firstEllipses = $paginationContaner.find('.' + classes.firstEllipses);
+            var $lastEllipses = $paginationContaner.find('.' + classes.lastEllipses);
+            var bulk = $paginationContaner.find('[data-page]:not(:last-child):not(:first-child)');
+            bulk.hide();
+            var endThreshold = methods.totalPages - 5;
+            // covers clicks from start range [2-6]
+            if (num <= 6) {
+              methods.setVisibleRange({
+                start: 2,
+                end: 6,
+                $paginationContaner: $paginationContaner
+              });
+              $lastEllipses.show();
+              $firstEllipses.hide();
+            }
+            // covers clicks from ranges [7 - end threshold]. So this is basically
+            // the mid range between first and last thresholds
+            if (num > 6 && num < endThreshold) {
+              methods.setVisibleRange({
+                start: num - 2,
+                end: num + 2,
+                $paginationContaner: $paginationContaner
+              });
+              $firstEllipses.show();
+              $lastEllipses.show();
+              $newActiveBtb.show();
+            }
+            // covers clicks from end range [num - end]
+            if (num >= endThreshold) {
+              methods.setVisibleRange({
+                start: endThreshold,
+                end: methods.totalPages - 1,
+                $paginationContaner: $paginationContaner
+              });
+              $lastEllipses.hide();
+              $firstEllipses.show();
+            }
+          }
+        },
+        setVisibleRange: function setVisibleRange(params) {
+          for (var i = params.start; i <= params.end; i++) {
+            var btn = params.$paginationContaner.find('[data-page="' + i + '"]');
+            btn.show();
+          }
+        },
+        updatePaginationView: function updatePaginationView(params) {
+          // this runs on pagination or next/prev button clicks
+          params.$el.find('[data-pagination-page]').hide();
+          var $activeCards = params.$el.find('[data-pagination-page="' + params.page + '"]');
+          $activeCards.show();
+          // check for activeClass then show srcs if not there as a means of lazy loading
+          $activeCards.each(function setImgSources() {
+            var $card = $(this);
+            var $unsetAsset = $card.find('[data-asset]');
+            if ($unsetAsset.length) {
+              $unsetAsset.attr('src', $unsetAsset.attr('data-asset'));
+              $unsetAsset.removeAttr('data-asset');
+            }
+          });
+        },
+
+        searchTime: null,
+        onSearch: function onSearch(e) {
+          clearTimeout(methods.searchTime);
+          methods.searchTime = setTimeout(function () {
+            var input = new RegExp(e.target.value, 'gi');
+            var keys = options.searchKeys || [];
+            var feed = methods.filteredList || methods.fullList;
+            if (e.target.value === '') {
+              methods.searchList = false;
+              shownList = feed;
+            } else {
+              shownList = feed.filter(function (item) {
+                // we need to check all key options to search through
+                for (var i = 0; i < keys.length; i++) {
+                  var key = keys[i];
+                  if (item[key].match(input)) {
+                    return item;
                   }
                 }
-                setTimeout(function () {
-                  el.fadeIn(animationSpeed);
-                }, animationSpeed);
-              }
-            });
-          });
+                return false;
+              });
+              methods.searchList = shownList;
+            }
+            // redraw grid
+            methods.drawGrid();
+          }, 250);
+        },
+        tinyId: function tinyId() {
+          function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+          }
+          return '' + s4();
         }
-        // if a data-filter-sort exists on a button
-        if ((typeof thisSortAttr === 'undefined' ? 'undefined' : _typeof(thisSortAttr)) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined)) && thisSortAttr !== false) {
-          thisBtn.click(function () {
-            var newBuild = sortContent('[data-filter-sort]', 'data-filter-sort', thisSortAttr);
-            filterContainer.html(newBuild);
-          });
+      };
+      methods.fullList = shownList;
+      methods.paginated = typeof $pagination !== 'boolean';
+      $search.on('input', methods.onSearch);
+      methods.drawGrid();
+      methods.buildFilters();
+
+      $.fn.drzFilterGrid.destroy = function ($el) {
+        // reset all method data
+        methods.totalPages = 0;
+        methods.currentPage = 1;
+        methods.fullList = [];
+        methods.filteredList = false;
+        methods.searchList = false;
+        methods.filterElements = {
+          $filterBox: null,
+          $resetBtn: null,
+          $filterBtn: null
+        };
+        var $srch = $el.find('.drzFilter-grid-searchInput');
+        $srch.val('');
+        $srch.off('input');
+        $el.find('.' + classes.gridContainer).html('');
+        var $fltrBtn = $el.find('.' + classes.filterOpen);
+        var $rstBtn = $el.find('.' + classes.filterReset);
+        $fltrBtn.off('click');
+        $rstBtn.off('click');
+        var $fltrBox = $el.find('.' + classes.filterBox);
+        $fltrBox.remove();
+        var $fltrBtns = $el.find('.' + classes.checkFilters);
+        $fltrBtns.remove();
+        $el.find('.' + classes.pagination).remove();
+        var $emptyMsg = $el.find('.' + classes.empty);
+        if ($emptyMsg.length) {
+          $emptyMsg.remove();
         }
-      });
+      };
     });
-    return this;
+
+    return $filterGrid;
   };
 })(jQuery);
 
@@ -4617,7 +4932,7 @@ window.drzzle = {
         e.preventDefault();
         var el = $(this);
         el.parent().addClass('active').siblings().removeClass('active');
-        index = ~~el.attr('class').split('-')[2];
+        index = ~~(el.parent().index('.drzPaginate-li') + 1);
         if (pages > 11) {
           updatePagination(index, el.attr('class'));
         }
