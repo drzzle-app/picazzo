@@ -2335,6 +2335,18 @@
       "css": "clipboard",
       "code": 59567,
       "src": "elusive"
+    },
+    {
+      "uid": "248db7c0563d8cee80b7041f7736dcad",
+      "css": "database",
+      "code": 59568,
+      "src": "entypo"
+    },
+    {
+      "uid": "30b79160618d99ce798e4bd11cafe3fe",
+      "css": "food",
+      "code": 61685,
+      "src": "fontawesome"
     }
   ]
 }
