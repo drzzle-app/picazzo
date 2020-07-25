@@ -1,0 +1,76 @@
+.drzListMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.drzListMenu-section-title {
+  border-bottom: 1px solid fade(@black, 15%);
+  font-weight: 600;
+}
+
+.drzListMenu-item {
+  border-radius: 0;
+  border-style: solid;
+  border-width: 0;
+  display: flex;
+  margin-bottom: 20px;
+  overflow: hidden;
+
+  @media @mobile {
+    flex-direction: column;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.drzListMenu-item-imgBox {
+  display: flex;
+  float: left;
+  width: 20%;
+
+  @media @mobile {
+    width: 100%;
+  }
+}
+
+.drzListMenu-item-img {
+  float: left;
+  width: 100%;
+}
+
+.drzListMenu-item-info {
+  float: left;
+  padding: 20px;
+  width: 80%;
+
+  @media @mobile {
+    padding: 20px 0;
+    width: 100%;
+  }
+}
+
+.drzListMenu-item-name {
+  float: left;
+  font-size: 16pt;
+  font-weight: 600;
+  margin: 0;
+}
+
+.drzListMenu-item-calories {
+  display: block;
+  float: left;
+  font-size: 11pt;
+  opacity: 0.6;
+  width: 100%;
+}
+
+.drzListMenu-item-price {
+  float: right;
+  font-size: 13pt;
+}
+
+.drzListMenu-item-footer {
+  float: left;
+}

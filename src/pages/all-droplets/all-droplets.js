@@ -37,4 +37,5 @@ export default {
   'product-feature': require('@/droplets/product-feature'),
   'product-feed': require('@/droplets/product-feed'),
   'product-grid': require('@/droplets/product-grid'),
+  'list-menu': require('@/droplets/list-menu'),
 };

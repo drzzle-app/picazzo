@@ -256,6 +256,11 @@
                     "path": "/filter-grid",
                     "name": "filter-grid",
                     "component": "require('@/pages/tools/filter-grid/').default"
+                },
+                {
+                    "path": "/list-menu",
+                    "name": "list-menu",
+                    "component": "require('@/pages/droplets/list-menu/').default"
                 }
             ]
         },
