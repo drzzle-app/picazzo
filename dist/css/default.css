@@ -1843,6 +1843,7 @@ body > .row {
 }
 .drzFilter-grid-pagination {
   margin-top: 10px;
+  text-align: center;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -6617,7 +6618,7 @@ header {
   text-decoration: none;
 }
 .drzBtn-menu:before {
-  content: '\f0f6';
+  content: '\e8b3';
   display: inline-block;
   font-family: 'drzzle';
   margin-right: 5px;
@@ -7271,4 +7272,85 @@ header {
 .drzProduct-grid-buyBtn:after {
   content: '\f217';
   font-family: 'drzzle';
+}
+.drzListMenu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.drzListMenu-section-title {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+}
+.drzListMenu-item {
+  border-radius: 0;
+  border-style: solid;
+  border-width: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+@media only screen and (min-width:50px) and (max-width:600px) {
+  .drzListMenu-item {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+}
+.drzListMenu-item:last-child {
+  margin-bottom: 0;
+}
+.drzListMenu-item-imgBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  float: left;
+  width: 20%;
+}
+@media only screen and (min-width:50px) and (max-width:600px) {
+  .drzListMenu-item-imgBox {
+    width: 100%;
+  }
+}
+.drzListMenu-item-img {
+  float: left;
+  width: 100%;
+}
+.drzListMenu-item-info {
+  float: left;
+  padding: 20px;
+  width: 80%;
+}
+@media only screen and (min-width:50px) and (max-width:600px) {
+  .drzListMenu-item-info {
+    padding: 20px 0;
+    width: 100%;
+  }
+}
+.drzListMenu-item-name {
+  float: left;
+  font-size: 16pt;
+  font-weight: 600;
+  margin: 0;
+}
+.drzListMenu-item-calories {
+  display: block;
+  float: left;
+  font-size: 11pt;
+  opacity: 0.6;
+  width: 100%;
+}
+.drzListMenu-item-price {
+  float: right;
+  font-size: 13pt;
+}
+.drzListMenu-item-footer {
+  float: left;
 }
