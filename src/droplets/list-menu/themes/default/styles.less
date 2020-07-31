@@ -33,6 +33,15 @@
   }
 }
 
+.drzListMenu-inner-box {
+  display: flex;
+  width: 100%;
+
+  @media @mobile {
+    flex-direction: column;
+  }
+}
+
 .drzListMenu-item-imgBox {
   display: flex;
   float: left;
@@ -49,6 +58,7 @@
 }
 
 .drzListMenu-item-info {
+  color: fade(@black, 60%);
   float: left;
   padding: 20px;
   width: 80%;
