@@ -261,6 +261,11 @@
                     "path": "/list-menu",
                     "name": "list-menu",
                     "component": "require('@/pages/droplets/list-menu/').default"
+                },
+                {
+                    "path": "/menu-grid",
+                    "name": "menu-grid",
+                    "component": "require('@/pages/droplets/menu-grid/').default"
                 }
             ]
         },

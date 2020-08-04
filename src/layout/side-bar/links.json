@@ -124,6 +124,11 @@
           "children": []
         },
         {
+          "text": "Menu Grid",
+          "route": "/menu-grid",
+          "children": []
+        },
+        {
           "text": "Navigation",
           "route": "/navigation",
           "children": []
