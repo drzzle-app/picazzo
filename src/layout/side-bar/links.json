@@ -114,8 +114,18 @@
           "children": []
         },
         {
+          "text": "List Menu",
+          "route": "/list-menu",
+          "children": []
+        },
+        {
           "text": "Map",
           "route": "/google-map",
+          "children": []
+        },
+        {
+          "text": "Menu Grid",
+          "route": "/menu-grid",
           "children": []
         },
         {

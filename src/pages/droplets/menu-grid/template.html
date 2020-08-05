@@ -1,0 +1,52 @@
+<div>
+  <header class="picazzo-page-header">Menu Grid</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <menu-grid-droplet></menu-grid-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses the <router-link to="/filter-grid" class="picazzo-link" tag="a">Filter Grid</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular "output" markup.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzFilter-grid').drzFilterGrid({
+  feed: [],
+  output(data) {
+    return `
+      &lt;div class=&quot;drzMenu-grid-card&quot;&gt;
+        &lt;a class=&quot;drzMenu-grid-inner&quot; href=&quot;${data.pageLink}&quot;&gt;
+          &lt;div class=&quot;drzMenu-grid-cardImageWrap&quot;&gt;
+            &lt;img class=&quot;drzMenu-grid-cardImage&quot; data-asset=&quot;${data.image}&quot; alt=&quot;${data.name}&quot; /&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;drzMenu-grid-cardInfo&quot;&gt;
+            &lt;div class=&quot;drzMenu-grid-infoColLeft&quot;&gt;
+              &lt;span class=&quot;drzMenu-grid-name&quot;&gt;${data.name}&lt;/span&gt;
+              &lt;span class=&quot;drzMenu-grid-calories&quot;&gt;${data.calories} calories&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;drzMenu-grid-infoColRight&quot;&gt;
+              ${data.categories.join(', ')}
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/a&gt;
+      &lt;/div&gt;
+    `;
+  },
+});</code></pre>
+  </div>
+
+ <div class="picazzo-docFooter"></div>
+</div>
