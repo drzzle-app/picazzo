@@ -242,7 +242,11 @@ const buildSearch = () => {
     });
 };
 
-const bundleJs = () =>
+const buildModules = async () => {
+  await fse.copy('./src/js-lib/modules', './dist/js/modules', { overwrite: true });
+};
+
+const bundleJs = async () =>
   new Promise((resolve, reject) =>
     gulp.src([
       './dist/js/modules/jquery-2.2.4.min.js',
@@ -590,6 +594,7 @@ const newTheme = () => {
 };
 
 const buildAll = async () => {
+  await buildModules();
   await buildJsPlugins();
   await buildJsPluginsSeperate();
   await buildSearch();
