@@ -6,6 +6,10 @@
   text-decoration: none;
 }
 
+.drzMenu-grid-inner {
+  .drzClearFix;
+}
+
 .drzMenu-grid-cardImageWrap {
   display: block;
 }
@@ -14,6 +18,11 @@
   width: 100%;
 }
 
+.drzMenu-grid-img {
+  width: 100%;
+}
+
+
 .drzMenu-grid-cardInfo {
   .drzClearFix;
   color: fade(@black, 60%);
@@ -21,13 +30,29 @@
 }
 
 .drzMenu-grid-name {
-  display: block;
+  display: inline-block;
   font-size: 14pt;
+  margin: 0;
+}
+
+.drzMenu-grid-price {
+  float: right;
 }
 
 .drzMenu-grid-calories {
+  display: block;
   font-size: 11pt;
   opacity: .7;
+}
+
+.drzMenu-grid-categories {
+  display: block;
+  font-size: 10pt;
+  opacity: .7;
+}
+
+.drzMenu-grid-info {
+  padding: 20px;
 }
 
 .drzMenu-grid-infoColLeft {
