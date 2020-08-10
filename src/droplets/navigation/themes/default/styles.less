@@ -64,6 +64,7 @@
 }
 
 .drzNav-logo {
+  align-items: center;
   display: inline-flex;
   float: left;
   min-height: 45px;
@@ -92,7 +93,9 @@
 }
 
 .drzNav-link {
-  border: 1px solid transparent;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 1px;
   color: @white;
   display: block;
   padding: 11px 14px;
@@ -111,6 +114,12 @@
   float: none;
   position: relative;
   width: 200px;
+
+  &:last-child {
+    & > .drzNav-subLink {
+      border-bottom: 0;
+    }
+  }
 }
 
 .drzNav-subLink {
@@ -308,6 +317,7 @@
 
   .drzNav-link {
     background-color: transparent;
+    border: 0;
     border-bottom: 1px solid fade(@white, 10%);
     color: fade(@white, 75%);
     padding: 15px;
@@ -322,6 +332,7 @@
   }
 
   .drzNav-subLink {
+    border: 0;
     border-bottom: 1px solid fade(@white, 10%);
     color: fade(@white, 75%);
     padding: 15px;
