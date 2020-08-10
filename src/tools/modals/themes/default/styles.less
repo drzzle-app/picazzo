@@ -239,3 +239,48 @@
   margin-top: -60px;
   transition: all 0.2s ease;
 }
+
+/* site search results under modals */
+.searchResults-container {
+  border-left: 1px solid darken(@white, 5%);
+  border-right: 1px solid darken(@white, 5%);
+  border-top: 1px solid darken(@white, 5%);
+  margin-top: 5px;
+  min-height: 1px;
+  position: absolute;
+  width: 400px;
+  z-index: 10;
+
+  .searchResult-link {
+    color: fade(@black, 50%);
+    text-decoration: none;
+  }
+
+  .searchResult {
+    .row;
+    background-color: @white;
+    border-bottom: 1px solid darken(@white, 5%);
+    display: block;
+    font-size: 10pt;
+    height: 55px;
+    margin-bottom: 0;
+    overflow: hidden;
+    padding: 10px 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: darken(@white, 2%);
+    }
+  }
+}
+
+.drzModal-search {
+
+  .searchResults-container {
+    clear: both;
+    position: relative;
+    top: 5px;
+    width: 100%;
+  }
+}

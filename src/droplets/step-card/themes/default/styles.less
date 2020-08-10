@@ -43,6 +43,10 @@
     @media @mobile {
       margin-bottom: 0;
     }
+
+    @media @tablet {
+      margin-bottom: 0;
+    }
   }
 
   &:hover {
@@ -56,7 +60,14 @@
     .col-6;
 
     @media @tablet {
+      margin-bottom: 10px;
       width: 100%;
+    }
+
+    &:last-child {
+      @media @tablet {
+        margin-bottom: 0;
+      }
     }
   }
 }
@@ -66,7 +77,14 @@
     .col-4;
 
     @media @tablet {
+      margin-bottom: 10px;
       width: 100%;
+    }
+
+    &:last-child {
+      @media @tablet {
+        margin-bottom: 0;
+      }
     }
   }
 }
@@ -79,6 +97,12 @@
       margin-bottom: 10px;
       width: 100%;
     }
+
+    &:last-child {
+      @media @tablet {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 
@@ -90,15 +114,23 @@
       margin-bottom: 10px;
       width: 100%;
     }
+
+    &:last-child {
+      @media @tablet {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 
 .drzCard-step-inner {
   .box-shadow;
+  border-radius: 0;
   border-style: solid;
   border-width: 0;
   height: 100%;
   min-height: 85px;
+  overflow: hidden;
 }
 
 .drzCard-stepArrow {
@@ -146,6 +178,7 @@
   font-weight: 300;
   margin: 0;
   padding: 15px;
+  width: 100%;
 
   @media @mobile {
     min-height: 120px;
