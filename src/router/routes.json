@@ -266,6 +266,16 @@
                     "path": "/menu-grid",
                     "name": "menu-grid",
                     "component": "require('@/pages/droplets/menu-grid/').default"
+                },
+                {
+                    "path": "/blog-post",
+                    "name": "blog-post",
+                    "component": "require('@/pages/droplets/blog-post/').default"
+                },
+                {
+                    "path": "/blog-list",
+                    "name": "blog-list",
+                    "component": "require('@/pages/droplets/blog-list/').default"
                 }
             ]
         },

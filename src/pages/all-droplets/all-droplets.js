@@ -39,4 +39,6 @@ export default {
   'product-grid': require('@/droplets/product-grid'),
   'list-menu': require('@/droplets/list-menu'),
   'menu-grid': require('@/droplets/menu-grid'),
+  'blog-post': require('@/droplets/blog-post'),
+  'blog-list': require('@/droplets/blog-list'),
 };
