@@ -34,6 +34,11 @@
           "children": []
         },
         {
+          "text": "Blog List",
+          "route": "/blog-list",
+          "children": []
+        },
+        {
           "text": "Blog Post",
           "route": "/blog-post",
           "children": []
