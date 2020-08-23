@@ -41,4 +41,5 @@ export default {
   'menu-grid': require('@/droplets/menu-grid'),
   'blog-post': require('@/droplets/blog-post'),
   'blog-list': require('@/droplets/blog-list'),
+  'blog-feed': require('@/droplets/blog-feed'),
 };
