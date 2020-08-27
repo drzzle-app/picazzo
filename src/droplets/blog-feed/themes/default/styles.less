@@ -1,5 +1,9 @@
 .drzBlog-feed {
   display: grid;
+}
+
+.drzBlog-feed-grid {
+  display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
@@ -66,7 +70,7 @@
 
 .drzBlog-feed-cardText {
   background-color: @white;
-  min-height: 200px;
+  height: 100%;
   padding: 20px;
 }
 
@@ -87,4 +91,8 @@
   color: fade(@black, 50%);
   font-size: 11pt;
   font-weight: 300;
+}
+
+.drzBlog-feed-none {
+  text-align: center;
 }
