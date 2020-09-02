@@ -6,6 +6,7 @@
 (($) => {
   $.fn.drzNav = function drzNav() {
     const $this = $(this);
+    const $inner = $this.find('.drzNav-inner');
     const $navList = $this.find('.drzNav-list');
     const $dropDownLink = $this.find('.drzNav-link-dropDown');
     const $subDropDownLink = $this.find('.drzNav-link-subDropDown');
@@ -181,7 +182,7 @@
         });
       },
       fitCheck() {
-        $navWidth = ~~($this.outerWidth());
+        $navWidth = ~~($inner.outerWidth());
         // recheck for hamburgerWidth and navWidth
         if ($navHamburger.is(':visible')) {
           $hamburgerWidth = ~~($navHamburger.outerWidth());
@@ -216,8 +217,8 @@
           $searchMarginRight = 0;
         }
         // add in left/right padding & margins of nav items that don't normally get calculated
-        const $navPadLeft = parseInt($this.css('padding-left'), 10);
-        const $navPadRight = parseInt($this.css('padding-right'), 10);
+        const $navPadLeft = parseInt($inner.css('padding-left'), 10);
+        const $navPadRight = parseInt($inner.css('padding-right'), 10);
         // nav is not there in editor, that's why
         const $navBuffer = parseInt($navWidth - ($logoWidth +
                                   $hamburgerWidth + $navPadLeft +
