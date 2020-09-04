@@ -10,9 +10,9 @@
     $topLink.click((e) => {
       const $this = $(e.currentTarget);
       if (window.matchMedia(drzzle.viewports.mobile).matches) {
-        e.preventDefault();
         // if there us even a dropdown menu
         if ($this.next('ul').length) {
+          e.preventDefault();
           $this.next('ul').slideToggle(200);
           $this.parent().siblings().find('.drzFooterNav-list-subList').slideUp(200);
         }
