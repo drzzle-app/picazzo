@@ -442,27 +442,52 @@
         rewind(seconds) {
           $video.currentTime -= seconds;
         },
+        isVisible(el) {
+          const rect = el.getBoundingClientRect();
+          const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+          return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+        },
+        pressedKeys: [],
+        onKeyup() {
+          methods.pressedKeys = [];
+        },
         onKeydown(e) {
-          const bodyPress = e.target.tagName === 'BODY';
+          if (methods.pressedKeys.indexOf(e.code) === -1) {
+            methods.pressedKeys.push(e.code);
+          }
+          // if more than 1 key is pressed we don't allow triggers
+          if (methods.pressedKeys.length !== 1) {
+            return;
+          }
+          // if any of these keys are being pressed inside a form
+          // we need to not trigger
+          if (e.target.tagName !== 'BODY') {
+            return;
+          }
+          // we only want to allow keypresses on the video if it's in view
+          const videoIsVisible = methods.isVisible($this.get(0));
+          if (!videoIsVisible) {
+            return;
+          }
           const code = e.key || e.which;
           // play
-          if (bodyPress && code === 'p') {
+          if (code === 'p') {
             methods.togglePlay();
           }
           // mute
-          if (bodyPress && code === 'm') {
+          if (code === 'm') {
             methods.toggleMute();
           }
           // fullscreen
-          if (bodyPress && code === 'f') {
+          if (code === 'f') {
             methods.toggleFullScreen();
           }
           // ff seconds
-          if (bodyPress && code === 'ArrowRight') {
+          if (code === 'ArrowRight') {
             methods.fastForward(5);
           }
           // rewind totalSeconds
-          if (bodyPress && code === 'ArrowLeft') {
+          if (code === 'ArrowLeft') {
             methods.rewind(5);
           }
         },
@@ -754,6 +779,7 @@
       $controlBtn.on('vmouseover', methods.onButtonHover);
       $controlBtn.on('vmouseout', methods.onButtoneLeave);
       document.addEventListener('keydown', methods.onKeydown);
+      document.addEventListener('keyup', methods.onKeyup);
       $playBtn.on('click', methods.togglePlay);
       $volume.change(methods.setVolume);
       $volume.on('vmouseup', methods.volMouseUp);
@@ -784,6 +810,7 @@
         $el.find('.drzVideo-volBtn-inner').off('click');
         $el.find('.drzVideo-fullScreenBtn-inner').off('click');
         document.removeEventListener('keydown', methods.onKeydown);
+        document.removeEventListener('keyup', methods.onKeyup);
         $document.off('vmousedown', methods.onMouseDown);
         $document.off('vmouseup', methods.onMouseUp);
         $document.off('vmousemove', methods.onMouseMove);
