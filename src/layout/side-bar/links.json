@@ -39,6 +39,11 @@
           "children": []
         },
         {
+          "text": "Blog Grid",
+          "route": "/blog-grid",
+          "children": []
+        },
+        {
           "text": "Blog List",
           "route": "/blog-list",
           "children": []
