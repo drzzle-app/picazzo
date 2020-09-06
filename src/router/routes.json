@@ -276,6 +276,16 @@
                     "path": "/blog-list",
                     "name": "blog-list",
                     "component": "require('@/pages/droplets/blog-list/').default"
+                },
+                {
+                    "path": "/blog-feed",
+                    "name": "blog-feed",
+                    "component": "require('@/pages/droplets/blog-feed/').default"
+                },
+                {
+                    "path": "/blog-grid",
+                    "name": "blog-grid",
+                    "component": "require('@/pages/droplets/blog-grid/').default"
                 }
             ]
         },

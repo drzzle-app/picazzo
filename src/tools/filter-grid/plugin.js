@@ -349,7 +349,7 @@
                 // we need to check all key options to search through
                 for (let i = 0; i < keys.length; i++) {
                   const key = keys[i];
-                  if (item[key].match(input)) {
+                  if (item[key] && item[key].match(input)) {
                     return item;
                   }
                 }
