@@ -20,7 +20,7 @@ export default Vue.component('blog-list-page', {
   methods: {
     destroyMarkup() {
       return `const $blogList = $('.drzBlog-list');
-$blogList.drzBlogList.destroy();`;
+$blogList.drzLoadMore.destroy();`;
     },
   },
 });

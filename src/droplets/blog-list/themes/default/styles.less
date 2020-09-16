@@ -32,8 +32,11 @@
 }
 
 .drzBlog-item-imgWrap {
+  align-items: center;
   display: flex;
+  flex-direction: column;
   float: left;
+  justify-content: center;
   width: 20%;
 
   @media @mobile {
@@ -66,6 +69,11 @@
   float: left;
   font-size: 18pt;
   margin: 0 0 3px 0;
+
+  @media @mobile {
+    display: block;
+    float: none;
+  }
 }
 
 .drzBlog-item-info {
@@ -74,6 +82,12 @@
   font-size: 10pt;
   position: relative;
   top: 10px;
+
+  @media @mobile {
+    display: block;
+    float: none;
+    top: 0;
+  }
 }
 
 .drzBlog-item-preview {
