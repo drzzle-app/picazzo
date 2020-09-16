@@ -183,6 +183,8 @@
 .drzicon-blog-post:before { content: '\e8b5'; } /* '' */
 .drzicon-blog-feed:before { content: '\e8b6'; } /* '' */
 .drzicon-blog-list:before { content: '\e8b7'; } /* '' */
+.drzicon-project-card:before { content: '\e8b8'; } /* '' */
+.drzicon-project-paper:before { content: '\e8b9'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
