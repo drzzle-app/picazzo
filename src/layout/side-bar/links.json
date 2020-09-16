@@ -179,6 +179,11 @@
           "children": []
         },
         {
+          "text": "Project Card",
+          "route": "/project-card",
+          "children": []
+        },
+        {
           "text": "Section",
           "route": "/section",
           "children": []
