@@ -8,7 +8,7 @@
       const $pagination = options.pagination ? ~~(options.pagination) : false;
       const $filters = options.filters;
       const classes = {
-        gridContainer: 'drzFilter-grid-container',
+        gridContainer: options.gridContainer || 'drzFilter-grid-container',
         pagination: 'drzFilter-grid-pagination',
         firstEllipses: 'drzFilter-ellipses-first',
         lastEllipses: 'drzFilter-ellipses-last',
@@ -28,7 +28,8 @@
 
       const list = options.feed || [];
       // set by newest by default
-      let shownList = list.sort((a, b) => new Date(b.created) - new Date(a.created));
+      const sortKey = options.sortKey || 'created';
+      let shownList = list.sort((a, b) => new Date(b[sortKey]) - new Date(a[sortKey]));
 
       const methods = {
         paginated: false,
@@ -82,8 +83,13 @@
                 const $unsetAsset = $card.find('[data-asset]');
                 $unsetAsset.each(function lazyLoad() {
                   const $el = $(this);
-                  $el.attr('src', $el.attr('data-asset'))
-                    .removeAttr('data-asset');
+                  const asset = $el.attr('data-asset');
+                  if (options.assets === 'bg') {
+                    $el.css('background-image', `url('${asset}')`);
+                  } else {
+                    $el.attr('src', asset);
+                  }
+                  $el.removeAttr('data-asset');
                 });
               });
             }
@@ -329,7 +335,12 @@
             const $card = $(this);
             const $unsetAsset = $card.find('[data-asset]');
             if ($unsetAsset.length) {
-              $unsetAsset.attr('src', $unsetAsset.attr('data-asset'));
+              const asset = $unsetAsset.attr('data-asset');
+              if (options.assets === 'bg') {
+                $unsetAsset.css('background-image', `url('${asset}')`);
+              } else {
+                $unsetAsset.attr('src', asset);
+              }
               $unsetAsset.removeAttr('data-asset');
             }
           });

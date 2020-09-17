@@ -1,0 +1,49 @@
+<div>
+  <header class="picazzo-page-header">Project Grid</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <project-grid-droplet></project-grid-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses the <router-link to="/filter-grid" class="picazzo-link" tag="a">Filter Grid</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular "output" markup.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzFilter-grid').drzFilterGrid({
+  feed: [],
+  gridContainer: 'drzProject-grid-container',
+  assets: 'bg',
+  output(data) {
+    return `
+      &lt;div class=&quot;drzProject-grid-card&quot;&gt;
+        &lt;a class=&quot;drzProject-grid-cardInner&quot; href=&quot;#&quot;&gt;
+          &lt;div
+            class=&quot;drzProject-grid-cardImage&quot;
+            data-asset=&quot;${data.image}&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;drzProject-grid-cardInfo&quot;&gt;
+            &lt;span class=&quot;drzProject-grid-cardTitle&quot;&gt;${data.title}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/a&gt;
+      &lt;/div&gt;
+    `;
+  },
+});</code></pre>
+  </div>
+
+ <div class="picazzo-docFooter"></div>
+</div>
