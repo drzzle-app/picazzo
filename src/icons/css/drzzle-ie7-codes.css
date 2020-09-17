@@ -185,6 +185,8 @@
 .drzicon-blog-list { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8b7;&nbsp;'); }
 .drzicon-project-card { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8b8;&nbsp;'); }
 .drzicon-project-paper { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8b9;&nbsp;'); }
+.drzicon-project-grid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ba;&nbsp;'); }
+.drzicon-project-feed { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8bb;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
