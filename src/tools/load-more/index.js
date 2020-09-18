@@ -7,6 +7,17 @@ export default Vue.component('load-more-tool', {
   name: 'load-more-tool',
   mounted() {
     const $loadMore = $(this.$refs.loadMore);
-    $loadMore.initPlugin();
+    $loadMore.drzLoadMore({
+      visible: 2,
+      assets: 'src',
+      classes: {
+        show: 'drzLoadMore-item-show',
+        img: 'drzLoadMore-item-img',
+        footer: 'drzLoadMore-list-footer',
+        footerHidden: 'drzLoadMore-list-footerHidden',
+        item: 'drzLoadMore-item',
+        loadMore: 'drzLoadMore-list-more',
+      },
+    });
   },
 });

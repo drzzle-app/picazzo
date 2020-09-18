@@ -259,6 +259,11 @@
           "children": []
         },
         {
+          "text": "Load More",
+          "route": "/load-more",
+          "children": []
+        },
+        {
           "text": "Modals",
           "route": "/modals",
           "children": []

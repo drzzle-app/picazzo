@@ -13,5 +13,37 @@
     <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
   </div>
 
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses the <router-link to="/load-more" class="picazzo-link" tag="a">Load More</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular options.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzProject-cards').drzLoadMore({
+  visible: 4, // optional. number of items to show at a time
+  assets: 'bg',
+  classes: {
+    show: 'drzProject-card-show',
+    img: 'drzProject-card-image',
+    footer: 'drzProject-cards-footer',
+    footerHidden: 'drzProject-cards-footerHidden',
+    item: 'drzProject-card',
+    loadMore: 'drzProject-cards-more',
+  },
+});</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Destroy Plugin</p>
+  <p>
+    To destroy the plugin, use the .destroy() method. This will remove all event listeners and added classes/attributes.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
+  </div>
+
   <div class="picazzo-docFooter"></div>
 </div>

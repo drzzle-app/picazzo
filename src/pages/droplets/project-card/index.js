@@ -17,4 +17,10 @@ export default Vue.component('project-card-page', {
       dropletHtml: this.cleanDropletTpl(ProjectCardTpl),
     };
   },
+  methods: {
+    destroyMarkup() {
+      return `const $projectCards = $('.drzProject-cards');
+$projectCards.drzLoadMore.destroy();`;
+    },
+  },
 });

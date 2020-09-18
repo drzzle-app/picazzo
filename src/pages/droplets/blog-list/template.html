@@ -17,9 +17,14 @@
 
   <p class="picazzo-section-subHeader">Initializing Plugin</p>
 
+  <p>
+    This droplet uses the <router-link to="/load-more" class="picazzo-link" tag="a">Load More</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular options.
+  </p>
+
   <div class="row">
     <pre v-highlightjs><code class="javascript">$('.drzBlog-list').drzLoadMore({
-  visible: 4, // optional. number of blog items to show at a time
+  visible: 2, // optional. number of items to show at a time
   assets: 'src',
   classes: {
     show: 'drzBlog-item-show',
@@ -40,12 +45,5 @@
     <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
   </div>
 
-  <div class="picazzo-docFooter">
-    <a
-      href="https://github.com/drzzle-app/picazzo/blob/master/src/tools/load-more/plugin.js"
-      target="_blank"
-      class="picazzo-link-small picazzo-extLink">
-      See Plugin Source
-    </a>
-  </div>
+  <div class="picazzo-docFooter"></div>
 </div>
