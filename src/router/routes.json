@@ -301,6 +301,11 @@
                     "path": "/load-more",
                     "name": "load-more",
                     "component": "require('@/pages/tools/load-more/').default"
+                },
+                {
+                    "path": "/project-details",
+                    "name": "project-details",
+                    "component": "require('@/pages/droplets/project-details/').default"
                 }
             ]
         },
