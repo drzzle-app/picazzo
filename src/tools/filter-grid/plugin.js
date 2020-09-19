@@ -29,7 +29,20 @@
       const list = options.feed || [];
       // set by newest by default
       const sortKey = options.sortKey || 'created';
-      let shownList = list.sort((a, b) => new Date(b[sortKey]) - new Date(a[sortKey]));
+      // we use this for nested keys for custom sortKeys
+      const getValue = (obj, keys) => {
+        let value = obj;
+        const nest = keys.split('.');
+        nest.forEach((item) => {
+          value = value[item];
+        });
+        return value;
+      };
+      let shownList = list.sort((a, b) =>
+        new Date(getValue(b, sortKey)) - new Date(getValue(a, sortKey)));
+      if (options.sort && options.sort === 'oldest') {
+        shownList = shownList.reverse();
+      }
 
       const methods = {
         paginated: false,
@@ -134,7 +147,7 @@
             const $filterContainer = $(`
               <div class="${classes.filterBox}">
                 <a href="#" class="${classes.filterReset}">Reset</a>
-                <button class="${classes.filterOpen}" name="filters">Filters</button>
+                <button class="${classes.filterOpen}" name="filters">${options.filterText || 'Filters'}</button>
               </div>
             `);
             $filterBar.append($filterContainer);

@@ -24,65 +24,83 @@ export default Vue.component('project-grid-droplet', {
         `;
       },
       gridContainer: 'drzProject-grid-container',
-      sortKey: 'projectDate',
+      sortKey: 'projectDate.date',
+      filterText: 'Filters',
       assets: 'bg',
       filters: ['large', 'small'],
+      sort: 'newest',
       pagination: 6,
       searchKeys: ['title'],
       feed: [
         {
           created: '2020-08-19T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
-          projectDate: '2020-08-19T19:31:14.835Z',
+          projectDate: {
+            date: '2020-08-19T19:31:14.835Z',
+          },
           title: 'Project One',
           categories: ['large', 'small'],
         },
         {
           created: '2020-08-20T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
-          projectDate: '2020-08-20T19:31:14.835Z',
+          projectDate: {
+            date: '2020-09-17T19:31:14.835Z',
+          },
           title: 'Project Two',
           categories: ['large'],
         },
         {
           created: '2020-08-21T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
-          projectDate: '2020-08-21T19:31:14.835Z',
+          projectDate: {
+            date: '2020-08-21T19:31:14.835Z',
+          },
           title: 'Project Three',
           categories: ['large'],
         },
         {
           created: '2020-08-22T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
-          projectDate: '2020-08-22T19:31:14.835Z',
+          projectDate: {
+            date: '2020-08-22T19:31:14.835Z',
+          },
           title: 'Project Four',
           categories: ['large'],
         },
         {
           created: '2020-08-23T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
-          projectDate: '2020-08-23T19:31:14.835Z',
+          projectDate: {
+            date: '2020-08-23T19:31:14.835Z',
+          },
           title: 'Project Five',
           categories: ['large', 'small'],
         },
         {
           created: '2020-08-24T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
-          projectDate: '2020-08-24T19:31:14.835Z',
+          projectDate: {
+            date: '2020-08-24T19:31:14.835Z',
+          },
           title: 'Project Six',
           categories: ['large'],
         },
         {
           created: '2020-08-25T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
-          projectDate: '2020-08-25T19:31:14.835Z',
+          projectDate: {
+            date: '2020-08-25T19:31:14.835Z',
+          },
           title: 'Project Seven',
           categories: ['large'],
         },
         {
           created: '2020-08-26T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
-          projectDate: '2020-08-26T19:31:14.835Z',
+          projectDate: {
+            date: '2020-08-26T19:31:14.835Z',
+          },
           title: 'Project Eight',
           categories: ['large'],
         },
