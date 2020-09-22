@@ -35,7 +35,7 @@ export default Vue.component('product-grid-droplet', {
       searchKeys: ['itemName', 'itemDescription'],
       feed: [
         {
-          created: '2020-06-25T19:31:14.835Z',
+          publishedOn: '2020-06-25T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -49,7 +49,7 @@ export default Vue.component('product-grid-droplet', {
           categories: ['mens'],
         },
         {
-          created: '2020-06-23T19:31:14.835Z',
+          publishedOn: '2020-06-23T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -63,7 +63,7 @@ export default Vue.component('product-grid-droplet', {
           categories: ['womens'],
         },
         {
-          created: '2020-06-22T19:31:14.835Z',
+          publishedOn: '2020-06-22T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -78,7 +78,7 @@ export default Vue.component('product-grid-droplet', {
           options: [],
         },
         {
-          created: '2020-06-24T19:31:14.835Z',
+          publishedOn: '2020-06-24T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -92,7 +92,7 @@ export default Vue.component('product-grid-droplet', {
           categories: ['mens'],
         },
         {
-          created: '2020-06-21T19:31:14.835Z',
+          publishedOn: '2020-06-21T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -106,7 +106,7 @@ export default Vue.component('product-grid-droplet', {
           categories: ['mens'],
         },
         {
-          created: '2020-06-20T19:31:14.835Z',
+          publishedOn: '2020-06-20T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -120,7 +120,7 @@ export default Vue.component('product-grid-droplet', {
           categories: ['mens'],
         },
         {
-          created: '2020-06-19T19:31:14.835Z',
+          publishedOn: '2020-06-19T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -134,7 +134,7 @@ export default Vue.component('product-grid-droplet', {
           categories: ['mens'],
         },
         {
-          created: '2020-06-18T19:31:14.835Z',
+          publishedOn: '2020-06-18T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',

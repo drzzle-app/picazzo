@@ -28,7 +28,7 @@
 
       const list = options.feed || [];
       // set by newest by default
-      const sortKey = options.sortKey || 'created';
+      const sortKey = options.sortKey || 'publishedOn';
       // we use this for nested keys for custom sortKeys
       const getValue = (obj, keys) => {
         let value = obj;

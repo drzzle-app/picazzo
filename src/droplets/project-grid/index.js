@@ -33,7 +33,7 @@ export default Vue.component('project-grid-droplet', {
       searchKeys: ['title'],
       feed: [
         {
-          created: '2020-08-19T19:31:14.835Z',
+          publishedOn: '2020-08-19T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
           projectDate: {
             date: '2020-08-19T19:31:14.835Z',
@@ -42,7 +42,7 @@ export default Vue.component('project-grid-droplet', {
           categories: ['large', 'small'],
         },
         {
-          created: '2020-08-20T19:31:14.835Z',
+          publishedOn: '2020-08-20T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
           projectDate: {
             date: '2020-09-17T19:31:14.835Z',
@@ -51,7 +51,7 @@ export default Vue.component('project-grid-droplet', {
           categories: ['large'],
         },
         {
-          created: '2020-08-21T19:31:14.835Z',
+          publishedOn: '2020-08-21T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
           projectDate: {
             date: '2020-08-21T19:31:14.835Z',
@@ -60,7 +60,7 @@ export default Vue.component('project-grid-droplet', {
           categories: ['large'],
         },
         {
-          created: '2020-08-22T19:31:14.835Z',
+          publishedOn: '2020-08-22T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
           projectDate: {
             date: '2020-08-22T19:31:14.835Z',
@@ -69,7 +69,7 @@ export default Vue.component('project-grid-droplet', {
           categories: ['large'],
         },
         {
-          created: '2020-08-23T19:31:14.835Z',
+          publishedOn: '2020-08-23T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
           projectDate: {
             date: '2020-08-23T19:31:14.835Z',
@@ -78,7 +78,7 @@ export default Vue.component('project-grid-droplet', {
           categories: ['large', 'small'],
         },
         {
-          created: '2020-08-24T19:31:14.835Z',
+          publishedOn: '2020-08-24T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
           projectDate: {
             date: '2020-08-24T19:31:14.835Z',
@@ -87,7 +87,7 @@ export default Vue.component('project-grid-droplet', {
           categories: ['large'],
         },
         {
-          created: '2020-08-25T19:31:14.835Z',
+          publishedOn: '2020-08-25T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
           projectDate: {
             date: '2020-08-25T19:31:14.835Z',
@@ -96,7 +96,7 @@ export default Vue.component('project-grid-droplet', {
           categories: ['large'],
         },
         {
-          created: '2020-08-26T19:31:14.835Z',
+          publishedOn: '2020-08-26T19:31:14.835Z',
           image: '/static/images/mock-project.svg',
           projectDate: {
             date: '2020-08-26T19:31:14.835Z',
