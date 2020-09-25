@@ -179,7 +179,14 @@
                     selected.push($(this).attr('value'));
                   });
                   const feed = methods.searchList || methods.fullList;
-                  shownList = feed.filter(p => selected.every(f => p.categories.indexOf(f) > -1));
+                  // match all option
+                  if (options.match === 'all' || !options.match) {
+                    shownList = feed.filter(p => selected.every(f => p.categories.indexOf(f) > -1));
+                  }
+                  // match some option
+                  if (options.match === 'some') {
+                    shownList = feed.filter(p => selected.some(f => p.categories.indexOf(f) >= 0));
+                  }
                   methods.filteredList = shownList;
                 } else {
                   // reset list to full list

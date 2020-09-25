@@ -29,6 +29,7 @@ export default Vue.component('project-grid-droplet', {
       assets: 'bg',
       filters: ['large', 'small'],
       sort: 'newest',
+      match: 'some',
       pagination: 6,
       searchKeys: ['title'],
       feed: [
