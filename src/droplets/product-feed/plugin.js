@@ -39,7 +39,7 @@
     };
     const list = options.feed || [];
     // set by newest by default
-    let products = list.sort((a, b) => new Date(b.created) - new Date(a.created));
+    let products = list.sort((a, b) => new Date(b.publishedOn) - new Date(a.publishedOn));
     if ($sort === 'oldest') {
       products = products.reverse();
     }

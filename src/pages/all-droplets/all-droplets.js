@@ -43,4 +43,7 @@ export default {
   'blog-list': require('@/droplets/blog-list'),
   'blog-feed': require('@/droplets/blog-feed'),
   'blog-grid': require('@/droplets/blog-grid'),
+  'project-card': require('@/droplets/project-card'),
+  'project-grid': require('@/droplets/project-grid'),
+  'project-details': require('@/droplets/project-details'),
 };

@@ -8,7 +8,7 @@
       const $pagination = options.pagination ? ~~(options.pagination) : false;
       const $filters = options.filters;
       const classes = {
-        gridContainer: 'drzFilter-grid-container',
+        gridContainer: options.gridContainer || 'drzFilter-grid-container',
         pagination: 'drzFilter-grid-pagination',
         firstEllipses: 'drzFilter-ellipses-first',
         lastEllipses: 'drzFilter-ellipses-last',
@@ -28,7 +28,21 @@
 
       const list = options.feed || [];
       // set by newest by default
-      let shownList = list.sort((a, b) => new Date(b.created) - new Date(a.created));
+      const sortKey = options.sortKey || 'publishedOn';
+      // we use this for nested keys for custom sortKeys
+      const getValue = (obj, keys) => {
+        let value = obj;
+        const nest = keys.split('.');
+        nest.forEach((item) => {
+          value = value[item];
+        });
+        return value;
+      };
+      let shownList = list.sort((a, b) =>
+        new Date(getValue(b, sortKey)) - new Date(getValue(a, sortKey)));
+      if (options.sort && options.sort === 'oldest') {
+        shownList = shownList.reverse();
+      }
 
       const methods = {
         paginated: false,
@@ -82,8 +96,13 @@
                 const $unsetAsset = $card.find('[data-asset]');
                 $unsetAsset.each(function lazyLoad() {
                   const $el = $(this);
-                  $el.attr('src', $el.attr('data-asset'))
-                    .removeAttr('data-asset');
+                  const asset = $el.attr('data-asset');
+                  if (options.assets === 'bg') {
+                    $el.css('background-image', `url('${asset}')`);
+                  } else {
+                    $el.attr('src', asset);
+                  }
+                  $el.removeAttr('data-asset');
                 });
               });
             }
@@ -128,7 +147,7 @@
             const $filterContainer = $(`
               <div class="${classes.filterBox}">
                 <a href="#" class="${classes.filterReset}">Reset</a>
-                <button class="${classes.filterOpen}" name="filters">Filters</button>
+                <button class="${classes.filterOpen}" name="filters">${options.filterText || 'Filters'}</button>
               </div>
             `);
             $filterBar.append($filterContainer);
@@ -160,7 +179,14 @@
                     selected.push($(this).attr('value'));
                   });
                   const feed = methods.searchList || methods.fullList;
-                  shownList = feed.filter(p => selected.every(f => p.categories.indexOf(f) > -1));
+                  // match all option
+                  if (options.match === 'all' || !options.match) {
+                    shownList = feed.filter(p => selected.every(f => p.categories.indexOf(f) > -1));
+                  }
+                  // match some option
+                  if (options.match === 'some') {
+                    shownList = feed.filter(p => selected.some(f => p.categories.indexOf(f) >= 0));
+                  }
                   methods.filteredList = shownList;
                 } else {
                   // reset list to full list
@@ -329,7 +355,12 @@
             const $card = $(this);
             const $unsetAsset = $card.find('[data-asset]');
             if ($unsetAsset.length) {
-              $unsetAsset.attr('src', $unsetAsset.attr('data-asset'));
+              const asset = $unsetAsset.attr('data-asset');
+              if (options.assets === 'bg') {
+                $unsetAsset.css('background-image', `url('${asset}')`);
+              } else {
+                $unsetAsset.attr('src', asset);
+              }
               $unsetAsset.removeAttr('data-asset');
             }
           });

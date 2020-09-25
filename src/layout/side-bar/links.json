@@ -179,6 +179,21 @@
           "children": []
         },
         {
+          "text": "Project Card",
+          "route": "/project-card",
+          "children": []
+        },
+        {
+          "text": "Project Details",
+          "route": "/project-details",
+          "children": []
+        },
+        {
+          "text": "Project Grid",
+          "route": "/project-grid",
+          "children": []
+        },
+        {
           "text": "Section",
           "route": "/section",
           "children": []
@@ -246,6 +261,11 @@
         {
           "text": "Filter Grid",
           "route": "/filter-grid",
+          "children": []
+        },
+        {
+          "text": "Load More",
+          "route": "/load-more",
           "children": []
         },
         {

@@ -1,0 +1,89 @@
+.drzProject-cards {
+  display: block;
+}
+
+.drzProject-cards-inner {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzProject-card {
+  .box-shadow;
+  border-color: #dedede;
+  border-style: solid;
+  border-width: 0;
+  display: none;
+  overflow: hidden;
+  text-align: center;
+
+  &:hover {
+    transform: scale(1.01);
+    transition-duration: 0.2s;
+  }
+}
+
+.drzProject-card-show {
+  display: block;
+}
+
+.drzProject-card-inner {
+  .drzClearFix;
+  height: 100%;
+  text-decoration: none;
+}
+
+.drzProject-card-image {
+  .bg-image-cover;
+  background-attachment: inherit;
+  background-image: url('@{mockImageUrl}backgrounds/image-bg.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: block;
+  height: 250px;
+}
+
+.drzProject-card-img {
+  width: 100%;
+}
+
+.drzProject-card-info {
+  .drzClearFix;
+  background-color: @white;
+  color: fade(@black, 60%);
+  padding: 10px;
+}
+
+.drzProject-card-title {
+  display: block;
+  font-size: 13pt;
+}
+
+.drzProject-cards-footer {
+  margin-top: 35px;
+  text-align: center;
+}
+
+.drzProject-cards-footerHidden {
+  margin-top: 0;
+}
+
+.drzProject-cards-more {
+  color: fade(@black, 65%);
+}
+
+.drzProject-cards-none {
+  display: block;
+  text-align: center;
+}
+
+.drzProject-card-itemNone {
+  display: block;
+  text-align: center;
+}

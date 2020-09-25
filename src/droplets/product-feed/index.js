@@ -10,7 +10,7 @@ export default Vue.component('product-feed-droplet', {
     $productFeed.drzProductFeed({
       feed: [
         {
-          created: '2020-06-25T19:31:14.835Z',
+          publishedOn: '2020-06-25T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -24,7 +24,7 @@ export default Vue.component('product-feed-droplet', {
           categories: ['shirt'],
         },
         {
-          created: '2020-06-23T19:31:14.835Z',
+          publishedOn: '2020-06-23T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -38,7 +38,7 @@ export default Vue.component('product-feed-droplet', {
           categories: ['shoes', 'shirt'],
         },
         {
-          created: '2020-06-22T19:31:14.835Z',
+          publishedOn: '2020-06-22T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',
@@ -53,7 +53,7 @@ export default Vue.component('product-feed-droplet', {
           options: [],
         },
         {
-          created: '2020-06-24T19:31:14.835Z',
+          publishedOn: '2020-06-24T19:31:14.835Z',
           prices: {
             usd: '1',
             eur: '0.89',

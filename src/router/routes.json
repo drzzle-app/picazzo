@@ -286,6 +286,26 @@
                     "path": "/blog-grid",
                     "name": "blog-grid",
                     "component": "require('@/pages/droplets/blog-grid/').default"
+                },
+                {
+                    "path": "/project-card",
+                    "name": "project-card",
+                    "component": "require('@/pages/droplets/project-card/').default"
+                },
+                {
+                    "path": "/project-grid",
+                    "name": "project-grid",
+                    "component": "require('@/pages/droplets/project-grid/').default"
+                },
+                {
+                    "path": "/load-more",
+                    "name": "load-more",
+                    "component": "require('@/pages/tools/load-more/').default"
+                },
+                {
+                    "path": "/project-details",
+                    "name": "project-details",
+                    "component": "require('@/pages/droplets/project-details/').default"
                 }
             ]
         },

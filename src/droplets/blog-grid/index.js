@@ -19,7 +19,7 @@ export default Vue.component('blog-grid-droplet', {
             </div>
             <div class="drzBlog-grid-cardInfo">
               <span class="drzBlog-grid-title">${data.title}</span>
-              <span class="drzBlog-grid-date">${formatDate(data.created)}</span>
+              <span class="drzBlog-grid-date">${formatDate(data.publishedOn)}</span>
               <p class="drzBlog-grid-preview">${truncate(data.plainText, 150)}</p>
             </div>
           </a>
@@ -31,7 +31,7 @@ export default Vue.component('blog-grid-droplet', {
       searchKeys: ['title', 'plainText', 'author'],
       feed: [
         {
-          created: '2020-08-19T19:31:14.835Z',
+          publishedOn: '2020-08-19T19:31:14.835Z',
           image: '/static/images/mock-blog.svg',
           title: 'Blog Title',
           author: 'Seymour Butts',
@@ -40,7 +40,7 @@ export default Vue.component('blog-grid-droplet', {
           categories: ['movie'],
         },
         {
-          created: '2020-08-20T19:31:14.835Z',
+          publishedOn: '2020-08-20T19:31:14.835Z',
           image: '/static/images/mock-blog.svg',
           title: 'Blog Title 2',
           author: 'Seymour Butts',
@@ -49,7 +49,7 @@ export default Vue.component('blog-grid-droplet', {
           categories: ['movie'],
         },
         {
-          created: '2020-08-21T19:31:14.835Z',
+          publishedOn: '2020-08-21T19:31:14.835Z',
           image: '/static/images/mock-blog.svg',
           title: 'Blog Title 3',
           author: 'Seymour Butts',
@@ -58,7 +58,7 @@ export default Vue.component('blog-grid-droplet', {
           categories: ['movie', 'music'],
         },
         {
-          created: '2020-08-22T19:31:14.835Z',
+          publishedOn: '2020-08-22T19:31:14.835Z',
           image: '/static/images/mock-blog.svg',
           title: 'Blog Title 4',
           author: 'Seymour Butts',
@@ -67,7 +67,7 @@ export default Vue.component('blog-grid-droplet', {
           categories: [],
         },
         {
-          created: '2020-08-23T19:31:14.835Z',
+          publishedOn: '2020-08-23T19:31:14.835Z',
           image: '/static/images/mock-blog.svg',
           title: 'Blog Title 5',
           author: 'Seymour Butts',
@@ -76,7 +76,7 @@ export default Vue.component('blog-grid-droplet', {
           categories: ['movie', 'music'],
         },
         {
-          created: '2020-08-24T19:31:14.835Z',
+          publishedOn: '2020-08-24T19:31:14.835Z',
           image: '/static/images/mock-blog.svg',
           title: 'Blog Title 6',
           author: 'Seymour Butts',
@@ -85,7 +85,7 @@ export default Vue.component('blog-grid-droplet', {
           categories: ['music'],
         },
         {
-          created: '2020-08-25T19:31:14.835Z',
+          publishedOn: '2020-08-25T19:31:14.835Z',
           image: '/static/images/mock-blog.svg',
           title: 'Blog Title 7',
           author: 'Seymour Butts',
@@ -94,7 +94,7 @@ export default Vue.component('blog-grid-droplet', {
           categories: [],
         },
         {
-          created: '2020-08-26T19:31:14.835Z',
+          publishedOn: '2020-08-26T19:31:14.835Z',
           image: '/static/images/mock-blog.svg',
           title: 'Blog Title 8',
           author: 'Seymour Butts',

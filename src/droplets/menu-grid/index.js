@@ -33,7 +33,7 @@ export default Vue.component('menu-grid-droplet', {
       searchKeys: ['name', 'description'],
       feed: [
         {
-          created: '2020-06-25T19:31:14.835Z',
+          publishedOn: '2020-06-25T19:31:14.835Z',
           description: 'Food description here.',
           image: '/static/images/mock-plate.svg',
           name: 'Pancakes',
@@ -43,7 +43,7 @@ export default Vue.component('menu-grid-droplet', {
           calories: 1200,
         },
         {
-          created: '2020-06-23T19:31:14.835Z',
+          publishedOn: '2020-06-23T19:31:14.835Z',
           description: 'Food description here.',
           image: '/static/images/mock-plate.svg',
           name: 'Sandwich',
@@ -53,7 +53,7 @@ export default Vue.component('menu-grid-droplet', {
           calories: 1200,
         },
         {
-          created: '2020-06-22T19:31:14.835Z',
+          publishedOn: '2020-06-22T19:31:14.835Z',
           description: 'Food description here.',
           image: '/static/images/mock-plate.svg',
           name: 'Burger',
@@ -64,7 +64,7 @@ export default Vue.component('menu-grid-droplet', {
           calories: 1200,
         },
         {
-          created: '2020-06-24T19:31:14.835Z',
+          publishedOn: '2020-06-24T19:31:14.835Z',
           description: 'Food description here.',
           image: '/static/images/mock-plate.svg',
           name: 'Bacon',
@@ -74,7 +74,7 @@ export default Vue.component('menu-grid-droplet', {
           calories: 1200,
         },
         {
-          created: '2020-06-21T19:31:14.835Z',
+          publishedOn: '2020-06-21T19:31:14.835Z',
           description: 'Food description here.',
           image: '/static/images/mock-plate.svg',
           name: 'Hashbrowns',
@@ -84,7 +84,7 @@ export default Vue.component('menu-grid-droplet', {
           calories: 1200,
         },
         {
-          created: '2020-06-20T19:31:14.835Z',
+          publishedOn: '2020-06-20T19:31:14.835Z',
           description: 'Food description here.',
           image: '/static/images/mock-plate.svg',
           name: 'Eggs',
@@ -94,7 +94,7 @@ export default Vue.component('menu-grid-droplet', {
           calories: 1200,
         },
         {
-          created: '2020-06-19T19:31:14.835Z',
+          publishedOn: '2020-06-19T19:31:14.835Z',
           description: 'Food description here.',
           image: '/static/images/mock-plate.svg',
           name: 'Omlet',
@@ -104,7 +104,7 @@ export default Vue.component('menu-grid-droplet', {
           calories: 1200,
         },
         {
-          created: '2020-06-18T19:31:14.835Z',
+          publishedOn: '2020-06-18T19:31:14.835Z',
           description: 'Food description here.',
           image: '/static/images/mock-plate.svg',
           name: 'French Toast',
