@@ -200,6 +200,10 @@
 .drzicon-border-top { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8c6;&nbsp;'); }
 .drzicon-padding-right { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8c7;&nbsp;'); }
 .drzicon-padding-left { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8c8;&nbsp;'); }
+.drzicon-margin-right { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8c9;&nbsp;'); }
+.drzicon-margin-left { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ca;&nbsp;'); }
+.drzicon-margin-bottom { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8cb;&nbsp;'); }
+.drzicon-margin-top { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8cc;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
