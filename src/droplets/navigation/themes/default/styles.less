@@ -1,4 +1,15 @@
 // desktop nav rules
+.drzNav-row {
+  .drzClearFix;
+  margin-bottom: @rowSpacing;
+
+  // we grab the second to last child as navs will always inject
+  // the mobile overlay sibling after the nav itself
+  &:nth-last-child(2) {
+    margin: 0;
+  }
+}
+
 .drzNav {
   border-color: transparent;
   border-style: solid;
@@ -13,26 +24,26 @@
   z-index: 10;
 }
 
-/* navs in sections need to have the same margin bottoms as rows */
-.container .drzNav {
-  margin-bottom: @rowSpacing;
-
-  // we grab the second to last child as navs will always inject
-  // the mobile overlay sibling after the nav itself
-  &:nth-last-child(2) {
-    margin: 0;
-  }
-}
-
 .drzNav-inner {
   .drzClearFix;
   margin: 0 auto;
   max-width: 1280px;
-  padding: 0 8px;
+  padding: 0;
   width: 80%;
 
   @media @mobile {
     width: 90%;
+  }
+}
+
+.drzNav-block {
+
+  &.drzNav-row {
+    margin-bottom: 0;
+  }
+
+  .drzNav-inner {
+    padding: 0 8px;
   }
 }
 
