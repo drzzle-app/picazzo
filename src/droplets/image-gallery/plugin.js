@@ -4,7 +4,7 @@
 ================================
 */
 (($) => {
-  $.fn.drzImageGallery = function imageGallery() {
+  $.fn.drzImageGallery = function imageGallery(options) {
     let index;
     let totalImages;
     let displayNum;
@@ -90,8 +90,8 @@
           index = ~~$el.index();
         }
         displayNum = index + 1;
-
-        const modal = `<div class="drzModal-overlay drzImageGallery-modal">
+        const dataId = options && options.id ? ` data-droplet-id="${options.id}" ` : '';
+        const modal = `<div class="drzModal-overlay drzImageGallery-modal"${dataId}>
           <div class="drzModal-closeRow">
             <a class="drzModal-closeLink" href="#"></a>
           </div>
