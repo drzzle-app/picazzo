@@ -245,6 +245,12 @@
           navActions.closeSlider();
         }
       },
+      findActiveLink($link) {
+        const href = $link.attr('href');
+        if (href === window.location.pathname) {
+          $link.addClass('drzNav-activeLink');
+        }
+      },
       editorCheck($nav, val) {
         if (window.__editor) {
           $nav.parent().attr('data-nav-fixed', val);
@@ -414,6 +420,13 @@
     // mobile dropdown click events
     $dropDownLink.click(navActions.sliderDropDown);
     $subDropDownLink.click(navActions.sliderDropDown);
+
+    // here we set an active class for any links that are on an active page
+    if (!window.__editor) {
+      $navList.find('.drzNav-link').each(function getActiveLink() {
+        navActions.findActiveLink($(this));
+      });
+    }
 
     // close slider for any anchor menu buttons
     $navList.find('.drzNav-link:not(.drzNav-link-dropDown)').click(navActions.checkAnchor);
