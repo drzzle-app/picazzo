@@ -20,18 +20,6 @@
   width: 100%;
 }
 
-.drzForm-captcha-container {
-  border: 1px solid #e2e2e2;
-  border-radius: 2px;
-  min-width: 280px;
-  padding: 5px 10px;
-  width: 50%;
-
-  .drzForm-fieldContainer {
-    margin-bottom: 0;
-  }
-}
-
 .drzForm-buttonContainer {
   .drzClearFix;
   background-color: transparent;
@@ -397,4 +385,41 @@
 
 .drzForm-loader svg {
   stroke: fade(@black, 35%);
+}
+
+.drzForm-captcha-loader svg {
+  stroke: fade(@black, 35%);
+}
+
+.drzForm-captcha-container {
+  border: 1px solid #e2e2e2;
+  border-radius: 2px;
+  min-width: 280px;
+  padding: 5px 10px;
+  position: relative;
+  width: 50%;
+
+  .drzForm-fieldContainer {
+    margin-bottom: 0;
+  }
+}
+
+.drzForm-captcha-refresh {
+  float: none;
+  margin-bottom: 0;
+  position: absolute;
+  right: 10px;
+  text-decoration: none;
+  top: 5px;
+  width: initial;
+  z-index: 2;
+
+  &:after {
+    content: '\e883';
+    font-family: 'drzzle';
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
