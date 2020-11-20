@@ -189,6 +189,11 @@
           "children": []
         },
         {
+          "text": "Project Feed",
+          "route": "/project-feed",
+          "children": []
+        },
+        {
           "text": "Project Grid",
           "route": "/project-grid",
           "children": []
