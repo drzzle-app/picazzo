@@ -1,0 +1,92 @@
+// project-feed styles here
+.drzProject-feed {
+  display: grid;
+}
+
+.drzProject-feed-grid {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzProject-feed-2 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzProject-feed-4 {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzProject-feed-5 {
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzProject-feed-card {
+  .box-shadow;
+  border-color: transparent;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.drzProject-feed-cardImg {
+  background-color: #cccccc;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 200px;
+}
+
+.drzProject-feed-cardImg {
+  width: 100%;
+}
+
+.drzProject-feed-cardText {
+  background-color: @white;
+  height: 100%;
+  padding: 20px;
+}
+
+.drzProject-feed-title {
+  color: fade(@black, 60%);
+  font-size: 14pt;
+  font-weight: 600;
+}
+
+.drzProject-feed-preview {
+  color: fade(@black, 50%);
+  font-size: 11pt;
+  font-weight: 300;
+}
+
+.drzProject-feed-none {
+  text-align: center;
+}

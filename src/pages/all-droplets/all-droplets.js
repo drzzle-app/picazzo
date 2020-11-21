@@ -46,4 +46,5 @@ export default {
   'project-card': require('@/droplets/project-card'),
   'project-grid': require('@/droplets/project-grid'),
   'project-details': require('@/droplets/project-details'),
+  'project-feed': require('@/droplets/project-feed'),
 };
