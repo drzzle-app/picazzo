@@ -61,3 +61,60 @@
 .drzBtn::-moz-focus-inner {
   border: 0;
 }
+
+.drzBtn-done-message {
+  display: none;
+}
+
+.drzBtn-loader {
+  animation: load 1.1s infinite linear;
+  border: 4px solid;
+  border-color: fade(@white, 20%);
+  border-left: 4px solid;
+  border-left-color: fade(@white, 75%);
+  border-radius: 50%;
+  display: none;
+  font-size: 10px;
+  height: 30px;
+  position: relative;
+  text-indent: -9999em;
+  transform: translateZ(0);
+  width: 30px;
+
+  &:after {
+    border-radius: 50%;
+    height: 10em;
+    width: 10em;
+  }
+}
+
+.drzBtn-done {
+
+  .drzBtn-done-message {
+    display: inline-block;
+  }
+
+  .drzBtn-text {
+    display: none;
+  }
+}
+
+.drzBtn-loading {
+  .drzBtn-loader {
+    display: block;
+  }
+
+  .drzBtn-text {
+    display: none;
+  }
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
