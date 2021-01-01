@@ -219,6 +219,7 @@
 .drzicon-gradient-radial { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ce;&nbsp;'); }
 .drzicon-slant-right { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8cf;&nbsp;'); }
 .drzicon-data-page { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d0;&nbsp;'); }
+.drzicon-brackets { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d1;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
