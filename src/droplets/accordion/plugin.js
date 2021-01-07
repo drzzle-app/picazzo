@@ -28,7 +28,7 @@
     });
 
     if (params && params.search) {
-      const searchBar = $accordion.find('.drzAccordion-bar');
+      const searchBar = $accordion.find('.drzFilter-grid-bar');
       if (!searchBar.length) {
         const $bar = $(`<div class="drzFilter-grid-bar">
             <form role="search" class="drzFilter-grid-searchBox">
@@ -68,6 +68,8 @@
     $.fn.drzAccordion.killEvents = ($el) => {
       // grab attached selectors and remove attached listeners
       $el.find(titleClass).off('click');
+      $el.find('.drzFilter-grid-bar').remove();
+      $el.find('.drzFilter-grid-empty').remove();
     };
     return this;
   };

@@ -7,6 +7,12 @@
     <accordion-droplet></accordion-droplet>
   </div>
 
+  <header class="picazzo-sectionHeader">Demo (Search)</header>
+
+  <div class="row">
+    <accordion-droplet :search="true"></accordion-droplet>
+  </div>
+
   <header class="picazzo-sectionHeader">HTML</header>
 
   <div class="row">
@@ -17,13 +23,10 @@
 
   <p class="picazzo-section-subHeader">Initializing Plugin</p>
 
-  <p>
-    For accordions, the a 'drzAccordion-section-title' href attribute must match the 'section-'
-    class with the 'drzAccordion-section-content'.
-  </p>
-
   <div class="row">
-    <pre v-highlightjs><code class="javascript">$('.drzAccordion').drzAccordion();</code></pre>
+    <pre v-highlightjs><code class="javascript">$('.drzAccordion').drzAccordion({
+  search: true // optional if you want a search bar
+});</code></pre>
   </div>
 
   <p class="picazzo-section-subHeader">Destroy Plugin</p>
