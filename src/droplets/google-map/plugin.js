@@ -265,10 +265,6 @@
             scrollwheel: false,
             styles,
           };
-          if ($opts.markers.length <= 1) {
-            mapOptions.center = new google.maps.LatLng(
-              $opts.markers[0].lat, $opts.markers[0].lng);
-          }
 
           const map = new google.maps.Map($googleContainer, mapOptions);
           drzzle.googleMaps.push(map);
@@ -302,10 +298,8 @@
             markers.push(marker);
           }
           // auto center and zoom if multiple markers
-          if (markers.length > 1) {
-            map.fitBounds(bounds); // auto zoom
-            map.panToBounds(bounds); // auto center
-          }
+          map.fitBounds(bounds); // auto zoom
+          map.panToBounds(bounds, 2000); // auto center
           // after map loads, then append zoom controls
           google.maps.event.addListenerOnce(map, 'idle', () => {
             // init custom zoom controls
