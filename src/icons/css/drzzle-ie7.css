@@ -220,6 +220,10 @@
 .drzicon-slant-right { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8cf;&nbsp;'); }
 .drzicon-data-page { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d0;&nbsp;'); }
 .drzicon-brackets { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d1;&nbsp;'); }
+.drzicon-profile-grid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d2;&nbsp;'); }
+.drzicon-profile-box { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d3;&nbsp;'); }
+.drzicon-profile-feed { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d4;&nbsp;'); }
+.drzicon-profile-card { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d5;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
