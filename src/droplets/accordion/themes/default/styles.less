@@ -24,6 +24,7 @@
   color: @white;
   display: block;
   padding: 15px;
+  position: relative;
   text-decoration: none;
   transition-duration: @defaultDuration;
   width: 100%;
@@ -44,4 +45,27 @@
   background-color: @white;
   display: none;
   padding: 15px 0;
+}
+
+.drzAccordion-section-arrow {
+
+  &:after {
+    content: '\f105';
+    font-family: 'drzzle';
+    font-size: 16pt;
+    position: absolute;
+    right: 15px;
+    transform: rotate(-270deg);
+    transition-duration: .2s;
+  }
+}
+
+.active-accordion {
+
+  &.drzAccordion-section-arrow {
+
+    &:after {
+      transform: rotate(-90deg);
+    }
+  }
 }
