@@ -309,7 +309,11 @@
             if (typeof $regexAttr !== typeof undefined && $regexAttr !== false) {
               $regexAttr = $el.attr('data-validator-regex');
               $regexAttr = new RegExp($regexAttr, 'gi');
-              regexMsg = 'Value not entered in a correct format.';
+              if ($el.attr('data-validator-regex-msg')) {
+                regexMsg = $el.attr('data-validator-regex-msg');
+              } else {
+                regexMsg = 'Value not entered in a correct format.';
+              }
 
               if ($el.val() !== '' || $el.is(':required')) {
                 if (!$el.val().match($regexAttr)) {
