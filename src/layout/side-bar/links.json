@@ -179,6 +179,11 @@
           "children": []
         },
         {
+          "text": "Profile Grid",
+          "route": "/profile-grid",
+          "children": []
+        },
+        {
           "text": "Project Card",
           "route": "/project-card",
           "children": []
