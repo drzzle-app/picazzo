@@ -347,7 +347,7 @@
             }
 
             // email validation
-            if (inputType === 'email' && $el.is(':required')) {
+            if (inputType === 'email' && $el.val() !== '') {
               if (typeof $msgAttr !== typeof undefined && $msgAttr !== false) { // eslint-disable-line
                 msg = $el.attr('data-validator-msg');
               } else {
@@ -362,7 +362,7 @@
             }
 
             // phone validation
-            if (inputType === 'tel' && $el.is(':required')) {
+            if (inputType === 'tel' && $el.val() !== '') {
               if (typeof $msgAttr !== typeof undefined && $msgAttr !== false) { // eslint-disable-line
                 msg = $el.attr('data-validator-msg');
               } else {
@@ -371,13 +371,13 @@
               validate.type(e, {
                 input: $el,
                 check: 'tel',
-                typeMsg: 'Valid phone number required',
+                typeMsg: 'Valid phone number required. Try format 000-000-0000 or (000)-000-0000.',
                 format: /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
               });
             }
 
             // website validation
-            if (inputType === 'url' && $el.is(':required')) {
+            if (inputType === 'url') {
               if (typeof $msgAttr !== typeof undefined && $msgAttr !== false) { // eslint-disable-line
                 msg = $el.attr('data-validator-msg');
               } else {
