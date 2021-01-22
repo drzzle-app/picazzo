@@ -316,6 +316,11 @@
                     "path": "/profile-grid",
                     "name": "profile-grid",
                     "component": "require('@/pages/droplets/profile-grid/').default"
+                },
+                {
+                    "path": "/profile-details",
+                    "name": "profile-details",
+                    "component": "require('@/pages/droplets/profile-details/').default"
                 }
             ]
         },

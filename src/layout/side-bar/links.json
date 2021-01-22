@@ -179,6 +179,11 @@
           "children": []
         },
         {
+          "text": "Profile Details",
+          "route": "/profile-details",
+          "children": []
+        },
+        {
           "text": "Profile Grid",
           "route": "/profile-grid",
           "children": []

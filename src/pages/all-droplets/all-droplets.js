@@ -48,4 +48,5 @@ export default {
   'project-details': require('@/droplets/project-details'),
   'project-feed': require('@/droplets/project-feed'),
   'profile-grid': require('@/droplets/profile-grid'),
+  'profile-details': require('@/droplets/profile-details'),
 };

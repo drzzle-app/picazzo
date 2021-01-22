@@ -1,0 +1,247 @@
+.drzProfile-details {
+  .drzClearFix;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0;
+  overflow: hidden;
+}
+
+.drzProfile-details-columns {
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.drzProfile-details-picWrap {
+  display: flex;
+}
+
+.drzProfile-details-pic {
+  width: 100%;
+}
+
+.drzProfile-details-socialWrap {
+  margin: 10px 0;
+}
+
+.drzProfile-details-header {
+  font-size: 20pt;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.drzProfile-details-right {
+  padding-left: 20px;
+
+  @media @mobile {
+    padding-left: 0;
+  }
+}
+
+.drzProfile-details-contactSpan {
+  color: fade(@black, 45%);
+  display: inline-block;
+  font-size: 11pt;
+
+  &:after {
+    content: '\2022';
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  &:last-child {
+    &:after {
+      content: '';
+    }
+  }
+
+  @media @mobile {
+    display: block;
+    margin-bottom: 10px;
+
+    &:after {
+      content: '';
+    }
+
+    &:before {
+      content: '\2022';
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.drzProfile-details-break {
+  border: 0;
+  border-top-color: fade(@black, 15%);
+  border-top-style: solid;
+  border-top-width: 2px;
+  clear: both;
+  display: block;
+  float: left;
+  height: 0;
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+}
+
+.drzProfile-details-summary {
+  .drzClearFix;
+  color: @black;
+}
+
+.drzProfile-details-socialWrap {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto;
+}
+
+[class^='drzProfile-details-icon'] {
+  background-color: fade(@black, 60%);
+  color: white;
+  font-size: 20pt;
+  height: 100%;
+  margin-bottom: 10px;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+
+  &:before {
+    display: block;
+    font-family: 'drzzle';
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &:hover {
+    background-color: fade(@black, 45%);
+    transition-duration: @defaultDuration;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.drzProfile-details-iconFacebook {
+
+  &::before {
+    content: '\f09a';
+  }
+}
+
+.drzProfile-details-iconTwitter {
+
+  &::before {
+    content: '\f099';
+  }
+}
+
+.drzProfile-details-iconInstagram {
+
+  &::before {
+    content: '\f16d';
+  }
+}
+
+.drzProfile-details-iconLinkedin {
+
+  &::before {
+    content: '\f0e1';
+  }
+}
+
+.drzProfile-details-iconGooglePlus {
+  &::before {
+    content: '\f0d5';
+  }
+}
+
+.drzProfile-details-iconPinterest {
+
+  &::before {
+    content: '\f231';
+  }
+}
+
+.drzProfile-details-iconSlack {
+
+  &::before {
+    content: '\e88b';
+  }
+}
+
+.drzProfile-details-iconYouTube {
+
+  &::before {
+    content: '\f167';
+  }
+}
+
+.drzProfile-details-iconTumblr {
+
+  &::before {
+    content: '\f173';
+  }
+}
+
+.drzProfile-details-iconReddit {
+
+  &::before {
+    content: '\e88d';
+  }
+}
+
+.drzProfile-details-iconTwitch {
+
+  &::before {
+    content: '\f1e8';
+  }
+}
+
+.drzProfile-details-iconVimeo {
+
+  &::before {
+    content: '\f27d';
+  }
+}
+
+.drzProfile-details-iconDribbble {
+
+  &::before {
+    content: '\f17d';
+  }
+}
+
+.drzProfile-details-iconBehance {
+
+  &::before {
+    content: '\f1b4';
+  }
+}
+
+.drzProfile-details-iconSnapchat {
+
+  &::before {
+    content: '\f2ac';
+  }
+}
+
+.drzProfile-details-iconGithub {
+
+  &::before {
+    content: '\f09b';
+  }
+}
