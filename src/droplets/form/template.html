@@ -5,7 +5,12 @@
       <!-- optional -->
       <span class="drzForm-required"></span>
     </label>
-    <input class="drzForm-inputText" data-validator="required" type="text">
+    <input
+      class="drzForm-inputText"
+      data-validator="required"
+      data-validator-regex="^[A-Z0-9 ]+$"
+      data-validator-regex-msg="Only letters and numbers are allowed."
+      type="text" />
   </div>
 
   <div class="drzForm-fieldContainer">
@@ -13,7 +18,7 @@
       Email Input Label
       <!-- optional -->
       <span class="drzForm-required"></span>
-      </label>
+    </label>
     <input class="drzForm-inputEmail" data-validator="required" type="email">
   </div>
 

@@ -43,7 +43,9 @@ data-validator-max="10"</code></pre>
 <pre v-highlightjs><code class="javascript">// required strictly a number value
 data-validator-value="number"</code></pre>
 <pre v-highlightjs><code class="javascript">// input must match your custom regex value
-data-validator-regex="[a-z]"</code></pre>
+data-validator-regex="^[A-Z ]+$"</code></pre>
+<pre v-highlightjs><code class="javascript">// custom regex failure message
+data-validator-regex-msg="Only letters allowed."</code></pre>
   </div>
 
   <p class="picazzo-section-subHeader">Validating Checkbox and Radio Groups</p>

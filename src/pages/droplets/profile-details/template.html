@@ -1,0 +1,30 @@
+<div>
+  <header class="picazzo-page-header">Profile Details</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <profile-details-droplet></profile-details-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses the <router-link to="/image-gallery" class="picazzo-link" tag="a">Image Gallery</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular initialization.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzImageGallery').drzImageGallery();</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter"></div>
+</div>

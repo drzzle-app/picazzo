@@ -28,7 +28,15 @@
 
       const list = options.feed || [];
       // set by newest by default
-      const sortKey = options.sortKey || 'publishedOn';
+      let sortKey = 'publishedOn';
+      if (options.sortKey) {
+        // check if it's a string or object
+        if (typeof options.sortKey === 'string') {
+          sortKey = options.sortKey;
+        } else if (options.sortKey.value) {
+          sortKey = options.sortKey.value;
+        }
+      }
       // we use this for nested keys for custom sortKeys
       const getValue = (obj, keys) => {
         let value = obj;
@@ -38,9 +46,22 @@
         });
         return value;
       };
-      let shownList = list.sort((a, b) =>
-        new Date(getValue(b, sortKey)) - new Date(getValue(a, sortKey)));
-      if (options.sort && options.sort === 'oldest') {
+
+      const isDate = date => (new Date(date) !== 'Invalid Date') && !isNaN(new Date(date));
+
+      let shownList = list.sort((a, b) => {
+        let sorted = list;
+        if (isDate(a[sortKey])) {
+          // sort by date
+          sorted = new Date(getValue(b, sortKey)) - new Date(getValue(a, sortKey));
+        } else if (typeof a[sortKey] === 'string') {
+          // sort alphabetically
+          sorted = a[sortKey].localeCompare(b[sortKey]);
+        }
+        return sorted;
+      });
+
+      if (options.sort && ['oldest', 'reverse'].includes(options.sort)) {
         shownList = shownList.reverse();
       }
 
@@ -119,7 +140,54 @@
           if (shownList.length < 1 && !$this.find(`.${classes.empty}`).length) {
             $this.append($(`<span class="${classes.empty}">No Items Found</span>`));
           }
+          if (options.onDraw) {
+            options.onDraw(shownList);
+          }
+          if (options.map) {
+            methods.drawMap(shownList);
+          }
         },
+        drawMap(items) {
+          const markers = [];
+          items.forEach((item) => {
+            if (item.address && item.address.value) {
+              markers.push({
+                address: item.address.value,
+                lat: item.address.lat || 0,
+                lng: item.address.lng || 0,
+                markerImg: item[options.map.pin],
+                title: item[options.map.title || 'name'],
+              });
+            }
+          });
+          const mapData = JSON.stringify({
+            baseColor: 'rgba(65, 224, 196, 1)',
+            useBg: true,
+            markers,
+          });
+          let $map = $this.find('.drzMap');
+          if (!$map.length) {
+            $map = $(`<div class="drzMap">
+              <div class="drzMap-container"></div>
+              <div class="drzMap-zoomIn"></div>
+              <div class="drzMap-zoomOut"></div>
+              <div class="drzMap-address"></div>
+            </div>`);
+            $map.attr('data-google-map', mapData);
+            $map.insertAfter($filterBar);
+            clearTimeout(methods.initMapTime);
+            methods.initMapTime = setTimeout(() => {
+              $map.drzMap();
+            }, 350);
+          } else {
+            $map.attr('data-google-map', mapData);
+            methods.initMapTime = setTimeout(() => {
+              $map.drzMap.destroy($map);
+              $map.drzMap();
+            }, 200);
+          }
+        },
+        initMapTime: null,
         resetFilter(e) {
           e.preventDefault();
           methods.filteredList = false;
@@ -379,8 +447,8 @@
               shownList = feed.filter((item) => {
                 // we need to check all key options to search through
                 for (let i = 0; i < keys.length; i++) {
-                  const key = keys[i];
-                  if (item[key] && item[key].match(input)) {
+                  const value = getValue(item, keys[i]);
+                  if (value && value.match(input)) {
                     return item;
                   }
                 }
@@ -435,6 +503,12 @@
         const $emptyMsg = $el.find(`.${classes.empty}`);
         if ($emptyMsg.length) {
           $emptyMsg.remove();
+        }
+        const $map = $el.find('.drzMap');
+        if ($map.length) {
+          clearTimeout(methods.initMapTime);
+          $map.drzMap.destroy($map);
+          $map.remove();
         }
       };
     });

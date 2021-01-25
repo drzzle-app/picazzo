@@ -19,6 +19,9 @@
 
       const actions = {
         getHex(c) {
+          if (typeof c === 'string' && c.trim() === '') {
+            return '#000000';
+          }
           let color = c;
           if (/^#[0-9A-F]{6}$/i.test(color)) {
             return color;
@@ -262,29 +265,30 @@
             mapTypeControl: false,
             streetViewControl: false,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false,
+            gestureHandling: 'cooperative',
             styles,
           };
-          if ($opts.markers.length <= 1) {
+          if ($opts.markers.length === 1) {
             mapOptions.center = new google.maps.LatLng(
               $opts.markers[0].lat, $opts.markers[0].lng);
           }
 
           const map = new google.maps.Map($googleContainer, mapOptions);
-          drzzle.googleMaps.push(map);
           // prep for auto centering
           const bounds = new google.maps.LatLngBounds();
           // build markers
           for (let i = 0; i < $opts.markers.length; i++) {
             const m = $opts.markers[i];
+            const body = m.body ? `<p class="drzMap-markerBody">${m.body}</p>` : '';
             const toolTip =
             `<div class="drzMap-markerTip">
               <span class="drzMap-markerTitle">${m.title || ''}</span>
               <span class="drzMap-markerAddr">${m.address || ''}</span>
+              ${body}
               </div>`;
             const infowindow = new google.maps.InfoWindow({
               content: toolTip,
-              maxWidth: 200,
+              maxWidth: 250,
             });
             const position = new google.maps.LatLng(m.lat, m.lng);
             const markerUrl = (isIE11) ?
@@ -302,19 +306,25 @@
             markers.push(marker);
           }
           // auto center and zoom if multiple markers
-          if (markers.length > 1) {
+          if (markers.length > 1 || markers.length === 0) {
             map.fitBounds(bounds); // auto zoom
             map.panToBounds(bounds); // auto center
           }
           // after map loads, then append zoom controls
           google.maps.event.addListenerOnce(map, 'idle', () => {
-            // init custom zoom controls
-            const zoomControlDiv = document.createElement('div');
-            const zoomControl = new actions.CustomZoomControl(zoomControlDiv, map, $opts.baseColor); // eslint-disable-line
-            // insert the zoom div on the top left of the map
-            map.controls[google.maps.ControlPosition.LEFT_TOP].push(zoomControlDiv);
+            // we need a small buffer to initiate the controls as firing this
+            // too fast will result in controls sometimes not showing up
+            clearTimeout(actions.controlTime);
+            actions.controlTime = setTimeout(() => {
+              // init custom zoom controls
+              const zoomControlDiv = document.createElement('div');
+              actions.CustomZoomControl(zoomControlDiv, map, $opts.baseColor);
+              // insert the zoom div on the top left of the map
+              map.controls[google.maps.ControlPosition.LEFT_TOP].push(zoomControlDiv);
+            }, 350);
           });
         },
+        controlTime: null,
       };
 
 

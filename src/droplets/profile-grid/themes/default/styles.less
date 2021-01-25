@@ -1,0 +1,137 @@
+// profile-grid styles here
+.drzProfile-grid {
+
+  .drzMap {
+    margin-bottom: 10px;
+  }
+}
+
+.drzProfile-items-container {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drzProfile-item-card {
+  border-color: transparent;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 0;
+  margin-bottom: 20px;
+  overflow: hidden;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.drzProfile-item-link {
+  .drzClearFix;
+  display: flex;
+  text-decoration: none;
+
+  @media @mobile {
+    flex-direction: column;
+  }
+}
+
+.drzProfile-item-imgWrap {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  float: left;
+  justify-content: center;
+  width: 20%;
+
+  @media @mobile {
+    width: 100%;
+  }
+}
+
+.drzProfile-item-img {
+  width: 100%;
+}
+
+.drzProfile-item-data {
+  color: fade(@black, 65%);
+  float: left;
+  padding-left: 15px;
+  width: 80%;
+
+  @media @mobile {
+    padding-left: 0;
+    padding-top: 10px;
+    width: 100%;
+  }
+}
+
+.drzProfile-item-top {
+  .drzClearFix;
+}
+
+.drzProfile-item-header {
+  float: left;
+  font-size: 18pt;
+  margin: 0 0 3px 0;
+
+  @media @mobile {
+    display: block;
+    float: none;
+  }
+}
+
+.drzProfile-item-break {
+  border: 0;
+  border-top-color: fade(@black, 45%);
+  border-top-style: solid;
+  border-top-width: 2px;
+  clear: both;
+  display: block;
+  float: left;
+  height: 0;
+  position: relative;
+  width: 100%;
+}
+
+.drzProfile-item-contactSpan {
+  color: fade(@black, 45%);
+  display: inline-block;
+  font-size: 11pt;
+
+  &:after {
+    content: '\2022';
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  &:last-child {
+    &:after {
+      content: '';
+    }
+  }
+
+  @media @mobile {
+    display: block;
+    margin-bottom: 10px;
+
+    &:after {
+      content: '';
+    }
+
+    &:before {
+      content: '\2022';
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.drzProfile-item-preview {
+  font-size: 14pt;
+  font-weight: 300;
+}

@@ -209,6 +209,10 @@
 .drzicon-slant-right:before { content: '\e8cf'; } /* '' */
 .drzicon-data-page:before { content: '\e8d0'; } /* '' */
 .drzicon-brackets:before { content: '\e8d1'; } /* '' */
+.drzicon-profile-grid:before { content: '\e8d2'; } /* '' */
+.drzicon-profile-box:before { content: '\e8d3'; } /* '' */
+.drzicon-profile-feed:before { content: '\e8d4'; } /* '' */
+.drzicon-profile-card:before { content: '\e8d5'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */

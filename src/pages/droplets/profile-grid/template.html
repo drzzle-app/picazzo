@@ -1,0 +1,71 @@
+<div>
+  <header class="picazzo-page-header">Profile Grid</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <profile-grid-droplet></profile-grid-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses the <router-link to="/filter-grid" class="picazzo-link" tag="a">Filter Grid</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular "output" markup.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzFilter-grid').drzFilterGrid({
+  feed: [
+    {
+      description: 'Some Description',
+      image: '/static/images/mock-profile.svg',
+      name: 'Stanley Hudson',
+      address: {
+        value: 'Scranton, PA',
+        lat: 32.0298602,
+        lng: -102.1075392,
+      },
+      mapPin: 'https://cdn.drzzle.app/mock-images/icons/maps-default-pin.svg',
+      pageLink: '#',
+      categories: ['man'],
+    },
+  ],
+  gridContainer: 'drzProfile-items-container',
+  // if you want a map shown
+  map: {
+    title: 'name',
+  },
+  output(data) {
+    return `
+      &lt;li class=&quot;drzProfile-item-card&quot;&gt;
+        &lt;a href=&quot;${data.pageLink}&quot; class=&quot;drzProfile-item-link&quot;&gt;
+          &lt;div class=&quot;drzProfile-item-imgWrap&quot;&gt;
+            &lt;img class=&quot;drzProfile-item-img&quot; data-asset=&quot;${data.image}&quot; alt=&quot;${data.name}&quot; /&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;drzProfile-item-data&quot;&gt;
+            &lt;div class=&quot;drzProfile-item-top&quot;&gt;
+              &lt;h4 class=&quot;drzProfile-item-header&quot;&gt;${data.name}&lt;/h4&gt;
+            &lt;/div&gt;
+            &lt;hr class=&quot;drzProfile-item-break&quot; /&gt;
+            &lt;p class=&quot;drzProfile-item-preview&quot;&gt;
+              ${data.description}
+            &lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/a&gt;
+      &lt;/li&gt;
+    `;
+  },
+});</code></pre>
+  </div>
+
+ <div class="picazzo-docFooter"></div>
+</div>
