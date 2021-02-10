@@ -217,6 +217,7 @@
 .drzicon-tablet-device { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d7;&nbsp;'); }
 .drzicon-mobile-device { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d8;&nbsp;'); }
 .drzicon-panel { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8d9;&nbsp;'); }
+.drzicon-copy-droplets { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8da;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
