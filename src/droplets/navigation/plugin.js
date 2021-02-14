@@ -442,6 +442,12 @@
 
     // insert the clone for mobile after listeners have been attached
     const $navListClone = $navList.clone(true, true);
+    $navListClone.find('.drzNav-item').each(function addSlideClasses() {
+      $(this).addClass('drzNav-slideItem');
+    });
+    $navListClone.find('.drzNav-subItem').each(function addSlideClasses() {
+      $(this).addClass('drzNav-slideSubItem');
+    });
     $sliderContainer.append($navListClone);
 
     // Reset some things on nav on resizing
