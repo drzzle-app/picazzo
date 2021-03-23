@@ -1,0 +1,76 @@
+<div>
+  <header class="picazzo-page-header">Profile Cards</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <profile-cards-droplet></profile-cards-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses the <router-link to="/filter-grid" class="picazzo-link" tag="a">Filter Grid</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular "output" markup.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzFilter-grid').drzFilterGrid({
+  feed: [
+    {
+      publishedOn: '2020-06-25T19:31:14.835Z',
+      description: 'This is a description',
+      image: '/static/images/mock-profile.svg',
+      name: 'Stanley Hudson',
+      address: {
+        value: 'Midland TX',
+        lat: 31.997431,
+        lng: -102.078041,
+      },
+      mapPin: '/static/images/icons/maps-default-pin.svg',
+      pageLink: '#',
+      customLink: '#',
+      categories: ['man'],
+    },
+  ],
+  gridContainer: 'drzProfile-cards-container',
+  filterText: 'Filters',
+  pagination: 6,
+  sort: 'alphabetical',
+  assets: 'bg',
+  sortKey: 'name',
+  match: 'some',
+  filters: ['man', 'woman'],
+  map: {
+    title: 'name',
+    pin: 'mapPin',
+  },
+  searchKeys: ['name', 'description', 'address.value', 'phone', 'email', 'website'],
+  output(data) {
+    return `
+      &lt;div class=&quot;drzProfile-cards-card&quot;&gt;
+        &lt;a class=&quot;drzProfile-cards-cardInner&quot; href=&quot;#&quot;&gt;
+          &lt;div
+            class=&quot;drzProfile-cards-cardImage&quot;
+            data-asset=&quot;${data.image}&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;drzProfile-cards-cardInfo&quot;&gt;
+            &lt;span class=&quot;drzProfile-cards-cardTitle&quot;&gt;${data.name}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/a&gt;
+      &lt;/div&gt;
+    `;
+  },
+});</code></pre>
+  </div>
+
+ <div class="picazzo-docFooter"></div>
+</div>

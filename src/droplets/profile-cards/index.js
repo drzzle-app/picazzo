@@ -2,52 +2,35 @@ import Vue from 'vue';
 
 const template = require('./template.html');
 
-export default Vue.component('profile-grid-droplet', {
+export default Vue.component('profile-cards-droplet', {
   template,
-  name: 'profile-grid-droplet',
+  name: 'profile-cards-droplet',
   mounted() {
-    const $profileGrid = $(this.$refs.profileGrid);
-    const truncate = this.truncate;
-    $profileGrid.drzFilterGrid({
+    const $blogGrid = $(this.$refs.profileCards);
+    $blogGrid.drzFilterGrid({
       output(data) {
-        let contact = '';
-        if (data.phone || data.email || data.address || data.website) {
-          const phone = data.phone ? `<span class="drzProfile-item-contactSpan">${data.phone}</span>` : '';
-          const email = data.email ? `<span class="drzProfile-item-contactSpan">${data.email}</span>` : '';
-          const website = data.website ? `<span class="drzProfile-item-contactSpan">${data.website}</span>` : '';
-          const address = data.address && data.address.value ? `<span class="drzProfile-item-contactSpan">${data.address.value}</span>` : '';
-          contact = `
-          <div class="drzProfile-item-contact">
-            ${email}${phone}${address}${website}
-          </div>`;
-        }
         return `
-        <li class="drzProfile-item-card">
-          <a href="${data.pageLink}" class="drzProfile-item-link">
-            <div class="drzProfile-item-imgWrap">
-              <img class="drzProfile-item-img" data-asset="${data.image}" alt="${data.name}" />
+        <div class="drzProfile-cards-card">
+          <a class="drzProfile-cards-cardInner" href="#">
+            <div
+              class="drzProfile-cards-cardImage"
+              data-asset="${data.image}">
             </div>
-            <div class="drzProfile-item-data">
-              <div class="drzProfile-item-top">
-                <h4 class="drzProfile-item-header">${data.name}</h4>
-              </div>
-              <hr class="drzProfile-item-break" />
-              ${contact}
-              <p class="drzProfile-item-preview">
-                ${truncate(data.description || '', 500)}
-              </p>
+            <div class="drzProfile-cards-cardInfo">
+              <span class="drzProfile-cards-cardTitle">${data.name}</span>
             </div>
           </a>
-        </li>
+        </div>
         `;
       },
-      gridContainer: 'drzProfile-items-container',
+      gridContainer: 'drzProfile-cards-container',
       filterText: 'Filters',
+      pagination: 6,
       sort: 'alphabetical',
+      assets: 'bg',
       sortKey: 'name',
       match: 'some',
       filters: ['man', 'woman'],
-      pagination: 3,
       map: {
         title: 'name',
         pin: 'mapPin',
@@ -179,13 +162,5 @@ export default Vue.component('profile-grid-droplet', {
         },
       ],
     });
-  },
-  methods: {
-    truncate(text, limit) {
-      if (text.length < limit) {
-        return text;
-      }
-      return `${text.substring(0, limit)}...`;
-    },
   },
 });

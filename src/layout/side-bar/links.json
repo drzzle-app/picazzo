@@ -179,6 +179,11 @@
           "children": []
         },
         {
+          "text": "Profile Cards",
+          "route": "/profile-cards",
+          "children": []
+        },
+        {
           "text": "Profile Details",
           "route": "/profile-details",
           "children": []

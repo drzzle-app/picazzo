@@ -321,6 +321,11 @@
                     "path": "/profile-details",
                     "name": "profile-details",
                     "component": "require('@/pages/droplets/profile-details/').default"
+                },
+                {
+                    "path": "/profile-cards",
+                    "name": "profile-cards",
+                    "component": "require('@/pages/droplets/profile-cards/').default"
                 }
             ]
         },
