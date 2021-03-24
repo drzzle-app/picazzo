@@ -11,7 +11,7 @@ export default Vue.component('profile-cards-droplet', {
       output(data) {
         return `
         <div class="drzProfile-cards-card">
-          <a class="drzProfile-cards-cardInner" href="#">
+          <a class="drzProfile-cards-link" href="#">
             <div
               class="drzProfile-cards-cardImage"
               data-asset="${data.image}">
