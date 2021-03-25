@@ -50,4 +50,5 @@ export default {
   'profile-grid': require('@/droplets/profile-grid'),
   'profile-details': require('@/droplets/profile-details'),
   'profile-cards': require('@/droplets/profile-cards'),
+  'profile-feed': require('@/droplets/profile-feed'),
 };

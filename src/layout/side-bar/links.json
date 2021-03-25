@@ -189,6 +189,11 @@
           "children": []
         },
         {
+          "text": "Profile Feed",
+          "route": "/profile-feed",
+          "children": []
+        },
+        {
           "text": "Profile Grid",
           "route": "/profile-grid",
           "children": []
