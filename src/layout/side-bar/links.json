@@ -159,6 +159,11 @@
           "children": []
         },
         {
+          "text": "Place Details",
+          "route": "/place-details",
+          "children": []
+        },
+        {
           "text": "Product Card",
           "route": "/product-card",
           "children": []

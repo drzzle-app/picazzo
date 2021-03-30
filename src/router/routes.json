@@ -331,6 +331,11 @@
                     "path": "/profile-feed",
                     "name": "profile-feed",
                     "component": "require('@/pages/droplets/profile-feed/').default"
+                },
+                {
+                    "path": "/place-details",
+                    "name": "place-details",
+                    "component": "require('@/pages/droplets/place-details/').default"
                 }
             ]
         },

@@ -51,4 +51,5 @@ export default {
   'profile-details': require('@/droplets/profile-details'),
   'profile-cards': require('@/droplets/profile-cards'),
   'profile-feed': require('@/droplets/profile-feed'),
+  'place-details': require('@/droplets/place-details'),
 };
