@@ -164,6 +164,11 @@
           "children": []
         },
         {
+          "text": "Place Grid",
+          "route": "/place-grid",
+          "children": []
+        },
+        {
           "text": "Product Card",
           "route": "/product-card",
           "children": []
