@@ -341,6 +341,11 @@
                     "path": "/place-grid",
                     "name": "place-grid",
                     "component": "require('@/pages/droplets/place-grid/').default"
+                },
+                {
+                    "path": "/place-cards",
+                    "name": "place-cards",
+                    "component": "require('@/pages/droplets/place-cards/').default"
                 }
             ]
         },
