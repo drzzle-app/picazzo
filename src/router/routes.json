@@ -346,6 +346,11 @@
                     "path": "/place-cards",
                     "name": "place-cards",
                     "component": "require('@/pages/droplets/place-cards/').default"
+                },
+                {
+                    "path": "/place-feed",
+                    "name": "place-feed",
+                    "component": "require('@/pages/droplets/place-feed/').default"
                 }
             ]
         },

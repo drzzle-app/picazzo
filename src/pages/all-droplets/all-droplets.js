@@ -54,4 +54,5 @@ export default {
   'place-details': require('@/droplets/place-details'),
   'place-grid': require('@/droplets/place-grid'),
   'place-cards': require('@/droplets/place-cards'),
+  'place-feed': require('@/droplets/place-feed'),
 };

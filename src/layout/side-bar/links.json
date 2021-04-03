@@ -169,6 +169,11 @@
           "children": []
         },
         {
+          "text": "Place Feed",
+          "route": "/place-feed",
+          "children": []
+        },
+        {
           "text": "Place Grid",
           "route": "/place-grid",
           "children": []
