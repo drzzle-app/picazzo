@@ -1,0 +1,93 @@
+// Profile-feed styles here
+.drzProfile-feed {
+  display: grid;
+}
+
+.drzProfile-feed-grid {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzProfile-feed-2 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzProfile-feed-4 {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzProfile-feed-5 {
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.drzProfile-feed-card {
+  .box-shadow;
+  border-color: transparent;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.drzProfile-feed-cardImg {
+  background-color: #cccccc;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 200px;
+}
+
+.drzProfile-feed-cardImg {
+  width: 100%;
+}
+
+.drzProfile-feed-cardText {
+  background-color: @white;
+  height: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+.drzProfile-feed-name {
+  color: fade(@black, 60%);
+  font-size: 14pt;
+  font-weight: 600;
+}
+
+.drzProfile-feed-preview {
+  color: fade(@black, 50%);
+  font-size: 11pt;
+  font-weight: 300;
+}
+
+.drzProfile-feed-none {
+  text-align: center;
+}

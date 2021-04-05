@@ -159,6 +159,26 @@
           "children": []
         },
         {
+          "text": "Place Cards",
+          "route": "/place-cards",
+          "children": []
+        },
+        {
+          "text": "Place Details",
+          "route": "/place-details",
+          "children": []
+        },
+        {
+          "text": "Place Feed",
+          "route": "/place-feed",
+          "children": []
+        },
+        {
+          "text": "Place Grid",
+          "route": "/place-grid",
+          "children": []
+        },
+        {
           "text": "Product Card",
           "route": "/product-card",
           "children": []
@@ -179,8 +199,18 @@
           "children": []
         },
         {
+          "text": "Profile Cards",
+          "route": "/profile-cards",
+          "children": []
+        },
+        {
           "text": "Profile Details",
           "route": "/profile-details",
+          "children": []
+        },
+        {
+          "text": "Profile Feed",
+          "route": "/profile-feed",
           "children": []
         },
         {
