@@ -223,6 +223,8 @@
 .drzicon-place-box:before { content: '\e8dd'; } /* '' */
 .drzicon-place-card:before { content: '\e8de'; } /* '' */
 .drzicon-mobile-device-small:before { content: '\e8df'; } /* '' */
+.drzicon-media-group:before { content: '\e8e0'; } /* '' */
+.drzicon-item-group:before { content: '\e8e1'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
