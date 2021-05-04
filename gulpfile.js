@@ -244,6 +244,7 @@ const buildSearch = () => {
 
 const buildModules = async () => {
   await fse.copy('./src/js-lib/modules', './dist/js/modules', { overwrite: true });
+  await fse.copy('./src/js-lib/modules', './static/js/modules', { overwrite: true });
 };
 
 const bundleJs = async () =>
@@ -331,6 +332,7 @@ const buildJsPlugins = async () => {
           },
         }))
       .pipe(gulp.dest('./dist/js/'))
+      .pipe(gulp.dest('./static/js/'))
       .on('end', () => {
         console.log(colors.green('Successfully built Picazzo javascript library!'));
         resolve();

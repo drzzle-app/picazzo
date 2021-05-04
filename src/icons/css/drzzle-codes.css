@@ -223,6 +223,8 @@
 .drzicon-place-box:before { content: '\e8dd'; } /* '' */
 .drzicon-place-card:before { content: '\e8de'; } /* '' */
 .drzicon-mobile-device-small:before { content: '\e8df'; } /* '' */
+.drzicon-media-group:before { content: '\e8e0'; } /* '' */
+.drzicon-item-group:before { content: '\e8e1'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
@@ -278,6 +280,8 @@
 .drzicon-behance:before { content: '\f1b4'; } /* '' */
 .drzicon-behance-squared:before { content: '\f1b5'; } /* '' */
 .drzicon-recycle:before { content: '\f1b8'; } /* '' */
+.drzicon-spotify:before { content: '\f1bc'; } /* '' */
+.drzicon-soundcloud:before { content: '\f1be'; } /* '' */
 .drzicon-file-pdf:before { content: '\f1c1'; } /* '' */
 .drzicon-git:before { content: '\f1d3'; } /* '' */
 .drzicon-paragraph:before { content: '\f1dd'; } /* '' */
