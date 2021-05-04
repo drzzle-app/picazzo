@@ -10,6 +10,7 @@ src/router/routes.js
 static/css/
 static/fonts/
 static/icons/
+static/js/
 dist/index.html
 dist/static
 scripts/deploy-docs.sh
