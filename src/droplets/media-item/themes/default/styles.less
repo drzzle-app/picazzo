@@ -1,0 +1,182 @@
+.drzMedia-item-container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: auto;
+  margin-bottom: 10px;
+
+  @media @mobile {
+    display: block;
+  }
+}
+
+.drzMedia-item-image {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.drzMedia-item-info {
+  color: fade(@black, 30%);
+  font-size: 12pt;
+  padding: 20px 0;
+}
+
+.drzMedia-item-mediaList {
+  .no-list-style;
+
+  @media @mobile {
+    margin-bottom: 10px;
+  }
+}
+
+.drzMedia-item-mediaItem {
+  border-bottom: 1px solid #dedede;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.drzMedia-item-mediaLink {
+  color: fade(@black, 70%);
+  display: block;
+  font-size: 11pt;
+  padding: 7px 0;
+  text-decoration: none;
+  transition-duration: .2s;
+
+  &:hover {
+    opacity: .7;
+  }
+
+  &:before {
+    display: inline-block;
+    float: right;
+    font-family: 'drzzle';
+    font-size: 15pt;
+  }
+}
+
+.drzMedia-item-youTube {
+
+  &:before {
+    color: #ff0000;
+    content: '\f166';
+  }
+}
+
+.drzMedia-item-spotify {
+
+  &:before {
+    color: #1db954;
+    content: '\f1bc';
+  }
+}
+
+.drzMedia-item-vimeo {
+
+  &:before {
+    color: #1ab7ea;
+    content: '\f194';
+  }
+}
+
+.drzMedia-item-twitch {
+
+  &:before {
+    color: #6441a4;
+    content: '\f1e8';
+  }
+}
+
+.drzMedia-item-facebook {
+
+  &:before {
+    color: #4267b2;
+    content: '\f09a';
+  }
+}
+
+.drzMedia-item-soundcloud {
+
+  &:before {
+    color: #fe5000;
+    content: '\f1be';
+  }
+}
+
+.drzMedia-item-other {
+
+  &:before {
+    color: #a2a2a2;
+    content: '\e84e';
+  }
+}
+
+.drzMedia-item-groupList {
+  .no-list-style;
+}
+
+.drzMedia-item-groupItem {
+  display: block;
+  margin-bottom: 5px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.drzMedia-item-groupLink {
+  border: 1px solid #e6e6e6;
+  border-radius: 3px;
+  color: fade(@black, 65%);
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 60px 1fr 60px;
+  padding: 5px 8px;
+  text-decoration: none;
+  transition-duration: .2s;
+
+  &:hover {
+    opacity: .7;
+  }
+}
+
+.drzMedia-item-groupImgWrap {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.drzMedia-item-groupImg {
+  height: 60px;
+}
+
+.drzMedia-item-groupIcon {
+  align-items: center;
+  display: flex;
+  float: right;
+  justify-content: flex-end;
+
+  &:before {
+    content: '\f144';
+    font-family: 'drzzle';
+    font-size: 25pt;
+  }
+}
+
+.drzMedia-item-groupInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.drzMedia-item-groupTitle {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.drzMedia-item-groupPublished {
+  color: fade(@black, 30%);
+  font-size: 10pt;
+}
