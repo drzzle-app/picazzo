@@ -15,6 +15,12 @@
   width: 100%;
 }
 
+.drzMedia-item-title {
+  color: #3c3c3c;
+  margin-bottom: 15px;
+  margin-top: 0;
+}
+
 .drzMedia-item-info {
   color: fade(@black, 30%);
   font-size: 12pt;
@@ -57,7 +63,7 @@
   }
 }
 
-.drzMedia-item-youTube {
+.drzMedia-item-youtube {
 
   &:before {
     color: #ff0000;
@@ -115,6 +121,8 @@
 
 .drzMedia-item-groupList {
   .no-list-style;
+  max-height: 400px;
+  overflow-y: scroll;
 }
 
 .drzMedia-item-groupItem {
@@ -127,6 +135,7 @@
 }
 
 .drzMedia-item-groupLink {
+  background-color: @white;
   border: 1px solid #e6e6e6;
   border-radius: 3px;
   color: fade(@black, 65%);
@@ -179,4 +188,32 @@
 .drzMedia-item-groupPublished {
   color: fade(@black, 30%);
   font-size: 10pt;
+}
+
+.drzMedia-item-groups {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+}
+
+.drzMedia-item-groupTwo {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+}
+
+.drzMedia-item-groupThree {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+}
+
+.drzMedia-item-groupWrap {
+  background-color: fade(@black, 03%);
+  border-radius: 2px;
+  padding: 10px;
+}
+
+.drzMedia-item-groupName {
+  display: block;
+  margin-bottom: 10px;
 }
