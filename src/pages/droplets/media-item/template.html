@@ -1,0 +1,35 @@
+<div>
+  <header class="picazzo-page-header">Media Item</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row picazzo-page-demo">
+    <media-item-droplet></media-item-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses either the <router-link to="/audio-player" class="picazzo-link" tag="a">Audio Player</router-link>
+    or the <router-link to="/video-player" class="picazzo-link" tag="a">Video Player</router-link> droplet for default media.
+    View those pages for further documentation initializing their plugins.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzAudio').drzAudioPlayer(); // audio player</code></pre>
+  </div>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzVideo').drzVideoPlayer(); // video player</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter"></div>
+</div>

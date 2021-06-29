@@ -351,6 +351,11 @@
                     "path": "/place-feed",
                     "name": "place-feed",
                     "component": "require('@/pages/droplets/place-feed/').default"
+                },
+                {
+                    "path": "/media-item",
+                    "name": "media-item",
+                    "component": "require('@/pages/droplets/media-item/').default"
                 }
             ]
         },
