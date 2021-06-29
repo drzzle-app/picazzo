@@ -227,7 +227,7 @@
 .drzicon-item-group:before { content: '\e8e1'; } /* '' */
 .drzicon-media-card:before { content: '\e8e2'; } /* '' */
 .drzicon-media-grid:before { content: '\e8e3'; } /* '' */
-.drzicon-media-item:before { content: '\e8e4'; } /* '' */
+.drzicon-media-item-play:before { content: '\e8e4'; } /* '' */
 .drzicon-media-feed:before { content: '\e8e5'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
