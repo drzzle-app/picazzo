@@ -6,8 +6,8 @@ export default Vue.component('project-grid-droplet', {
   template,
   name: 'project-grid-droplet',
   mounted() {
-    const $blogGrid = $(this.$refs.projectGrid);
-    $blogGrid.drzFilterGrid({
+    const $projectGrid = $(this.$refs.projectGrid);
+    $projectGrid.drzFilterGrid({
       output(data) {
         return `
         <div class="drzProject-grid-card">

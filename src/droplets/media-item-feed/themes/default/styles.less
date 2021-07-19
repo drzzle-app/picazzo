@@ -60,7 +60,9 @@
 .drzMediaItem-feed-cardImgWrap {
   align-items: center;
   background-color: @white;
-  border-bottom: 1px solid @borderColor;
+  border-bottom-color: @borderColor;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
   display: flex;
   height: 200px;
   justify-content: center;
@@ -85,6 +87,12 @@
   color: fade(@black, 60%);
   font-size: 14pt;
   font-weight: 500;
+}
+
+.drzMediaItem-feed-preview {
+  color: fade(@black, 50%);
+  font-size: 11pt;
+  font-weight: 300;
 }
 
 .drzMediaItem-feed-none {

@@ -57,4 +57,5 @@ export default {
   'place-feed': require('@/droplets/place-feed'),
   'media-item': require('@/droplets/media-item'),
   'media-item-feed': require('@/droplets/media-item-feed'),
+  'media-item-grid': require('@/droplets/media-item-grid'),
 };

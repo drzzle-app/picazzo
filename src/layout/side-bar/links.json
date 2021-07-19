@@ -154,6 +154,11 @@
           "children": []
         },
         {
+          "text": "Media Item Grid",
+          "route": "/media-item-grid",
+          "children": []
+        },
+        {
           "text": "Menu Grid",
           "route": "/menu-grid",
           "children": []
