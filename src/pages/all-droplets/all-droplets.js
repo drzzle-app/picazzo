@@ -58,4 +58,5 @@ export default {
   'media-item': require('@/droplets/media-item'),
   'media-item-feed': require('@/droplets/media-item-feed'),
   'media-item-grid': require('@/droplets/media-item-grid'),
+  'media-item-list': require('@/droplets/media-item-list'),
 };

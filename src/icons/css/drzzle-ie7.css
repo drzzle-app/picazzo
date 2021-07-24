@@ -2,14 +2,14 @@
   font-family: 'drzzle';
   font-style: normal;
   font-weight: normal;
- 
+
   /* fix buttons height */
   line-height: 1em;
- 
+
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
 }
- 
+
 .drzicon-add-section-dotted { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe800;&nbsp;'); }
 .drzicon-add-template-full { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe801;&nbsp;'); }
 .drzicon-add-template { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe802;&nbsp;'); }
@@ -240,6 +240,7 @@
 .drzicon-media-grid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8e3;&nbsp;'); }
 .drzicon-media-item-play { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8e4;&nbsp;'); }
 .drzicon-media-feed { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8e5;&nbsp;'); }
+.drzicon-media-list { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8e6;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }

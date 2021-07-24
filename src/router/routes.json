@@ -366,6 +366,11 @@
                     "path": "/media-item-grid",
                     "name": "media-item-grid",
                     "component": "require('@/pages/droplets/media-item-grid/').default"
+                },
+                {
+                    "path": "/media-item-list",
+                    "name": "media-item-list",
+                    "component": "require('@/pages/droplets/media-item-list/').default"
                 }
             ]
         },
