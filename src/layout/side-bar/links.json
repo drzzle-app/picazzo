@@ -149,6 +149,21 @@
           "children": []
         },
         {
+          "text": "Media Item Feed",
+          "route": "/media-item-feed",
+          "children": []
+        },
+        {
+          "text": "Media Item Grid",
+          "route": "/media-item-grid",
+          "children": []
+        },
+        {
+          "text": "Media Item List",
+          "route": "/media-item-list",
+          "children": []
+        },
+        {
           "text": "Menu Grid",
           "route": "/menu-grid",
           "children": []

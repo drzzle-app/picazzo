@@ -356,6 +356,21 @@
                     "path": "/media-item",
                     "name": "media-item",
                     "component": "require('@/pages/droplets/media-item/').default"
+                },
+                {
+                    "path": "/media-item-feed",
+                    "name": "media-item-feed",
+                    "component": "require('@/pages/droplets/media-item-feed/').default"
+                },
+                {
+                    "path": "/media-item-grid",
+                    "name": "media-item-grid",
+                    "component": "require('@/pages/droplets/media-item-grid/').default"
+                },
+                {
+                    "path": "/media-item-list",
+                    "name": "media-item-list",
+                    "component": "require('@/pages/droplets/media-item-list/').default"
                 }
             ]
         },
