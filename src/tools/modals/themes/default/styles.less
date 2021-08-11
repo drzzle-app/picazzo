@@ -27,6 +27,7 @@
 .drzModal-closeLink {
   color: @white;
   display: inline-block;
+  font-size: 24pt;
   height: 35px;
   position: relative;
   text-align: center;
@@ -36,7 +37,6 @@
   &:before {
     content: '\e814';
     font-family: 'drzzle';
-    font-size: 24pt;
   }
 
   &:hover {
@@ -49,10 +49,12 @@
   .box-shadow-med;
   .drzFont-general;
   background-color: @white;
+  border-color: transparent;
   border-radius: 1px;
+  border-style: solid;
+  border-width: 0;
   color: lighten(@black, 20%);
   margin: 0 auto 30px auto;
-  min-height: 250px;
   overflow: scroll;
   overflow: auto;
   padding: 15px;
@@ -66,6 +68,12 @@
   @media @tablet {
     width: 90%;
   }
+}
+
+.drzModal-content-row {
+  .row;
+  display: flex;
+  flex-direction: column;
 }
 
 .drzModal-header {

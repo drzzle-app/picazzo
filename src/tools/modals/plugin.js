@@ -4,11 +4,21 @@
 ============================
 */
 (($) => {
-  $.fn.drzModal = function drzModal() {
+  $.fn.drzModal = function drzModal(opts) {
     const $modal = $(this);
+    const defaults = {
+      blue: false,
+      pageLoad: false,
+      trigger: false, // if binding overlay
+    };
+    const options = $.extend({}, defaults, opts);
     $modal.each(function initModal() {
-      const $modalTrigger = $(this);
-      const $modalOverlay = $modalTrigger.next('.drzModal-overlay');
+      // the default assumes the plugin is bound to the trigger with the overlay next to it
+      const $modalTrigger = options.trigger ? $(`[href="${options.trigger}"]`) : $(this);
+      const $modalOverlay = options.trigger ? $(this) : $modalTrigger.next('.drzModal-overlay');
+      const overlayNodeIndex = $modalOverlay.index();
+      const $overlayParent = $modalOverlay.parent().get(0);
+
       const $modalContent = $modalOverlay.find('.drzModal-content');
       const $body = $('body');
       let swapModalClass;
@@ -20,7 +30,7 @@
 
       function buildModal($thisModal) {
         $thisModal.insertAfter($body);
-        $thisModal.show();
+        $thisModal.css({ display: 'block' });
 
         clearTimeout(swapModalClass);
         swapModalClass = setTimeout(() => {
@@ -30,6 +40,10 @@
 
         if ($thisModal.hasClass('drzModal-announcement')) {
           $modalContent.addClass('drzModal-anMessage');
+          $body.addClass('blur');
+        }
+
+        if (options.blur) {
           $body.addClass('blur');
         }
 
@@ -60,9 +74,11 @@
 
           clearTimeout(resetModal);
           resetModal = setTimeout(() => {
-            // move the modal node back inside it's container
-            $thisModal.insertAfter($modalTrigger);
-            $thisModal.hide();
+            // move the modal node back where it was
+            $overlayParent.insertBefore(
+              $thisModal.get(0), $overlayParent.children[overlayNodeIndex],
+            );
+            $thisModal.css({ display: '' });
             $thisModal
               .removeClass('drzModal-overlay-leaveEnd')
               .addClass('drzModal-overlay-inStart');
@@ -98,6 +114,12 @@
       if ($modalOverlay.hasClass('drzModal-announcement')) {
         /* disabled for demo */
         // buildModal($modalOverlay);
+      }
+
+      if (options.pageLoad) {
+        setTimeout(() => {
+          buildModal($modalOverlay);
+        }, 500);
       }
     });
     return this;
