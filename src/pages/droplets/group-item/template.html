@@ -13,5 +13,41 @@
     <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
   </div>
 
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses the <router-link to="/filter-grid" class="picazzo-link" tag="a">Filter Grid</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular "output" markup.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzFilter-grid').drzFilterGrid({
+  output(data) {
+    return `
+    &lt;div class=&quot;drzGroupItem-grid-card&quot;&gt;
+      &lt;a class=&quot;drzGroupItem-grid-cardInner&quot; href=&quot;#&quot;&gt;
+        &lt;div class=&quot;drzGroupItem-grid-cardImage&quot;&gt;
+          &lt;img class=&quot;drzGroupItem-grid-cardImg&quot; data-asset=&quot;${data.thumbnail}&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;drzGroupItem-grid-cardInfo&quot;&gt;
+          &lt;span class=&quot;drzGroupItem-grid-cardTitle&quot;&gt;${data.title}&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+    `;
+  },
+  gridContainer: 'drzGroupItem-grid-container',
+  filterText: 'Filters',
+  filters: ['red', 'blue'],
+  sort: 'newest',
+  match: 'some',
+  pagination: 6,
+  searchKeys: ['title'],
+  feed: [],
+});</code></pre>
+  </div>
+
   <div class="picazzo-docFooter"></div>
 </div>
