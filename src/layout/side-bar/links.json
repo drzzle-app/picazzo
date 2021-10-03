@@ -124,6 +124,11 @@
           "children": []
         },
         {
+          "text": "Group Item",
+          "route": "/group-item",
+          "children": []
+        },
+        {
           "text": "Header",
           "route": "/header",
           "children": []
