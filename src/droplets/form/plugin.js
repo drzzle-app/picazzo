@@ -4,7 +4,7 @@
 =================================
 */
 (($) => {
-  $.fn.drzFormValidate = function formValidate(fn) {
+  $.fn.drzFormValidate = function formValidate(fn, $btn) {
     const $form = $(this);
     $form.each(function initValidation() {
       const $this = $(this);
@@ -57,11 +57,11 @@
         },
       };
 
-      $this.submit((e) => {
+      const onSubmit = (e) => {
         e.preventDefault();
         $this.find(types)
           .not('.checkbox-group input')
-          .not('.radio-group input').each(function onSubmit() {
+          .not('.radio-group input').each(function inputCheck() {
             const $el = $(this);
             const inputType = $el.attr('type');
             let msg;
@@ -476,7 +476,13 @@
         if (fn && !errors) {
           fn();
         }
-      });
+      };
+
+      if ($btn) {
+        $btn.click(onSubmit);
+      } else {
+        $this.submit(onSubmit);
+      }
 
       // Destroy method
       $.fn.drzFormValidate.destroy = ($el) => {
