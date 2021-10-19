@@ -1,0 +1,74 @@
+<div>
+  <header class="picazzo-page-header">Slide Checkout</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <slide-checkout-tool></slide-checkout-tool>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <!-- <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzFilter-grid').drzFilterGrid({
+  feed: [
+    {
+      created: '2020-06-25T19:31:14.835Z',
+      description: 'First Item description here.',
+      name: 'First Item',
+      categories: ['movie'],
+    },
+    {
+      created: '2020-06-24T19:31:14.835Z',
+      description: 'Second Item description here.',
+      name: 'Second Item',
+      categories: ['movie', 'music'],
+    },
+  ],
+  output(data) {
+    // this is the HTML that will render out for each
+    // feed item
+    return `&lt;div&gt;${data.name}&lt;/div&gt;`;
+  },
+  // the search input will look through the feed item
+  // keys of your choice
+  searchKeys: ['name', 'description'],
+  // optional after each feed item renders
+  onRender($item) {
+    // add events to $item
+  },
+  // optional if you need global filtering. These need
+  // to correspond to the feed item categories
+  filters: ['movie', 'music'],
+  // optional if you need pagination. The number indicates
+  // the number of items you want per set
+  pagination: 4,
+});</code></pre>
+</div> -->
+
+
+
+<!-- <p class="picazzo-section-subHeader">Destroy Plugin</p>
+
+<div class="row">
+  <pre v-highlightjs><code class="javascript">const $droplet = $('.drzFilter-grid');
+$droplet.drzFilterGrid.destroy($droplet);</code></pre>
+</div> -->
+
+  <div class="picazzo-docFooter">
+    <a
+      href="https://github.com/drzzle-app/picazzo/blob/master/src/tools/slide-checkout/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </div>
+</div>
