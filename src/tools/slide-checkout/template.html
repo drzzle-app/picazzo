@@ -211,19 +211,32 @@
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-section-gap">
               <span>Subtotal: </span>
-              <span class="drzSlideCheckout-cartItemTotal" name="subtotal">$total</span>
+              <span class="drzSlideCheckout-cartItemTotal" name="subtotal">$0</span>
             </div>
           </div>
-          <div class="drzSlideCheckout-step-row">
+          <div class="drzSlideCheckout-step-row drzSlideCheckout-step-discount">
             <div class="drzSlideCheckout-section-gap">
               <span>Discount: </span>
               <span class="drzSlideCheckout-cartItemTotal" name="discount">$0</span>
             </div>
           </div>
+          <div class="drzSlideCheckout-step-row drzSlideCheckout-step-shipping">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Shipping: </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="shipping">$0</span>
+            </div>
+          </div>
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-section-gap">
               <span>Taxes: </span>
-              <span class="drzSlideCheckout-cartItemTotal" name="taxes">$total</span>
+              <span class="drzSlideCheckout-cartItemTotal" name="tax">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-section-divider"></div>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Total: </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="grand-total">$0</span>
             </div>
           </div>
           <div class="drzSlideCheckout-step-row">
@@ -232,7 +245,7 @@
                 type="button"
                 class="drzSlideCheckout-shipping-optionBtn"
                 name="shipping-options">
-                Select Shipping Option
+                Select Shipping Method
               </button>
               <div class="drzSlideCheckout-shipping-options">
                 <div class="drzSlideCheckout-loader" />

@@ -11,6 +11,11 @@ export default Vue.component('slide-checkout-tool', {
     $slideCheckout.drzSlideCheckout({
       box: $slideCheckoutBox,
       siteId: 'picazzo-test-site',
+      taxPercent: 8.25,
+      currency: {
+        type: 'USD',
+        symbol: '&#36;',
+      },
     });
   },
 });

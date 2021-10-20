@@ -1,7 +1,16 @@
 /* global jQuery */
 (($) => {
   $.fn.drzSlideCheckout = function drzSlideCheckout(opts) {
-    const defaults = { el: null, box: null, zIndex: null };
+    const defaults = {
+      el: null,
+      box: null,
+      zIndex: null,
+      taxPercent: 0,
+      currency: {
+        type: 'USD',
+        symbol: '&#36;',
+      },
+    };
     const options = $.extend({}, defaults, opts);
     const $button = $(this);
     const $slideCheckoutBox = options.box;
@@ -13,12 +22,17 @@
       itemLegend: 'drzSlideCheckout-step-legendItem',
       loader: 'drzSlideCheckout-loader',
       shipOptions: 'drzSlideCheckout-shipping-optionList',
+      shipTotal: 'drzSlideCheckout-step-shipping',
     };
     const $addToCart = $(document).find('[name="add-to-cart"]');
     const $backBtn = $slideCheckoutBox.find('.drzSlideCheckout-back');
     const $cartList = $slideCheckoutBox.find('.drzSlideCheckout-step-cartItems');
     const $preTaxTotal = $slideCheckoutBox.find('.drzSlideCheckout-step-preTaxTotal');
     const $infoSubTotal = $slideCheckoutBox.find('[name="subtotal"]');
+    const $shippingTotal = $slideCheckoutBox.find('[name="shipping"]');
+    const $taxTotal = $slideCheckoutBox.find('[name="tax"]');
+    const $discountTotal = $slideCheckoutBox.find('[name="discount"]');
+    const $grandTotal = $slideCheckoutBox.find('[name="grand-total"]');
     const $checkboxBtn = $slideCheckoutBox.find('.drzSlideCheckout-checkout-btn');
     const $legendItem = $slideCheckoutBox.find(`.${classes.itemLegend}`);
     const $fromStepBtn = $slideCheckoutBox.find('[data-from-step]').not('[data-from-step="2"]');
@@ -28,15 +42,12 @@
     const $shippingForm = $slideCheckoutBox.find('.drzSlideCheckout-form');
     const $shippingLoader = $slideCheckoutBox.find(`.${classes.loader}`);
     const $shippingOptions = $slideCheckoutBox.find(`.${classes.shipOptions}`);
+    const $shipTotal = $slideCheckoutBox.find(`.${classes.shipTotal}`);
     const drzzleStorage = window.localStorage.getItem('drzzleStorage');
     const storage = drzzleStorage ? JSON.parse(drzzleStorage) : {};
     storage.store = storage.store || {};
     const siteStore = storage.store[options.siteId] || {
       cartItems: [],
-      currency: {
-        type: 'USD',
-        symbol: '&#36;',
-      },
     };
 
     if (options.zIndex) {
@@ -150,6 +161,7 @@
     // const mappedProducts = {};
 
     const methods = {
+      // TODO: reset back to 1?
       toggleCheckout($box) {
         if ($box.hasClass(classes.open)) {
           $box.removeClass(classes.open);
@@ -259,6 +271,7 @@
       },
       onValidationError() {
         // TODO disable proceed to checkout button,
+        // TODO make highestStep the shipping step
       },
       saveCart(items) {
         // siteStore.cartItems = items;
@@ -267,11 +280,31 @@
         return items;
       },
       getPreTaxTotal() {
-        const dollars = `${siteStore.currency.symbol}${methods.preTaxTotal}`;
-        const display = `${dollars} ${siteStore.currency.type}`;
-        // TODO get taxes
+        const dollars = `${options.currency.symbol}${methods.preTaxTotal}`;
+        const display = `${dollars} ${options.currency.type}`;
         $preTaxTotal.html(display);
-        $infoSubTotal.html(dollars);
+      },
+      getPercent(total) {
+        return parseFloat((options.taxPercent / 100) * total).toFixed(2);
+      },
+      getInfoTotals(params = {}) {
+        const symbol = options.currency.symbol;
+        const subtotal = methods.preTaxTotal;
+        const tax = parseFloat(methods.getPercent(methods.preTaxTotal));
+        let shipping = 0;
+        let discount = 0;
+        $infoSubTotal.html(`${symbol}${subtotal}`);
+        $taxTotal.html(`${symbol}${tax}`);
+        if ($.isNumeric(params.shipping)) {
+          shipping = params.shipping;
+          $shippingTotal.show().html(`${symbol}${shipping}`);
+        }
+        if ($.isNumeric(params.discount)) {
+          discount = params.discount;
+          $discountTotal.show().html(`${symbol}${discount}`);
+        }
+        const total = (methods.preTaxTotal + tax + shipping) - discount;
+        $grandTotal.html(`${symbol}${total}`);
       },
       preTaxTotal: 0,
       buildCartItem(data, index) {
@@ -340,7 +373,7 @@
             <div class="drzSlideCheckout-item-detailsGrid">
               <div>
                 <span class="drzSlideCheckout-cart-itemPrice">
-                  ${siteStore.currency.symbol}${data.product.price} ${siteStore.currency.type}
+                  ${options.currency.symbol}${data.product.price} ${options.currency.type}
                 </span>
                 <div class="drzSlideCheckout-cart-mainBtns">
                   <div class="drzSlideCheckout-cart-itemCounter">
@@ -358,7 +391,7 @@
                   </div>
                   ${error}
                   <div class="drzSlideCheckout-cart-itemFooter">
-                    <span class="drzSlideCheckout-cartItemTotal">Total: ${siteStore.currency.symbol}${itemTotal}</span>
+                    <span class="drzSlideCheckout-cartItemTotal">Total: ${options.currency.symbol}${itemTotal}</span>
                   </div>
                 </div>
               </div>
@@ -421,29 +454,47 @@
       },
       onShippingClick() {
         $shippingLoader.show();
+        $shippingOptions.hide();
         // TODO fetch real shipping options!
         setTimeout(() => {
           const shipOptions = [
-            { type: 'UPS Ground', price: '$5', checked: true },
-            { type: 'UPS Express', price: '$10' },
-            { type: 'Next Day Air', price: '$35' },
+            { type: 'UPS Ground', price: '0', checked: true },
+            { type: 'UPS Express', price: '10.33' },
+            { type: 'Next Day Air', price: '35' },
           ];
           $shippingOptions.html(shipOptions.map(option => `
-            <div class="drzSlideCheckout-shipping-option">
-              <label for="${option.type}">${option.type}</label>
+            <label class="drzSlideCheckout-shipping-option" for="${option.type}">
+              <span class="drzSlideCheckout-shipping-label">
+                ${option.type}
+              </span>
               <input
                 type="radio"
+                class="drzSlideCheckout-shipping-check"
                 ${option.checked ? 'checked' : ''}
+                data-price="${option.price}"
                 value="${option.type}"
                 id="${option.type}"
                 name="shipping-option" />
               <span class="drzSlideCheckout-shipping-price">
-                ${option.price}
+                $${option.price}
               </span>
-            </div>
+            </label>
           `).join(''));
           $shippingLoader.hide();
+          $shippingOptions.show();
           $goToPaymentBtn.prop('disabled', false).removeClass(classes.disabled);
+          // add shipping to totals and show
+          const getShipping = $radio => parseFloat(parseFloat($radio.attr('data-price')).toFixed(2));
+          const radios = $shippingOptions.find('.drzSlideCheckout-shipping-check');
+          radios.on('change', (e) => {
+            const option = $(e.currentTarget);
+            const shipping = getShipping(option);
+            methods.getInfoTotals({ shipping });
+          });
+          const selected = $shippingOptions.find('.drzSlideCheckout-shipping-check:checked');
+          const shipping = getShipping(selected);
+          methods.getInfoTotals({ shipping });
+          $shipTotal.removeClass(classes.shipTotal);
         }, 1500);
       },
       onFromClick(e) {
@@ -461,6 +512,9 @@
         } else if (nextStep > methods.highestStep) {
           // this triggers when shopper clicks on a next btn
           methods.highestStep = nextStep;
+        }
+        if (nextStep === 2) {
+          methods.getInfoTotals();
         }
         methods.activeStep = nextStep;
         methods.setActiveStep();
