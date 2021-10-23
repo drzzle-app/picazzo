@@ -20,29 +20,55 @@
       activeStep: 'drzSlideCheckout-step-active',
       activeLegend: 'drzSlideCheckout-step-legendActive',
       itemLegend: 'drzSlideCheckout-step-legendItem',
+      checkoutBtn: 'drzSlideCheckout-checkout-btn',
       loader: 'drzSlideCheckout-loader',
+      btnLoader: 'drzSlideCheckout-loader-btn',
       shipOptions: 'drzSlideCheckout-shipping-optionList',
       shipTotal: 'drzSlideCheckout-step-shipping',
+      discountTotal: 'drzSlideCheckout-step-discount',
     };
     const $addToCart = $(document).find('[name="add-to-cart"]');
     const $backBtn = $slideCheckoutBox.find('.drzSlideCheckout-back');
     const $cartList = $slideCheckoutBox.find('.drzSlideCheckout-step-cartItems');
     const $preTaxTotal = $slideCheckoutBox.find('.drzSlideCheckout-step-preTaxTotal');
+    const $discountBtn = $slideCheckoutBox.find('.drzSlideCheckout-apply-btn');
     const $infoSubTotal = $slideCheckoutBox.find('[name="subtotal"]');
     const $shippingTotal = $slideCheckoutBox.find('[name="shipping"]');
     const $taxTotal = $slideCheckoutBox.find('[name="tax"]');
     const $discountTotal = $slideCheckoutBox.find('[name="discount"]');
     const $grandTotal = $slideCheckoutBox.find('[name="grand-total"]');
-    const $checkboxBtn = $slideCheckoutBox.find('.drzSlideCheckout-checkout-btn');
+    const $checkoutBtn = $slideCheckoutBox.find(`.${classes.checkoutBtn}`);
     const $legendItem = $slideCheckoutBox.find(`.${classes.itemLegend}`);
-    const $fromStepBtn = $slideCheckoutBox.find('[data-from-step]').not('[data-from-step="2"]');
-    const $goToPaymentBtn = $slideCheckoutBox.find('.drzSlideCheckout-checkout-btn[data-from-step="2"]');
+    const $fromStepBtn = $slideCheckoutBox.find('[data-from-step="1"]');
+    const $payBtn = $slideCheckoutBox.find('.drzSlideCheckout-checkout-pay[data-from-step="3"]');
+    const $goToPaymentBtn = $slideCheckoutBox.find(`.${classes.checkoutBtn}[data-from-step="2"]`);
     const $selectShippingBtn = $slideCheckoutBox.find('.drzSlideCheckout-shipping-optionBtn');
-    const $legendPaymentBtn = $slideCheckoutBox.find('.drzSlideCheckout-step-legendItem[data-from-step="2"]');
+    const $legendShippingBtn = $slideCheckoutBox.find(`.${classes.itemLegend}[data-from-step="2"]`);
+    const $legendPayBtn = $slideCheckoutBox.find(`.${classes.itemLegend}[data-from-step="3"]`);
     const $shippingForm = $slideCheckoutBox.find('.drzSlideCheckout-form');
+    const $discountForm = $slideCheckoutBox.find('.drzSlideCheckout-apply-form');
+    const $paymentForm = $slideCheckoutBox.find('.drzSlideCheckout-form-payment');
+    // payment billing address inputs
+    const $billAddress = $paymentForm.find('[name="payment.billing.address"]');
+    const $billApt = $paymentForm.find('[name="payment.billing.apt"]');
+    const $billCity = $paymentForm.find('[name="payment.billing.city"]');
+    const $billCountry = $paymentForm.find('[name="payment.billing.country"]');
+    const $billState = $paymentForm.find('[name="payment.billing.state"]');
+    const $zipCode = $paymentForm.find('[name="payment.billing.zipCode"]');
     const $shippingLoader = $slideCheckoutBox.find(`.${classes.loader}`);
+    const $btnLoader = $slideCheckoutBox.find(`.${classes.btnLoader}`);
+    const $applyText = $slideCheckoutBox.find('.drzSlideCheckout-apply-text');
     const $shippingOptions = $slideCheckoutBox.find(`.${classes.shipOptions}`);
     const $shipTotal = $slideCheckoutBox.find(`.${classes.shipTotal}`);
+    const $discountPrice = $slideCheckoutBox.find(`.${classes.discountTotal}`);
+    const $finalList = $slideCheckoutBox.find('.drzSlideCheckout-items-final');
+    const $accordionBtn = $slideCheckoutBox.find('.drzSlideCheckout-radio-accordionBtn');
+    const $accordionRadio = $slideCheckoutBox.find('[data-radio-value]');
+    const $masks = $slideCheckoutBox.find('[data-mask]');
+    // confirm items
+    const $confirmEmail = $slideCheckoutBox.find('[name="email-confirm"]');
+    const $confirmAddress = $slideCheckoutBox.find('[name="address-confirm"]');
+    const $confirmMethod = $slideCheckoutBox.find('[name="shipping-method-confirm"]');
     const drzzleStorage = window.localStorage.getItem('drzzleStorage');
     const storage = drzzleStorage ? JSON.parse(drzzleStorage) : {};
     storage.store = storage.store || {};
@@ -69,36 +95,36 @@
           countStep: 2,
           shippable: true,
           options: [
-            // {
-            //   _id: 1,
-            //   type: 'select',
-            //   label: 'Size',
-            //   items: [
-            //     {
-            //       value: 'S',
-            //     },
-            //     {
-            //       value: 'M',
-            //     },
-            //   ],
-            // },
-            // {
-            //   _id: 2,
-            //   type: 'checkbox',
-            //   label: 'Gift',
-            //   items: [
-            //     {
-            //       value: false,
-            //     },
-            //   ],
-            // },
+            {
+              _id: '11',
+              type: 'select',
+              label: 'Size',
+              items: [
+                {
+                  value: 'S',
+                },
+                {
+                  value: 'M',
+                },
+              ],
+            },
+            {
+              _id: '22',
+              type: 'checkbox',
+              label: 'Gift',
+              items: [
+                {
+                  value: false,
+                },
+              ],
+            },
           ],
         },
         count: 2,
-        // selectedOptions: {
-        //   1: 'M',
-        //   2: true,
-        // },
+        selectedOptions: {
+          11: 'M',
+          22: false,
+        },
       },
       {
         product: {
@@ -115,7 +141,7 @@
           shippable: true,
           options: [
             {
-              _id: 1,
+              _id: '1',
               type: 'select',
               label: 'Size',
               items: [
@@ -128,7 +154,7 @@
               ],
             },
             {
-              _id: 2,
+              _id: '2',
               type: 'checkbox',
               label: 'Gift',
               items: [
@@ -138,7 +164,7 @@
               ],
             },
             {
-              _id: 3,
+              _id: '3',
               type: 'textarea',
               label: 'Notes',
               items: [
@@ -161,19 +187,113 @@
     // const mappedProducts = {};
 
     const methods = {
-      // TODO: reset back to 1?
       toggleCheckout($box) {
         if ($box.hasClass(classes.open)) {
           $box.removeClass(classes.open);
+          methods.activeStep = 1;
+          this.setActiveStep();
         } else {
           $box.addClass(classes.open);
         }
       },
       store: {
         listening: false,
+        purchased: false,
+        shopper: {
+          contact: {
+            firstName: '',
+            lastName: '',
+            email: '',
+          },
+          discountCode: '',
+          payment: {
+            cc: '',
+            name: '',
+            exp: '',
+            code: '',
+            zip: '',
+            billing: {
+              address: '',
+              apt: '',
+              city: '',
+              country: '',
+              state: '',
+              zipCode: '',
+            },
+          },
+          shipping: {
+            address: '',
+            apt: '',
+            city: '',
+            company: '',
+            country: '',
+            method: '',
+            phone: '',
+            price: 0,
+            state: '',
+            zipCode: '',
+          },
+        },
       },
+      debounce: null,
       activeStep: 1,
       highestStep: 1,
+      attachFormInputs($form) {
+        const onUpdate = (e) => {
+          const $this = $(e.currentTarget);
+          const val = $this.val();
+          const key = $this.attr('name');
+          const keys = key.split('.');
+          let store = methods.store.shopper;
+          keys.forEach((k, i) => {
+            if (i === keys.length - 1) {
+              store[k] = val;
+            } else {
+              store = store[k];
+            }
+          });
+          const $helper = $this.prev('.drzSlideCheckout-form-helper');
+          if (val !== '') {
+            $helper.addClass('drzSlideCheckout-form-helperShow');
+          } else {
+            $helper.removeClass('drzSlideCheckout-form-helperShow');
+          }
+          const shopper = methods.store.shopper;
+          const shipping = shopper.shipping;
+          if (key === 'shipping.address' && methods.sameBillingAddress) {
+            $billAddress.val(shipping.address);
+            shopper.payment.billing.address = shipping.address;
+          }
+          if (key === 'shipping.apt' && methods.sameBillingAddress) {
+            $billApt.val(shipping.apt);
+            shopper.payment.billing.apt = shipping.apt;
+          }
+          if (key === 'shipping.city' && methods.sameBillingAddress) {
+            $billCity.val(shipping.city);
+            shopper.payment.billing.city = shipping.city;
+          }
+          if (key === 'shipping.country' && methods.sameBillingAddress) {
+            $billCountry.val(shipping.country);
+            shopper.payment.billing.country = shipping.country;
+          }
+          if (key === 'shipping.state' && methods.sameBillingAddress) {
+            $billState.val(shipping.state);
+            shopper.payment.billing.state = shipping.state;
+          }
+          if (key === 'shipping.zipCode' && methods.sameBillingAddress) {
+            $zipCode.val(shipping.zipCode);
+            shopper.payment.billing.zipCode = shipping.zipCode;
+          }
+        };
+        const $input = $form.find('[data-event="input"]');
+        $input.each(function attachInput() {
+          $(this).on('input', onUpdate);
+        });
+        const $select = $form.find('[data-event="change"]');
+        $select.each(function attachSelect() {
+          $(this).on('change', onUpdate);
+        });
+      },
       onCartClick(e) {
         e.preventDefault();
         methods.toggleCheckout($slideCheckoutBox);
@@ -244,34 +364,46 @@
         methods.buildCart(cartItems);
         methods.saveCart(cartItems);
       },
-      // TODO debounce these
       onSelectChange(e) {
-        const $select = $(e.currentTarget);
-        const index = $select.attr('data-item-index');
-        const optionId = $select.attr('data-option-id');
-        const selectedOption = $select.val();
-        cartItems[index].selectedOptions[optionId] = selectedOption;
-        methods.saveCart(cartItems);
+        clearTimeout(methods.debounce);
+        methods.debounce = setTimeout(() => {
+          const $select = $(e.currentTarget);
+          const index = $select.attr('data-item-index');
+          const optionId = $select.attr('data-option-id');
+          const selectedOption = $select.val();
+          cartItems[index].selectedOptions[optionId] = selectedOption;
+          methods.saveCart(cartItems);
+        }, 250);
       },
       onTextChange(e) {
-        const $textarea = $(e.currentTarget);
-        const index = $textarea.attr('data-item-index');
-        const optionId = $textarea.attr('data-option-id');
-        const text = $textarea.val();
-        cartItems[index].selectedOptions[optionId] = text;
-        methods.saveCart(cartItems);
+        clearTimeout(methods.debounce);
+        methods.debounce = setTimeout(() => {
+          const $textarea = $(e.currentTarget);
+          const index = $textarea.attr('data-item-index');
+          const optionId = $textarea.attr('data-option-id');
+          const text = $textarea.val();
+          cartItems[index].selectedOptions[optionId] = text;
+          methods.saveCart(cartItems);
+        }, 250);
       },
       onCheckChange(e) {
-        const $checkbox = $(e.currentTarget);
-        const index = $checkbox.attr('data-item-index');
-        const optionId = $checkbox.attr('data-option-id');
-        const checked = $checkbox.is(':checked');
-        cartItems[index].selectedOptions[optionId] = checked;
-        methods.saveCart(cartItems);
+        clearTimeout(methods.debounce);
+        methods.debounce = setTimeout(() => {
+          const $checkbox = $(e.currentTarget);
+          const index = $checkbox.attr('data-item-index');
+          const optionId = $checkbox.attr('data-option-id');
+          const checked = $checkbox.is(':checked');
+          cartItems[index].selectedOptions[optionId] = checked;
+          methods.saveCart(cartItems);
+        }, 250);
       },
-      onValidationError() {
-        // TODO disable proceed to checkout button,
-        // TODO make highestStep the shipping step
+      onValidationError({ $form }) {
+        if ($form.hasClass('drzSlideCheckout-form')) {
+          methods.highestStep = 2;
+        }
+        if ($form.hasClass('drzSlideCheckout-form-payment')) {
+          methods.highestStep = 3;
+        }
       },
       saveCart(items) {
         // siteStore.cartItems = items;
@@ -287,34 +419,70 @@
       getPercent(total) {
         return parseFloat((options.taxPercent / 100) * total).toFixed(2);
       },
+      getPriceNum(num) {
+        return parseFloat(parseFloat(num).toFixed(2));
+      },
+      shipping: false,
+      discount: false,
       getInfoTotals(params = {}) {
         const symbol = options.currency.symbol;
-        const subtotal = methods.preTaxTotal;
+        const subtotal = methods.getPriceNum(methods.preTaxTotal);
         const tax = parseFloat(methods.getPercent(methods.preTaxTotal));
         let shipping = 0;
         let discount = 0;
         $infoSubTotal.html(`${symbol}${subtotal}`);
         $taxTotal.html(`${symbol}${tax}`);
         if ($.isNumeric(params.shipping)) {
-          shipping = params.shipping;
+          shipping = methods.getPriceNum(params.shipping);
+          methods.shipping = shipping;
           $shippingTotal.show().html(`${symbol}${shipping}`);
         }
         if ($.isNumeric(params.discount)) {
-          discount = params.discount;
+          discount = methods.getPriceNum(params.discount);
+          methods.discount = discount;
           $discountTotal.show().html(`${symbol}${discount}`);
         }
-        const total = (methods.preTaxTotal + tax + shipping) - discount;
+        const total = Number(
+          methods.getPriceNum((methods.preTaxTotal + tax + shipping) - discount)).toFixed(2);
         $grandTotal.html(`${symbol}${total}`);
       },
-      preTaxTotal: 0,
+      onApplyDiscount() {
+        // TODO fetch discount api,
+        $applyText.hide();
+        $btnLoader.show();
+        setTimeout(() => {
+          methods.getInfoTotals({
+            shipping: methods.shipping,
+            discount: 10,
+          });
+          $applyText.show();
+          $btnLoader.hide();
+          // TODO only show discount if successful
+          $discountPrice.show();
+        }, 500);
+      },
       buildCartItem(data, index) {
         const itemTotal = data.product.price * data.count;
         const error = methods.countWarning[index] ? `<div class="drzSlideCheckout-count-error">${methods.countWarning[index]}</div>` : '';
         methods.preTaxTotal += itemTotal;
+        // TODO Need to calculate tax here, check if item is taxable
+        // TODO Need to calculate shipping here?, check if item is shippable?
         let productOptions = '';
+        let lastOptions = '';
         if (data.product.options && data.product.options.length > 0) {
           productOptions = '<div class="drzSlideCheckout-cart-itemOptions">';
+          lastOptions = '<div class="drzSlideCheckout-last-options">';
           $.each(data.product.options, (i, option) => {
+            const val = data.selectedOptions[option._id];
+            let valText = '';
+            // when values are strings
+            if (typeof val === 'string') {
+              valText = `${option.label}: ${val}`;
+            } else if (typeof val === 'boolean' && val) {
+              valText = option.label;
+            }
+            const optionEntry = valText !== '' ? `<span class="drzSlideCheckout-last-optionText">${valText}</span>` : '';
+            lastOptions += optionEntry;
             if (option.type === 'select') {
               productOptions += `<div class="drzSlideCheckout-option-row"><div class="drzSlideCheckout-item-selectWrap">
               <label class="drzSlideCheckout-item-selectLabel" for="option-${option._id}">${option.label}</label>
@@ -357,7 +525,31 @@
             }
           });
           productOptions = `${productOptions}</div>`;
+          lastOptions = `${lastOptions}</div>`;
         }
+        // attach to final cart
+        $finalList.append(`
+          <div class="drzSlideCheckout-cart-itemLast">
+            <div class="drzSlideCheckout-cart-leftCol">
+              <img
+                class="drzSlideCheckout-cart-itemImg"
+                src="${data.product.image}"
+                alt="${data.product.name}" />
+            </div>
+            <div class="drzSlideCheckout-cart-itemInfo">
+              <span class="drzSlideCheckout-cart-itemTitleLast">
+                <span>
+                  ${data.product.name}
+                  <span class="drzSlideCheckout-cart-itemLastTimes">x ${data.count}</span>
+                </span>
+                <span class="drzSlideCheckout-cart-itemLastPrice">
+                  ${options.currency.symbol}${data.product.price}
+                </span>
+              </span>
+              ${lastOptions}
+            </div>
+          </div>
+        `);
         return `
         <li class="drzSlideCheckout-cart-item" id="cart-item-${data.product._id}">
           <div class="drzSlideCheckout-cart-leftCol">
@@ -414,13 +606,15 @@
       buildCart(list) {
         // remove cart list first
         $cartList.empty();
+        $finalList.empty();
         methods.preTaxTotal = 0;
         // build all cart items
         if (list.length < 1) {
           // this is in the event a user got to any next steps, came back
           // then removed all items. don't want to allow them to checkout again
           methods.highestStep = 1;
-          $checkboxBtn
+          $cartList.append($('<span class="drzSlideCheckout-noItems">There are no items in your cart.</span>'));
+          $checkoutBtn
             .addClass(classes.disabled)
             .prop('disabled', true);
         } else {
@@ -434,12 +628,18 @@
             $addCountBtn.click(methods.onAddCount);
             $removeCountBtn.click(methods.onRemoveCount);
             // dynamic option listeners
-            $cartItem.find('select').change(methods.onSelectChange);
-            $cartItem.find('textarea').on('input', methods.onTextChange);
-            $cartItem.find('input[type="checkbox"]').change(methods.onCheckChange);
+            $cartItem.find('select')
+              .change(methods.onSelectChange)
+              .on('blur', () => this.buildCart(cartItems));
+            $cartItem.find('textarea')
+              .on('input', methods.onTextChange)
+              .on('blur', () => this.buildCart(cartItems));
+            $cartItem.find('input[type="checkbox"]')
+              .change(methods.onCheckChange)
+              .on('blur', () => this.buildCart(cartItems));
             $cartList.append($cartItem);
           });
-          $checkboxBtn
+          $checkoutBtn
             .removeClass(classes.disabled)
             .prop('disabled', false);
         }
@@ -452,15 +652,21 @@
         $legendItem.removeClass(classes.activeLegend);
         $legendItem.eq(methods.activeStep - 1).addClass(classes.activeLegend);
       },
+      onPayClick() {
+        // TODO show big loader
+        methods.store.purchased = true;
+        console.log('loader');
+        // TODO   methods.store.purchased = false; if failed
+      },
       onShippingClick() {
         $shippingLoader.show();
         $shippingOptions.hide();
         // TODO fetch real shipping options!
         setTimeout(() => {
           const shipOptions = [
-            { type: 'UPS Ground', price: '0', checked: true },
-            { type: 'UPS Express', price: '10.33' },
-            { type: 'Next Day Air', price: '35' },
+            { type: 'UPS Ground', price: 0, checked: true },
+            { type: 'UPS Express', price: 10.334444 },
+            { type: 'Next Day Air', price: 35 },
           ];
           $shippingOptions.html(shipOptions.map(option => `
             <label class="drzSlideCheckout-shipping-option" for="${option.type}">
@@ -476,7 +682,7 @@
                 id="${option.type}"
                 name="shipping-option" />
               <span class="drzSlideCheckout-shipping-price">
-                $${option.price}
+                $${methods.getPriceNum(option.price)}
               </span>
             </label>
           `).join(''));
@@ -489,13 +695,24 @@
           radios.on('change', (e) => {
             const option = $(e.currentTarget);
             const shipping = getShipping(option);
-            methods.getInfoTotals({ shipping });
+            methods.store.shopper.shipping.method = option.val();
+            methods.store.shopper.shipping.price = shipping;
+            methods.getInfoTotals({
+              shipping,
+              discount: methods.discount,
+            });
           });
           const selected = $shippingOptions.find('.drzSlideCheckout-shipping-check:checked');
           const shipping = getShipping(selected);
-          methods.getInfoTotals({ shipping });
+          methods.store.shopper.shipping.method = selected.val();
+          methods.store.shopper.shipping.price = shipping;
+          methods.getInfoTotals({
+            shipping,
+            discount: methods.discount,
+          });
           $shipTotal.removeClass(classes.shipTotal);
-        }, 1500);
+          $accordionRadio.on('change', methods.onBillAddressChange);
+        }, 500);
       },
       onFromClick(e) {
         e.preventDefault();
@@ -504,6 +721,10 @@
         const from = ~~($btn.attr('data-from-step'));
         let nextStep = from + 1;
         if ($btn.hasClass(classes.itemLegend)) {
+          // disallow moving back if purchased or purchasing
+          if (methods.store.purchased) {
+            return;
+          }
           // these clicks come from the top legend
           nextStep = from;
           if (from > methods.highestStep) {
@@ -514,7 +735,17 @@
           methods.highestStep = nextStep;
         }
         if (nextStep === 2) {
-          methods.getInfoTotals();
+          methods.getInfoTotals({
+            discount: methods.discount,
+            shipping: methods.shipping,
+          });
+        }
+        if (nextStep === 3) {
+          const shopper = methods.store.shopper;
+          const shipping = shopper.shipping;
+          $confirmEmail.html(shopper.contact.email);
+          $confirmAddress.html(`${shipping.address}, ${shipping.city} ${shipping.state} ${shipping.zipCode}, ${shipping.country}`);
+          $confirmMethod.html(`${shipping.method} (${options.currency.symbol}${shipping.price})`);
         }
         methods.activeStep = nextStep;
         methods.setActiveStep();
@@ -526,6 +757,60 @@
           product: $btn.attr('data-product-id'),
         } });
         window.dispatchEvent(addToCart);
+      },
+      onAccordionClick(e) {
+        const $btn = $(e.currentTarget);
+        const $index = $btn.parent().index();
+        const $content = $btn.next('.drzSlideCheckout-radio-accordionContent');
+        const $accordion = $btn.closest('.drzSlideCheckout-radio-accordion');
+        $accordion.find('.drzSlideCheckout-radio-accordionContent')
+          .each(function collapse() {
+            const $item = $(this);
+            const $itemIndex = $item.parent().index();
+            if ($index !== $itemIndex) {
+              $(this).slideUp('fast');
+            }
+          });
+        if ($content.length) {
+          $content.slideDown('fast');
+        }
+      },
+      sameBillingAddress: true,
+      onBillAddressChange(e) {
+        const $radio = $(e.currentTarget);
+        const val = $radio.attr('data-radio-value');
+        const shopper = methods.store.shopper;
+        if (val === 'different') {
+          methods.sameBillingAddress = false;
+          $billAddress.val('');
+          shopper.payment.billing.address = '';
+          $billApt.val('');
+          shopper.payment.billing.apt = '';
+          $billCity.val('');
+          shopper.payment.billing.city = '';
+          $billCountry.val('');
+          shopper.payment.billing.country = '';
+          $billState.val('');
+          shopper.payment.billing.state = '';
+          $zipCode.val('');
+          shopper.payment.billing.zipCode = '';
+        }
+        if (val === 'same') {
+          methods.sameBillingAddress = true;
+          const shipping = shopper.shipping;
+          $billAddress.val(shipping.address);
+          shopper.payment.billing.address = shipping.address;
+          $billApt.val(shipping.apt);
+          shopper.payment.billing.apt = shipping.apt;
+          $billCity.val(shipping.city);
+          shopper.payment.billing.city = shipping.city;
+          $billCountry.val(shipping.country);
+          shopper.payment.billing.country = shipping.country;
+          $billState.val(shipping.state);
+          shopper.payment.billing.state = shipping.state;
+          $zipCode.val(shipping.zipCode);
+          shopper.payment.billing.zipCode = shipping.zipCode;
+        }
       },
       onProductAdded(e) {
         const payload = e.detail;
@@ -540,6 +825,7 @@
         }
         // TODO check for options
         methods.saveCart(cartItems);
+        methods.buildCart(cartItems);
       },
     };
 
@@ -552,9 +838,28 @@
       // note: need to split some of the next button callbacks so
       // they do not fire twice (ie with the form validation callback)
       $fromStepBtn.click(methods.onFromClick);
-      $legendPaymentBtn.click(methods.onFromClick);
-      $goToPaymentBtn.click(methods.onFromClick);
-      $shippingForm.drzFormValidate(methods.onShippingClick, $selectShippingBtn);
+      $legendShippingBtn.click(methods.onFromClick);
+      $legendPayBtn.click(methods.onFromClick);
+      methods.attachFormInputs($shippingForm);
+      $shippingForm.drzFormValidate(methods.onFromClick, $goToPaymentBtn);
+      $shippingForm.drzFormValidate(
+        methods.onShippingClick,
+        $selectShippingBtn,
+        methods.onValidationError,
+      );
+      methods.attachFormInputs($discountForm);
+      $discountForm.drzFormValidate(
+        methods.onApplyDiscount,
+        $discountBtn,
+        methods.onValidationError,
+      );
+      // payment form
+      methods.attachFormInputs($paymentForm);
+      $paymentForm.drzFormValidate(
+        methods.onPayClick,
+        $payBtn,
+        methods.onValidationError,
+      );
       // add to cart listeners
       if (!methods.store.listening) {
         methods.store.listening = window.addEventListener(
@@ -564,6 +869,12 @@
       }
       $addToCart.click(methods.onClickAddToCart);
       $goToPaymentBtn.addClass(classes.disabled).prop('disabled', true);
+      $accordionBtn.click(methods.onAccordionClick);
+      $masks.each(function setMask() {
+        const $mask = $(this);
+        const mask = $mask.attr('data-mask');
+        $mask.mask(mask);
+      });
     });
 
     return $button;
