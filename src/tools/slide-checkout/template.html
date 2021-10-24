@@ -1,9 +1,7 @@
 <div>
-  <a class="drzBuyBtn" href="#" ref="slideCheckout">
-    <!-- TODO get rid of this ref -->
+  <a class="drzBuyBtn" href="#" name="open-shopping-cart">
     Checkout
   </a>
-  <!-- TODO mobile version -->
   <a href="#" name="add-to-cart" data-product-id="2" ref="addToCart">Add to Cart</a>
   <div class="drzSlideCheckout" ref="slideCheckoutBox">
     <!-- TODO: allow to be fixed -->
@@ -485,7 +483,7 @@
             </div>
           </form>
         </div>
-        <div class="drzSlideCheckout-info-totals">
+        <div class="drzSlideCheckout-info-totals" id="final-cart">
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-items-final"></div>
           </div>
@@ -525,18 +523,34 @@
               name="checkout-next-step"
               data-from-step="3"
               class="drzSlideCheckout-checkout-pay">
-              Purchase
+              <div class="drzSlideCheckout-pay-loader"></div>
+              <span class="drzSlideCheckout-checkout-payText">
+                Purchase
+              </span>
             </button>
+            <span class="drzSlideCheckout-hint-text hide">
+              Hang tight while we complete your purchase...
+            </span>
+            <span class="drzSlideCheckout-payment-error"></span>
           </div>
         </div>
       </div>
-      <div class="drzSlideCheckout-step" data-checkout-step="4">
-        <!-- TODO if made it here, don't allow back to steps, TODO clear items, and localStorage -->
-        STEP 4
+      <div class="drzSlideCheckout-step-grid" data-checkout-step="4">
+        <div class="drzSlideCheckout-step-cart">
+          <h3 class="drzSlideCheckout-step-header drzSlideCheckout-payment-success">
+            Thank You for Your Purchase!
+          </h3>
+          <div class="drzSlideCheckout-order-box">
+            <div class="drzSlideCheckout-step-row">
+              <div class="drzSlideCheckout-section-header" id="order-number"></div>
+            </div>
+            <div class="drzSlideCheckout-step-row">
+              We have also sent your receipt to your email address.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="drzSlideCheckout-footer">
-
-    </div>
+    <div class="drzSlideCheckout-footer"></div>
   </div>
 </div>
