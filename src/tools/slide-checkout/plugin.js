@@ -10,6 +10,7 @@
         type: 'USD',
         symbol: '&#36;',
       },
+      api: '',
     };
     const options = $.extend({}, defaults, opts);
     const drzzleStorage = window.localStorage.getItem('drzzleStorage');
@@ -18,111 +19,7 @@
     const siteStore = storage.store[options.siteId] || {
       cartItems: [],
     };
-    const cartItems = [
-      {
-        product: {
-          _id: 'product-id-1',
-          image: '/static/images/product-feature/t-shirt-mock-green.svg',
-          name: 'Green Shirt',
-          price: 25.22,
-          isTaxable: true,
-          taxIncluded: true,
-          productQuantity: 5,
-          maxPurchaseQuantity: 5,
-          minPurchaseQuantity: 1,
-          countStep: 2,
-          shippable: true,
-          options: [
-            {
-              _id: '11',
-              type: 'select',
-              label: 'Size',
-              items: [
-                {
-                  value: 'S',
-                },
-                {
-                  value: 'M',
-                },
-              ],
-            },
-            {
-              _id: '22',
-              type: 'checkbox',
-              label: 'Gift',
-              items: [
-                {
-                  value: false,
-                },
-              ],
-            },
-          ],
-        },
-        count: 2,
-        selectedOptions: {
-          11: 'M',
-          22: false,
-        },
-      },
-      {
-        product: {
-          _id: 'product-id-2',
-          image: '/static/images/product-feature/t-shirt-mock-green.svg',
-          name: 'Green Shirt',
-          price: 5,
-          isTaxable: true,
-          taxIncluded: true,
-          productQuantity: 5,
-          maxPurchaseQuantity: 5,
-          minPurchaseQuantity: 1,
-          countStep: 1,
-          shippable: true,
-          options: [
-            {
-              _id: '1',
-              type: 'select',
-              label: 'Size',
-              items: [
-                {
-                  value: 'S',
-                },
-                {
-                  value: 'M',
-                },
-              ],
-            },
-            {
-              _id: '2',
-              type: 'checkbox',
-              label: 'Gift',
-              items: [
-                {
-                  value: false,
-                },
-              ],
-            },
-            {
-              _id: '3',
-              type: 'textarea',
-              label: 'Notes',
-              items: [
-                {
-                  value: false,
-                },
-              ],
-            },
-          ],
-        },
-        count: 4,
-        selectedOptions: {
-          1: 'S',
-          2: true,
-          3: 'some text 2',
-        },
-      },
-    ];
-    // TODO to come from api if needed?
-    // const mappedProducts = {};
+
     const classes = {
       open: 'drzSlideCheckout-open',
       disabled: 'drzSlideCheckout-checkout-btnDisabled',
@@ -196,6 +93,9 @@
       if (options.zIndex) {
         $slideCheckoutBox.css({ zIndex: options.zIndex });
       }
+
+      const cartItems = siteStore.cartItems;
+      const mappedProducts = {};
 
       const methods = {
         toggleCheckout($box) {
@@ -420,10 +320,8 @@
           }
         },
         saveCart(items) {
-          // siteStore.cartItems = items;
-          // siteStore.
-          // window.localStorage.setItem('drzzleStorage', JSON.stringify(siteStore));
-          // TODO test some actual data with media
+          storage.store[options.siteId] = { cartItems };
+          window.localStorage.setItem('drzzleStorage', JSON.stringify(storage));
           return items;
         },
         getPreTaxTotal() {
@@ -431,7 +329,7 @@
           const display = `${dollars} ${options.currency.type}`;
           $preTaxTotal.html(display);
         },
-        getPercent(total) {
+        getFromPercent(total) {
           return parseFloat((options.taxPercent / 100) * total).toFixed(2);
         },
         getPriceNum(num) {
@@ -442,7 +340,7 @@
         getInfoTotals(params = {}) {
           const symbol = options.currency.symbol;
           const subtotal = methods.getPriceNum(methods.preTaxTotal);
-          const tax = parseFloat(methods.getPercent(methods.preTaxTotal));
+          const tax = methods.getPriceNum(methods.taxTotal);
           let shipping = 0;
           let discount = 0;
           $infoSubTotal.html(`${symbol}${subtotal}`);
@@ -487,7 +385,10 @@
           const itemTotal = data.product.price * data.count;
           const error = methods.countWarning[index] ? `<div class="drzSlideCheckout-count-error">${methods.countWarning[index]}</div>` : '';
           methods.preTaxTotal += itemTotal;
-          // TODO Need to calculate tax here, check if item is taxable
+          if (data.product.isTaxable && options.taxPercent > 0 && !data.product.taxIncluded) {
+            const tax = methods.getFromPercent(itemTotal);
+            methods.taxTotal += parseFloat(tax);
+          }
           // TODO Need to calculate shipping here?, check if item is shippable?
           let productOptions = '';
           let lastOptions = '';
@@ -630,6 +531,7 @@
           $cartList.empty();
           $finalList.empty();
           methods.preTaxTotal = 0;
+          methods.taxTotal = 0;
           // build all cart items
           if (list.length < 1) {
             // this is in the event a user got to any next steps, came back
@@ -869,19 +771,43 @@
         onProductAdded(e) {
           if (!methods.store.purchased) {
             const payload = e.detail;
-            console.log('add to cart: ', payload);
-            const index = cartItems.findIndex(item => item._id === payload.product);
+            const index = cartItems.findIndex(item => item.product._id === payload.product);
             if (index === -1) {
-              // TODO need to fetch all products from $addToCart id's
-              // TODO maybe add loaders on add to cart buttons?
-              // cartItems.push({});
+              const shopper = { count: 1, selectedOptions: {} };
+              const product = mappedProducts[payload.product];
+              if (product) {
+                const newCartItem = $.extend(true, shopper, { product });
+                cartItems.push(newCartItem);
+              }
             } else {
-              // methods.onAddCount(null, index);
+              methods.onAddCount(null, index);
             }
-            // TODO check for options
             methods.saveCart(cartItems);
             methods.buildCart(cartItems);
           }
+        },
+        fetchProducts() {
+          // fetch all products on pages
+          const $productBtns = $('[data-product-id]');
+          $productBtns.addClass('drzSlideCheckout-checkout-btnDisabled');
+          const pageProducts = $productBtns.map(function mapProducts() {
+            return $(this).attr('data-product-id');
+          }).get();
+          $.ajax({
+            type: 'GET',
+            url: `${options.api}/v1/products`,
+            data: {
+              siteId: options.siteId,
+              products: JSON.stringify(pageProducts),
+            },
+            contentType: 'application/json',
+            success(res) {
+              res.payload.forEach((product) => {
+                mappedProducts[product._id] = $.extend({}, product);
+              });
+              $productBtns.removeClass('drzSlideCheckout-checkout-btnDisabled');
+            },
+          });
         },
       };
 
@@ -929,6 +855,7 @@
         const mask = $mask.attr('data-mask');
         $mask.mask(mask);
       });
+      methods.fetchProducts();
     });
 
     return $shoppingCart;

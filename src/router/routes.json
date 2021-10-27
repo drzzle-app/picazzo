@@ -376,6 +376,11 @@
                     "path": "/group-item",
                     "name": "group-item",
                     "component": "require('@/pages/droplets/group-item/').default"
+                },
+                {
+                    "path": "/slide-checkout",
+                    "name": "slide-checkout",
+                    "component": "require('@/pages/tools/slide-checkout/').default"
                 }
             ]
         },
