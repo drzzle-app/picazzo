@@ -304,7 +304,7 @@ const buildJsPluginsSeperate = async () => {
 
 const buildJsPlugins = async () => {
   // grab all droplets and tools with JS plugins
-  const plugins = ['./src/js-lib/picazzo.global.js', './src/js-lib/modules/jquery.mask.min.js'];
+  const plugins = ['./src/js-lib/picazzo.global.js', './src/js-lib/modules/jquery.mask.js'];
   const dropletsPath = './src/droplets/';
   const toolsPath = './src/tools/';
   const droplets = getFolders(dropletsPath)
