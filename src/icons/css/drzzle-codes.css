@@ -237,6 +237,8 @@
 .drzicon-ship-truck:before { content: '\e8eb'; } /* '' */
 .drzicon-box:before { content: '\e8ec'; } /* '' */
 .drzicon-package:before { content: '\e8ed'; } /* '' */
+.drzicon-circle-info:before { content: '\e8ee'; } /* '' */
+.drzicon-circle-check:before { content: '\e8ef'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
