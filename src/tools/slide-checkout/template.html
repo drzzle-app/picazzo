@@ -2,12 +2,6 @@
   <a class="drzBuyBtn" href="#" name="open-shopping-cart">
     Checkout
   </a>
-  <a
-    href="#"
-    name="add-to-cart"
-    data-product-id="2407a907-4d16-5187-138e-761760ebf0db">
-    Add to Cart
-  </a>
   <div class="drzSlideCheckout" ref="slideCheckoutBox">
     <div class="drzSlideCheckout-header">
       <div class="drzSlideCheckout-header-back">
@@ -156,8 +150,8 @@
                       <option selected disabled value="Country">
                         Country
                       </option>
-                      <option value="United States">
-                        United States
+                      <option value="US">
+                        US
                       </option>
                     </select>
                   </div>
@@ -174,8 +168,8 @@
                       <option selected disabled value="State">
                         State
                       </option>
-                      <option value="Texas">
-                        Texas
+                      <option value="TX">
+                        TX
                       </option>
                     </select>
                   </div>
@@ -234,36 +228,37 @@
                 </button>
               </div>
             </div>
+            <div class="drzSlideCheckout-general-error" name="discount-error"></div>
           </div>
           <div class="drzSlideCheckout-section-divider"></div>
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-section-gap">
-              <span>Subtotal: </span>
+              <span>Subtotal </span>
               <span class="drzSlideCheckout-cartItemTotal" name="subtotal">$0</span>
             </div>
           </div>
           <div class="drzSlideCheckout-step-row drzSlideCheckout-step-discount">
             <div class="drzSlideCheckout-section-gap">
-              <span>Discount: </span>
+              <span>Discount </span>
               <span class="drzSlideCheckout-cartItemTotal drzSlideCheckout-cartDiscount" name="discount">$0</span>
             </div>
           </div>
           <div class="drzSlideCheckout-step-row drzSlideCheckout-step-shipping">
             <div class="drzSlideCheckout-section-gap">
-              <span>Shipping: </span>
+              <span>Shipping </span>
               <span class="drzSlideCheckout-cartItemTotal" name="shipping">$0</span>
             </div>
           </div>
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-section-gap">
-              <span>Taxes: </span>
+              <span>Taxes (estimated) </span>
               <span class="drzSlideCheckout-cartItemTotal" name="tax">$0</span>
             </div>
           </div>
           <div class="drzSlideCheckout-section-divider"></div>
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-section-gap">
-              <span>Total: </span>
+              <span>Total </span>
               <span class="drzSlideCheckout-cartItemTotal" name="grand-total">$0</span>
             </div>
           </div>
@@ -273,10 +268,11 @@
                 type="button"
                 class="drzSlideCheckout-shipping-optionBtn"
                 name="shipping-options">
-                Select Shipping Method
+                <div class="drzSlideCheckout-shipping-loader"></div>
+                <span class="drzSlideCheckout-shipping-btnText">Select Shipping Method</span>
               </button>
               <div class="drzSlideCheckout-shipping-options">
-                <div class="drzSlideCheckout-loader drzSlideCheckout-shipping-loader" />
+                <div class="drzSlideCheckout-general-error" name="shipping-options-error"></div>
                 <div class="drzSlideCheckout-shipping-optionList"></div>
               </div>
             </div>
@@ -445,8 +441,8 @@
                             <option value="">
                               Country
                             </option>
-                            <option value="United States">
-                              United States
+                            <option value="US">
+                              US
                             </option>
                           </select>
                         </div>
@@ -463,8 +459,8 @@
                             <option selected disabled value="State">
                               State
                             </option>
-                            <option value="Texas">
-                              Texas
+                            <option value="TX">
+                              TX
                             </option>
                           </select>
                         </div>
@@ -495,32 +491,32 @@
           </div>
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-section-gap">
-              <span>Subtotal: </span>
+              <span>Subtotal </span>
               <span class="drzSlideCheckout-cartItemTotal" name="subtotal">$0</span>
             </div>
           </div>
           <div class="drzSlideCheckout-step-row drzSlideCheckout-step-discount">
             <div class="drzSlideCheckout-section-gap">
-              <span>Discount: </span>
+              <span>Discount </span>
               <span class="drzSlideCheckout-cartItemTotal drzSlideCheckout-cartDiscount" name="discount">$0</span>
             </div>
           </div>
           <div class="drzSlideCheckout-step-row drzSlideCheckout-step-shipping">
             <div class="drzSlideCheckout-section-gap">
-              <span>Shipping: </span>
+              <span>Shipping </span>
               <span class="drzSlideCheckout-cartItemTotal" name="shipping">$0</span>
             </div>
           </div>
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-section-gap">
-              <span>Taxes: </span>
+              <span>Taxes (estimated) </span>
               <span class="drzSlideCheckout-cartItemTotal" name="tax">$0</span>
             </div>
           </div>
           <div class="drzSlideCheckout-section-divider"></div>
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-section-gap">
-              <span>Total: </span>
+              <span>Total </span>
               <span class="drzSlideCheckout-cartItemTotal" name="grand-total">$0</span>
             </div>
           </div>
@@ -534,10 +530,10 @@
                 Purchase
               </span>
             </button>
-            <span class="drzSlideCheckout-hint-text hide">
+            <span class="drzSlideCheckout-purchasing-text hide">
               Hang tight while we complete your purchase...
             </span>
-            <span class="drzSlideCheckout-payment-error"></span>
+            <div class="drzSlideCheckout-payment-error"></div>
           </div>
         </div>
       </div>

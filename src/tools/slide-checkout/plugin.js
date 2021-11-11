@@ -6,6 +6,7 @@
       box: null,
       zIndex: null,
       taxPercent: 0,
+      assetMap: {},
       currency: {
         type: 'USD',
         symbol: '&#36;',
@@ -32,6 +33,7 @@
       shipOptions: 'drzSlideCheckout-shipping-optionList',
       shipTotal: 'drzSlideCheckout-step-shipping',
       discountTotal: 'drzSlideCheckout-step-discount',
+      alertShow: 'drzSlideCheckout-cart-alertOpen',
     };
 
     const $shoppingCart = $(this);
@@ -39,11 +41,13 @@
     $shoppingCart.each(function initShoppingCart() {
       const $slideCheckoutBox = $(this);
       const $openCartBtn = $(document).find('[name="open-shopping-cart"]');
+      const $cartCount = $(document).find('.drzNav-cart-count');
       const $addToCart = $(document).find('[name="add-to-cart"]');
       const $backBtn = $slideCheckoutBox.find('.drzSlideCheckout-back');
       const $cartList = $slideCheckoutBox.find('.drzSlideCheckout-step-cartItems');
       const $preTaxTotal = $slideCheckoutBox.find('.drzSlideCheckout-step-preTaxTotal');
       const $discountBtn = $slideCheckoutBox.find('.drzSlideCheckout-apply-btn');
+      const $discountError = $slideCheckoutBox.find('[name="discount-error"]');
       const $infoSubTotal = $slideCheckoutBox.find('[name="subtotal"]');
       const $shippingTotal = $slideCheckoutBox.find('[name="shipping"]');
       const $taxTotal = $slideCheckoutBox.find('[name="tax"]');
@@ -55,6 +59,7 @@
       const $payBtn = $slideCheckoutBox.find('.drzSlideCheckout-checkout-pay[data-from-step="3"]');
       const $goToPaymentBtn = $slideCheckoutBox.find(`.${classes.checkoutBtn}[data-from-step="2"]`);
       const $selectShippingBtn = $slideCheckoutBox.find('.drzSlideCheckout-shipping-optionBtn');
+      const $shippingOptsError = $slideCheckoutBox.find('[name="shipping-options-error"]');
       const $legendShippingBtn = $slideCheckoutBox.find(`.${classes.itemLegend}[data-from-step="2"]`);
       const $legendPayBtn = $slideCheckoutBox.find(`.${classes.itemLegend}[data-from-step="3"]`);
       const $shippingForm = $slideCheckoutBox.find('.drzSlideCheckout-form');
@@ -67,7 +72,6 @@
       const $billCountry = $paymentForm.find('[name="payment.billing.country"]');
       const $billState = $paymentForm.find('[name="payment.billing.state"]');
       const $zipCode = $paymentForm.find('[name="payment.billing.zipCode"]');
-      const $shippingLoader = $slideCheckoutBox.find(`.${classes.loader}`);
       const $btnLoader = $slideCheckoutBox.find(`.${classes.btnLoader}`);
       const $applyText = $slideCheckoutBox.find('.drzSlideCheckout-apply-text');
       const $shippingOptions = $slideCheckoutBox.find(`.${classes.shipOptions}`);
@@ -89,6 +93,7 @@
       const $orderNumber = $slideCheckoutBox.find('#order-number');
       // error purchase elements
       const $paymentError = $slideCheckoutBox.find('.drzSlideCheckout-payment-error');
+      const $alerts = $slideCheckoutBox.next('.drzSlideCheckout-cart-alert');
 
       if (options.zIndex) {
         $slideCheckoutBox.css({ zIndex: options.zIndex });
@@ -107,6 +112,7 @@
             }
           } else {
             $box.addClass(classes.open);
+            methods.triggerAlert({ hide: true });
           }
         },
         store: {
@@ -142,6 +148,7 @@
               company: '',
               country: '',
               method: '',
+              rate: '',
               phone: '',
               price: 0,
               state: '',
@@ -230,7 +237,7 @@
           }
           methods.countWarning[index] = false;
           const item = cartItems[index];
-          const itemStock = item.product.productQuantity;
+          const itemStock = item.product.productInventory;
           const maxAllowed = item.product.maxPurchaseQuantity;
           const noStockLimit = itemStock === -1;
           const noMaxLimit = maxAllowed === -1;
@@ -329,8 +336,9 @@
           const display = `${dollars} ${options.currency.type}`;
           $preTaxTotal.html(display);
         },
-        getFromPercent(total) {
-          return parseFloat((options.taxPercent / 100) * total).toFixed(2);
+        getFromPercent(total, percent) {
+          const p = percent || options.taxPercent;
+          return parseFloat((p / 100) * total).toFixed(2);
         },
         getPriceNum(num) {
           return parseFloat(parseFloat(num).toFixed(2));
@@ -343,17 +351,17 @@
           const tax = methods.getPriceNum(methods.taxTotal);
           let shipping = 0;
           let discount = 0;
-          $infoSubTotal.html(`${symbol}${subtotal}`);
-          $taxTotal.html(`${symbol}${tax}`);
+          $infoSubTotal.html(`${symbol}${parseFloat(subtotal).toFixed(2)}`);
+          $taxTotal.html(`${symbol}${parseFloat(tax).toFixed(2)}`);
           if ($.isNumeric(params.shipping)) {
             shipping = methods.getPriceNum(params.shipping);
             methods.shipping = shipping;
-            $shippingTotal.show().html(`${symbol}${shipping}`);
+            $shippingTotal.show().html(`${symbol}${parseFloat(shipping).toFixed(2)}`);
           }
           if ($.isNumeric(params.discount)) {
             discount = methods.getPriceNum(params.discount);
             methods.discount = discount;
-            $discountTotal.show().html(`${symbol}${discount}`);
+            $discountTotal.show().html(`${symbol}${parseFloat(discount).toFixed(2)}`);
           }
           const total = Number(
             methods.getPriceNum((methods.preTaxTotal + tax + shipping) - discount)).toFixed(2);
@@ -367,29 +375,49 @@
           };
         },
         onApplyDiscount() {
-          // TODO fetch discount api,
           $applyText.hide();
           $btnLoader.show();
-          setTimeout(() => {
-            methods.getInfoTotals({
-              shipping: methods.shipping,
-              discount: 10,
-            });
-            $applyText.show();
-            $btnLoader.hide();
-            // TODO only show discount if successful
-            $discountPrice.show();
-          }, 500);
+          $discountError.hide();
+          $.ajax({
+            type: 'GET',
+            url: `${options.api}/v1/discounts`,
+            data: {
+              siteId: options.siteId,
+              code: methods.store.shopper.discountCode,
+            },
+            contentType: 'application/json',
+            success(res) {
+              const payload = res.payload;
+              let savings;
+              if (payload.type === 'fixed') {
+                savings = payload.savings;
+              } else if (payload.type === 'percent') {
+                savings = methods.getFromPercent(methods.preTaxTotal, payload.percent);
+              }
+              methods.getInfoTotals({
+                shipping: methods.shipping,
+                discount: savings,
+              });
+              $discountPrice.show();
+            },
+            error(e) {
+              $discountError.show().html(e.responseJSON.payload.errorMessage);
+            },
+            complete() {
+              $applyText.show();
+              $btnLoader.hide();
+            },
+          });
         },
         buildCartItem(data, index) {
           const itemTotal = data.product.price * data.count;
+          methods.totalItems += data.count;
           const error = methods.countWarning[index] ? `<div class="drzSlideCheckout-count-error">${methods.countWarning[index]}</div>` : '';
           methods.preTaxTotal += itemTotal;
           if (data.product.isTaxable && options.taxPercent > 0 && !data.product.taxIncluded) {
             const tax = methods.getFromPercent(itemTotal);
             methods.taxTotal += parseFloat(tax);
           }
-          // TODO Need to calculate shipping here?, check if item is shippable?
           let productOptions = '';
           let lastOptions = '';
           if (data.product.options && data.product.options.length > 0) {
@@ -456,7 +484,7 @@
               <div class="drzSlideCheckout-cart-leftCol">
                 <img
                   class="drzSlideCheckout-cart-itemImg"
-                  src="${data.product.image}"
+                  src="${options.assetMap[data.product._id] || data.product.image}"
                   alt="${data.product.name}" />
               </div>
               <div class="drzSlideCheckout-cart-itemInfo">
@@ -478,7 +506,7 @@
             <div class="drzSlideCheckout-cart-leftCol">
               <img
                 class="drzSlideCheckout-cart-itemImg"
-                src="${data.product.image}"
+                src="${options.assetMap[data.product._id] || data.product.image}"
                 alt="${data.product.name}" />
             </div>
             <div class="drzSlideCheckout-cart-itemInfo">
@@ -526,12 +554,14 @@
           </li>
           `;
         },
+        totalItems: 0,
         buildCart(list) {
           // remove cart list first
           $cartList.empty();
           $finalList.empty();
           methods.preTaxTotal = 0;
           methods.taxTotal = 0;
+          methods.totalItems = 0;
           // build all cart items
           if (list.length < 1) {
             // this is in the event a user got to any next steps, came back
@@ -542,7 +572,6 @@
               .addClass(classes.disabled)
               .prop('disabled', true);
           } else {
-            // TODO if at least 1 shippable
             $.each(list, (index, value) => {
               const $cartItem = $(methods.buildCartItem(value, index));
               const $removeItemBtn = $cartItem.find('.drzSlideCheckout-cart-itemRemoveBtn');
@@ -567,6 +596,15 @@
               .removeClass(classes.disabled)
               .prop('disabled', false);
           }
+          $cartCount.each(function setIconCount() {
+            const $count = $(this);
+            if (methods.totalItems < 1) {
+              $count.hide();
+            } else {
+              $count.show();
+            }
+            $count.html(`(${methods.totalItems})`);
+          });
           methods.getPreTaxTotal();
           methods.setActiveStep();
         },
@@ -580,32 +618,48 @@
         onPayClick(e) {
           if (!methods.store.purchased) {
             const $btn = $(e.currentTarget);
-            const $hint = $btn.next('.drzSlideCheckout-hint-text');
+            const $hint = $btn.next('.drzSlideCheckout-purchasing-text');
             methods.store.purchased = true;
             $paymentError.hide();
             $payLoader.show();
             $payText.hide();
             $hint.removeClass('hide');
-            setTimeout(() => {
-              $payLoader.hide();
-              $payText.show();
-              $hint.addClass('hide');
-              methods.activeStep = 4;
-              methods.highestStep = 4;
-              methods.setActiveStep();
-              methods.fillConfirmation({
-                cartItems,
-                orderNumber: '1234-5678-98433',
-              });
-              cartItems.splice(0, cartItems.length);
-              methods.saveCart(cartItems);
-              $backBtn.html('Back to Store');
-              if (window.matchMedia(drzzle.viewports.mobile).matches) {
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-              }
-              // TODO methods.store.purchased = false; if failed
-              // $paymentError.show().html('error');
-            }, 3000);
+            $.ajax({
+              type: 'POST',
+              url: `${options.api}/v1/purchase`,
+              data: JSON.stringify({
+                siteId: options.siteId,
+                date: new Date().toISOString(),
+                shopper: methods.store.shopper,
+              }),
+              dataType: 'json',
+              contentType: 'application/json',
+              success(res) {
+                const payload = res.payload;
+                methods.activeStep = 4;
+                methods.highestStep = 4;
+                methods.setActiveStep();
+                methods.fillConfirmation({
+                  cartItems,
+                  orderNumber: payload.orderNumber,
+                });
+                cartItems.splice(0, cartItems.length);
+                methods.saveCart(cartItems);
+                $backBtn.html('Back to Store');
+                if (window.matchMedia(drzzle.viewports.mobile).matches) {
+                  $('html, body').animate({ scrollTop: 0 }, 'fast');
+                }
+              },
+              error(error) {
+                methods.store.purchased = false;
+                $paymentError.show().html(error.responseJSON.payload.errorMessage);
+              },
+              complete() {
+                $payLoader.hide();
+                $payText.show();
+                $hint.addClass('hide');
+              },
+            });
           }
         },
         fillConfirmation({ orderNumber }) {
@@ -614,61 +668,93 @@
           $cart.find('.drzSlideCheckout-checkout-pay').parent().remove();
           $lastStepCart.append($cart);
         },
-        onShippingClick() {
-          $shippingLoader.show();
+        onShippingClick(evt) {
+          const $btn = $(evt.currentTarget);
+          $btn.addClass('drzSlideCheckout-shipping-loading');
           $shippingOptions.hide();
-          // TODO fetch real shipping options!
-          setTimeout(() => {
-            const shipOptions = [
-              { type: 'UPS Ground', price: 0, checked: true },
-              { type: 'UPS Express', price: 10.334444 },
-              { type: 'Next Day Air', price: 35 },
-            ];
-            $shippingOptions.html(shipOptions.map(option => `
-              <label class="drzSlideCheckout-shipping-option" for="${option.type}">
-                <span class="drzSlideCheckout-shipping-label">
-                  ${option.type}
-                </span>
-                <input
-                  type="radio"
-                  class="drzSlideCheckout-shipping-check"
-                  ${option.checked ? 'checked' : ''}
-                  data-price="${option.price}"
-                  value="${option.type}"
-                  id="${option.type}"
-                  name="shipping-option" />
-                <span class="drzSlideCheckout-shipping-price">
-                  $${methods.getPriceNum(option.price)}
-                </span>
-              </label>
-            `).join(''));
-            $shippingLoader.hide();
-            $shippingOptions.show();
-            $goToPaymentBtn.prop('disabled', false).removeClass(classes.disabled);
-            // add shipping to totals and show
-            const getShipping = $radio => parseFloat(parseFloat($radio.attr('data-price')).toFixed(2));
-            const radios = $shippingOptions.find('.drzSlideCheckout-shipping-check');
-            radios.on('change', (e) => {
-              const option = $(e.currentTarget);
-              const shipping = getShipping(option);
-              methods.store.shopper.shipping.method = option.val();
+          $shippingOptsError.hide();
+          $.ajax({
+            type: 'GET',
+            url: `${options.api}/v1/shipping`,
+            data: {
+              siteId: options.siteId,
+              shipping: JSON.stringify(methods.store.shopper.shipping),
+              contact: JSON.stringify(methods.store.shopper.contact),
+              cartItems: JSON.stringify(
+                cartItems.map(item => ({
+                  _id: item.product._id,
+                  count: item.count,
+                  name: item.product.name,
+                })),
+              ),
+            },
+            contentType: 'application/json',
+            success(res) {
+              const shipOptions = res.payload.options;
+              $shippingOptions.html(shipOptions.map((option) => {
+                const shipDuration = option.duration ? `<span class="drzSlideCheckout-shipping-duration">${option.duration}</span>` : '';
+                return `
+                  <label class="drzSlideCheckout-shipping-option" for="${option.id}">
+                    <input
+                      type="radio"
+                      class="drzSlideCheckout-shipping-check"
+                      ${option.checked ? 'checked' : ''}
+                      data-price="${option.price}"
+                      value="${option.provider} - ${option.serviceLevel}"
+                      id="${option.id}"
+                      name="shipping-option" />
+                    <span class="drzSlideCheckout-shipping-label">
+                      <img
+                        class="drzSlideCheckout-shipping-provider"
+                        src="${option.logo}"
+                        title="${option.provider}"
+                        alt="${option.provider}" />
+                      <span>
+                      ${option.serviceLevel}
+                      ${shipDuration}
+                      </span>
+                    </span>
+                    <span class="drzSlideCheckout-shipping-price">
+                      $${methods.getPriceNum(option.price)}
+                    </span>
+                  </label>
+                `;
+              }).join(''));
+              $goToPaymentBtn.prop('disabled', false).removeClass(classes.disabled);
+              // add shipping to totals and show
+              const getShipping = $radio => parseFloat(parseFloat($radio.attr('data-price')).toFixed(2));
+              const radios = $shippingOptions.find('.drzSlideCheckout-shipping-check');
+              radios.on('change', (e) => {
+                const option = $(e.currentTarget);
+                const shipping = getShipping(option);
+                methods.store.shopper.shipping.method = option.val();
+                methods.store.shopper.shipping.rate = option.attr('id');
+                methods.store.shopper.shipping.price = shipping;
+                methods.getInfoTotals({
+                  shipping,
+                  discount: methods.discount,
+                });
+              });
+              const selected = $shippingOptions.find('.drzSlideCheckout-shipping-check:checked');
+              const shipping = getShipping(selected);
+              methods.store.shopper.shipping.method = selected.val();
+              methods.store.shopper.shipping.rate = selected.attr('id');
               methods.store.shopper.shipping.price = shipping;
               methods.getInfoTotals({
                 shipping,
                 discount: methods.discount,
               });
-            });
-            const selected = $shippingOptions.find('.drzSlideCheckout-shipping-check:checked');
-            const shipping = getShipping(selected);
-            methods.store.shopper.shipping.method = selected.val();
-            methods.store.shopper.shipping.price = shipping;
-            methods.getInfoTotals({
-              shipping,
-              discount: methods.discount,
-            });
-            $shipTotal.removeClass(classes.shipTotal);
-            $accordionRadio.on('change', methods.onBillAddressChange);
-          }, 500);
+              $shipTotal.removeClass(classes.shipTotal);
+              $accordionRadio.on('change', methods.onBillAddressChange);
+            },
+            error(e) {
+              $shippingOptsError.show().html(e.responseJSON.payload.errorMessage);
+            },
+            complete() {
+              $btn.removeClass('drzSlideCheckout-shipping-loading');
+              $shippingOptions.show();
+            },
+          });
         },
         onFromClick(e) {
           e.preventDefault();
@@ -772,18 +858,86 @@
           if (!methods.store.purchased) {
             const payload = e.detail;
             const index = cartItems.findIndex(item => item.product._id === payload.product);
+            const alert = {
+              show: true,
+              error: false,
+              message: 'Item Added to Cart!',
+            };
+            let added = false;
             if (index === -1) {
               const shopper = { count: 1, selectedOptions: {} };
               const product = mappedProducts[payload.product];
               if (product) {
                 const newCartItem = $.extend(true, shopper, { product });
                 cartItems.push(newCartItem);
+                added = true;
               }
             } else {
               methods.onAddCount(null, index);
+              added = true;
             }
+            if (!added) {
+              alert.error = true;
+              alert.message = 'Something went wrong. It seems this item is not available right now.';
+            }
+            methods.triggerAlert(alert);
             methods.saveCart(cartItems);
             methods.buildCart(cartItems);
+          }
+        },
+        $alert: null,
+        attachAlert() {
+          const $alertBox = $(`
+            <div class="drzSlideCheckout-cart-alert">
+              <div class="drzSlideCheckout-cart-alertIcon"></div>
+              <div class="drzSlideCheckout-cart-alertContent">
+                <div class="drzSlideCheckout-cart-alertRow">
+                  <a href="#" class="drzSlideCheckout-cart-alertClose"></a>
+                </div>
+                <div class="drzSlideCheckout-cart-alertMsg">
+                  Message here
+                </div>
+                <a
+                  href="#"
+                  name="alert-checkout"
+                  class="drzSlideCheckout-cart-alertCO">Checkout</a>
+              </div>
+            </div>
+          `);
+          methods.$alert = $alertBox;
+          $alertBox.find('[name="alert-checkout"]').click(methods.onCartClick);
+          $alertBox.find('.drzSlideCheckout-cart-alertClose').click((e) => {
+            e.preventDefault();
+            methods.triggerAlert({ hide: true });
+          });
+          $alertBox.insertAfter($slideCheckoutBox);
+        },
+        triggerAlert(params) {
+          if (params.show) {
+            // if triggering an alert if it's already open, need to
+            // close and reanimate
+            if (methods.$alert.hasClass(classes.alertShow)) {
+              methods.$alert.removeClass(classes.alertShow);
+              setTimeout(() => {
+                methods.$alert.addClass(classes.alertShow);
+              }, 250);
+            } else {
+              methods.$alert.addClass(classes.alertShow);
+            }
+          }
+          if (params.hide) {
+            methods.$alert.removeClass(classes.alertShow);
+          }
+          if (params.error) {
+            methods.$alert.addClass('drzSlideCheckout-cart-alertError');
+          } else {
+            setTimeout(() => {
+              methods.$alert.removeClass('drzSlideCheckout-cart-alertError');
+            }, 300);
+          }
+          if (params.message) {
+            methods.$alert.find('.drzSlideCheckout-cart-alertMsg')
+              .html(params.message);
           }
         },
         fetchProducts() {
@@ -810,7 +964,9 @@
           });
         },
       };
-
+      if (options.assetMap && typeof options.assetMap === 'string') {
+        options.assetMap = JSON.parse(options.assetMap);
+      }
       // bind all listeners
       $openCartBtn.click(methods.onCartClick);
       $backBtn.click(methods.onCartClick);
@@ -855,6 +1011,9 @@
         const mask = $mask.attr('data-mask');
         $mask.mask(mask);
       });
+      if (!$alerts.length) {
+        methods.attachAlert();
+      }
       methods.fetchProducts();
     });
 
