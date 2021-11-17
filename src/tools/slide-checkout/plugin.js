@@ -226,6 +226,43 @@
           methods.buildCart(cartItems);
           methods.saveCart(cartItems);
         },
+        getInventory({ item, step }) {
+          if (!item.product.hasOptionLimit) {
+            return item.product.productInventory;
+          }
+          const newCount = item.count + step;
+          const selections = {};
+          $.each(item.product.options, (i, option) => {
+            const isSelect = option.type === 'select';
+            const selected = item.selectedOptions[option._id];
+            if (isSelect && !selected) {
+              selections[option.label] = option.items[0];
+            } else if (isSelect && selected) {
+              selections[option.label] = option.items.find(itm => itm.value === selected);
+            }
+          });
+          const keys = Object.keys(selections);
+          const allLimits = keys.map(k => selections[k].limit);
+          const highestLimit = Math.max(...allLimits);
+          // if all options are unlimited, return -1
+          if (highestLimit === -1) {
+            return -1;
+          }
+          // we loop in the scenario where there could be either
+          // some unlimited and some limited or all limited. we
+          // need to check inventory counts
+          for (let i = 0; i < keys.length; i++) {
+            const sel = selections[keys[i]];
+            const unlimited = sel.limit === -1;
+            if (newCount > sel.limit && !unlimited) {
+              methods.lastOption = sel.value;
+              return 0;
+            }
+          }
+          return highestLimit;
+        },
+        lastOption: '',
+        optionWarning: {},
         countWarning: {},
         onAddCount(e, i) {
           let index;
@@ -236,29 +273,48 @@
             index = $btn.attr('data-item-index');
           }
           methods.countWarning[index] = false;
+          methods.optionWarning[index] = false;
           const item = cartItems[index];
-          const itemStock = item.product.productInventory;
+          const step = item.product.countStep;
+          const itemInv = methods.getInventory({ item, step });
           const maxAllowed = item.product.maxPurchaseQuantity;
-          const noStockLimit = itemStock === -1;
-          const noMaxLimit = maxAllowed === -1;
-          const newCount = item.count + item.product.countStep;
-          const bothLimits = !noStockLimit && !noMaxLimit;
-          if (noStockLimit && noMaxLimit) {
+          const newCount = item.count + step;
+          const noInvLimit = itemInv === -1;
+          const noMaxLimit = itemInv === -1;
+          const noInventory = itemInv === 0;
+          // does NOT have an inventory & max limit
+          const fullyUnlimited = noInvLimit && noMaxLimit;
+          // HAS an inventory & max limit
+          const fullyLimited = !noInvLimit && !noMaxLimit;
+          // inventory is limited but max quantity is unlimited
+          const invLimitedMaxNot = !noInvLimit && noMaxLimit;
+          // inventory is unlimited but max quantity is limited
+          const maxLimitedInvNot = noInvLimit && !noMaxLimit;
+          if (noInventory) {
+            methods.optionWarning[index] = `Not enough ${methods.lastOption} items in stock.`;
+          } else if (fullyUnlimited) {
             item.count += item.product.countStep;
-          } else if (!noStockLimit && noMaxLimit && (newCount <= itemStock)) {
+          } else if (invLimitedMaxNot && (newCount <= itemInv)) {
             item.count += item.product.countStep;
-          } else if (!noStockLimit && noMaxLimit && (newCount > itemStock)) {
-            item.count = itemStock;
-          } else if (noStockLimit && !noMaxLimit && (newCount <= maxAllowed)) {
+          } else if (invLimitedMaxNot && (newCount > itemInv)) {
+            // this will set the count to the most amount of times the step can fit
+            // into the inventory limit
+            item.count = Math.floor(itemInv / step) * step;
+          } else if (maxLimitedInvNot && (newCount <= maxAllowed)) {
             item.count = item.product.countStep;
-          } else if (noStockLimit && !noMaxLimit && (newCount > maxAllowed)) {
+          } else if (maxLimitedInvNot && (newCount > maxAllowed)) {
             item.count = maxAllowed;
-          } else if (bothLimits && newCount <= itemStock && newCount <= maxAllowed) {
+          } else if (fullyLimited && newCount <= itemInv && newCount <= maxAllowed) {
             item.count += item.product.countStep;
-          } else if (bothLimits && newCount <= itemStock && newCount > maxAllowed) {
+          } else if (fullyLimited && newCount <= itemInv && newCount > maxAllowed) {
             item.count = maxAllowed;
-          } else if (bothLimits && newCount <= maxAllowed && newCount > itemStock) {
-            item.count += itemStock;
+          } else if (fullyLimited && newCount <= maxAllowed && newCount > itemInv) {
+            // inventory & max limit, desired count is under the max limit
+            // but the new count is over the inventory limit: Make = total inventory
+
+            // this will set the count to the most amount of times the step can fit
+            // into the inventory limit
+            item.count = Math.floor(itemInv / step) * step;
           } else {
             methods.countWarning[index] = 'Limit Reached.';
           }
@@ -269,6 +325,7 @@
           const $btn = $(e.currentTarget);
           const index = $btn.attr('data-item-index');
           methods.countWarning[index] = false;
+          methods.optionWarning[index] = false;
           const item = cartItems[index];
           const minAllowed = item.product.minPurchaseQuantity;
           const noMinLimit = minAllowed === -1;
@@ -292,7 +349,15 @@
             const index = $select.attr('data-item-index');
             const optionId = $select.attr('data-option-id');
             const selectedOption = $select.val();
-            cartItems[index].selectedOptions[optionId] = selectedOption;
+            const item = cartItems[index];
+            item.selectedOptions[optionId] = selectedOption;
+            methods.optionWarning[index] = false;
+            // check based on options again,
+            const inventory = methods.getInventory({ item, step: 0 });
+            if (inventory === 0) {
+              item.count = item.product.countStep;
+            }
+            methods.buildCart(cartItems);
             methods.saveCart(cartItems);
           }, 250);
         },
@@ -412,7 +477,10 @@
         buildCartItem(data, index) {
           const itemTotal = data.product.price * data.count;
           methods.totalItems += data.count;
-          const error = methods.countWarning[index] ? `<div class="drzSlideCheckout-count-error">${methods.countWarning[index]}</div>` : '';
+          const hasError = methods.countWarning[index];
+          const error = hasError ? `<div class="drzSlideCheckout-count-error">${hasError}</div>` : '';
+          const hasOptError = methods.optionWarning[index];
+          const optError = hasOptError ? `<div class="drzSlideCheckout-count-error">${hasOptError}</div>` : '';
           methods.preTaxTotal += itemTotal;
           if (data.product.isTaxable && options.taxPercent > 0 && !data.product.taxIncluded) {
             const tax = methods.getFromPercent(itemTotal);
@@ -440,6 +508,7 @@
                 <select
                   data-item-index="${index}"
                   data-option-id="${option._id}"
+                  data-count="${data.count}"
                   class="drzSlideCheckout-item-select"
                   id="option-${option._id}"
                   name="${option.label}">`;
@@ -532,7 +601,7 @@
                         name="add-count-${data.product.name}">
                       </button>
                     </div>
-                    ${error}
+                    ${error}${optError}
                     <div class="drzSlideCheckout-cart-itemFooter">
                       <span class="drzSlideCheckout-cartItemTotal">Total: ${options.currency.symbol}${itemTotal}</span>
                     </div>
