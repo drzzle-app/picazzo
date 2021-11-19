@@ -20,7 +20,6 @@
     const siteStore = storage.store[options.siteId] || {
       cartItems: [],
     };
-
     const classes = {
       open: 'drzSlideCheckout-open',
       disabled: 'drzSlideCheckout-checkout-btnDisabled',
@@ -35,9 +34,7 @@
       discountTotal: 'drzSlideCheckout-step-discount',
       alertShow: 'drzSlideCheckout-cart-alertOpen',
     };
-
     const $shoppingCart = $(this);
-
     $shoppingCart.each(function initShoppingCart() {
       const $slideCheckoutBox = $(this);
       const $openCartBtn = $(document).find('[name="open-shopping-cart"]');
@@ -227,10 +224,15 @@
           methods.saveCart(cartItems);
         },
         getInventory({ item, step }) {
-          if (!item.product.hasOptionLimit) {
-            return item.product.productInventory;
-          }
           const newCount = item.count + step;
+          const inventory = item.product.productInventory;
+          const optionLimits = item.product.hasOptionLimit;
+          if (!optionLimits && (newCount <= inventory || inventory === -1)) {
+            return inventory;
+          }
+          if (!optionLimits && newCount > inventory) {
+            return 0;
+          }
           const selections = {};
           $.each(item.product.options, (i, option) => {
             const isSelect = option.type === 'select';
@@ -266,6 +268,8 @@
         countWarning: {},
         onAddCount(e, i) {
           let index;
+          let added = true;
+          let errorMsg = false;
           if ($.isNumeric(i)) {
             index = i;
           } else {
@@ -277,6 +281,7 @@
           const item = cartItems[index];
           const step = item.product.countStep;
           const itemInv = methods.getInventory({ item, step });
+          // max allowed is to limit how much a shopper can buy
           const maxAllowed = item.product.maxPurchaseQuantity;
           const newCount = item.count + step;
           const noInvLimit = itemInv === -1;
@@ -290,36 +295,49 @@
           const invLimitedMaxNot = !noInvLimit && noMaxLimit;
           // inventory is unlimited but max quantity is limited
           const maxLimitedInvNot = noInvLimit && !noMaxLimit;
+          // inventory limit but no max allowed limit and desired count is less than
+          // or equal to total inventory
+          const addStepOne = invLimitedMaxNot && (newCount <= itemInv);
+          // inventory & max allowed limited, desired count is under or equal to total inventory AND
+          // desired count is less than or equal to the max allowed
+          const addStepTwo = fullyLimited && newCount <= itemInv && newCount <= maxAllowed;
+          // inventory limit but no max allowed limit and desired count is more
+          // than total inventory
+          const addMaxStepOne = invLimitedMaxNot && (newCount > itemInv);
+          // inventory & max allowed limited, desired count is under the max allowed limit
+          // but the new count is over the inventory limit
+          const addMaxStepTwo = fullyLimited && newCount <= maxAllowed && newCount > itemInv;
+          // max allowed limit but no inventory limit and desired count is less
+          // than or equal to max allowed limit
+          const addStepThree = maxLimitedInvNot && (newCount <= maxAllowed);
+          // max allowed limit but no inventory limit and desired count is over max
+          // allowed limit
+          const makeMaxAllowedOne = maxLimitedInvNot && (newCount > maxAllowed);
+          // inventory & max allowed limited, desired count is under or equal to total inventory AND
+          // desired count is more than the max allowed
+          const makeMaxAllowedTwo = fullyLimited && newCount <= itemInv && newCount > maxAllowed;
           if (noInventory) {
+            // no inventory available to be added due to an option inventory limit
+            // like size/color etc.
             methods.optionWarning[index] = `Not enough ${methods.lastOption} items in stock.`;
-          } else if (fullyUnlimited) {
-            item.count += item.product.countStep;
-          } else if (invLimitedMaxNot && (newCount <= itemInv)) {
-            item.count += item.product.countStep;
-          } else if (invLimitedMaxNot && (newCount > itemInv)) {
+            added = false;
+            errorMsg = methods.optionWarning[index];
+          } else if (fullyUnlimited || addStepOne || addStepTwo || addStepThree) {
+            item.count += step;
+          } else if (addMaxStepOne || addMaxStepTwo) {
             // this will set the count to the most amount of times the step can fit
             // into the inventory limit
             item.count = Math.floor(itemInv / step) * step;
-          } else if (maxLimitedInvNot && (newCount <= maxAllowed)) {
-            item.count = item.product.countStep;
-          } else if (maxLimitedInvNot && (newCount > maxAllowed)) {
+          } else if (makeMaxAllowedOne || makeMaxAllowedTwo) {
             item.count = maxAllowed;
-          } else if (fullyLimited && newCount <= itemInv && newCount <= maxAllowed) {
-            item.count += item.product.countStep;
-          } else if (fullyLimited && newCount <= itemInv && newCount > maxAllowed) {
-            item.count = maxAllowed;
-          } else if (fullyLimited && newCount <= maxAllowed && newCount > itemInv) {
-            // inventory & max limit, desired count is under the max limit
-            // but the new count is over the inventory limit: Make = total inventory
-
-            // this will set the count to the most amount of times the step can fit
-            // into the inventory limit
-            item.count = Math.floor(itemInv / step) * step;
           } else {
             methods.countWarning[index] = 'Limit Reached.';
+            added = false;
+            errorMsg = methods.countWarning[index];
           }
           methods.buildCart(cartItems);
           methods.saveCart(cartItems);
+          return { added, errorMsg };
         },
         onRemoveCount(e) {
           const $btn = $(e.currentTarget);
@@ -329,13 +347,14 @@
           const item = cartItems[index];
           const minAllowed = item.product.minPurchaseQuantity;
           const noMinLimit = minAllowed === -1;
-          const newCount = item.count - item.product.countStep;
+          const step = item.product.countStep;
+          const newCount = item.count - step;
           if (noMinLimit && newCount >= 1) {
-            item.count -= item.product.countStep;
-          } else if (noMinLimit && newCount < item.product.countStep) {
-            item.count = item.product.countStep;
+            item.count -= step;
+          } else if (noMinLimit && newCount < step) {
+            item.count = step;
           } else if (!noMinLimit && newCount >= minAllowed) {
-            item.count -= item.product.countStep;
+            item.count -= step;
           } else if (!noMinLimit && newCount < minAllowed) {
             item.count = minAllowed;
           }
@@ -676,6 +695,14 @@
           });
           methods.getPreTaxTotal();
           methods.setActiveStep();
+          // set buttons back to disabled
+          $goToPaymentBtn.addClass(classes.disabled).prop('disabled', true);
+          $shippingOptions.empty();
+          methods.getInfoTotals({
+            shipping: 0.00,
+            discount: methods.discount,
+          });
+          $shipTotal.addClass(classes.shipTotal);
         },
         setActiveStep() {
           $slideCheckoutBox.find('[data-checkout-step]').removeClass(classes.activeStep);
@@ -762,6 +789,7 @@
               const shipOptions = res.payload.options;
               $shippingOptions.html(shipOptions.map((option) => {
                 const shipDuration = option.duration ? `<span class="drzSlideCheckout-shipping-duration">${option.duration}</span>` : '';
+                const logo = option.logo ? `<img class="drzSlideCheckout-shipping-provider" src="${option.logo}" title="${option.provider}" alt="${option.provider}" />` : '';
                 return `
                   <label class="drzSlideCheckout-shipping-option" for="${option.id}">
                     <input
@@ -773,11 +801,7 @@
                       id="${option.id}"
                       name="shipping-option" />
                     <span class="drzSlideCheckout-shipping-label">
-                      <img
-                        class="drzSlideCheckout-shipping-provider"
-                        src="${option.logo}"
-                        title="${option.provider}"
-                        alt="${option.provider}" />
+                      ${logo}
                       <span>
                       ${option.serviceLevel}
                       ${shipDuration}
@@ -933,21 +957,30 @@
               message: 'Item Added to Cart!',
             };
             let added = false;
+            let errorMsg = false;
             if (index === -1) {
-              const shopper = { count: 1, selectedOptions: {} };
               const product = mappedProducts[payload.product];
               if (product) {
+                const countStep = parseInt(product.countStep, 10);
+                product.countStep = countStep;
+                const shopper = { count: countStep, selectedOptions: {} };
                 const newCartItem = $.extend(true, shopper, { product });
-                cartItems.push(newCartItem);
-                added = true;
+                const inventory = methods.getInventory({ item: newCartItem, step: 0 });
+                if (inventory > 0 || inventory === -1) {
+                  cartItems.push(newCartItem);
+                  added = true;
+                } else if (inventory === 0) {
+                  errorMsg = 'Item currently out of stock.';
+                }
               }
             } else {
-              methods.onAddCount(null, index);
-              added = true;
+              const addCount = methods.onAddCount(null, index);
+              added = addCount.added;
+              errorMsg = addCount.errorMsg;
             }
             if (!added) {
               alert.error = true;
-              alert.message = 'Something went wrong. It seems this item is not available right now.';
+              alert.message = `Something went wrong. ${errorMsg || ''}`;
             }
             methods.triggerAlert(alert);
             methods.saveCart(cartItems);
@@ -1073,7 +1106,6 @@
         );
       }
       $addToCart.click(methods.onClickAddToCart);
-      $goToPaymentBtn.addClass(classes.disabled).prop('disabled', true);
       $accordionBtn.click(methods.onAccordionClick);
       $masks.each(function setMask() {
         const $mask = $(this);
