@@ -129,6 +129,7 @@
       if (options.overrides && options.overrides.quantity.max) {
         methods.max = options.overrides.quantity.max;
       }
+      $this.drzProductOptions();
       // destroy plugin
       $.fn.drzProductFeature.destroy = ($el) => {
         const $thumbs = $el.find('.drzProduct-feature-thumbImg');
