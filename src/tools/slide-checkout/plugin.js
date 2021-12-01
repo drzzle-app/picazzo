@@ -224,6 +224,8 @@
           methods.saveCart(cartItems);
         },
         getInventory({ item, step }) {
+          // step is in the event, the item is in the cart so we need to see
+          // if the step is allowed in inventory on a "+" click
           const newCount = item.count + step;
           const inventory = item.product.productInventory;
           const optionLimits = item.product.hasOptionLimit;
@@ -236,11 +238,17 @@
           const selections = {};
           $.each(item.product.options, (i, option) => {
             const isSelect = option.type === 'select';
-            const selected = item.selectedOptions[option._id];
-            if (isSelect && !selected) {
+            // this is the selected option from the cart
+            const picked = item.selectedOptions[option._id];
+            if (isSelect && !picked) {
               selections[option.label] = option.items[0];
-            } else if (isSelect && selected) {
-              selections[option.label] = option.items.find(itm => itm.value === selected);
+            } else if (isSelect && picked) {
+              const find = picked.selected || picked;
+              const opt = option.items.find(itm => itm.value === find);
+              if ($.isNumeric(picked.count)) {
+                opt.count = picked.count;
+              }
+              selections[option.label] = opt;
             }
           });
           const keys = Object.keys(selections);
@@ -256,7 +264,8 @@
           for (let i = 0; i < keys.length; i++) {
             const sel = selections[keys[i]];
             const unlimited = sel.limit === -1;
-            if (newCount > sel.limit && !unlimited) {
+            const count = $.isNumeric(sel.count) ? sel.count : newCount;
+            if (count > sel.limit && !unlimited) {
               methods.lastOption = sel.value;
               return 0;
             }
@@ -266,21 +275,37 @@
         lastOption: '',
         optionWarning: {},
         countWarning: {},
-        onAddCount(e, i) {
+        onAddCount(e, params = {}) {
+          // this could run on an "+" click or a new add-to-cart click
           let index;
           let added = true;
           let errorMsg = false;
-          if ($.isNumeric(i)) {
-            index = i;
+          if ($.isNumeric(params.i)) {
+            index = params.i;
           } else {
             const $btn = $(e.currentTarget);
             index = $btn.attr('data-item-index');
           }
-          methods.countWarning[index] = false;
-          methods.optionWarning[index] = false;
+          methods.countWarning = {};
+          methods.optionWarning = {};
           const item = cartItems[index];
           const step = item.product.countStep;
-          const itemInv = methods.getInventory({ item, step });
+          let itemInv;
+          if (typeof inventory !== 'undefined') {
+            // this is in the event the product with the same selected options are
+            // in the cart so we just need to add to the count
+            itemInv = params.inventory;
+          } else {
+            // this would be when the user clicks a "+" button from an item already
+            // in the cart
+            const testItem = methods.queryCounts({
+              newCartItem: item,
+              payload: { product: item.product._id },
+              count: step,
+              exists: true,
+            });
+            itemInv = methods.getInventory({ item: testItem, step });
+          }
           // max allowed is to limit how much a shopper can buy
           const maxAllowed = item.product.maxPurchaseQuantity;
           const newCount = item.count + step;
@@ -342,21 +367,32 @@
         onRemoveCount(e) {
           const $btn = $(e.currentTarget);
           const index = $btn.attr('data-item-index');
-          methods.countWarning[index] = false;
-          methods.optionWarning[index] = false;
+          methods.countWarning = {};
+          methods.optionWarning = {};
           const item = cartItems[index];
           const minAllowed = item.product.minPurchaseQuantity;
           const noMinLimit = minAllowed === -1;
           const step = item.product.countStep;
           const newCount = item.count - step;
-          if (noMinLimit && newCount >= 1) {
+          // TODO perhaps if min allowed AND step, select the highest amount and set to that?
+
+          // no minimum purchase limit and desired count is greater than or
+          // equal to step amount
+          const removeStepOne = noMinLimit && newCount >= step;
+          // item HAS a minimum quantity purchase limit and desired count
+          // is greater than or equalt to minimum allowed or greater than or
+          // equal to step amount
+          const removeStepTwo = !noMinLimit && (newCount >= minAllowed || newCount >= step);
+          // no minimum purchase limit and desired count is les than step amount
+          const makeStepOne = noMinLimit && newCount < step;
+          // item HAS a minimum quantity purchase limit and desired count
+          // is less than the minimum allowed or less than the step amount
+          const makeStepTwo = !noMinLimit && (newCount < minAllowed || newCount < step);
+
+          if (removeStepOne || removeStepTwo) {
             item.count -= step;
-          } else if (noMinLimit && newCount < step) {
+          } else if (makeStepOne || makeStepTwo) {
             item.count = step;
-          } else if (!noMinLimit && newCount >= minAllowed) {
-            item.count -= step;
-          } else if (!noMinLimit && newCount < minAllowed) {
-            item.count = minAllowed;
           }
           methods.buildCart(cartItems);
           methods.saveCart(cartItems);
@@ -888,9 +924,16 @@
         onClickAddToCart(e) {
           e.preventDefault();
           const $btn = $(e.currentTarget);
-          const addToCart = new CustomEvent('addToCart', { detail: {
+          const optionAttr = $btn.attr('data-product-options');
+          const detail = {
             product: $btn.attr('data-product-id'),
-          } });
+          };
+          if (typeof optionAttr === 'string') {
+            const parsed = $.parseJSON(optionAttr);
+            detail.selectedOptions = parsed.selectedOptions;
+            detail.count = parseInt(parsed.count, 10);
+          }
+          const addToCart = new CustomEvent('addToCart', { detail });
           window.dispatchEvent(addToCart);
         },
         onAccordionClick(e) {
@@ -947,7 +990,55 @@
             shopper.payment.billing.zipCode = shipping.zipCode;
           }
         },
+        optionsSame(first, second) {
+          const f = Object.keys(first);
+          if (f.length !== Object.keys(second).length) {
+            return false;
+          }
+          for (let i = 0; i < f.length; i++) {
+            const key = f[i];
+            if (first[key] !== second[key]) {
+              return false;
+            }
+          }
+          return true;
+        },
+        queryCounts({ newCartItem, payload, count }) {
+          const testCounts = {};
+          cartItems.forEach((item) => {
+            if (item.product._id === payload.product) {
+              $.each(item.selectedOptions, (id, val) => {
+                const optId = `${id}-${val}`;
+                if ($.isNumeric(testCounts[optId])) {
+                  testCounts[optId] += item.count;
+                } else {
+                  testCounts[optId] = item.count;
+                }
+              });
+            }
+          });
+          const testOptions = {};
+          // here we take the new cart item and add the count (step) to
+          // the rest to get a total, this will bypass the standard step
+          // addition in getInventory
+          $.each(newCartItem.selectedOptions, (id, val) => {
+            const optId = `${id}-${val}`;
+            if ($.isNumeric(testCounts[optId])) {
+              testCounts[optId] += count;
+            } else {
+              testCounts[optId] = count;
+            }
+            testOptions[id] = {
+              selected: val,
+              count: testCounts[optId],
+            };
+          });
+          const testItem = $.extend(true, {}, newCartItem);
+          testItem.selectedOptions = testOptions;
+          return testItem;
+        },
         onProductAdded(e) {
+          // this will run when a user clicks on an add to cart button on the page
           if (!methods.store.purchased) {
             const payload = e.detail;
             const index = cartItems.findIndex(item => item.product._id === payload.product);
@@ -958,25 +1049,57 @@
             };
             let added = false;
             let errorMsg = false;
-            if (index === -1) {
-              const product = mappedProducts[payload.product];
-              if (product) {
-                const countStep = parseInt(product.countStep, 10);
-                product.countStep = countStep;
-                const shopper = { count: countStep, selectedOptions: {} };
-                const newCartItem = $.extend(true, shopper, { product });
-                const inventory = methods.getInventory({ item: newCartItem, step: 0 });
-                if (inventory > 0 || inventory === -1) {
-                  cartItems.push(newCartItem);
-                  added = true;
-                } else if (inventory === 0) {
-                  errorMsg = 'Item currently out of stock.';
-                }
+            const product = mappedProducts[payload.product];
+            if (!product) {
+              errorMsg = 'Item no longer available.';
+            }
+            const countStep = product && product.countStep ? parseInt(product.countStep, 10) : 0;
+            const count = $.isNumeric(payload.count) ? payload.count : countStep;
+            const selectedOptions = payload.selectedOptions || {};
+            const shopper = { count, selectedOptions };
+            const newCartItem = $.extend(true, shopper, { product });
+            if (index === -1 && product) {
+              product.countStep = count;
+              const inventory = methods.getInventory({ item: newCartItem, step: 0 });
+              const canAdd = inventory > 0 || inventory === -1;
+              const cannotAdd = inventory === 0;
+              if (canAdd) {
+                cartItems.push(newCartItem);
+                added = true;
+              } else if (cannotAdd) {
+                errorMsg = 'Item currently out of stock.';
               }
-            } else {
-              const addCount = methods.onAddCount(null, index);
-              added = addCount.added;
-              errorMsg = addCount.errorMsg;
+            }
+            if (index >= 0 && product) {
+              // this would mean the at least one of the product is already in the cart
+              product.countStep = count;
+              const testItem = methods.queryCounts({ newCartItem, payload, count });
+              const inventory = methods.getInventory({ item: testItem, step: 0 });
+              const canAdd = inventory > 0 || inventory === -1;
+              const cannotAdd = inventory === 0;
+              const cartedIndex = cartItems.findIndex(item => item.product._id === payload.product
+                && methods.optionsSame(
+                  payload.selectedOptions,
+                  item.selectedOptions,
+                ));
+              if (cartedIndex >= 0 && canAdd) {
+                // this is in the event the product with the same selected options are
+                // in the cart so we just need to add to the count
+                const addCount = methods.onAddCount(null, { i: cartedIndex, inventory });
+                added = addCount.added;
+                errorMsg = addCount.errorMsg;
+              }
+
+              if (cartedIndex < 0 && canAdd) {
+                // this is in the event a user wants to add the same product in the
+                // cart but with different select options (ex: size, color etc.)
+                cartItems.push(newCartItem);
+                added = true;
+              }
+
+              if (cannotAdd) {
+                errorMsg = 'Item currently out of stock.';
+              }
             }
             if (!added) {
               alert.error = true;
