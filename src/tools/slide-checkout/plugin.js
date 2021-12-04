@@ -12,6 +12,7 @@
         symbol: '&#36;',
       },
       api: '',
+      cdn: 'https://drz-assets.s3.us-west-1.amazonaws.com',
     };
     const options = $.extend({}, defaults, opts);
     const drzzleStorage = window.localStorage.getItem('drzzleStorage');
@@ -73,6 +74,7 @@
       const $applyText = $slideCheckoutBox.find('.drzSlideCheckout-apply-text');
       const $shippingOptions = $slideCheckoutBox.find(`.${classes.shipOptions}`);
       const $shipTotal = $slideCheckoutBox.find(`.${classes.shipTotal}`);
+      const $shipState = $slideCheckoutBox.find('[name="shipping.state"]');
       const $discountPrice = $slideCheckoutBox.find(`.${classes.discountTotal}`);
       const $finalList = $slideCheckoutBox.find('.drzSlideCheckout-items-final');
       const $finalCart = $slideCheckoutBox.find('#final-cart');
@@ -156,6 +158,7 @@
         debounce: null,
         activeStep: 1,
         highestStep: 1,
+        countries: {},
         attachFormInputs($form) {
           const onUpdate = (e) => {
             const $this = $(e.currentTarget);
@@ -163,6 +166,29 @@
             const key = $this.attr('name');
             const keys = key.split('.');
             let store = methods.store.shopper;
+            if ($this.is('select')) {
+              $this.find('option[value=""]').prop('disabled', true);
+              const name = $this.attr('name');
+              // here we inject state and region options based on the country
+              if (name === 'payment.billing.country' || name === 'shipping.country') {
+                if (methods.countries[val]) {
+                  let $select;
+                  // shipping address
+                  if (name === 'shipping.country') {
+                    $select = $shipState;
+                  }
+                  if (name === 'payment.billing.country') {
+                    $select = $billState;
+                  }
+                  $select.empty().append($('<option selected value="">State</option>'));
+                  $.each(methods.countries[val].regions, (i, country) => {
+                    $select.append($(
+                      `<option value"${country.iso}">${country.name}</option>`,
+                    ));
+                  });
+                }
+              }
+            }
             keys.forEach((k, i) => {
               if (i === keys.length - 1) {
                 store[k] = val;
@@ -1239,6 +1265,10 @@
         methods.attachAlert();
       }
       methods.fetchProducts();
+      // pull in countries from our cdn
+      $.getJSON(`${options.cdn}/info/shipping-countries.json?${Date.now()}`, (data) => {
+        methods.countries = data;
+      });
     });
 
     return $shoppingCart;
