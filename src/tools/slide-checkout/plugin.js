@@ -317,7 +317,7 @@
           const item = cartItems[index];
           const step = item.product.countStep;
           let itemInv;
-          if (typeof inventory !== 'undefined') {
+          if (typeof params.inventory !== 'undefined') {
             // this is in the event the product with the same selected options are
             // in the cart so we just need to add to the count
             itemInv = params.inventory;
@@ -789,6 +789,12 @@
                 siteId: options.siteId,
                 date: new Date().toISOString(),
                 shopper: methods.store.shopper,
+                cartItems: cartItems.map(item => ({
+                  _id: item.product._id,
+                  count: item.count,
+                  name: item.product.name,
+                  selectedOptions: item.selectedOptions,
+                })),
               }),
               dataType: 'json',
               contentType: 'application/json',
@@ -1030,7 +1036,9 @@
           return true;
         },
         queryCounts({ newCartItem, payload, count }) {
-          const testCounts = {};
+          const testCounts = {
+            nonOptionCount: 0,
+          };
           cartItems.forEach((item) => {
             if (item.product._id === payload.product) {
               $.each(item.selectedOptions, (id, val) => {
@@ -1041,6 +1049,7 @@
                   testCounts[optId] = item.count;
                 }
               });
+              testCounts.nonOptionCount += item.count;
             }
           });
           const testOptions = {};
@@ -1061,6 +1070,7 @@
           });
           const testItem = $.extend(true, {}, newCartItem);
           testItem.selectedOptions = testOptions;
+          testItem.count = testCounts.nonOptionCount + count;
           return testItem;
         },
         onProductAdded(e) {
