@@ -249,16 +249,16 @@
           methods.buildCart(cartItems);
           methods.saveCart(cartItems);
         },
-        getInventory({ item, step }) {
+        getInventory({ item }) {
           // step is in the event, the item is in the cart so we need to see
           // if the step is allowed in inventory on a "+" click
-          const newCount = item.count + step;
+          const currentCount = item.count;
           const inventory = item.product.productInventory;
           const optionLimits = item.product.hasOptionLimit;
-          if (!optionLimits && (newCount <= inventory || inventory === -1)) {
+          if (!optionLimits && (currentCount <= inventory || inventory === -1)) {
             return inventory;
           }
-          if (!optionLimits && newCount > inventory) {
+          if (!optionLimits && currentCount > inventory) {
             return 0;
           }
           const selections = {};
@@ -290,7 +290,7 @@
           for (let i = 0; i < keys.length; i++) {
             const sel = selections[keys[i]];
             const unlimited = sel.limit === -1;
-            const count = $.isNumeric(sel.count) ? sel.count : newCount;
+            const count = $.isNumeric(sel.count) ? sel.count : currentCount;
             if (count > sel.limit && !unlimited) {
               methods.lastOption = sel.value;
               return 0;
@@ -315,7 +315,7 @@
           methods.countWarning = {};
           methods.optionWarning = {};
           const item = cartItems[index];
-          const step = item.product.countStep;
+          const step = parseInt(item.product.countStep, 10);
           let itemInv;
           if (typeof params.inventory !== 'undefined') {
             // this is in the event the product with the same selected options are
@@ -328,9 +328,8 @@
               newCartItem: item,
               payload: { product: item.product._id },
               count: step,
-              exists: true,
             });
-            itemInv = methods.getInventory({ item: testItem, step });
+            itemInv = methods.getInventory({ item: testItem });
           }
           // max allowed is to limit how much a shopper can buy
           const maxAllowed = item.product.maxPurchaseQuantity;
@@ -398,10 +397,8 @@
           const item = cartItems[index];
           const minAllowed = item.product.minPurchaseQuantity;
           const noMinLimit = minAllowed === -1;
-          const step = item.product.countStep;
+          const step = parseInt(item.product.countStep, 10);
           const newCount = item.count - step;
-          // TODO perhaps if min allowed AND step, select the highest amount and set to that?
-
           // no minimum purchase limit and desired count is greater than or
           // equal to step amount
           const removeStepOne = noMinLimit && newCount >= step;
@@ -418,7 +415,7 @@
           if (removeStepOne || removeStepTwo) {
             item.count -= step;
           } else if (makeStepOne || makeStepTwo) {
-            item.count = step;
+            item.count = 0;
           }
           methods.buildCart(cartItems);
           methods.saveCart(cartItems);
@@ -432,11 +429,18 @@
             const selectedOption = $select.val();
             const item = cartItems[index];
             item.selectedOptions[optionId] = selectedOption;
-            methods.optionWarning[index] = false;
+            methods.countWarning = {};
+            methods.optionWarning = {};
             // check based on options again,
-            const inventory = methods.getInventory({ item, step: 0 });
+            const testItem = methods.queryCounts({
+              newCartItem: item,
+              payload: { product: item.product._id },
+              count: 0,
+            });
+            const inventory = methods.getInventory({ item: testItem });
             if (inventory === 0) {
-              item.count = item.product.countStep;
+              item.count = 0;
+              methods.optionWarning[index] = `Not enough ${selectedOption} items in stock.`;
             }
             methods.buildCart(cartItems);
             methods.saveCart(cartItems);
@@ -857,7 +861,7 @@
               const shipOptions = res.payload.options;
               $shippingOptions.html(shipOptions.map((option) => {
                 const shipDuration = option.duration ? `<span class="drzSlideCheckout-shipping-duration">${option.duration}</span>` : '';
-                const logo = option.logo ? `<img class="drzSlideCheckout-shipping-provider" src="${option.logo}" title="${option.provider}" alt="${option.provider}" />` : '';
+                const logo = option.logo ? `<img class="drzSlideCheckout-shipping-provider" src="${option.logo}" title="${option.provider}" alt="${option.provider}" />` : '<span></span>';
                 return `
                   <label class="drzSlideCheckout-shipping-option" for="${option.id}">
                     <input
@@ -871,8 +875,8 @@
                     <span class="drzSlideCheckout-shipping-label">
                       ${logo}
                       <span>
-                      ${option.serviceLevel}
-                      ${shipDuration}
+                        ${option.serviceLevel}
+                        ${shipDuration}
                       </span>
                     </span>
                     <span class="drzSlideCheckout-shipping-price">
@@ -1095,8 +1099,7 @@
             const shopper = { count, selectedOptions };
             const newCartItem = $.extend(true, shopper, { product });
             if (index === -1 && product) {
-              product.countStep = count;
-              const inventory = methods.getInventory({ item: newCartItem, step: 0 });
+              const inventory = methods.getInventory({ item: newCartItem });
               const canAdd = inventory > 0 || inventory === -1;
               const cannotAdd = inventory === 0;
               if (canAdd) {
@@ -1108,9 +1111,8 @@
             }
             if (index >= 0 && product) {
               // this would mean the at least one of the product is already in the cart
-              product.countStep = count;
               const testItem = methods.queryCounts({ newCartItem, payload, count });
-              const inventory = methods.getInventory({ item: testItem, step: 0 });
+              const inventory = methods.getInventory({ item: testItem });
               const canAdd = inventory > 0 || inventory === -1;
               const cannotAdd = inventory === 0;
               const cartedIndex = cartItems.findIndex(item => item.product._id === payload.product
