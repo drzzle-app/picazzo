@@ -960,6 +960,9 @@
         onClickAddToCart(e) {
           e.preventDefault();
           const $btn = $(e.currentTarget);
+          if ($btn.hasClass(classes.disabled)) {
+            return;
+          }
           const optionAttr = $btn.attr('data-product-options');
           const detail = {
             product: $btn.attr('data-product-id'),
@@ -1206,7 +1209,7 @@
         fetchProducts() {
           // fetch all products on pages
           const $productBtns = $('[data-product-id]');
-          $productBtns.addClass('drzSlideCheckout-checkout-btnDisabled');
+          $productBtns.addClass(classes.disabled);
           const pageProducts = $productBtns.map(function mapProducts() {
             return $(this).attr('data-product-id');
           }).get();
@@ -1219,10 +1222,18 @@
             },
             contentType: 'application/json',
             success(res) {
+              $productBtns.removeClass(classes.disabled);
               res.payload.forEach((product) => {
                 mappedProducts[product._id] = $.extend({}, product);
+                if (product.outOfStock) {
+                  // overall droplet element
+                  $(`[data-product-droplet="${product._id}"]`).addClass('drzSlideCheckout-outOfStock');
+                  // for any droplet elements that need no stock text
+                  $(`[data-no-stock="${product._id}"]`).text('Out of Stock');
+                  // any add to cart buttons that need to be disabled
+                  $(`[name="add-to-cart"][data-product-id="${product._id}"]`).addClass(classes.disabled);
+                }
               });
-              $productBtns.removeClass('drzSlideCheckout-checkout-btnDisabled');
             },
           });
         },
