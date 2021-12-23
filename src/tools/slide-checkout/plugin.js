@@ -150,6 +150,7 @@
               rate: '',
               phone: '',
               price: 0,
+              shippingId: '',
               state: '',
               zipCode: '',
             },
@@ -792,6 +793,7 @@
               data: JSON.stringify({
                 siteId: options.siteId,
                 date: new Date().toISOString(),
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                 shopper: methods.store.shopper,
                 cartItems: cartItems.map(item => ({
                   _id: item.product._id,
@@ -858,7 +860,8 @@
             },
             contentType: 'application/json',
             success(res) {
-              const shipOptions = res.payload.options;
+              const payload = res.payload;
+              const shipOptions = payload.options;
               $shippingOptions.html(shipOptions.map((option) => {
                 const shipDuration = option.duration ? `<span class="drzSlideCheckout-shipping-duration">${option.duration}</span>` : '';
                 const logo = option.logo ? `<img class="drzSlideCheckout-shipping-provider" src="${option.logo}" title="${option.provider}" alt="${option.provider}" />` : '<span></span>';
@@ -902,6 +905,7 @@
               });
               const selected = $shippingOptions.find('.drzSlideCheckout-shipping-check:checked');
               const shipping = getShipping(selected);
+              methods.store.shopper.shipping.shippingId = payload.shipment.object_id;
               methods.store.shopper.shipping.method = selected.val();
               methods.store.shopper.shipping.rate = selected.attr('id');
               methods.store.shopper.shipping.price = shipping;
