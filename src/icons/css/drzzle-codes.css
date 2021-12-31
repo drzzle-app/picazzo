@@ -232,6 +232,13 @@
 .drzicon-media-list:before { content: '\e8e6'; } /* '' */
 .drzicon-modal:before { content: '\e8e7'; } /* '' */
 .drzicon-history:before { content: '\e8e8'; } /* '' */
+.drzicon-shop:before { content: '\e8e9'; } /* '' */
+.drzicon-drz-minus:before { content: '\e8ea'; } /* '' */
+.drzicon-ship-truck:before { content: '\e8eb'; } /* '' */
+.drzicon-box:before { content: '\e8ec'; } /* '' */
+.drzicon-package:before { content: '\e8ed'; } /* '' */
+.drzicon-circle-info:before { content: '\e8ee'; } /* '' */
+.drzicon-circle-check:before { content: '\e8ef'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */

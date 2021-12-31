@@ -1,0 +1,63 @@
+<div>
+  <header class="picazzo-page-header">Slide Checkout</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <slide-checkout-tool></slide-checkout-tool>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+  <p>
+    This plugin is very much tied to the Drzzle e-commerce services. The API parameter shouldn't be changed as
+    it handles shipping, inventory, purchase and discount calls.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzSlideCheckout').drzSlideCheckout({
+  siteId: 'drzzle-site-id',
+  taxPercent: 8.25,
+  api: 'https://api.drzzle.app',
+  currency: {
+    type: 'USD',
+    symbol: '&#36;',
+  },
+});</code></pre>
+</div>
+
+  <header class="picazzo-sectionHeader">Droplets</header>
+  <p>
+    This plugin can mark product droplets "out of stock" by adding a class and message if it's indeed out of stock.
+    To have this feature on a product droplet you'll need to add 2 attributes (<span class="picazzo-md">data-no-stock</span>, <span class="picazzo-md">data-product-droplet</span>) to the HTML. See the following example.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">&lt;div class=&quot;drzProduct-feature&quot; data-product-droplet=&quot;product-id-here&quot;&gt;
+  ...
+  &lt;!-- add to any &quot;add-to-cart&quot; buttons --&gt;
+  &lt;a href=&quot;#&quot;
+    class=&quot;drzProduct-feature-buyBtn&quot;
+    data-no-stock=&quot;product-id-here&quot;
+    name=&quot;add-to-cart&quot;&gt;
+    Add to Cart
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter">
+    <a
+      href="https://github.com/drzzle-app/picazzo/blob/master/src/tools/slide-checkout/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </div>
+</div>

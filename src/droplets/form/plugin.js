@@ -4,7 +4,7 @@
 =================================
 */
 (($) => {
-  $.fn.drzFormValidate = function formValidate(fn) {
+  $.fn.drzFormValidate = function formValidate(fn, $btn, onError) {
     const $form = $(this);
     $form.each(function initValidation() {
       const $this = $(this);
@@ -34,34 +34,43 @@
             e.preventDefault();
             errors = true;
             field.input.next('.drzValidator-msg')
+              .show()
               .find('.drzValidator-msg-type')
               .html(typeMsg)
               .fadeIn();
+            if (onError && typeof onError === 'function') {
+              onError({ $form: $this, $field: field.input });
+            }
           }
           field.input.keyup(() => {
             if (field.input.val().match(field.format)) {
               errors = false;
               field.input.removeClass('drzValidator-req-border');
               field.input.next('.drzValidator-msg')
+                .fadeOut()
                 .find('.drzValidator-msg-type')
                 .fadeOut();
             } else {
               errors = true;
               field.input.addClass('drzValidator-req-border');
               field.input.next('.drzValidator-msg')
+                .show()
                 .find('.drzValidator-msg-type')
                 .html(typeMsg)
                 .fadeIn();
+              if (onError && typeof onError === 'function') {
+                onError({ $form: $this, $field: field.input });
+              }
             }
           });
         },
       };
 
-      $this.submit((e) => {
+      const onSubmit = (e) => {
         e.preventDefault();
         $this.find(types)
           .not('.checkbox-group input')
-          .not('.radio-group input').each(function onSubmit() {
+          .not('.radio-group input').each(function inputCheck() {
             const $el = $(this);
             const inputType = $el.attr('type');
             let msg;
@@ -86,6 +95,7 @@
                   errors = false;
                   $el.removeClass('drzValidator-req-border');
                   $el.next('.drzValidator-msg')
+                    .fadeOut()
                     .find('.drzValidator-msg-required')
                     .fadeOut();
                 } else {
@@ -98,9 +108,13 @@
                     msg = 'This value is required.';
                   }
                   $el.next('.drzValidator-msg')
+                    .show()
                     .find('.drzValidator-msg-required')
                     .html(msg)
                     .fadeIn();
+                  if (onError && typeof onError === 'function') {
+                    onError({ $form: $this, $field: $el });
+                  }
                 }
               });
 
@@ -110,15 +124,20 @@
                   errors = false;
                   $el.removeClass('drzValidator-req-border');
                   $el.next('.drzValidator-msg')
+                    .fadeOut()
                     .find('.drzValidator-msg-required')
                     .fadeOut();
                 } else {
                   errors = true;
                   $el.addClass('drzValidator-req-border');
                   $el.next('.drzValidator-msg')
+                    .show()
                     .find('.drzValidator-msg-required')
                     .html(msg)
                     .fadeIn();
+                  if (onError && typeof onError === 'function') {
+                    onError({ $form: $this, $field: $el });
+                  }
                 }
               });
             }
@@ -139,9 +158,13 @@
               }
 
               $el.next('.drzValidator-msg')
+                .show()
                 .find('.drzValidator-msg-required')
                 .html(msg)
                 .fadeIn();
+              if (onError && typeof onError === 'function') {
+                onError({ $form: $this, $field: $el });
+              }
             }
 
             // min, max validation
@@ -186,9 +209,13 @@
                   errors = true;
                   $el.addClass('drzValidator-req-border');
                   $el.next('.drzValidator-msg')
+                    .show()
                     .find('.drzValidator-msg-min')
                     .html(minMsg)
                     .fadeIn();
+                  if (onError && typeof onError === 'function') {
+                    onError({ $form: $this, $field: $el });
+                  }
                 }
                 // keyup for min/max number inputs
                 $el.keyup(() => {
@@ -202,9 +229,13 @@
                       errors = true;
                       $el.addClass('drzValidator-req-border');
                       $el.next('.drzValidator-msg')
+                        .show()
                         .find('.drzValidator-msg-min')
                         .html(minMsg)
                         .fadeIn();
+                      if (onError && typeof onError === 'function') {
+                        onError({ $form: $this, $field: $el });
+                      }
                     } else {
                       if (typeof $maxAttr === typeof undefined && $maxAttr === false) {
                         errors = false;
@@ -215,7 +246,7 @@
                         errors = false;
                         $el.removeClass('drzValidator-req-border');
                       }
-                      $el.next('.drzValidator-msg').find('.drzValidator-msg-min').fadeOut();
+                      $el.next('.drzValidator-msg').fadeOut().find('.drzValidator-msg-min').fadeOut();
                     }
                   }
                 });
@@ -226,9 +257,13 @@
                   errors = true;
                   $el.addClass('drzValidator-req-border');
                   $el.next('.drzValidator-msg')
+                    .show()
                     .find('.drzValidator-msg-max')
                     .html(maxMsg)
                     .fadeIn();
+                  if (onError && typeof onError === 'function') {
+                    onError({ $form: $this, $field: $el });
+                  }
                 }
                 $el.keyup(() => {
                   if (inputType === 'number') {
@@ -241,9 +276,13 @@
                       errors = true;
                       $el.addClass('drzValidator-req-border');
                       $el.next('.drzValidator-msg')
+                        .show()
                         .find('.drzValidator-msg-max')
                         .html(maxMsg)
                         .fadeIn();
+                      if (onError && typeof onError === 'function') {
+                        onError({ $form: $this, $field: $el });
+                      }
                     } else {
                       if (typeof $minAttr === typeof undefined && $minAttr === false) {
                         errors = false;
@@ -255,6 +294,7 @@
                         $el.removeClass('drzValidator-req-border');
                       }
                       $el.next('.drzValidator-msg')
+                        .fadeOut()
                         .find('.drzValidator-msg-max')
                         .fadeOut();
                     }
@@ -277,9 +317,13 @@
                   errors = true;
                   $el.addClass('drzValidator-req-border');
                   $el.next('.drzValidator-msg')
+                    .show()
                     .find('.drzValidator-msg-value')
                     .html(valMsg)
                     .fadeIn();
+                  if (onError && typeof onError === 'function') {
+                    onError({ $form: $this, $field: $el });
+                  }
                 }
                 $el.keyup(() => {
                   if ($el.val() !== '') {
@@ -287,13 +331,18 @@
                       errors = true;
                       $el.addClass('drzValidator-req-border');
                       $el.next('.drzValidator-msg')
+                        .show()
                         .find('.drzValidator-msg-value')
                         .html(valMsg)
                         .fadeIn();
+                      if (onError && typeof onError === 'function') {
+                        onError({ $form: $this, $field: $el });
+                      }
                     } else {
                       errors = false;
                       $el.removeClass('drzValidator-req-border');
                       $el.next('.drzValidator-msg')
+                        .fadeOut()
                         .find('.drzValidator-msg-value')
                         .fadeOut();
                     }
@@ -321,9 +370,13 @@
                   errors = true;
                   $el.addClass('drzValidator-req-border');
                   $el.next('.drzValidator-msg')
+                    .show()
                     .find('.drzValidator-msg-regex')
                     .html(regexMsg)
                     .fadeIn();
+                  if (onError && typeof onError === 'function') {
+                    onError({ $form: $this, $field: $el });
+                  }
                 }
                 $el.keyup(() => {
                   if ($el.val() !== '') {
@@ -331,13 +384,18 @@
                       errors = true;
                       $el.addClass('drzValidator-req-border');
                       $el.next('.drzValidator-msg')
+                        .show()
                         .find('.drzValidator-msg-regex')
                         .html(regexMsg)
                         .fadeIn();
+                      if (onError && typeof onError === 'function') {
+                        onError({ $form: $this, $field: $el });
+                      }
                     } else {
                       errors = false;
                       $el.removeClass('drzValidator-req-border');
                       $el.next('.drzValidator-msg')
+                        .fadeOut()
                         .find('.drzValidator-msg-regex')
                         .fadeOut();
                     }
@@ -398,15 +456,20 @@
                   errors = false;
                   $el.removeClass('drzValidator-req-border');
                   $el.next('.drzValidator-msg')
+                    .fadeOut()
                     .find('.drzValidator-msg-required')
                     .fadeOut();
                 } else {
                   errors = true;
                   $el.addClass('drzValidator-req-border');
                   $el.next('.drzValidator-msg')
+                    .show()
                     .find('.drzValidator-msg-required')
                     .html(msg)
                     .fadeIn();
+                  if (onError && typeof onError === 'function') {
+                    onError({ $form: $this, $field: $el });
+                  }
                 }
               });
             } // end select validation
@@ -449,9 +512,13 @@
               msg = 'You must check at least one.';
             }
             $el.find('.drzValidator-msg')
+              .show()
               .find('.drzValidator-msg-required')
               .html(msg)
               .fadeIn();
+            if (onError && typeof onError === 'function') {
+              onError({ $form: $this, $field: $el });
+            }
 
             // on checked
             findType.change(() => {
@@ -459,24 +526,35 @@
                 errors = false;
                 findType.removeClass('drzValidator-req-border');
                 $el.find('.drzValidator-msg')
+                  .fadeOut()
                   .find('.drzValidator-msg-required')
                   .fadeOut();
               } else {
                 errors = true;
                 findType.addClass('drzValidator-req-border');
                 $el.find('.drzValidator-msg')
+                  .show()
                   .find('.drzValidator-msg-required')
                   .html(msg)
                   .fadeIn();
+                if (onError && typeof onError === 'function') {
+                  onError({ $form: $this, $field: $el });
+                }
               }
             });
           }
         });
         // run form logic after validation passes
         if (fn && !errors) {
-          fn();
+          fn(e);
         }
-      });
+      };
+
+      if ($btn) {
+        $btn.click(onSubmit);
+      } else {
+        $this.submit(onSubmit);
+      }
 
       // Destroy method
       $.fn.drzFormValidate.destroy = ($el) => {

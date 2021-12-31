@@ -232,6 +232,13 @@
 .drzicon-media-list { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8e6;&nbsp;'); }
 .drzicon-modal { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8e7;&nbsp;'); }
 .drzicon-history { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8e8;&nbsp;'); }
+.drzicon-shop { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8e9;&nbsp;'); }
+.drzicon-drz-minus { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ea;&nbsp;'); }
+.drzicon-ship-truck { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8eb;&nbsp;'); }
+.drzicon-box { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ec;&nbsp;'); }
+.drzicon-package { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ed;&nbsp;'); }
+.drzicon-circle-info { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ee;&nbsp;'); }
+.drzicon-circle-check { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ef;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }

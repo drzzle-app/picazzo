@@ -364,6 +364,11 @@
           "children": []
         },
         {
+          "text": "Slide Checkout",
+          "route": "/slide-checkout",
+          "children": []
+        },
+        {
           "text": "Tool Tips",
           "route": "/tool-tips",
           "children": []

@@ -55,6 +55,40 @@ data-image-zoom="true" // default is false</code></pre>
     <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
   </div>
 
+  <p class="picazzo-section-subHeader">Options Plugin</p>
+  <p>
+    This droplet also uses another plugin that can be used by any product droplet that may need it in the future. This plugin
+    is for droplets that may have any options or add and remove count buttons in it like this droplet does. The plugin gathers the selected
+    counts and options attached and passes it to the shopping cart when users add items to their cart.
+  </p>
+  <p>
+    The following attributes would be needed in the droplet HTML:
+  </p>
+  <p>
+    <span class="picazzo-md">data-product-option="option-id"</span> - On any select options for the product</br>
+    <span class="picazzo-md">name="add-to-cart"</span> - On cart button</br>
+    <span class="picazzo-md">name="product-count"</span> - On any element displaying the numeric count desired</br>
+    <span class="picazzo-md">name="add-product-count"</span> - On any button that will be adding to the count</br>
+    <span class="picazzo-md">name="remove-product-count"</span> - On any button that will be removing to the count
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">&lt;div class=&quot;myDroplet&quot;&gt;
+  &lt;!-- optional select options --&gt;
+  &lt;select&gt;
+    &lt;option data-product-option=&quot;option-id&quot;&gt;Large&lt;/option&gt;
+    &lt;option data-product-option=&quot;option-id&quot;&gt;Small&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;!-- optional product count editing --&gt;
+  &lt;button name=&quot;add-product-count&quot;&gt; + &lt;/button&gt;
+  &lt;span name=&quot;product-count&quot;&gt;3&lt;/span&gt;
+  &lt;button name=&quot;remove-product-count&quot;&gt; - &lt;/button&gt;
+  &lt;!-- add to cart button --&gt;
+  &lt;button name=&quot;add-to-cart&quot;&gt;Add to Cart&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+<pre v-highlightjs><code class="javascript">$('.myDroplet').drzProductOptions();</code></pre>
+  </div>
+
   <div class="picazzo-docFooter">
     <a
       href="https://github.com/drzzle-app/picazzo/blob/master/src/droplets/product-feature/plugin.js"

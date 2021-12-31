@@ -1,0 +1,549 @@
+<div>
+  <a class="drzBuyBtn" href="#" name="open-shopping-cart">
+    Checkout
+  </a>
+  <div class="drzSlideCheckout" ref="slideCheckoutBox">
+    <div class="drzSlideCheckout-header">
+      <div class="drzSlideCheckout-header-back">
+        <a href="#" class="drzSlideCheckout-back">Continue Shopping</a>
+      </div>
+      <div class="drzSlideCheckout-header-logo">
+        <img class="drzSlideCheckout-header-logoImg" src="/static/images/mock-logo.svg" alt="store logo"/>
+      </div>
+      <div class="drzSlideCheckout-step-legend">
+        <a class="drzSlideCheckout-step-legendItem" href="#" data-from-step="1">
+          <span class="drzSlideCheckout-step-legendName">Cart</span>
+        </a>
+        <a class="drzSlideCheckout-step-legendItem" href="#" data-from-step="2">
+          <span class="drzSlideCheckout-step-legendName">Info & Shipping</span>
+        </a>
+        <a class="drzSlideCheckout-step-legendItem" href="#" data-from-step="3">
+          <span class="drzSlideCheckout-step-legendName">Payment</span>
+        </a>
+        <span class="drzSlideCheckout-step-legendItem">
+          <span class="drzSlideCheckout-step-legendName">Confirmation</span>
+        </span>
+      </div>
+    </div>
+    <div class="drzSlideCheckout-body">
+      <div class="drzSlideCheckout-step-grid" data-checkout-step="1" >
+        <div class="drzSlideCheckout-step-cart">
+          <h3 class="drzSlideCheckout-step-header">Shopping Cart</h3>
+          <ul class="drzSlideCheckout-step-cartItems"></ul>
+        </div>
+        <div class="drzSlideCheckout-step-totals">
+          <div class="drzSlideCheckout-step-row">
+            Subtotal:
+            <span class="drzSlideCheckout-step-preTaxTotal"></span>
+          </div>
+          <button
+            name="checkout-next-step"
+            data-from-step="1"
+            class="drzSlideCheckout-checkout-btn">
+            Checkout
+          </button>
+          <div class="drzSlideCheckout-checkout-options">
+            <span class="drzSlideCheckout-checkout-or">or</span>
+          </div>
+        </div>
+      </div>
+      <div class="drzSlideCheckout-step-grid" data-checkout-step="2" >
+        <div class="drzSlideCheckout-step-cart">
+          <h3 class="drzSlideCheckout-step-header">Info & Shipping</h3>
+          <form class="drzSlideCheckout-form">
+            <div class="drzSlideCheckout-section-header">
+              Contact
+            </div>
+            <fieldset class="drzSlideCheckout-form-field">
+              <span class="drzSlideCheckout-form-helper">Email</span>
+              <input
+                class="drzSlideCheckout-form-input"
+                type="email"
+                data-validator="required"
+                autocorrect="off"
+                data-event="input"
+                name="contact.email"
+                placeholder="Email" />
+            </fieldset>
+            <div class="drzSlideCheckout-section-header">
+              Shipping Address
+            </div>
+            <div class="drzSlideCheckout-form-names">
+              <div>
+                <fieldset class="drzSlideCheckout-form-field">
+                  <span class="drzSlideCheckout-form-helper">First Name</span>
+                  <input
+                    class="drzSlideCheckout-form-input"
+                    type="text"
+                    data-validator="required"
+                    autocorrect="off"
+                    data-event="input"
+                    name="contact.firstName"
+                    placeholder="First Name" />
+                </fieldset>
+              </div>
+              <div>
+                <fieldset class="drzSlideCheckout-form-field">
+                  <span class="drzSlideCheckout-form-helper">Last Name</span>
+                  <input
+                    class="drzSlideCheckout-form-input"
+                    type="text"
+                    data-validator="required"
+                    autocorrect="off"
+                    data-event="input"
+                    name="contact.lastName"
+                    placeholder="Last Name" />
+                </fieldset>
+              </div>
+            </div>
+            <fieldset class="drzSlideCheckout-form-field">
+              <span class="drzSlideCheckout-form-helper">Company</span>
+              <input
+                class="drzSlideCheckout-form-input"
+                type="text"
+                autocorrect="off"
+                data-event="input"
+                name="shipping.company"
+                placeholder="Company (optional)" />
+            </fieldset>
+            <fieldset class="drzSlideCheckout-form-field">
+              <span class="drzSlideCheckout-form-helper">Address</span>
+              <input
+                class="drzSlideCheckout-form-input"
+                type="text"
+                data-validator="required"
+                autocorrect="off"
+                data-event="input"
+                name="shipping.address"
+                placeholder="Address" />
+            </fieldset>
+            <fieldset class="drzSlideCheckout-form-field">
+              <span class="drzSlideCheckout-form-helper">Apartment, Suite, etc.</span>
+              <input
+                class="drzSlideCheckout-form-input"
+                type="text"
+                autocorrect="off"
+                data-event="input"
+                name="shipping.apt"
+                placeholder="Apartment, Suite, etc" />
+            </fieldset>
+            <fieldset class="drzSlideCheckout-form-field">
+              <span class="drzSlideCheckout-form-helper">City</span>
+              <input
+                class="drzSlideCheckout-form-input"
+                type="text"
+                data-validator="required"
+                autocorrect="off"
+                data-event="input"
+                name="shipping.city"
+                placeholder="City" />
+            </fieldset>
+            <div class="drzSlideCheckout-form-location">
+              <div>
+                <fieldset class="drzSlideCheckout-form-field">
+                  <div class="drzSlideCheckout-form-selectWrap">
+                    <select
+                      class="drzSlideCheckout-form-select"
+                      data-validator="required"
+                      name="shipping.country"
+                      data-event="change">
+                      <option selected value="">
+                        Country
+                      </option>
+                      <option value="US">
+                        US
+                      </option>
+                    </select>
+                  </div>
+                </fieldset>
+              </div>
+              <div>
+                <fieldset class="drzSlideCheckout-form-field">
+                  <div class="drzSlideCheckout-form-selectWrap">
+                    <select
+                      class="drzSlideCheckout-form-select"
+                      data-validator="required"
+                      name="shipping.state"
+                      data-event="change">
+                      <option value="">State/Region</option>
+                    </select>
+                  </div>
+                </fieldset>
+              </div>
+              <div>
+                <fieldset class="drzSlideCheckout-form-field">
+                  <span class="drzSlideCheckout-form-helper">ZIP Code</span>
+                  <input
+                    class="drzSlideCheckout-form-input"
+                    type="text"
+                    data-validator="required"
+                    autocorrect="off"
+                    data-event="input"
+                    name="shipping.zipCode"
+                    placeholder="ZIP Code" />
+                </fieldset>
+              </div>
+            </div>
+            <fieldset class="drzSlideCheckout-form-field">
+              <span class="drzSlideCheckout-form-helper">Phone 000-000-0000</span>
+              <input
+                class="drzSlideCheckout-form-input"
+                type="tel"
+                autocorrect="off"
+                data-event="input"
+                data-mask="000-000-0000"
+                name="shipping.phone"
+                placeholder="Phone 000-000-0000" />
+            </fieldset>
+          </form>
+        </div>
+        <div class="drzSlideCheckout-info-totals">
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-items-final"></div>
+          </div>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-discount-grid">
+              <form class="drzSlideCheckout-apply-form">
+                <fieldset class="drzSlideCheckout-form-field">
+                  <span class="drzSlideCheckout-form-helper">Discount Code</span>
+                  <input
+                    class="drzSlideCheckout-form-input"
+                    type="text"
+                    data-validator="required"
+                    autocorrect="off"
+                    data-event="input"
+                    name="discountCode"
+                    placeholder="Discount Code" />
+                </fieldset>
+              </form>
+              <div>
+                <button
+                  class="drzSlideCheckout-apply-btn"
+                  type="button"
+                  name="apply-discount">
+                  <span class="drzSlideCheckout-apply-text">Apply</span>
+                  <div class="drzSlideCheckout-loader-btn" />
+                </button>
+              </div>
+            </div>
+            <div class="drzSlideCheckout-general-error" name="discount-error"></div>
+          </div>
+          <div class="drzSlideCheckout-section-divider"></div>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Subtotal </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="subtotal">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-step-row drzSlideCheckout-step-discount">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Discount </span>
+              <span class="drzSlideCheckout-cartItemTotal drzSlideCheckout-cartDiscount" name="discount">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-step-row drzSlideCheckout-step-shipping">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Shipping </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="shipping">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Taxes (estimated) </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="tax">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-section-divider"></div>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Total </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="grand-total">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-shipping-optionsWrap">
+              <button
+                type="button"
+                class="drzSlideCheckout-shipping-optionBtn"
+                name="shipping-options">
+                <div class="drzSlideCheckout-shipping-loader"></div>
+                <span class="drzSlideCheckout-shipping-btnText">Select Shipping Method</span>
+              </button>
+              <div class="drzSlideCheckout-shipping-options">
+                <div class="drzSlideCheckout-general-error" name="shipping-options-error"></div>
+                <div class="drzSlideCheckout-shipping-optionList"></div>
+              </div>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-section-divider"></div>
+          <div class="drzSlideCheckout-step-row">
+            <button
+              name="checkout-next-step"
+              data-from-step="2"
+              class="drzSlideCheckout-checkout-btn">
+              Proceed to Payment
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="drzSlideCheckout-step-grid" data-checkout-step="3">
+        <div class="drzSlideCheckout-step-cart">
+          <h3 class="drzSlideCheckout-step-header">Payment</h3>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-info-confirm">
+              <div class="drzSlideCheckout-info-row">
+                <div class="drzSlideCheckout-section-gap">
+                  <span class="drzSlideCheckout-info-label">Email: </span>
+                  <span name="email-confirm"></span>
+                </div>
+              </div>
+              <div class="drzSlideCheckout-info-row">
+                <div class="drzSlideCheckout-section-gap">
+                  <span class="drzSlideCheckout-info-label">Ship To: </span>
+                  <span name="address-confirm"></span>
+                </div>
+              </div>
+              <div class="drzSlideCheckout-info-row">
+                <div class="drzSlideCheckout-section-gap">
+                  <span class="drzSlideCheckout-info-label">Shipping Method: </span>
+                  <span name="shipping-method-confirm"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form class="drzSlideCheckout-form-payment">
+            <div class="drzSlideCheckout-section-header">
+              Payment Method
+            </div>
+            <fieldset class="drzSlideCheckout-form-field">
+              <span class="drzSlideCheckout-form-helper">Name on Card</span>
+              <input
+                class="drzSlideCheckout-form-input"
+                type="text"
+                data-validator="required"
+                autocorrect="off"
+                data-event="input"
+                name="payment.name"
+                placeholder="Name on Card" />
+            </fieldset>
+            <fieldset class="drzSlideCheckout-form-field">
+              <span class="drzSlideCheckout-form-helper">Card Number</span>
+              <input
+                class="drzSlideCheckout-form-input"
+                type="text"
+                data-validator="required"
+                data-mask="0000 0000 0000 0000"
+                autocorrect="off"
+                data-event="input"
+                name="payment.cc"
+                placeholder="Card Number" />
+            </fieldset>
+            <div class="drzSlideCheckout-form-names">
+              <div>
+                <fieldset class="drzSlideCheckout-form-field">
+                  <span class="drzSlideCheckout-form-helper">Expiration Date (MM / YYYY)</span>
+                  <input
+                    class="drzSlideCheckout-form-input"
+                    type="text"
+                    data-validator="required"
+                    autocorrect="off"
+                    data-mask="00 / 0000"
+                    data-event="input"
+                    name="payment.exp"
+                    placeholder="Expiration Date (MM / YYYY)" />
+                </fieldset>
+              </div>
+              <div>
+                <fieldset class="drzSlideCheckout-form-field">
+                  <span class="drzSlideCheckout-form-helper">Security Code</span>
+                  <input
+                    class="drzSlideCheckout-form-input"
+                    type="text"
+                    data-validator="required"
+                    autocorrect="off"
+                    data-event="input"
+                    data-mask="000"
+                    name="payment.code"
+                    placeholder="Security Code" />
+                </fieldset>
+              </div>
+            </div>
+            <div class="drzSlideCheckout-section-header">
+              Billing Address
+            </div>
+            <div class="drzSlideCheckout-radio-accordion">
+              <div class="drzSlideCheckout-radio-accordioItem">
+                <label class="drzSlideCheckout-radio-accordionBtn" for="same-as-billing">
+                  <span class="drzSlideCheckout-radio-accordionLabel">Same as Shipping Address</span>
+                  <input
+                    type="radio"
+                    class="drzSlideCheckout-billingAddr-check"
+                    data-radio-value="same"
+                    checked
+                    id="same-as-billing"
+                    name="billing-address" />
+                </label>
+              </div>
+              <div class="drzSlideCheckout-radio-accordioItem">
+                <label class="drzSlideCheckout-radio-accordionBtn" for="different-billing-address">
+                  <span class="drzSlideCheckout-radio-accordionLabel">Use a Different Address</span>
+                  <input
+                    type="radio"
+                    class="drzSlideCheckout-billingAddr-check"
+                    data-radio-value="different"
+                    id="different-billing-address"
+                    name="billing-address" />
+                </label>
+                <div class="drzSlideCheckout-radio-accordionContent">
+                  <fieldset class="drzSlideCheckout-form-field">
+                    <span class="drzSlideCheckout-form-helper">Address</span>
+                    <input
+                      class="drzSlideCheckout-form-input"
+                      type="text"
+                      data-validator="required"
+                      autocorrect="off"
+                      data-event="input"
+                      name="payment.billing.address"
+                      placeholder="Address" />
+                  </fieldset>
+                  <fieldset class="drzSlideCheckout-form-field">
+                    <span class="drzSlideCheckout-form-helper">Apartment, Suite, etc.</span>
+                    <input
+                      class="drzSlideCheckout-form-input"
+                      type="text"
+                      autocorrect="off"
+                      data-event="input"
+                      name="payment.billing.apt"
+                      placeholder="Apartment, Suite, etc" />
+                  </fieldset>
+                  <fieldset class="drzSlideCheckout-form-field">
+                    <span class="drzSlideCheckout-form-helper">City</span>
+                    <input
+                      class="drzSlideCheckout-form-input"
+                      type="text"
+                      data-validator="required"
+                      autocorrect="off"
+                      data-event="input"
+                      name="payment.billing.city"
+                      placeholder="City" />
+                  </fieldset>
+                  <div class="drzSlideCheckout-form-location">
+                    <div>
+                      <fieldset class="drzSlideCheckout-form-field">
+                        <div class="drzSlideCheckout-form-selectWrap">
+                          <select
+                            class="drzSlideCheckout-form-select"
+                            data-validator="required"
+                            name="payment.billing.country"
+                            data-event="change">
+                            <option value="">Country</option>
+                            <option value="US">
+                              US
+                            </option>
+                          </select>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div>
+                      <fieldset class="drzSlideCheckout-form-field">
+                        <div class="drzSlideCheckout-form-selectWrap">
+                          <select
+                            class="drzSlideCheckout-form-select"
+                            data-validator="required"
+                            name="payment.billing.state"
+                            data-event="change">
+                            <option selected value="">State/Region</option>
+                          </select>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div>
+                      <fieldset class="drzSlideCheckout-form-field">
+                        <span class="drzSlideCheckout-form-helper">ZIP Code</span>
+                        <input
+                          class="drzSlideCheckout-form-input"
+                          type="text"
+                          data-validator="required"
+                          autocorrect="off"
+                          data-event="input"
+                          name="payment.billing.zipCode"
+                          placeholder="ZIP Code" />
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="drzSlideCheckout-info-totals" id="final-cart">
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-items-final"></div>
+          </div>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Subtotal </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="subtotal">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-step-row drzSlideCheckout-step-discount">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Discount </span>
+              <span class="drzSlideCheckout-cartItemTotal drzSlideCheckout-cartDiscount" name="discount">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-step-row drzSlideCheckout-step-shipping">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Shipping </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="shipping">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Taxes (estimated) </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="tax">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-section-divider"></div>
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-section-gap">
+              <span>Total </span>
+              <span class="drzSlideCheckout-cartItemTotal" name="grand-total">$0</span>
+            </div>
+          </div>
+          <div class="drzSlideCheckout-step-row">
+            <button
+              name="checkout-next-step"
+              data-from-step="3"
+              class="drzSlideCheckout-checkout-pay">
+              <div class="drzSlideCheckout-pay-loader"></div>
+              <span class="drzSlideCheckout-checkout-payText">
+                Purchase
+              </span>
+            </button>
+            <span class="drzSlideCheckout-purchasing-text hide">
+              Hang tight while we complete your purchase...
+            </span>
+            <div class="drzSlideCheckout-payment-error"></div>
+          </div>
+        </div>
+      </div>
+      <div class="drzSlideCheckout-step-grid" data-checkout-step="4">
+        <div class="drzSlideCheckout-step-cart">
+          <h3 class="drzSlideCheckout-step-header drzSlideCheckout-payment-success">
+            Thank You for Your Purchase!
+          </h3>
+          <div class="drzSlideCheckout-order-box">
+            <div class="drzSlideCheckout-step-row">
+              <div class="drzSlideCheckout-section-header" id="order-number"></div>
+            </div>
+            <div class="drzSlideCheckout-step-row">
+              We have also sent your receipt to your email address.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="drzSlideCheckout-footer"></div>
+  </div>
+</div>
