@@ -16,52 +16,41 @@
   <header class="picazzo-sectionHeader">Javascript</header>
 
   <p class="picazzo-section-subHeader">Initializing Plugin</p>
+  <p>
+    This plugin is very much tied to the Drzzle e-commerce services. The API parameter shouldn't be changed as
+    it handles shipping, inventory, purchase and discount calls.
+  </p>
 
-  <!-- <div class="row">
-    <pre v-highlightjs><code class="javascript">$('.drzFilter-grid').drzFilterGrid({
-  feed: [
-    {
-      created: '2020-06-25T19:31:14.835Z',
-      description: 'First Item description here.',
-      name: 'First Item',
-      categories: ['movie'],
-    },
-    {
-      created: '2020-06-24T19:31:14.835Z',
-      description: 'Second Item description here.',
-      name: 'Second Item',
-      categories: ['movie', 'music'],
-    },
-  ],
-  output(data) {
-    // this is the HTML that will render out for each
-    // feed item
-    return `&lt;div&gt;${data.name}&lt;/div&gt;`;
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzSlideCheckout').drzSlideCheckout({
+  siteId: 'drzzle-site-id',
+  taxPercent: 8.25,
+  api: 'https://api.drzzle.app',
+  currency: {
+    type: 'USD',
+    symbol: '&#36;',
   },
-  // the search input will look through the feed item
-  // keys of your choice
-  searchKeys: ['name', 'description'],
-  // optional after each feed item renders
-  onRender($item) {
-    // add events to $item
-  },
-  // optional if you need global filtering. These need
-  // to correspond to the feed item categories
-  filters: ['movie', 'music'],
-  // optional if you need pagination. The number indicates
-  // the number of items you want per set
-  pagination: 4,
 });</code></pre>
-</div> -->
+</div>
 
+  <header class="picazzo-sectionHeader">Droplets</header>
+  <p>
+    This plugin can mark product droplets "out of stock" by adding a class and message if it's indeed out of stock.
+    To have this feature on a product droplet you'll need to add 2 attributes (<span class="picazzo-md">data-no-stock</span>, <span class="picazzo-md">data-product-droplet</span>) to the HTML. See the following example.
+  </p>
 
-
-<!-- <p class="picazzo-section-subHeader">Destroy Plugin</p>
-
-<div class="row">
-  <pre v-highlightjs><code class="javascript">const $droplet = $('.drzFilter-grid');
-$droplet.drzFilterGrid.destroy($droplet);</code></pre>
-</div> -->
+  <div class="row">
+    <pre v-highlightjs><code class="html">&lt;div class=&quot;drzProduct-feature&quot; data-product-droplet=&quot;product-id-here&quot;&gt;
+  ...
+  &lt;!-- add to any &quot;add-to-cart&quot; buttons --&gt;
+  &lt;a href=&quot;#&quot;
+    class=&quot;drzProduct-feature-buyBtn&quot;
+    data-no-stock=&quot;product-id-here&quot;
+    name=&quot;add-to-cart&quot;&gt;
+    Add to Cart
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+  </div>
 
   <div class="picazzo-docFooter">
     <a

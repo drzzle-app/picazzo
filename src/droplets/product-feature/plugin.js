@@ -20,10 +20,11 @@
       const $addBtn = $this.find('.drzProduct-feature-add');
       const $count = $this.find('.drzProduct-feature-count');
       const shouldZoom = $this.attr('data-image-zoom');
+      const step = options.overrides ? options.overrides.quantity.step : 1;
       const methods = {
         activeImage: null,
-        quantity: 1,
-        step: 1,
+        quantity: step,
+        step,
         max: false,
         $options,
         clickThumb(e) {
@@ -80,8 +81,8 @@
           }
           if ($btn.hasClass('drzProduct-feature-remove') && methods.quantity > 1) {
             methods.quantity -= methods.step;
-            if (methods.quantity < 0) {
-              methods.quantity = 0;
+            if (methods.quantity <= 0) {
+              methods.quantity = methods.step;
             }
           }
           $count.text(methods.quantity);
@@ -144,8 +145,8 @@
         $featuredImgContainer.off('swipeleft');
         $featuredImgContainer.off('swiperight');
         methods.activeImage = null;
-        methods.quantity = 1;
-        methods.step = 1;
+        methods.quantity = step;
+        methods.step = step;
         methods.max = false;
         $thumb.off('click');
         $nextBtn.off('click');

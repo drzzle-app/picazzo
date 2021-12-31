@@ -34,14 +34,12 @@
     <header class="drzProduct-feature-name">Product Name</header>
     <span class="drzProduct-feature-price">$25</span>
     <div class="drzProduct-feature-optionsWrap">
-      <!-- dynamic options -->
       <div class="drzProduct-feature-fieldWrap">
         <label class="drzProduct-feature-fieldLabel">Size</label>
         <div class="drzProduct-feature-selectContainer">
           <select class="drzProduct-feature-select">
-            <option value="S" selected>S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
+            <option value="Small" selected>Small</option>
+            <option value="Medium">Medium</option>
           </select>
         </div>
       </div>
@@ -57,11 +55,13 @@
       </div>
     </div>
     <div class="drzProduct-feature-quantityWrap">
-      <button class="drzProduct-feature-remove"></button>
-      <div class="drzProduct-feature-count"></div>
-      <button class="drzProduct-feature-add"></button>
+      <button class="drzProduct-feature-remove" name="remove-product-count"></button>
+      <div class="drzProduct-feature-count" name="product-count"></div>
+      <button class="drzProduct-feature-add" name="add-product-count"></button>
     </div>
-    <a href="#" class="drzProduct-feature-buyBtn">
+    <a href="#"
+      class="drzProduct-feature-buyBtn"
+      name="add-to-cart">
       Add to Cart
     </a>
     <p class="drzProduct-feature-description">

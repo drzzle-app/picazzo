@@ -147,7 +147,7 @@
                       data-validator="required"
                       name="shipping.country"
                       data-event="change">
-                      <option selected disabled value="Country">
+                      <option selected value="">
                         Country
                       </option>
                       <option value="US">
@@ -165,12 +165,7 @@
                       data-validator="required"
                       name="shipping.state"
                       data-event="change">
-                      <option selected disabled value="State">
-                        State
-                      </option>
-                      <option value="TX">
-                        TX
-                      </option>
+                      <option value="">State/Region</option>
                     </select>
                   </div>
                 </fieldset>
@@ -203,6 +198,9 @@
           </form>
         </div>
         <div class="drzSlideCheckout-info-totals">
+          <div class="drzSlideCheckout-step-row">
+            <div class="drzSlideCheckout-items-final"></div>
+          </div>
           <div class="drzSlideCheckout-step-row">
             <div class="drzSlideCheckout-discount-grid">
               <form class="drzSlideCheckout-apply-form">
@@ -438,9 +436,7 @@
                             data-validator="required"
                             name="payment.billing.country"
                             data-event="change">
-                            <option value="">
-                              Country
-                            </option>
+                            <option value="">Country</option>
                             <option value="US">
                               US
                             </option>
@@ -456,12 +452,7 @@
                             data-validator="required"
                             name="payment.billing.state"
                             data-event="change">
-                            <option selected disabled value="State">
-                              State
-                            </option>
-                            <option value="TX">
-                              TX
-                            </option>
+                            <option selected value="">State/Region</option>
                           </select>
                         </div>
                       </fieldset>
