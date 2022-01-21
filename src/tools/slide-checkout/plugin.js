@@ -163,13 +163,18 @@
         attachFormInputs($form) {
           const onUpdate = (e) => {
             const $this = $(e.currentTarget);
-            const val = $this.val();
+            let val = $this.val();
             const key = $this.attr('name');
             const keys = key.split('.');
             let store = methods.store.shopper;
             if ($this.is('select')) {
               $this.find('option[value=""]').prop('disabled', true);
               const name = $this.attr('name');
+              const stateOverride = $this.find(`option[data-state-name="${val}"]`);
+              if (stateOverride.length) {
+                const iso = stateOverride.attr('data-state-iso');
+                val = iso || val;
+              }
               // here we inject state and region options based on the country
               if (name === 'payment.billing.country' || name === 'shipping.country') {
                 if (methods.countries[val]) {
@@ -184,7 +189,7 @@
                   $select.empty().append($('<option selected value="">State</option>'));
                   $.each(methods.countries[val].regions, (i, country) => {
                     $select.append($(
-                      `<option value"${country.iso}">${country.name}</option>`,
+                      `<option value"${country.iso}" data-state-iso="${country.iso}" data-state-name=${country.name}>${country.name}</option>`,
                     ));
                   });
                 }
@@ -822,7 +827,11 @@
               },
               error(error) {
                 methods.store.purchased = false;
-                $paymentError.show().html(error.responseJSON.payload.errorMessage);
+                let message = 'There was an error processing order.';
+                if (error.responseJSON) {
+                  message = error.responseJSON.payload.errorMessage;
+                }
+                $paymentError.show().html(message);
               },
               complete() {
                 $payLoader.hide();
@@ -1084,6 +1093,15 @@
           testItem.count = testCounts.nonOptionCount + count;
           return testItem;
         },
+        defaulSelOptions(product) {
+          const selected = {};
+          product.options.forEach((option) => {
+            if (option.type === 'select' && option.items && option.items.length > 0) {
+              selected[option._id] = option.items[0].value;
+            }
+          });
+          return selected;
+        },
         onProductAdded(e) {
           // this will run when a user clicks on an add to cart button on the page
           if (!methods.store.purchased) {
@@ -1102,7 +1120,7 @@
             }
             const countStep = product && product.countStep ? parseInt(product.countStep, 10) : 0;
             const count = $.isNumeric(payload.count) ? payload.count : countStep;
-            const selectedOptions = payload.selectedOptions || {};
+            const selectedOptions = payload.selectedOptions || methods.defaulSelOptions(product);
             const shopper = { count, selectedOptions };
             const newCartItem = $.extend(true, shopper, { product });
             if (index === -1 && product) {
@@ -1124,7 +1142,7 @@
               const cannotAdd = inventory === 0;
               const cartedIndex = cartItems.findIndex(item => item.product._id === payload.product
                 && methods.optionsSame(
-                  payload.selectedOptions,
+                  selectedOptions,
                   item.selectedOptions,
                 ));
               if (cartedIndex >= 0 && canAdd) {
