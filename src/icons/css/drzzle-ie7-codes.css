@@ -239,6 +239,9 @@
 .drzicon-package { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ed;&nbsp;'); }
 .drzicon-circle-info { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ee;&nbsp;'); }
 .drzicon-circle-check { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ef;&nbsp;'); }
+.drzicon-swap-arrows { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f0;&nbsp;'); }
+.drzicon-dice { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f1;&nbsp;'); }
+.drzicon-loader { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f2;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }

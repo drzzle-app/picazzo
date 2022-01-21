@@ -239,6 +239,9 @@
 .drzicon-package:before { content: '\e8ed'; } /* '' */
 .drzicon-circle-info:before { content: '\e8ee'; } /* '' */
 .drzicon-circle-check:before { content: '\e8ef'; } /* '' */
+.drzicon-swap-arrows:before { content: '\e8f0'; } /* '' */
+.drzicon-dice:before { content: '\e8f1'; } /* '' */
+.drzicon-loader:before { content: '\e8f2'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */

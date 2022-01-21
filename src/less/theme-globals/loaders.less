@@ -1,0 +1,17 @@
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.drzLoader-icon {
+
+  &:before {
+    animation: spinner .7s linear infinite;
+    color: inherit;
+    // lesshint-disable importantRule
+    content: '\e8f2' !important;
+    display: inline-block;
+    font-family: 'drzzle';
+  }
+}
