@@ -5,6 +5,10 @@
   "author": "Roger Avalos",
   "license": "MIT",
   "homepage": "https://picazzo.drzzle.app",
+  "engines": {
+    "node": ">= 9.10.0",
+    "npm": ">= 3.0.0"
+  },
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "gulp & npm run dev",
@@ -128,10 +132,6 @@
     "hooks": {
       "pre-commit": "npm run lint:less && npm run lint:js"
     }
-  },
-  "engines": {
-    "node": ">= 6.0.0",
-    "npm": ">= 3.0.0"
   },
   "files": [
     "dist/fonts/**/*",
