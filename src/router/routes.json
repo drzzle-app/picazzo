@@ -381,6 +381,11 @@
                     "path": "/slide-checkout",
                     "name": "slide-checkout",
                     "component": "require('@/pages/tools/slide-checkout/').default"
+                },
+                {
+                    "path": "/group-grid",
+                    "name": "group-grid",
+                    "component": "require('@/pages/droplets/group-grid/').default"
                 }
             ]
         },

@@ -124,6 +124,11 @@
           "children": []
         },
         {
+          "text": "Group Grid",
+          "route": "/group-grid",
+          "children": []
+        },
+        {
           "text": "Group Item",
           "route": "/group-item",
           "children": []
