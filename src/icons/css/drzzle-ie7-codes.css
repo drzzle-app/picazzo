@@ -243,6 +243,8 @@
 .drzicon-dice { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f1;&nbsp;'); }
 .drzicon-loader { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f2;&nbsp;'); }
 .drzicon-mobile-phone-full { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f3;&nbsp;'); }
+.drzicon-skull-crossbones { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f4;&nbsp;'); }
+.drzicon-group-grid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f5;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
