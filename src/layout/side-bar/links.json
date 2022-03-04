@@ -134,6 +134,11 @@
           "children": []
         },
         {
+          "text": "Group List",
+          "route": "/group-list",
+          "children": []
+        },
+        {
           "text": "Header",
           "route": "/header",
           "children": []

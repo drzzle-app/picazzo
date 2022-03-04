@@ -61,4 +61,5 @@ export default {
   'media-item-list': require('@/droplets/media-item-list'),
   'group-item': require('@/droplets/group-item'),
   'group-grid': require('@/droplets/group-grid'),
+  'group-list': require('@/droplets/group-list'),
 };

@@ -386,6 +386,11 @@
                     "path": "/group-grid",
                     "name": "group-grid",
                     "component": "require('@/pages/droplets/group-grid/').default"
+                },
+                {
+                    "path": "/group-list",
+                    "name": "group-list",
+                    "component": "require('@/pages/droplets/group-list/').default"
                 }
             ]
         },
