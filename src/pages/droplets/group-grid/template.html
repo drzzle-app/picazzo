@@ -1,0 +1,61 @@
+<div>
+  <header class="picazzo-page-header">Group Grid</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <group-grid-droplet></group-grid-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet uses the <router-link to="/filter-grid" class="picazzo-link" tag="a">Filter Grid</router-link> plugin.
+    View that page for further documentation. Below describes the code needed for this droplet's particular "output" markup.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzFilter-grid').drzFilterGrid({
+  feed: [
+    {
+      created: '2020-06-25T19:31:14.835Z',
+      description: 'Group description.',
+      thumbnail: '/static/images/mock-group.svg',
+      alias: 'Group Name',
+      pageLink: '#',
+      customLink: '#',
+      categories: ['red group'],
+    },
+    ...
+  ],
+  gridContainer: 'drzGroup-grid-container',
+  sortKey: 'created',
+  assets: 'bg',
+  output(data) {
+    return `
+      &lt;div class=&quot;drzGroup-grid-card&quot;&gt;
+        &lt;a class=&quot;drzGroup-grid-cardInner&quot; href=&quot;#&quot;&gt;
+          &lt;div
+            class=&quot;drzGroup-grid-cardImage&quot;
+            data-asset=&quot;${data.image}&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;drzGroup-grid-cardInfo&quot;&gt;
+            &lt;span class=&quot;drzGroup-grid-cardTitle&quot;&gt;${data.title}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/a&gt;
+      &lt;/div&gt;
+    `;
+  },
+});</code></pre>
+  </div>
+
+ <div class="picazzo-docFooter"></div>
+</div>
