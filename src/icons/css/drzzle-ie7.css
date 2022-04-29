@@ -259,6 +259,10 @@
 .drzicon-group-list { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f6;&nbsp;'); }
 .drzicon-float { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f7;&nbsp;'); }
 .drzicon-restore { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f8;&nbsp;'); }
+.drzicon-hands-heard { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8f9;&nbsp;'); }
+.drzicon-help-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8fa;&nbsp;'); }
+.drzicon-tickets { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8fb;&nbsp;'); }
+.drzicon-dns-lock { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8fc;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
