@@ -252,6 +252,13 @@
 .drzicon-help-solid:before { content: '\e8fa'; } /* '' */
 .drzicon-tickets:before { content: '\e8fb'; } /* '' */
 .drzicon-dns-lock:before { content: '\e8fc'; } /* '' */
+.drzicon-store-solid:before { content: '\e8fd'; } /* '' */
+.drzicon-cart-solid:before { content: '\e8fe'; } /* '' */
+.drzicon-utincils-solid:before { content: '\e8ff'; } /* '' */
+.drzicon-blog-solid:before { content: '\e900'; } /* '' */
+.drzicon-profile-solid:before { content: '\e901'; } /* '' */
+.drzicon-building-solid:before { content: '\e902'; } /* '' */
+.drzicon-media-solid:before { content: '\e903'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */

@@ -263,6 +263,13 @@
 .drzicon-help-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8fa;&nbsp;'); }
 .drzicon-tickets { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8fb;&nbsp;'); }
 .drzicon-dns-lock { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8fc;&nbsp;'); }
+.drzicon-store-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8fd;&nbsp;'); }
+.drzicon-cart-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8fe;&nbsp;'); }
+.drzicon-utincils-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ff;&nbsp;'); }
+.drzicon-blog-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe900;&nbsp;'); }
+.drzicon-profile-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe901;&nbsp;'); }
+.drzicon-building-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe902;&nbsp;'); }
+.drzicon-media-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe903;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
