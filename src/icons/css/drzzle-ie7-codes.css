@@ -259,6 +259,9 @@
 .drzicon-profile-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe901;&nbsp;'); }
 .drzicon-building-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe902;&nbsp;'); }
 .drzicon-media-solid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe903;&nbsp;'); }
+.drzicon-live { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe904;&nbsp;'); }
+.drzicon-change-arrows { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe905;&nbsp;'); }
+.drzicon-artist { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe906;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
