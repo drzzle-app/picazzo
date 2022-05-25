@@ -28,6 +28,45 @@
       $modalOverlay.addClass('drzModal-overlay-inStart');
       $modalContent.addClass('drzModal-content-inStart');
 
+      function closeModal(e, $thisModal) {
+        $thisModal.removeClass('drzModal-overlay-inEnd').addClass('drzModal-overlay-leaveStart');
+        $modalContent
+          .removeClass('drzModal-content-inEnd')
+          .addClass('drzModal-content-leaveStart');
+
+        clearTimeout(addLeaveClasses);
+        addLeaveClasses = setTimeout(() => {
+          $thisModal
+            .removeClass('drzModal-overlay-leaveStart')
+            .addClass('drzModal-overlay-leaveEnd');
+          $modalContent
+            .removeClass('drzModal-content-leaveStart')
+            .addClass('drzModal-content-leaveEnd');
+        }, 50);
+
+        if ($body.hasClass('blur')) {
+          $body.removeClass('blur');
+        }
+
+        clearTimeout(resetModal);
+        resetModal = setTimeout(() => {
+          // move the modal node back where it was
+          $overlayParent.insertBefore(
+            $thisModal.get(0), $overlayParent.children[overlayNodeIndex],
+          );
+          $thisModal.css({ display: '' });
+          $thisModal
+            .removeClass('drzModal-overlay-leaveEnd')
+            .removeClass('drzModal-overlay-inEnd')
+            .addClass('drzModal-overlay-inStart');
+          $modalContent
+            .removeClass('drzModal-content-leaveEnd')
+            .removeClass('drzModal-content-inEnd')
+            .addClass('drzModal-content-inStart');
+        }, 600);
+        e.preventDefault();
+      }
+
       function buildModal($thisModal) {
         $thisModal.insertAfter($body);
         $thisModal.css({ display: 'block' });
@@ -52,45 +91,8 @@
           $modalContent.find('.drzModal-search-bar').focus();
         }
 
-        function closeModal(e) {
-          $thisModal.removeClass('drzModal-overlay-inEnd').addClass('drzModal-overlay-leaveStart');
-          $modalContent
-            .removeClass('drzModal-content-inEnd')
-            .addClass('drzModal-content-leaveStart');
-
-          clearTimeout(addLeaveClasses);
-          addLeaveClasses = setTimeout(() => {
-            $thisModal
-              .removeClass('drzModal-overlay-leaveStart')
-              .addClass('drzModal-overlay-leaveEnd');
-            $modalContent
-              .removeClass('drzModal-content-leaveStart')
-              .addClass('drzModal-content-leaveEnd');
-          }, 50);
-
-          if ($body.hasClass('blur')) {
-            $body.removeClass('blur');
-          }
-
-          clearTimeout(resetModal);
-          resetModal = setTimeout(() => {
-            // move the modal node back where it was
-            $overlayParent.insertBefore(
-              $thisModal.get(0), $overlayParent.children[overlayNodeIndex],
-            );
-            $thisModal.css({ display: '' });
-            $thisModal
-              .removeClass('drzModal-overlay-leaveEnd')
-              .addClass('drzModal-overlay-inStart');
-            $modalContent
-              .removeClass('drzModal-content-leaveEnd')
-              .addClass('drzModal-content-inStart');
-          }, 600);
-          e.preventDefault();
-        }
-
-        $thisModal.find('.drzModal-closeLink').click(closeModal);
-        $thisModal.click(closeModal);
+        $thisModal.find('.drzModal-closeLink').click((e) => { closeModal(e, $modalOverlay); });
+        $thisModal.click((e) => { closeModal(e, $modalOverlay); });
         $thisModal.find('.drzModal-content').click((e) => {
           e.stopPropagation();
         });
@@ -98,7 +100,7 @@
         // close modal on escape key
         $(document).keyup((e) => {
           if (e.key === 'Escape') {
-            closeModal(e);
+            closeModal(e, $modalOverlay);
           }
         });
       }
@@ -107,6 +109,9 @@
         e.preventDefault();
         if (!$modalOverlay.hasClass('drzModal-overlay-leaveEnd')) {
           buildModal($modalOverlay);
+        }
+        if ($modalOverlay.hasClass('drzModal-overlay-inEnd')) {
+          closeModal(e, $modalOverlay);
         }
       });
 
