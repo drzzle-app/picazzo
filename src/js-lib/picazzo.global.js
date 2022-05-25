@@ -117,20 +117,19 @@ window.drzzle = {
           }
         },
       };
-      $.getJSON($searchFile)
-        .done((data) => {
-          methods.data = data;
-          // only insert search container if not there
-          if (!$this.next('.searchResults-container').length) {
-            $('<div class="searchResults-container"></div>').insertAfter($this);
-          }
-          $srContainer = $this.next('.searchResults-container');
-          $srContainer.addClass('hide');
-          $this.keyup(methods.filterResults);
-        })
-        .fail(() => {
-          console.log('Error loading site search'); // eslint-disable-line
-        });
+      if (!window.__editor) {
+        $.getJSON($searchFile)
+          .done((data) => {
+            methods.data = data;
+            // only insert search container if not there
+            if (!$this.next('.searchResults-container').length) {
+              $('<div class="searchResults-container"></div>').insertAfter($this);
+            }
+            $srContainer = $this.next('.searchResults-container');
+            $srContainer.addClass('hide');
+            $this.keyup(methods.filterResults);
+          });
+      }
       // destroy plugin
       $.fn.drzSiteSearch.destroy = ($el) => {
         $el.off('keyup', this.filterResults);
