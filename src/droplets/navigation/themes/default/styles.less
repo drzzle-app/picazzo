@@ -19,7 +19,7 @@
   min-height: 20px;
   padding: 5px 0;
   position: relative;
-  transition: all 0.3s ease;
+  transition-duration: .2s;
   width: 100%;
   z-index: 10;
 }
@@ -49,20 +49,12 @@
 
 .drzNav-sticky-set {
   left: 0;
-  padding-bottom: 8px;
-  padding-top: 8px;
   position: fixed;
 }
 
 .drzNav-fixed {
   position: fixed;
   top: 0;
-
-  &.drzNav-sticky-set {
-    // lesshint-disable importantRule
-    background-color: fade(@black, 50%) !important;
-    // lesshint-enable importantRule
-  }
 }
 
 .drzNav-hamburger {
