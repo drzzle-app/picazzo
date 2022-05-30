@@ -4,7 +4,7 @@
 ============================
 */
 (($) => {
-  $.fn.drzNav = function drzNav() {
+  $.fn.drzNav = function drzNav(options = {}) {
     const $this = $(this);
     const $inner = $this.find('.drzNav-inner');
     const $navList = $this.find('.drzNav-list');
@@ -17,10 +17,12 @@
     const $linksWidth = ~~($navList.outerWidth());
     const slShowCls = 'drzNav-subList-show';
     const slCls = '.drzNav-subList';
+    const stickyCls = 'drzNav-sticky-set';
     // options
     let $opts = $this.attr('data-nav-slide');
     const defaults = {
       slideDirection: 'left',
+      topBuffer: 0,
     };
     // configure custom options
     if (typeof $opts !== typeof undefined && $opts !== false && $opts !== '') {
@@ -31,8 +33,8 @@
     } else {
       $opts = defaults;
     }
+    $opts = $.extend(true, {}, $opts, options);
     const slideDirection = $opts.slideDirection;
-
     // Assign defaults for variables
     let navIsContained = false;
     let sliderIsOpen = false;
@@ -258,15 +260,10 @@
       },
     }; // End of nav actions
     navActions.editorCheck($this, false);
-    // if plugin is in the editor, we need to grab the opacity
-    // from a passed in parameter on color changes, otherwise
-    // the nav's css transition delay will not give the correct
-    // value.
     let findStop;
     // the magic behind sticky and fixed navs
     $.fn.drzNav.setScrolling = function setScrolling() {
       const $navs = $('.drzNav-sticky, .drzNav-fixed');
-      const stickyCls = 'drzNav-sticky-set';
       $navs.removeClass(stickyCls);
       // storage for all the navs
       const store = {
@@ -296,20 +293,6 @@
           if (!p.nav.stuck) {
             p.nav.startingLocation = p.top; // eslint-disable-line
           }
-        },
-        // for cases of fixed, transparent navs. auto add bg on scroll
-        opacity($nav) {
-          let opacity = $nav.css('background-color');
-          opacity = opacity.split(',')[3];
-          if (opacity) {
-            opacity = opacity.replace(/[^0-9.]/g, '');
-          } else {
-            opacity = 1;
-          }
-          if (window.__editor) {
-            opacity = $nav.attr('data-opacity');
-          }
-          return Number(opacity).valueOf();
         },
       };
       drzzle.window.off('scroll', findStop);
@@ -348,10 +331,11 @@
             // view threshold, this way the next nav becomes sticky just
             // underneath the previous.
             const previous = store.navs[i - 1];
+            const prevHeight = ~~(previous.$.outerHeight());
             const previousIsStuck = previous ? previous.stuck : false;
             if (previousIsStuck) {
               // add the previous nav height to the view threshold
-              bump = previous.height;
+              bump = prevHeight;
             }
             view = Math.round(
               drzzle.window.scrollTop() + get.top() + bump,
@@ -368,7 +352,7 @@
             // init the stick / unstick
             if (view > nav.startingLocation) {
               if (previous) {
-                previous.$.css('top', `-${previous.height}px`);
+                previous.$.css('top', `-${prevHeight}px`);
               }
               nav.stuck = true;
               $this.addClass(stickyCls);
@@ -384,20 +368,20 @@
           drzzle.window.on('scroll', findStop);
         } else if ($this.hasClass('drzNav-fixed')) {
           navActions.editorCheck(nav.$, true);
-          const opacity = get.opacity($this);
           let checkPoint = nav.startingLocation;
           nav.stuck = true;
-          // only initiate the added class for transparent fixed menus
-          if (window.pageYOffset > nav.height && opacity < 0.1) {
+          const pageTop = window.pageYOffset + $opts.topBuffer;
+          const navHeight = ~~(nav.$.outerHeight());
+          if (pageTop > navHeight && pageTop !== $opts.topBuffer) {
             $this.addClass(stickyCls);
-            checkPoint = nav.height;
+            checkPoint = navHeight;
           }
           findStop = () => {
-            view = Math.round(drzzle.window.scrollTop());
-            if (view > checkPoint && opacity < 0.1) {
+            view = Math.round(drzzle.window.scrollTop()) + $opts.topBuffer;
+            if (view > checkPoint && view !== $opts.topBuffer) {
               $this.addClass(stickyCls);
               $this.css('top', get.top());
-            } else {
+            } else if (view <= checkPoint || view === $opts.topBuffer) {
               $this.removeClass(stickyCls);
               $this.css('top', '');
             }
@@ -464,6 +448,7 @@
     $.fn.drzNav.setScrolling();
     // destroy nav attachments
     $.fn.drzNav.destroy = ($el) => {
+      $el.removeClass(stickyCls);
       $el.next('.drzNav-overlay').remove();
       $el.find('.drzNav-list').css('display', '');
       $el.find('.drzNav-hamburger').removeClass('drzNav-hamburger-show');
