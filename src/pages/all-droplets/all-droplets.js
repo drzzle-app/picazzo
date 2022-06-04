@@ -62,4 +62,5 @@ export default {
   'group-item': require('@/droplets/group-item'),
   'group-grid': require('@/droplets/group-grid'),
   'group-list': require('@/droplets/group-list'),
+  'progress-bar': require('@/droplets/progress-bar'),
 };

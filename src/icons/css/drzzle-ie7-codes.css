@@ -262,6 +262,8 @@
 .drzicon-live { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe904;&nbsp;'); }
 .drzicon-change-arrows { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe905;&nbsp;'); }
 .drzicon-artist { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe906;&nbsp;'); }
+.drzicon-hook { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe907;&nbsp;'); }
+.drzicon-progress-bar { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe908;&nbsp;'); }
 .drzicon-move { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf047;&nbsp;'); }
 .drzicon-link-ext { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf08e;&nbsp;'); }
 .drzicon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }

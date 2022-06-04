@@ -262,6 +262,8 @@
 .drzicon-live:before { content: '\e904'; } /* '' */
 .drzicon-change-arrows:before { content: '\e905'; } /* '' */
 .drzicon-artist:before { content: '\e906'; } /* '' */
+.drzicon-hook:before { content: '\e907'; } /* '' */
+.drzicon-progress-bar:before { content: '\e908'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
