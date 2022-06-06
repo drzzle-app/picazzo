@@ -331,7 +331,7 @@
             // view threshold, this way the next nav becomes sticky just
             // underneath the previous.
             const previous = store.navs[i - 1];
-            const prevHeight = ~~(previous.$.outerHeight());
+            const prevHeight = previous ? ~~(previous.$.outerHeight()) : 0;
             const previousIsStuck = previous ? previous.stuck : false;
             if (previousIsStuck) {
               // add the previous nav height to the view threshold

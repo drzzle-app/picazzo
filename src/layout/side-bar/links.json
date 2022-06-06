@@ -254,6 +254,11 @@
           "children": []
         },
         {
+          "text": "Progress Bar",
+          "route": "/progress-bar",
+          "children": []
+        },
+        {
           "text": "Project Card",
           "route": "/project-card",
           "children": []

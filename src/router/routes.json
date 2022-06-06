@@ -391,6 +391,11 @@
                     "path": "/group-list",
                     "name": "group-list",
                     "component": "require('@/pages/droplets/group-list/').default"
+                },
+                {
+                    "path": "/progress-bar",
+                    "name": "progress-bar",
+                    "component": "require('@/pages/droplets/progress-bar/').default"
                 }
             ]
         },

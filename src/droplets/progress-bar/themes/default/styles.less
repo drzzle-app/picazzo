@@ -1,0 +1,39 @@
+.drzProgressBar-container {
+  background-color: fade(@black, 10%);
+  border-color: transparent;
+  border-radius: 2px;
+  border-style: solid;
+  border-width: 0;
+  overflow: hidden;
+}
+
+.drzProgressBar-label {
+  .drzClearFix;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.drzProgressBar-bar {
+  align-items: center;
+  background: @drzGreen;
+  border-color: transparent;
+  border-radius: 2px;
+  border-style: solid;
+  border-width: 0;
+  display: flex;
+  height: 25px;
+  justify-content: right;
+  width: 0%;
+}
+
+.drzProgressBar-amount {
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.drzProgressBar-percentage {
+  color: fade(@white, 75%);
+  display: inline-block;
+  font-weight: 600;
+  margin-right: 5px;
+}
