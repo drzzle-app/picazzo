@@ -24,6 +24,9 @@
 
       const $this = $(this);
       const totalImages = $this.find('.drzContentSlider-item').length;
+      const animation = {
+        complete: true,
+      };
       let interval;
 
       $this.append('<div class="drzContentSlider-bullets"></div>');
@@ -68,6 +71,9 @@
         if ($bulletOption.match(/bottom/gi)) {
           $bullets.addClass('drzContentSlider-bullets-bottom');
         }
+        if ($bulletOption.match(/hide/gi)) {
+          $bullets.addClass('drzContentSlider-bullets-hide');
+        }
       } else {
         // default bullets position
         $bullets.addClass('drzContentSlider-bullets-bottom');
@@ -83,13 +89,16 @@
         $effectOption = 'slide';
       }
 
+      const isSlide = $effectOption.match(/slide/gi);
+      const isFade = $effectOption.match(/fade/gi);
+
       let $sliderWidth = ~~($this.outerWidth());
-      if ($effectOption.match(/slide/gi)) {
+      if (isSlide) {
         effect = { marginLeft: -($sliderWidth) };
         $this.find('.drzContentSlider-item').each(function setOpacity() {
           $(this).css('opacity', 1);
         });
-      } else if ($effectOption.match(/fade/gi)) {
+      } else if (isFade) {
         effect = { opacity: 0 };
       }
 
@@ -101,17 +110,19 @@
       function hideDelay(e) {
         hideTO = setTimeout(() => {
           e.hide();
-        }, animateSpeed);
+          if (isFade) {
+            e.css('opacity', 0);
+          }
+        }, animateSpeed * 2);
       }
 
-      let showTO;
       function showDelay(e) {
-        showTO = setTimeout(() => {
-          e.show();
-          if ($effectOption.match(/fade/gi)) {
-            e.animate(fadeBack, animateSpeed);
-          }
-        }, animateSpeed);
+        e.show();
+        if (isFade) {
+          e.animate(fadeBack, animateSpeed, () => {
+            animation.complete = true;
+          });
+        }
       }
 
       // call back for resizing slider
@@ -125,33 +136,40 @@
       };
 
       function next($element) {
-        // if slide option, recalculate container width on resize
-        if ($effectOption.match(/slide/gi)) {
-          drzzle.window.resize(resizeContentSlider);
+        if (!animation.complete) {
+          return;
         }
+        animation.complete = false;
+        // if slide option, recalculate container width on resize
         const $currentSlide = $element.find(`.drzContentSlider-item.item-${imgNum}`);
-        $currentSlide.animate(effect, animateSpeed);
+        if (isSlide) {
+          drzzle.window.resize(resizeContentSlider);
+          $currentSlide.animate(effect, animateSpeed);
+        }
         hideDelay($currentSlide);
         imgNum += 1;
         if (imgNum > totalImages - (1)) {
           imgNum = 0;
           const $lastSlide = $element.find(`.drzContentSlider-item.item-${totalImages - (1)}`);
-          if ($effectOption.match(/slide/gi)) {
+          if (isSlide) {
             $element.find(`.drzContentSlider-item.item-${imgNum}`)
               .show()
               .css('margin-left', $sliderWidth);
             $element.find(`.drzContentSlider-item.item-${imgNum}`)
               .animate({ marginLeft: 0 }, animateSpeed);
           }
-          $lastSlide.animate(effect, animateSpeed);
+          const speed = isFade ? animateSpeed * 2 : animateSpeed;
+          $lastSlide.animate(effect, speed);
           hideDelay($lastSlide);
         }
         const $nextSlide = $element.find(`.drzContentSlider-item.item-${imgNum}`);
-        if ($effectOption.match(/slide/gi)) {
+        if (isSlide) {
           $nextSlide.show()
             .css('margin-left', $sliderWidth)
-            .animate({ marginLeft: 0 }, animateSpeed);
-        } else if ($effectOption.match(/fade/gi)) {
+            .animate({ marginLeft: 0 }, animateSpeed, () => {
+              animation.complete = true;
+            });
+        } else if (isFade) {
           showDelay($nextSlide);
         }
         $element.find(`.drzContentSlider-bullet.b-${imgNum}`)
@@ -161,11 +179,15 @@
       }
 
       function back($element) {
+        if (!animation.complete) {
+          return;
+        }
+        animation.complete = false;
         const $currentSlide = $element.find(`.drzContentSlider-item.item-${imgNum}`);
-        if ($effectOption.match(/slide/gi)) {
+        if (isSlide) {
           $currentSlide.animate({ marginLeft: $sliderWidth }, animateSpeed);
-        } else if ($effectOption.match(/fade/gi)) {
-          $currentSlide.animate(effect, animateSpeed);
+        } else if (isFade) {
+          $currentSlide.animate(effect, animateSpeed * 2);
         }
         hideDelay($currentSlide);
         imgNum -= 1;
@@ -177,18 +199,22 @@
         if (imgNum > totalImages - (1)) {
           imgNum = 0;
           const $lastSlide = $element.find(`.drzContentSlider-item.item-${totalImages - (1)}`);
-          if ($effectOption.match(/slide/gi)) {
+          if (isSlide) {
             $lastSlide.css('margin-left', -($sliderWidth));
             $lastSlide.animate({ marginLeft: 0 }, animateSpeed);
-          } else if ($effectOption.match(/fade/gi)) {
-            $lastSlide.animate(effect, animateSpeed);
+          } else if (isFade) {
+            $lastSlide.animate(effect, animateSpeed * 2);
           }
           hideDelay($lastSlide);
         }
         const $previousSlide = $element.find(`.drzContentSlider-item.item-${imgNum}`);
-        if ($effectOption.match(/slide/gi)) {
-          $previousSlide.show().css('margin-left', -($sliderWidth)).animate({ marginLeft: 0 }, animateSpeed);
-        } else if ($effectOption.match(/fade/gi)) {
+        if (isSlide) {
+          $previousSlide.show()
+            .css('margin-left', -($sliderWidth))
+            .animate({ marginLeft: 0 }, animateSpeed, () => {
+              animation.complete = true;
+            });
+        } else if (isFade) {
           showDelay($previousSlide);
         }
         $element.find(`.drzContentSlider-bullet.b-${imgNum}`)
@@ -231,12 +257,12 @@
         const $el = $(this);
         const $bulletNum = $el.index();
         $el.addClass('active').siblings().removeClass('active');
-        if ($effectOption.match(/slide/gi)) {
+        if (isSlide) {
           $this.find(`.drzContentSlider-item.item-${$bulletNum}`)
             .show()
             .css('margin-left', 0).siblings('.drzContentSlider-item')
             .hide();
-        } else if ($effectOption.match(/fade/gi)) {
+        } else if (isFade) {
           $this.find(`.drzContentSlider-item.item-${$bulletNum}`)
             .show()
             .css('opacity', 1).siblings('.drzContentSlider-item')
@@ -284,7 +310,6 @@
         drzzle.window.off('resize', resizeContentSlider);
         clearInterval(interval);
         clearTimeout(hideTO);
-        clearTimeout(showTO);
       };
     });
     return this;
