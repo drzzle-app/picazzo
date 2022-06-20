@@ -314,6 +314,11 @@
           "children": []
         },
         {
+          "text": "Text Swapper",
+          "route": "/text-swapper",
+          "children": []
+        },
+        {
           "text": "Video Episodes",
           "route": "/video-episodes",
           "children": []

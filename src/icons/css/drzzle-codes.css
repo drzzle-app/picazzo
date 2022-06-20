@@ -266,6 +266,7 @@
 .drzicon-progress-bar:before { content: '\e908'; } /* '' */
 .drzicon-credit-card:before { content: '\e909'; } /* '' */
 .drzicon-text-blob:before { content: '\e90a'; } /* '' */
+.drzicon-text-change:before { content: '\e90b'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */

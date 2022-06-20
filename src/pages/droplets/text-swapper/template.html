@@ -1,0 +1,57 @@
+<div>
+  <header class="picazzo-page-header">Text Swapper</header>
+
+  <header class="picazzo-sectionHeader">Demo</header>
+
+  <div class="row">
+    <text-swapper-droplet></text-swapper-droplet>
+  </div>
+
+  <header class="picazzo-sectionHeader">HTML</header>
+
+  <div class="row">
+    <pre v-highlightjs><code class="html">{{ dropletHtml }}</code></pre>
+  </div>
+
+  <header class="picazzo-sectionHeader">Javascript</header>
+
+  <p class="picazzo-section-subHeader">Initializing Plugin</p>
+
+  <p>
+    This droplet is best done on a single line basis. Multiple lines are currently not supported.
+  </p>
+
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">$('.drzText-swapper').drzTextSwapper();</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Options</p>
+  <p>
+    Options for this plugin are set using HTML attributes. They need to be added to each group of text items that will be animated.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">// the amount of time in milliseconds until swapping words. default is 3000.
+data-swapper-pause="3000"
+// swap effect. 3 options: fade, rise or zoom
+data-swapper-effect="fade"
+// animation transition duration in milliseconds. default is 500.
+data-swapper-duration="500"</code></pre>
+  </div>
+
+  <p class="picazzo-section-subHeader">Destroy Plugin</p>
+  <p>
+    To destroy the plugin, use the .destroy() method. This will remove all event listeners and added classes/attributes.
+  </p>
+  <div class="row">
+    <pre v-highlightjs><code class="javascript">{{ destroyMarkup() }}</code></pre>
+  </div>
+
+  <div class="picazzo-docFooter">
+    <a
+      href="https://github.com/drzzle-app/picazzo/blob/master/src/droplets/text-swapper/plugin.js"
+      target="_blank"
+      class="picazzo-link-small picazzo-extLink">
+      See Plugin Source
+    </a>
+  </div>
+</div>

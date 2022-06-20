@@ -396,6 +396,11 @@
                     "path": "/progress-bar",
                     "name": "progress-bar",
                     "component": "require('@/pages/droplets/progress-bar/').default"
+                },
+                {
+                    "path": "/text-swapper",
+                    "name": "text-swapper",
+                    "component": "require('@/pages/droplets/text-swapper/').default"
                 }
             ]
         },
