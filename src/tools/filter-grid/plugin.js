@@ -37,6 +37,9 @@
           sortKey = options.sortKey.value;
         }
       }
+      // fail safe, incase the custom sort value has not been
+      // set by the user in the editor
+      sortKey = sortKey || 'publishedOn';
       // we use this for nested keys for custom sortKeys
       const getValue = (obj, keys) => {
         let value = obj;
