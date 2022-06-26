@@ -37,11 +37,20 @@
   }
 }
 
+.drzVideo-thumbnail {
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
 .drzVideo-playBtn-lrg {
+  color: fade(@white, 50%);
   margin-top: -35px;
+  z-index: 2;
 
   &:after {
-    color: fade(@white, 50%);
     content: '\e861';
     font-family: 'drzzle';
     font-size: 45pt;
@@ -67,6 +76,7 @@
   text-indent: -9999em;
   transform: translateZ(0);
   width: 10em;
+  z-index: 2;
 
   &:after {
     border-radius: 50%;
@@ -141,6 +151,7 @@
   border: 0;
   border-radius: 0;
   color: @videoCtrlText;
+  cursor: pointer;
   height: 100%;
   padding: 0;
   position: relative;
@@ -334,6 +345,11 @@
   height: 4px;
   overflow: hidden;
   transition-duration: @defaultDuration;
+
+  &.drzVideo-progressBar-hide {
+    height: 0;
+    opacity: 0;
+  }
 }
 
 .drzVideo-progress {
@@ -486,4 +502,14 @@
   @-moz-document url-prefix() {
     margin: 0 auto;
   }
+}
+
+.drzVideo-hidden-controls {
+  background-color: transparent;
+
+  // lesshint-disable importantRule
+  .drzVideo-playBtn-lrg {
+    display: none !important;
+  }
+  // lesshint-enable importantRule
 }

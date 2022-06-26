@@ -4,7 +4,7 @@
 ============================
 */
 (($) => {
-  $.fn.drzVideoPlayer = function drzVideoPlayer() {
+  $.fn.drzVideoPlayer = function drzVideoPlayer(options = {}) {
     const $videoContainer = $(this);
     const $document = $(document);
     const $id = $videoContainer.attr('data-player-id');
@@ -37,6 +37,7 @@
       const $overlay = $this.find('.drzVideo-overlay');
       const $overlayPlayBtn = $overlay.find('.drzVideo-playBtn-lrg');
       const $initialSource = $sourceTag.attr('src');
+      const $thumbnail = $overlay.find('.drzVideo-thumbnail');
       // set timeElapsed to 0 at first
       $timeElapsed.html('0:00');
 
@@ -130,6 +131,9 @@
           $overlay.css('opacity', 1);
           if (!$overlayPlayBtn.is(':visible')) {
             $overlayPlayBtn.show();
+          }
+          if (options.thumbnail) {
+            $thumbnail.css('visibility', 'visible');
           }
           $overlayPlayBtn.addClass('drzVideo-replayBtn');
           $playBtn.find('.drzVideo-playBtn-inner')
@@ -320,6 +324,9 @@
           if (!$overlayPlayBtn.is(':visible')) {
             $overlayPlayBtn.show();
           }
+          if (options.thumbnail) {
+            $thumbnail.css('visibility', 'hidden');
+          }
           $playBtn.find('.drzVideo-btn-tooltip').text('Play (p)');
           // on mobile for better UX, we need to reshow the controls
           // if user clicks on the video overlay
@@ -333,6 +340,9 @@
           }
         },
         togglePlay(e) {
+          if (options.hideControls) {
+            return;
+          }
           if (!methods.loading) {
             if ($playBtn.find('.drzVideo-playBtn-inner').hasClass('drzVideo-play-icon') ||
                 $playBtn.find('.drzVideo-playBtn-inner').hasClass('drzVideo-replayBtn')) {

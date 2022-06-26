@@ -7,6 +7,8 @@ export default Vue.component('video-player-droplet', {
   name: 'video-player-droplet',
   mounted() {
     const $videoPlayer = $(this.$refs.videoPlayer);
-    $videoPlayer.drzVideoPlayer();
+    $videoPlayer.drzVideoPlayer({
+      thumbnail: true,
+    });
   },
 });
