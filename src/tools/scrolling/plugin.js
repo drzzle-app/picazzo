@@ -26,7 +26,7 @@
   $.fn.drzAnchorScroll = function anchorScroll() {
     const $this = $(this);
     const scrollTo = function scrollTo(e) {
-      if (this.hash !== '#/cart') {
+      if (this.hash && this.hash.match(/^#/) && this.hash !== '#/cart') {
         const name = $(this.hash).selector.split('#')[1];
         const $el = $(`[data-anchor-scroll="${name}"]`);
         if (typeof $el.offset() !== typeof undefined && $el.offset() !== false) {
