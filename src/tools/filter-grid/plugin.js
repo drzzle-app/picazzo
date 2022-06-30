@@ -37,6 +37,9 @@
           sortKey = options.sortKey.value;
         }
       }
+      // fail safe, incase the custom sort value has not been
+      // set by the user in the editor
+      sortKey = sortKey || 'publishedOn';
       // we use this for nested keys for custom sortKeys
       const getValue = (obj, keys) => {
         let value = obj;
@@ -51,9 +54,10 @@
 
       let shownList = list.sort((a, b) => {
         let sorted = list;
-        if (isDate(a[sortKey])) {
+        const firstDate = getValue(a, sortKey);
+        if (isDate(firstDate)) {
           // sort by date
-          sorted = new Date(getValue(b, sortKey)) - new Date(getValue(a, sortKey));
+          sorted = new Date(getValue(b, sortKey)) - new Date(firstDate);
         } else if (typeof a[sortKey] === 'string') {
           // sort alphabetically
           sorted = a[sortKey].localeCompare(b[sortKey]);

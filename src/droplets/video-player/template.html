@@ -1,46 +1,50 @@
 <div class="drzVideo" data-player-id="some-id" ref="videoPlayer">
-  <div class="drzVideo-overlay">
-    <!-- loader -->
-    <div class="drzVideo-loader" aria-hidden="true"></div>
-    <!-- overlay icon -->
-    <span class="drzVideo-playBtn-lrg" aria-hidden="true"></span>
-  </div>
-  <video class="drzVideo-src">
-     <source src="https://cdn.drzzle.app/multi-media/church-site-run-1080.mp4" type="video/mp4">
-  </video>
-  <div class="drzVideo-controlBar">
-    <div class="drzVideo-progressBar">
-      <span class="drzVideo-timeline-tooltip"></span>
-      <span class="drzVideo-progress"></span>
-      <span class="drzVideo-buffer"></span>
+  <div class="drzVideo-inner">
+    <div class="drzVideo-overlay">
+      <!-- thumbnail -->
+      <img class="drzVideo-thumbnail" src="/static/images/video-thumb.svg" />
+      <!-- loader -->
+      <div class="drzVideo-loader" aria-hidden="true"></div>
+      <!-- overlay icon -->
+      <span class="drzVideo-playBtn-lrg" aria-hidden="true"></span>
     </div>
-    <div class="drzVideo-controls">
-      <button aria-label="play" class="drzVideo-playBtn">
-        <span class="drzVideo-btn-tooltip"></span>
-        <span class="drzVideo-btn-flex">
-          <span class="drzVideo-playBtn-inner drzVideo-play-icon" tabindex="-1"></span>
-        </span>
-      </button>
-      <div class="drzVideo-videoTime">
-        <span class="drzVideo-currentTime"></span> / <span class="drzVideo-totalTime"></span>
+    <video class="drzVideo-src" preload="none">
+       <source src="https://cdn.drzzle.app/multi-media/church-site-run-1080.mp4" type="video/mp4">
+    </video>
+    <div class="drzVideo-controlBar">
+      <div class="drzVideo-progressBar">
+        <span class="drzVideo-timeline-tooltip"></span>
+        <span class="drzVideo-progress"></span>
+        <span class="drzVideo-buffer"></span>
       </div>
-      <button aria-label="mute" class="drzVideo-volBtn">
-        <span class="drzVideo-btn-tooltip"></span>
-        <span class="drzVideo-btn-flex">
-          <span class="drzVideo-volBtn-inner" tabindex="-1"></span>
-        </span>
-      </button>
-      <div class="drzVideo-volSliderContainer">
-        <div class="drzVideo-volSlider-inner">
-          <input aria-label="volume slider" class="drzVideo-volSlider" min="0" max="1" step="0.05" type="range" />
+      <div class="drzVideo-controls">
+        <button aria-label="play" class="drzVideo-playBtn">
+          <span class="drzVideo-btn-tooltip"></span>
+          <span class="drzVideo-btn-flex">
+            <span class="drzVideo-playBtn-inner drzVideo-play-icon" tabindex="-1"></span>
+          </span>
+        </button>
+        <div class="drzVideo-videoTime">
+          <span class="drzVideo-currentTime"></span> / <span class="drzVideo-totalTime"></span>
         </div>
+        <button aria-label="mute" class="drzVideo-volBtn">
+          <span class="drzVideo-btn-tooltip"></span>
+          <span class="drzVideo-btn-flex">
+            <span class="drzVideo-volBtn-inner" tabindex="-1"></span>
+          </span>
+        </button>
+        <div class="drzVideo-volSliderContainer">
+          <div class="drzVideo-volSlider-inner">
+            <input aria-label="volume slider" class="drzVideo-volSlider" min="0" max="1" step="0.05" type="range" />
+          </div>
+        </div>
+        <button aria-label="full screen" class="drzVideo-fullScreenBtn">
+          <span class="drzVideo-btn-tooltip"></span>
+          <span class="drzVideo-btn-flex">
+            <span class="drzVideo-fullScreenBtn-inner" tabindex="-1"></span>
+          </span>
+        </button>
       </div>
-      <button aria-label="full screen" class="drzVideo-fullScreenBtn">
-        <span class="drzVideo-btn-tooltip"></span>
-        <span class="drzVideo-btn-flex">
-          <span class="drzVideo-fullScreenBtn-inner" tabindex="-1"></span>
-        </span>
-      </button>
     </div>
   </div>
 </div>

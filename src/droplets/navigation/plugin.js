@@ -23,6 +23,7 @@
     const defaults = {
       slideDirection: 'left',
       topBuffer: 0,
+      preview: false,
     };
     // configure custom options
     if (typeof $opts !== typeof undefined && $opts !== false && $opts !== '') {
@@ -250,6 +251,9 @@
       findActiveLink($link) {
         const href = $link.attr('href');
         if (href === window.location.pathname) {
+          $link.addClass('drzNav-activeLink');
+        }
+        if ($opts.preview && href === window.location.href) {
           $link.addClass('drzNav-activeLink');
         }
       },

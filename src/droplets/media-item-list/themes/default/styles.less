@@ -55,6 +55,8 @@
 
 .drzMediaItem-item-data {
   color: fade(@black, 65%);
+  display: flex;
+  flex-direction: column;
   float: left;
   padding-left: 15px;
   width: 80%;
@@ -67,7 +69,15 @@
 }
 
 .drzMediaItem-item-top {
-  .drzClearFix;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 85% 1fr;
+  grid-template-rows: auto;
+
+  @media @mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
 }
 
 .drzMediaItem-item-header {
@@ -82,11 +92,11 @@
 }
 
 .drzMediaItem-item-info {
+  align-items: flex-end;
   color: fade(@black, 45%);
-  float: right;
+  display: flex;
   font-size: 10pt;
-  position: relative;
-  top: 10px;
+  justify-content: flex-end;
 
   @media @mobile {
     display: block;
@@ -98,6 +108,7 @@
 .drzMediaItem-item-preview {
   font-size: 14pt;
   font-weight: 300;
+  margin: 0;
 }
 
 .drzMediaItem-item-break {

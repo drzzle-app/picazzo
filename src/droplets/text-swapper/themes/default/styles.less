@@ -1,0 +1,72 @@
+.drzText-swapper {
+  display: flex;
+
+  [data-swapper-effect] {
+
+    & > .drzTextSwapper-pre-fade {
+      opacity: 0;
+    }
+
+    & > .drzTextSwapper-fade {
+      opacity: 1;
+    }
+
+    & > .drzTextSwapper-pre-zoom {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+
+    & > .drzTextSwapper-zoom {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    & > .drzTextSwapper-pre-rise {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    & > .drzTextSwapper-rise {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+};
+
+.drzText-swapper-body {
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0;
+  display: flex;
+}
+
+.drzText-swapper-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+
+  & > span {
+    grid-column-end: 2;
+    grid-column-start: 1;
+    grid-row-end: 2;
+    grid-row-start: 1;
+
+    &:after {
+      content: '\00a0';
+    }
+  }
+
+  &:last-child {
+
+    & > span {
+
+      &:after {
+        content: '';
+      }
+    }
+  }
+}
+
+.drzText-swapper-center {
+  text-align: center;
+}

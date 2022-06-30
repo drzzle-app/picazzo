@@ -371,8 +371,10 @@
   border-style: solid;
   color: @white;
   display: inline-block;
+  float: right;
   font-family: inherit;
   font-size: 12pt;
+  margin-left: 5px;
   padding: 10px 15px;
   transition-duration: 0.2s;
 
@@ -384,6 +386,10 @@
   &:focus {
     background-color: darken(@baseColor, 12%);
     outline: 0;
+  }
+
+  &:last-child {
+    margin-left: 0;
   }
 }
 
