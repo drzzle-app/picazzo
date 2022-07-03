@@ -75,30 +75,26 @@
           methods.loading = false;
         },
         getTotalTime() {
-          const totalMinutes = parseInt($video.duration / 60, 10);
-          let totalSeconds = parseInt($video.duration % 60, 10);
-          let totalHours = parseInt(totalMinutes / 60, 10);
-          if (totalSeconds < 10) {
-            totalSeconds = `:0${totalSeconds}`;
-          } else {
-            totalSeconds = `:${totalSeconds}`;
-          }
-          if (totalHours > 0) {
-            totalHours = `${totalHours}:`;
-          } else {
-            totalHours = '';
-          }
-          $totalTime.html(totalHours + totalMinutes + totalSeconds);
+          const totalTime = methods.getDisplayTime($video.duration);
+          $totalTime.html(totalTime);
           const $parent = $this.parent();
           if ($parent.hasClass('drzVideo-feature')) {
             $parent.find('.drzVideo-featureDuration').html('0:00');
-            $parent.find('.drzVideo-featureTotalTime').html(totalHours + totalMinutes + totalSeconds);
+            $parent.find('.drzVideo-featureTotalTime').html(totalTime);
           }
         },
+        getDisplayTime(stamp) {
+          const current = Number(stamp);
+          const hour = Math.floor(current / 3600);
+          const minute = Math.floor((current % 3600) / 60);
+          const second = Math.floor((current % 3600) % 60);
+          const hDisplay = `${hour}:`;
+          const mDisplay = minute < 10 ? `0${minute}:` : `${minute}:`;
+          const sDisplay = second < 10 ? `0${second}` : second;
+          return hDisplay + mDisplay + sDisplay;
+        },
         onTimeUpdate() {
-          const minutes = parseInt($video.currentTime / 60, 10);
-          let seconds = parseInt($video.currentTime % 60, 10);
-          let hours = parseInt(minutes / 60, 10);
+          const fullDisplay = methods.getDisplayTime($video.currentTime);
           // update local storage with new location
           const ct = parseInt($video.currentTime.toFixed(0), 10);
           const st = parseInt(storage.videoPlayer[$id].seconds, 10);
@@ -110,21 +106,11 @@
           if ($video.currentTime > 0) {
             value = Math.floor((100 / $video.duration) * $video.currentTime);
           }
-          if (seconds < 10) {
-            seconds = `:0${seconds}`;
-          } else {
-            seconds = `:${seconds}`;
-          }
-          if (hours > 0) {
-            hours = `${hours}:`;
-          } else {
-            hours = '';
-          }
           $progress.css('width', `${value}%`);
-          $timeElapsed.html(hours + minutes + seconds);
+          $timeElapsed.html(fullDisplay);
           const $parent = $this.parent();
           if ($parent.hasClass('drzVideo-feature')) {
-            $parent.find('.drzVideo-featureDuration').html(hours + minutes + seconds);
+            $parent.find('.drzVideo-featureDuration').html(fullDisplay);
           }
         },
         onEnded() {
