@@ -46,10 +46,10 @@
 
             // Setup the click event listeners and zoom in or out according
             // to the clicked element
-            google.maps.event.addDomListener(controlUIzoomIn, 'click', () => {
+            controlUIzoomIn.addEventListener('click', () => {
               map.setZoom(map.getZoom() + 1);
             });
-            google.maps.event.addDomListener(controlUIzoomOut, 'click', () => {
+            controlUIzoomOut.addEventListener('click', () => {
               map.setZoom(map.getZoom() - 1);
             });
           }
