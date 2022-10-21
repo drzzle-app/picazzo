@@ -14,7 +14,6 @@
     const $navLogo = $this.find('.drzNav-logo');
     const $navSearch = $this.find('.drzNav-search');
     const $navCart = $this.find('.drzNav-cart');
-    const $linksWidth = ~~($navList.outerWidth());
     const slShowCls = 'drzNav-subList-show';
     const slCls = '.drzNav-subList';
     const stickyCls = 'drzNav-sticky-set';
@@ -185,6 +184,7 @@
         });
       },
       fitCheck() {
+        const $linksWidth = ~~($navList.outerWidth());
         $navWidth = ~~($inner.outerWidth());
         // recheck for hamburgerWidth and navWidth
         if ($navHamburger.is(':visible')) {
