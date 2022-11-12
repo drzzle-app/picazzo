@@ -283,10 +283,12 @@
           methods.slideControlsDown();
         },
         onPlay() {
-          $overlay.css('opacity', 0);
-          $overlayPlayBtn.removeClass('drzVideo-replayBtn');
-          if ($overlayPlayBtn.is(':visible')) {
-            $overlayPlayBtn.hide();
+          if (!options.link) {
+            $overlay.css('opacity', 0);
+            $overlayPlayBtn.removeClass('drzVideo-replayBtn');
+            if ($overlayPlayBtn.is(':visible')) {
+              $overlayPlayBtn.hide();
+            }
           }
           $playBtn.find('.drzVideo-playBtn-inner')
             .removeClass('drzVideo-play-icon drzVideo-replayBtn')
@@ -326,6 +328,14 @@
           }
         },
         togglePlay(e) {
+          if (options.link && !window.__editor) {
+            window.open(options.link, options.newWindow ? '_target' : '_self');
+            return;
+          }
+          if (options.link && window.__editor) {
+            e.preventDefault();
+            return;
+          }
           if (options.hideControls) {
             return;
           }

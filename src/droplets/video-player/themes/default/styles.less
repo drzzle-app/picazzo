@@ -352,6 +352,11 @@
   }
 }
 
+.drzVideo-progressBar-hide {
+  height: 0;
+  opacity: 0;
+}
+
 .drzVideo-progress {
    background-color: @baseColor;
    display: block;
@@ -505,9 +510,9 @@
 }
 
 .drzVideo-hidden-controls {
-  background-color: transparent;
-
   // lesshint-disable importantRule
+  background-color: transparent !important;
+
   .drzVideo-playBtn-lrg {
     display: none !important;
   }
