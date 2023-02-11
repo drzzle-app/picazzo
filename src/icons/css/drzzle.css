@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'drzzle';
-  src: url('../font/drzzle.eot?50547362');
-  src: url('../font/drzzle.eot?50547362#iefix') format('embedded-opentype'),
-       url('../font/drzzle.woff2?50547362') format('woff2'),
-       url('../font/drzzle.woff?50547362') format('woff'),
-       url('../font/drzzle.ttf?50547362') format('truetype'),
-       url('../font/drzzle.svg?50547362#drzzle') format('svg');
+  src: url('../font/drzzle.eot?74634797');
+  src: url('../font/drzzle.eot?74634797#iefix') format('embedded-opentype'),
+       url('../font/drzzle.woff2?74634797') format('woff2'),
+       url('../font/drzzle.woff?74634797') format('woff'),
+       url('../font/drzzle.ttf?74634797') format('truetype'),
+       url('../font/drzzle.svg?74634797#drzzle') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'drzzle';
-    src: url('../font/drzzle.svg?50547362#drzzle') format('svg');
+    src: url('../font/drzzle.svg?74634797#drzzle') format('svg');
   }
 }
 */
@@ -324,6 +324,7 @@
 .drzicon-text-change:before { content: '\e90b'; } /* '' */
 .drzicon-small-star:before { content: '\e90c'; } /* '' */
 .drzicon-eraser:before { content: '\e90d'; } /* '' */
+.drzicon-collab:before { content: '\e90e'; } /* '' */
 .drzicon-move:before { content: '\f047'; } /* '' */
 .drzicon-link-ext:before { content: '\f08e'; } /* '' */
 .drzicon-twitter:before { content: '\f099'; } /* '' */
