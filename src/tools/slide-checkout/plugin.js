@@ -98,7 +98,7 @@
         $slideCheckoutBox.css({ zIndex: options.zIndex });
       }
 
-      const cartItems = siteStore.cartItems;
+      let cartItems = siteStore.cartItems;
       const mappedProducts = {};
 
       const methods = {
@@ -338,7 +338,7 @@
             itemInv = methods.getInventory({ item: testItem });
           }
           // max allowed is to limit how much a shopper can buy
-          const maxAllowed = item.product.maxPurchaseQuantity;
+          const maxAllowed = parseInt(item.product.maxPurchaseQuantity, 10);
           const newCount = item.count + step;
           const noInvLimit = itemInv === -1;
           const noMaxLimit = itemInv === -1;
@@ -357,6 +357,8 @@
           // inventory & max allowed limited, desired count is under or equal to total inventory AND
           // desired count is less than or equal to the max allowed
           const addStepTwo = fullyLimited && newCount <= itemInv && newCount <= maxAllowed;
+          // desired count is over maxAllowed
+          const addOverMaxAllowed = fullyLimited && newCount > maxAllowed;
           // inventory limit but no max allowed limit and desired count is more
           // than total inventory
           const addMaxStepOne = invLimitedMaxNot && (newCount > itemInv);
@@ -375,9 +377,11 @@
           if (noInventory) {
             // no inventory available to be added due to an option inventory limit
             // like size/color etc.
-            methods.optionWarning[index] = `Not enough ${methods.lastOption} items in stock.`;
             added = false;
-            errorMsg = methods.optionWarning[index];
+            if (!addOverMaxAllowed) {
+              methods.optionWarning[index] = `Not enough ${methods.lastOption} items in stock.`;
+              errorMsg = methods.optionWarning[index];
+            }
           } else if (fullyUnlimited || addStepOne || addStepTwo || addStepThree) {
             item.count += step;
           } else if (addMaxStepOne || addMaxStepTwo) {
@@ -391,6 +395,10 @@
             added = false;
             errorMsg = methods.countWarning[index];
           }
+          // customer error checks
+          if (addOverMaxAllowed) {
+            methods.countWarning[index] = `Item limited to ${maxAllowed} per order.`;
+          }
           methods.buildCart(cartItems);
           methods.saveCart(cartItems);
           return { added, errorMsg };
@@ -401,7 +409,7 @@
           methods.countWarning = {};
           methods.optionWarning = {};
           const item = cartItems[index];
-          const minAllowed = item.product.minPurchaseQuantity;
+          const minAllowed = parseInt(item.product.minPurchaseQuantity, 10);
           const noMinLimit = minAllowed === -1;
           const step = parseInt(item.product.countStep, 10);
           const newCount = item.count - step;
@@ -1135,7 +1143,7 @@
               }
             }
             if (index >= 0 && product) {
-              // this would mean the at least one of the product is already in the cart
+              // this would mean that at least one of the product is already in the cart
               const testItem = methods.queryCounts({ newCartItem, payload, count });
               const inventory = methods.getInventory({ item: testItem });
               const canAdd = inventory > 0 || inventory === -1;
@@ -1185,10 +1193,10 @@
                 <div class="drzSlideCheckout-cart-alertMsg">
                   Message here
                 </div>
-                <a
+                <button
                   href="#"
                   name="alert-checkout"
-                  class="drzSlideCheckout-cart-alertCO">Checkout</a>
+                  class="drzSlideCheckout-cart-alertCO">Checkout</button>
               </div>
             </div>
           `);
@@ -1225,8 +1233,23 @@
           }
           if (params.message) {
             methods.$alert.find('.drzSlideCheckout-cart-alertMsg')
-              .html(params.message);
+              .html(`<span role="alert">${params.message}</span>`);
           }
+        },
+        mapCart(cart = []) {
+          // We use this to update any items saved in the cart from a users
+          // previous session. In some cases, a store may update product info
+          // so we always want that up to date in the frontend
+          const map = [];
+          cart.forEach((item) => {
+            if (mappedProducts[item.product._id]) {
+              const updated = $.extend(true, item, {
+                product: mappedProducts[item.product._id],
+              });
+              map.push(updated);
+            }
+          });
+          return map;
         },
         fetchProducts() {
           // fetch all products on pages
@@ -1256,6 +1279,8 @@
                   $(`[name="add-to-cart"][data-product-id="${product._id}"]`).addClass(classes.disabled);
                 }
               });
+              cartItems = methods.mapCart(cartItems);
+              methods.buildCart(cartItems);
             },
           });
         },
@@ -1266,7 +1291,6 @@
       // bind all listeners
       $openCartBtn.click(methods.onCartClick);
       $backBtn.click(methods.onCartClick);
-      methods.buildCart(cartItems);
       // note: need to split some of the next button callbacks so
       // they do not fire twice (ie with the form validation callback)
       $fromStepBtn.click(methods.onFromClick);

@@ -153,7 +153,7 @@
     font-family: 'drzzle';
     margin-left: 10px;
     position: relative;
-    top: -4px;
+    top: -2px;
 
     @media @mobile {
       content: '-';
@@ -179,9 +179,7 @@
 .drzSlideCheckout-step-legendName {
   .text-overflow;
   display: inline-block;
-  font-style: italic;
   position: relative;
-  top: -2px;
 }
 
 .drzSlideCheckout-back {
@@ -356,42 +354,61 @@
 }
 
 .drzSlideCheckout-cart-itemCount {
+  align-items: center;
   background-color: @white;
   border: 0;
   border-bottom-width: 1px;
   border-color: @storeBtnBorder;
   border-style: solid;
   border-top-width: 1px;
-  display: inline-block;
-  float: left;
-  height: 23px;
-  padding: 0 10px 1px;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  padding: 0 5px;
 }
 
 .drzSlideCheckout-cart-add {
-  .drzSlideCheckout-cart-countBtn;
+  align-items: center;
   border-color: @storeBtnBorder;
   border-radius: 0;
   border-style: solid;
   border-width: 1px;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  padding: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &:after {
     content: '\e814';
     display: inline-block;
+    font-family: 'drzzle';
     position: relative;
     transform: rotate(45deg);
   }
 }
 
 .drzSlideCheckout-cart-remove {
-  .drzSlideCheckout-cart-countBtn;
+  align-items: center;
   border-color: @storeBtnBorder;
   border-radius: 0;
   border-style: solid;
   border-width: 1px;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  padding: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &:after {
     content: '\e8ea';
+    font-family: 'drzzle';
   }
 }
 
@@ -439,6 +456,9 @@
 }
 
 .drzSlideCheckout-cart-itemCounter {
+  display: grid;
+  grid-template-columns: 25px minmax(25px, max-content) 25px;
+  grid-template-rows: auto;
   margin-bottom: @itemMargin;
 }
 
@@ -520,6 +540,7 @@
   border-width: 2px;
   color: fade(@black, 60%);
   display: block;
+  font-family: inherit;
   font-size: 1.1rem;
   padding: 10px 20px;
   width: 100%;
@@ -908,7 +929,7 @@
   background-color: @white;
   display: grid;
   grid-gap: 5px;
-  grid-template-columns: 20px 1fr 40px;
+  grid-template-columns: 20px 1fr max-content;
   grid-template-rows: auto;
   margin-bottom: 5px;
   padding: 8px;
@@ -1196,6 +1217,7 @@
 
 .drzSlideCheckout-cart-alertCO {
   background-color: fade(@black, 25%);
+  border: 0;
   border-radius: 20px;
   color: @white;
   display: inline-block;
@@ -1204,6 +1226,10 @@
   margin-top: 5px;
   padding: 3px 10px;
   text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &:after {
     content: '\f178';
