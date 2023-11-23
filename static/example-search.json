@@ -1,0 +1,12 @@
+[
+  {
+    "pagetitle":"My Page Title",
+    "href": "link-to-page.html",
+    "metadata":"Searchable key words for this page"
+  },
+  {
+    "pagetitle":"My Page 2 Title",
+    "href": "link-to-page-2.html",
+    "metadata":"Searchable key words for this page"
+  }
+]

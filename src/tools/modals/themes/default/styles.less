@@ -250,6 +250,7 @@
 
 /* site search results under modals */
 .searchResults-container {
+  border-bottom: 1px solid darken(@white, 5%);
   border-left: 1px solid darken(@white, 5%);
   border-right: 1px solid darken(@white, 5%);
   border-top: 1px solid darken(@white, 5%);
@@ -258,11 +259,6 @@
   position: absolute;
   width: 400px;
   z-index: 10;
-
-  .searchResult-link {
-    color: fade(@black, 50%);
-    text-decoration: none;
-  }
 
   .searchResult {
     .row;
@@ -279,6 +275,18 @@
 
     &:hover {
       background-color: darken(@white, 2%);
+    }
+  }
+
+  .searchResult-link {
+    color: fade(@black, 50%);
+    text-decoration: none;
+
+    &:last-child {
+
+      .searchResult {
+       border-bottom: 0;
+      }
     }
   }
 }
