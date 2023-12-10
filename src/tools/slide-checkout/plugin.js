@@ -147,10 +147,10 @@
               company: '',
               country: '',
               method: '',
-              rate: '',
+              rateOption: '',
               phone: '',
               price: 0,
-              shippingId: '',
+              rateId: '',
               state: '',
               zipCode: '',
             },
@@ -880,8 +880,20 @@
               const payload = res.payload;
               const shipOptions = payload.options;
               $shippingOptions.html(shipOptions.map((option) => {
-                const shipDuration = option.duration ? `<span class="drzSlideCheckout-shipping-duration">${option.duration}</span>` : '';
-                const logo = option.logo ? `<img class="drzSlideCheckout-shipping-provider" src="${option.logo}" title="${option.provider}" alt="${option.provider}" />` : '<span></span>';
+                const logo = !option.logo ? `<svg version="1.1" id="Layer_1" x="0px" y="0px"
+                width="100%" height="100%" viewBox="0 0 512 303" style="fill:#656565;enable-background:new 0 0 512 303;" xml:space="preserve">
+                <style type="text/css">
+                .st0{fill-rule:evenodd;clip-rule:evenodd;}
+                </style>
+                <path class="st0" d="M365,3.016C409.391,13.316,426.371,39.273,447.66,75H365V3.016z M105.578,78c8.691,0,15,4.195,15,14
+                c0,8.27-6.691,14.977-14.957,15H15c-8.285,0-15,6.719-15,15c0,8.285,6.715,15,15,15h135c8.363,0,15.059,6.711,15.059,15
+                c0,8.285-6.715,15-15,15H15c-8.285,0-15,6.715-15,15s6.715,15,15,15h33v45c0,8.285,6.715,15,15,15h30.152
+                c5.375,26.477,28.77,46,56.348,46s50.973-19.523,56.348-46h152.305c5.375,26.477,28.77,46,56.348,46s50.973-19.523,56.348-46H497
+                c8.285,0,15-6.715,15-15v-90c0-44.012-46.422-46.934-46.465-47H350c-8.285,0-15-6.715-15-15V0H63c-8.285,0-15,6.715-15,15v33H30
+                c-8.285,0-15,6.715-15,15s6.715,15,15,15H105.578z M433.945,226.055c10.738,10.738,10.738,28.156,0,38.895
+                C416.672,282.223,387,269.934,387,245.5C387,221.07,416.672,208.781,433.945,226.055z M168.945,226.055
+                c10.738,10.738,10.738,28.156,0,38.895C151.672,282.223,122,269.934,122,245.5C122,221.07,151.672,208.781,168.945,226.055z"/>
+                </svg>` : '<span></span>';
                 return `
                   <label class="drzSlideCheckout-shipping-option" for="${option.id}">
                     <input
@@ -889,14 +901,13 @@
                       class="drzSlideCheckout-shipping-check"
                       ${option.checked ? 'checked' : ''}
                       data-price="${option.price}"
-                      value="${option.provider} - ${option.serviceLevel}"
+                      value="${option.label}"
                       id="${option.id}"
                       name="shipping-option" />
                     <span class="drzSlideCheckout-shipping-label">
                       ${logo}
                       <span>
-                        ${option.serviceLevel}
-                        ${shipDuration}
+                        ${option.label}
                       </span>
                     </span>
                     <span class="drzSlideCheckout-shipping-price">
@@ -913,7 +924,7 @@
                 const option = $(e.currentTarget);
                 const shipping = getShipping(option);
                 methods.store.shopper.shipping.method = option.val();
-                methods.store.shopper.shipping.rate = option.attr('id');
+                methods.store.shopper.shipping.rateOption = option.attr('id');
                 methods.store.shopper.shipping.price = shipping;
                 methods.getInfoTotals({
                   shipping,
@@ -922,9 +933,9 @@
               });
               const selected = $shippingOptions.find('.drzSlideCheckout-shipping-check:checked');
               const shipping = getShipping(selected);
-              methods.store.shopper.shipping.shippingId = payload.shipment.object_id;
+              methods.store.shopper.shipping.rateId = payload.shipment.id;
               methods.store.shopper.shipping.method = selected.val();
-              methods.store.shopper.shipping.rate = selected.attr('id');
+              methods.store.shopper.shipping.rateOption = selected.attr('id');
               methods.store.shopper.shipping.price = shipping;
               methods.getInfoTotals({
                 shipping,
