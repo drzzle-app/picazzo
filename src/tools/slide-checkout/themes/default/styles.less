@@ -1261,8 +1261,21 @@
 }
 
 .drzSlideCheckout-cart-itemInfo {
-  align-items: center;
   display: flex;
+}
+
+.drzSlideCheckout-cart-item {
+  .drzSlideCheckout-cart-itemInfo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.drzSlideCheckout-items-final {
+  .drzSlideCheckout-cart-itemInfo {
+    align-items: center;
+    flex-direction: row;
+  }
 }
 
 .drzSlideCheckout-cart-leftCol {

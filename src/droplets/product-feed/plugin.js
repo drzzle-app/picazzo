@@ -23,6 +23,7 @@
           <div class="drzProduct-feed-cardInfo">
             <span class="drzProduct-feed-name">${data.itemName}</span>
             <span class="drzProduct-feed-price">
+            <span class="drzProduct-feed-priceOld">${$currency.symbol}5</span>
             ${$currency.symbol}${data.prices[$currency.type]}
             <button data-product="${data._id}" class="drzProduct-feed-buyBtn"></button>
             </span>
