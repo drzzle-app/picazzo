@@ -17,6 +17,7 @@ export default Vue.component('product-grid-droplet', {
           <div class="drzProduct-grid-cardInfo">
             <span class="drzProduct-grid-name">${data.itemName}</span>
             <span class="drzProduct-grid-price">
+            <span class="drzProduct-grid-priceOld">$20</span>
             $12
             <button data-product="${data._id}" class="drzProduct-grid-buyBtn"></button>
             </span>
