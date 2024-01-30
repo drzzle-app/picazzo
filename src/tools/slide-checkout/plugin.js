@@ -187,7 +187,9 @@
                     $select = $billState;
                   }
                   $select.empty().append($('<option selected value="">State</option>'));
-                  $.each(methods.countries[val].regions, (i, country) => {
+                  const { regions = [] } = methods.countries[val];
+                  const sortedRegions = regions.sort((a, b) => a.name.localeCompare(b.name));
+                  $.each(sortedRegions, (i, country) => {
                     $select.append($(
                       `<option value"${country.iso}" data-state-iso="${country.iso}" data-state-name=${country.name}>${country.name}</option>`,
                     ));
@@ -684,6 +686,7 @@
               <div class="drzSlideCheckout-item-detailsGrid">
                 <div>
                   <span class="drzSlideCheckout-cart-itemPrice">
+                    ${data.product.originalPrice ? `<span class="drzSlideCheckout-cart-itemPriceOriginal">${options.currency.symbol}${data.product.originalPrice}</span>` : ''}
                     ${options.currency.symbol}${data.product.price} ${options.currency.type}
                   </span>
                   <div class="drzSlideCheckout-cart-mainBtns">
@@ -828,6 +831,10 @@
                 });
                 cartItems.splice(0, cartItems.length);
                 methods.saveCart(cartItems);
+                methods.totalItems = 0;
+                $cartCount.each(function setIconCounts() {
+                  $(this).hide().html('');
+                });
                 $backBtn.html('Back to Store');
                 if (window.matchMedia(drzzle.viewports.mobile).matches) {
                   $('html, body').animate({ scrollTop: 0 }, 'fast');

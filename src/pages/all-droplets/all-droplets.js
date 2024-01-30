@@ -64,4 +64,5 @@ export default {
   'group-list': require('@/droplets/group-list'),
   'progress-bar': require('@/droplets/progress-bar'),
   'text-swapper': require('@/droplets/text-swapper'),
+  'text-blob': require('@/droplets/text-blob'),
 };
