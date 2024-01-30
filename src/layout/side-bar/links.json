@@ -314,6 +314,11 @@
           "children": []
         },
         {
+          "text": "Text Blob",
+          "route": "/text-blob",
+          "children": []
+        },
+        {
           "text": "Text Swapper",
           "route": "/text-swapper",
           "children": []

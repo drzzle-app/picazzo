@@ -401,6 +401,11 @@
                     "path": "/text-swapper",
                     "name": "text-swapper",
                     "component": "require('@/pages/droplets/text-swapper/').default"
+                },
+                {
+                    "path": "/text-blob",
+                    "name": "text-blob",
+                    "component": "require('@/pages/droplets/text-blob/').default"
                 }
             ]
         },
