@@ -1276,6 +1276,14 @@
           const pageProducts = $productBtns.map(function mapProducts() {
             return $(this).attr('data-product-id');
           }).get();
+          if (Array.isArray(cartItems)) {
+            const cartItemIds = cartItems.map(item => item.product._id);
+            cartItemIds.forEach((_id) => {
+              if (!pageProducts.includes(_id)) {
+                pageProducts.push(_id);
+              }
+            });
+          }
           $.ajax({
             type: 'GET',
             url: `${options.api}/v1/products`,
