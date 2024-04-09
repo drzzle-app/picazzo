@@ -498,7 +498,7 @@
           return items;
         },
         getPreTaxTotal() {
-          const dollars = `${options.currency.symbol}${methods.preTaxTotal}`;
+          const dollars = `${options.currency.symbol}${Number(methods.preTaxTotal).toFixed(2)}`;
           const display = `${dollars} ${options.currency.type}`;
           $preTaxTotal.html(display);
         },
@@ -705,7 +705,7 @@
                     </div>
                     ${error}${optError}
                     <div class="drzSlideCheckout-cart-itemFooter">
-                      <span class="drzSlideCheckout-cartItemTotal">Total: ${options.currency.symbol}${itemTotal}</span>
+                      <span class="drzSlideCheckout-cartItemTotal">Total: ${options.currency.symbol}${Number(itemTotal).toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
