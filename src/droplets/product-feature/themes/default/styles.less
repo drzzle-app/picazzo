@@ -71,7 +71,12 @@
     }
 
     .drzProduct-feature-image {
-      opacity: 0;
+      @media @desktop {
+        opacity: 0;
+      }
+      @media @tablet {
+        opacity: 0;
+      }
       transition: opacity .4s;
     }
   }
