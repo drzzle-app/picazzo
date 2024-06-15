@@ -26,6 +26,7 @@
         quantity: step,
         step,
         max: false,
+        directionClick: false,
         $options,
         clickThumb(e) {
           e.preventDefault();
@@ -36,38 +37,44 @@
           $featuredImg.attr('src', $img);
           $featuredImg.attr('alt', $thumbImg.attr('alt'));
           // fall back in case user does not hover off next / right button
-          $featuredImgContainer.css('background-image', `url(${$img})`);
+          // $featuredImgContainer.css('background-image', `url(${$img})`);
           $featuredImgContainer.attr('data-active-image', $link.index());
           $link.parent().find('.drzProduct-feature-thumbImg').removeClass('drzProduct-feature-thumbActive');
           $link.find('.drzProduct-feature-thumbImg').addClass('drzProduct-feature-thumbActive');
         },
         moveNext(e) {
           e.preventDefault();
+          methods.directionClick = 'next';
           const $activeIndex = parseInt($featuredImgContainer.attr('data-active-image'), 10);
           const $lastImgIndex = $thumb.length - 1;
           if ($activeIndex < $lastImgIndex) {
             $thumb.eq($activeIndex + 1).trigger('click');
           }
+          methods.directionClick = false;
         },
         moveBack(e) {
           e.preventDefault();
+          methods.directionClick = 'back';
           const $activeIndex = parseInt($featuredImgContainer.attr('data-active-image'), 10);
           if ($activeIndex > 0) {
             $thumb.eq($activeIndex - 1).trigger('click');
           }
+          methods.directionClick = false;
         },
         zoomMove(e) {
-          const zoomer = $(e.currentTarget);
-          if (e.target.tagName === 'A') {
-            zoomer.css('background-position', '');
-            return;
+          if (!window.matchMedia(drzzle.viewports.mobile).matches) {
+            const zoomer = $(e.currentTarget);
+            if (e.target.tagName === 'A') {
+              zoomer.css('background-position', '');
+              return;
+            }
+            if (e.type !== 'mousemove') {
+              return;
+            }
+            const x = (e.offsetX / zoomer.outerWidth()) * 100;
+            const y = (e.offsetY / zoomer.outerHeight()) * 100;
+            zoomer.css('background-position', `${x}% ${y}%`);
           }
-          if (e.type !== 'mousemove') {
-            return;
-          }
-          const x = (e.offsetX / zoomer.outerWidth()) * 100;
-          const y = (e.offsetY / zoomer.outerHeight()) * 100;
-          zoomer.css('background-position', `${x}% ${y}%`);
         },
         updateQuantity(e) {
           const $btn = $(e.currentTarget);
@@ -102,6 +109,17 @@
       $nextBtn.click(methods.moveNext).hover(() => {
         $featuredImg.css('opacity', 1);
       }, () => { $featuredImg.css('opacity', ''); });
+      // we need to disable the featured full image bg in case there are transparent images used
+      $nextBtn.hover(() => {
+        $featuredImgContainer.css('background-image', '');
+      }, () => {
+        $featuredImgContainer.css('background-image', `url(${methods.activeImage})`);
+      });
+      $backBtn.hover(() => {
+        $featuredImgContainer.css('background-image', '');
+      }, () => {
+        $featuredImgContainer.css('background-image', `url(${methods.activeImage})`);
+      });
       $backBtn.click(methods.moveBack).hover(() => {
         $featuredImg.css('opacity', 1);
       }, () => { $featuredImg.css('opacity', ''); });
@@ -114,7 +132,9 @@
       // optional zoom events
       if (shouldZoom === 'true') {
         $featuredImgContainer.mouseenter(() => {
-          $featuredImgContainer.css('background-image', `url(${methods.activeImage})`);
+          if (!window.matchMedia(drzzle.viewports.mobile).matches) {
+            $featuredImgContainer.css('background-image', `url(${methods.activeImage})`);
+          }
         }).mouseleave(() => {
           $featuredImgContainer.css('background-image', '');
         }).mousemove(methods.zoomMove);
