@@ -422,7 +422,7 @@
           // is greater than or equalt to minimum allowed or greater than or
           // equal to step amount
           const removeStepTwo = !noMinLimit && (newCount >= minAllowed || newCount >= step);
-          // no minimum purchase limit and desired count is les than step amount
+          // no minimum purchase limit and desired count is less than step amount
           const makeStepOne = noMinLimit && newCount < step;
           // item HAS a minimum quantity purchase limit and desired count
           // is less than the minimum allowed or less than the step amount
@@ -431,6 +431,7 @@
           if (removeStepOne || removeStepTwo) {
             item.count -= step;
           } else if (makeStepOne || makeStepTwo) {
+            // TODO will this need to show trash can eventually on remove item
             item.count = 0;
           }
           methods.buildCart(cartItems);
@@ -648,6 +649,9 @@
             productOptions = `${productOptions}</div>`;
             lastOptions = `${lastOptions}</div>`;
           }
+          const step = parseInt(data.product.countStep, 10);
+          const newCount = data.count - step;
+          const trashCount = newCount <= 0 ? ' drzSlideCheckout-cart-removeTrash' : '';
           // attach to final cart
           $finalList.append(`
             <div class="drzSlideCheckout-cart-itemLast">
@@ -692,7 +696,7 @@
                   <div class="drzSlideCheckout-cart-mainBtns">
                     <div class="drzSlideCheckout-cart-itemCounter">
                       <button
-                        class="drzSlideCheckout-cart-remove"
+                        class="drzSlideCheckout-cart-remove${trashCount}"
                         data-item-index="${index}"
                         name="remove-count-${data.product.name}">
                       </button>
@@ -746,11 +750,15 @@
             $.each(list, (index, value) => {
               const $cartItem = $(methods.buildCartItem(value, index));
               const $removeItemBtn = $cartItem.find('.drzSlideCheckout-cart-itemRemoveBtn');
+              const $removeItemTrash = $cartItem.find('.drzSlideCheckout-cart-removeTrash');
               const $addCountBtn = $cartItem.find('.drzSlideCheckout-cart-add');
               const $removeCountBtn = $cartItem.find('.drzSlideCheckout-cart-remove');
               $removeItemBtn.click(methods.onRemoveItemClick);
               $addCountBtn.click(methods.onAddCount);
               $removeCountBtn.click(methods.onRemoveCount);
+              if ($removeItemTrash.length) {
+                $removeItemTrash.click(methods.onRemoveItemClick);
+              }
               // dynamic option listeners
               $cartItem.find('select')
                 .change(methods.onSelectChange)
