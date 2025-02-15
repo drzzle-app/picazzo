@@ -78,18 +78,20 @@
         },
         updateQuantity(e) {
           const $btn = $(e.currentTarget);
+          const currentStep = parseInt(methods.step, 10);
+          methods.quantity = parseInt(methods.quantity, 10);
           if ($btn.hasClass('drzProduct-feature-add')) {
-            const max = methods.max;
-            if (max && (methods.quantity + methods.step) > methods.max) {
-              methods.quantity = methods.max;
+            const max = parseInt(methods.max, 10);
+            if (max && (methods.quantity + currentStep) > max) {
+              methods.quantity = max;
             } else {
-              methods.quantity += methods.step;
+              methods.quantity += currentStep;
             }
           }
           if ($btn.hasClass('drzProduct-feature-remove') && methods.quantity > 1) {
-            methods.quantity -= methods.step;
+            methods.quantity -= currentStep;
             if (methods.quantity <= 0) {
-              methods.quantity = methods.step;
+              methods.quantity = currentStep;
             }
           }
           $count.text(methods.quantity);
